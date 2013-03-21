@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE lovs SYSTEM "lovs.dtd">
+
+<lovs>
+	<lov code="scheduleStates" description="All schedule states">
+		<field value="0" key="schedule.state.0" />
+		<field value="1" key="schedule.state.1" />
+		<field value="2" key="schedule.state.2" />
+		<field value="3" key="schedule.state.3" />
+		<field value="4" key="schedule.state.4" />
+	</lov>
+	<lov code="scheduleCopyTypes" description="All schedule types of copy">
+		<field value="0" key="schedule.copyType.0" />
+		<field value="1" key="schedule.copyType.1" />
+	</lov>
+</lovs>

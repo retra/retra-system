@@ -1,0 +1,33 @@
+2/1/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	09:00	13:00	04:00	Analyzing code and application architecture	
+2/1/2007	1017	All-Allianz0951-Direct Sales	106	Programming	13:00	17:00	04:00	returning User object from UpdateCustomerUserFromPolicyEventeHandler class updateCustomerUserFromPolicy method.	
+2/2/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:00	13:00	04:00	changing UpdateCustomerUserFromPolicyEventeHandler and UpdateCustomerUserFromPolicyEvent and creating response that will contain appropriate ALLDS***User object	
+2/2/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	13:30	17:30	04:00	analyzing business model and database model. Going through source code.	
+2/5/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:00	12:00	03:00	Fixing PutPolicyTravelCZ method and policy holder and insured persons handling	
+2/5/2007	1017	All-Allianz0951-Direct Sales	106	Programming	12:30	18:00	05:30	Fixing PutPolicyTravelCZ method and policy holder and insured persons handling	
+2/6/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	10:30	15:30	05:00	Analyzing code and application architecture	
+2/6/2007	1017	All-Allianz0951-Direct Sales	106	Programming	15:30	18:30	03:00	Fixing defect #24773	
+2/7/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:00	12:30	03:30	Fixing defect #25144. adding new column to polish version of quotation	
+2/7/2007	1017	All-Allianz0951-Direct Sales	106	Programming	13:00	16:00	03:00	Fixing defect #25144. adding new column to polish version of quotation. Added business logic for this issue. still waiting for some decisions to be made regarding presentation logic.	
+2/7/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	16:00	17:30	01:30	Analyzing code and application architecture.	
+2/8/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:45	09:15	00:30	fixed defect #25239	
+2/8/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:15	10:45	01:30	fixing defect #25254	
+2/8/2007	1017	All-Allianz0951-Direct Sales	106	Programming	10:45	12:15	01:30	fixed defect #25192 (first and second item, third is a feature request)	
+2/8/2007	1017	All-Allianz0951-Direct Sales	106	Programming	13:00	17:30	04:30	fixing defect #25277	
+2/9/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:00	12:00	03:00	fixing defect 25124, analyzing source code and application architecture	
+2/9/2007	1017	All-Allianz0951-Direct Sales	106	Programming	12:30	16:00	03:30	fixing defect #25089. testing.	
+2/9/2007	1017	All-Allianz0951-Direct Sales	106	Programming	16:00	17:30	01:30	fixing defect #25346	
+2/12/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:40	11:00	02:20	fixing defect #25346	
+2/12/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	11:00	12:10	01:10	Analyzing code and application architecture	
+2/12/2007	1017	All-Allianz0951-Direct Sales	106	Programming	12:50	17:20	04:30	fixing defect #25355 and defect #25358	
+2/13/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:30	12:00	03:30	working on defect #25355 and analyzing application architecture	
+2/13/2007	1017	All-Allianz0951-Direct Sales	106	Programming	12:30	15:00	02:30	working on defect #25355. finished and tested.	
+2/13/2007	1017	All-Allianz0951-Direct Sales	103	Analysis	15:00	17:15	02:15	Analyzing code and application architecture	
+2/14/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:50	09:20	00:30	working on defect #25085	
+2/14/2007	1017	All-Allianz0951-Direct Sales	106	Programming	09:20	12:40	03:20	working on defects #25472, #25223, #25086	
+2/14/2007	1017	All-Allianz0951-Direct Sales	106	Programming	13:10	18:00	04:50	working on defects #25472, #25223, #25086	
+2/15/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:45	10:15	01:30	finishing defect #25472 and testing	
+2/15/2007	1017	All-Allianz0951-Direct Sales	106	Programming	10:15	11:00	00:45	fixing defect #24970. testing	
+2/15/2007	1017	All-Allianz0951-Direct Sales	106	Programming	11:00	12:00	01:00	working on defect #24715	
+2/15/2007	1017	All-Allianz0951-Direct Sales	106	Programming	12:30	13:00	00:30	working on defect #25539	
+2/15/2007	1017	All-Allianz0951-Direct Sales	106	Programming	13:00	17:30	04:30	working on defect #24715	
+2/16/2007	1017	All-Allianz0951-Direct Sales	106	Programming	08:45	10:15	01:30	fixing defect #25547	

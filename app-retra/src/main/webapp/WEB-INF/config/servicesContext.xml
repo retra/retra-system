@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- abstract bean for all mira daos -->	
+	<bean id="miraAbstractDao" abstract="true">
+		<property name="sessionFactory" ref="miraSessionFactory" />
+	</bean>
+
+	<!-- dao for login -->
+	<bean id="loginDao" class="cz.softinel.sis.login.dao.HibernateLoginDao" parent="miraAbstractDao" />
+
+	<!-- dao for contactInfo -->
+	<bean id="contactInfoDao" class="cz.softinel.sis.contactinfo.dao.HibernateContactInfoDao" parent="miraAbstractDao" />
+
+	<!-- dao for user -->
+	<bean id="userDao" class="cz.softinel.sis.user.dao.HibernateUserDao" parent="miraAbstractDao" />
+
+	<!-- dao for user -->
+	<bean id="roleDao" class="cz.softinel.sis.role.dao.HibernateRoleDao" parent="miraAbstractDao" />
+
+	<!-- dao for employee -->
+	<bean id="employeeDao" class="cz.softinel.retra.employee.dao.HibernateEmployeeDao" parent="miraAbstractDao" />
+	<bean id="employeeJdbcDao" class="cz.softinel.retra.employee.dao.JdbcEmployeeDao">
+		<property name="dataSource" ref="miraDataSource" />
+	</bean>
+
+	<!-- dao for worklog -->
+	<bean id="worklogDao" class="cz.softinel.retra.worklog.dao.HibernateWorklogDao" parent="miraAbstractDao" />
+
+	<!-- dao for activity -->
+	<bean id="activityDao" class="cz.softinel.retra.activity.dao.HibernateActivityDao" parent="miraAbstractDao" />
+
+	<!-- dao for project -->
+	<bean id="projectDao" class="cz.softinel.retra.project.dao.HibernateProjectDao" parent="miraAbstractDao" />
+
+	<!-- dao for component -->
+	<bean id="componentDao" class="cz.softinel.retra.component.dao.HibernateComponentDao" parent="miraAbstractDao" />
+
+	<!-- dao for category -->
+	<bean id="categoryDao" class="cz.softinel.retra.category.dao.HibernateCategoryDao" parent="miraAbstractDao" />
+	
+	<!-- dao for jiraWorklog -->
+	<bean id="jiraWorklogDao" class="cz.softinel.retra.jiraintegration.worklog.dao.HibernateJiraWorklogDao" parent="miraAbstractDao" />
+	
+	
+	<!-- dao for type -->
+	<bean id="typeDao" class="cz.softinel.retra.type.dao.HibernateTypeDao" parent="miraAbstractDao" />
+
+	<!-- dao for schedule -->
+	<bean id="scheduleDao" class="cz.softinel.retra.schedule.dao.HibernateScheduleDao" parent="miraAbstractDao" />
+
+	<!-- dao for invoice -->
+	<bean id="invoiceDao" class="cz.softinel.retra.invoice.dao.HibernateInvoiceDao" parent="miraAbstractDao" />
+
+	<!-- dao for invoice sequence-->
+	<bean id="invoiceSeqDao" class="cz.softinel.retra.invoiceseq.dao.HibernateInvoiceSeqDao" parent="miraAbstractDao" />
+	
+</beans>

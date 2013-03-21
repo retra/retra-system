@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.jiraintegration.worklog.JiraWorklog" table="mir14jiraworklog">
+		<cache usage="read-write" />
+		<id name="pk" column="mir14pk">
+			<generator class="native" />
+		</id>
+		
+		<many-to-one class="cz.softinel.retra.employee.Employee" name="employee"
+			column="sis10pk" not-null="true" cascade="none" lazy="false"  fetch="join"/>
+			
+		<many-to-one class="cz.softinel.retra.worklog.Worklog" name="worklog"
+			column="mir10pk" lazy="false" not-null="false"  fetch="join"/>
+			
+		<property name="jiraIssue" not-null="true" column="mir14jiraIssue" />
+		
+		<property name="created" not-null="true" column="mir14created" />
+		
+		<property name="timeSpentInSeconds" not-null="true" column="mir14timeSpentInSeconds" />
+		
+		<property name="state" not-null="true" column="mir14state" />
+		
+		<property name="remoteId" not-null="false" column="mir14remoteId" />
+					
+	</class>
+	
+	<query name="JiraWorklog.selectAllNotAdded">
+		<![CDATA[
+			select
+				jiraWorklog
+			from
+				JiraWorklog as jiraWorklog
+			where
+				jiraWorklog.state in (:states)
+		]]>
+	</query>
+	
+	<query name="JiraWorklog.selectAllWhereWorklogIsNull">
+		<![CDATA[
+			select
+				jiraWorklog
+			from
+				JiraWorklog as jiraWorklog
+			where
+				jiraWorklog.worklog is null
+		]]>
+	</query>
+
+</hibernate-mapping>

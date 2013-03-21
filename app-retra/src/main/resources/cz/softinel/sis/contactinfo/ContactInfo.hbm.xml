@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.sis.contactinfo.ContactInfo" table="sis12contactinfo">
+		<cache usage="nonstrict-read-write"/>
+		<id name="pk" column="sis12pk" type="long">
+			<generator class="native" />
+		</id>
+
+		<property name="firstName" column="sis12firstName" length="60" not-null="true" type="string" />
+		<property name="lastName" column="sis12lastName" length="60" not-null="true" type="string" />
+		<property name="email" column="sis12email" length="250" not-null="true" type="string" />
+		<property name="web" column="sis12web" length="250" not-null="true" type="string" />
+		<property name="phone1" column="sis12phone1" length="30" not-null="true" type="string" />
+		<property name="phone2" column="sis12phone2" length="30" not-null="true" type="string" />
+		<property name="fax" column="sis12fax" length="30" not-null="true" type="string" />
+		<property name="jirauser" column="sis12jirauser" length="50" not-null="false" type="string" />
+
+	</class>
+
+</hibernate-mapping>

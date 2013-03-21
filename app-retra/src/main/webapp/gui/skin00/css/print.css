@@ -1,0 +1,571 @@
+body {
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	margin: 0px;
+	padding: 0px;
+	z-index: 0;
+	text-align: center;
+}
+
+p {
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	padding-top: 1px;
+	padding-left: 2px;
+	padding-right: 2px;
+	padding-bottom: 1px;
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+p.sign {
+	margin-top: 2px;
+	margin-bottom: 2px;
+	font-style: italic;
+	text-align: right;
+}
+
+ul, ol {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	text-align: left;
+}
+
+div.component p {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	border-color: #000000;
+	border-style: solid;
+	border-width: 0px;
+	margin: 0px auto;
+	width: 100%;
+}
+
+td {
+	font-size: 8pt;
+}
+
+th {
+	font-size: 8pt;
+	font-weight: bold;
+}
+
+input {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	padding-left: 2px;
+	padding-right: 2px;
+	margin-right: 4px;
+}
+
+select,textarea {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	padding-left: 2px;
+}
+
+h1 {
+	background-color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 8pt;
+	font-weight: normal;
+	color: #000000;
+	margin: 0px;
+	margin-bottom: 10px;
+	padding: 0px;
+	text-align: left;
+	visibility: visible;
+}
+
+h2,h3,h4,h5 {
+	background-color: #ffffff;
+	font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
+	font-weight: bold;
+	color: #000000;
+	position: relative;
+	margin: 0px auto;
+	padding-top: 5px;
+	padding-left: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	z-index: 3;
+}
+
+h2 {
+	font-size: 10pt;
+}
+
+h3 {
+	font-size: 9pt;
+}
+
+h4,h5 {
+	font-size: 8pt;
+	text-align: left;
+	margin-top: 4px;
+	margin-bottom: 0px;
+	padding-top: 2px;
+	padding-bottom: 0px;
+	padding-left: 4px;
+	padding-right: 4px;	
+}
+
+img {
+	border-width: 0px;
+}
+
+table.listTable, table.groupTable {
+	border-width: 1px;
+	text-align: left;
+}
+
+table.listTable th, table.groupTable th {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #000000;
+	background-color: #cccccc;
+	font-weight: bold;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	margin: 0px;
+}
+
+table.listTable th {
+	height: 40px;
+}
+
+table.listTable td, table.groupTable td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	margin: 0px;
+}
+
+table.listTable caption, table.groupTable caption {
+	background-color: #ffffff;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	padding: 4px;
+	margin: 0px auto;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #000000;
+	font-weight: bold;
+	font-size: 10pt;
+	text-align: left;
+	height: 20px;
+}
+
+table.formTable th {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #000000;
+	background-color: #cccccc;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+table.formTable td {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: top;
+}
+
+table.filterTable {
+	background-color: #cccccc;
+	border-width: 1px;
+	margin: 0px auto;
+}
+
+table.filterTable th {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+	color: #000000;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+table.filterTable td {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 4px;
+	padding-right: 4px;
+	vertical-align: top;
+}
+
+table.filterTable td.buttons {
+	text-align: center;
+	background-color: #cccccc;
+	vertical-align: middle;
+}
+
+div.filter {
+	background-color: #ffffff;
+	border-width: 0px;
+	border-style: solid;
+	border-color: #000000;
+	width: 99.5%;
+}
+
+div.printer {
+	background-color: #ffffff;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	width: 99.5%;
+}
+
+div.nextPrevious {
+	background-color: #ffffff;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	width: 99.5%;
+	padding: 2px;
+}
+
+a {
+	color: #000000;
+	text-decoration: none;
+}
+
+#mainDiv {
+	background-color: #ffffff;
+	margin: 0px auto;
+	position: relative;
+	text-align: center;
+	z-index: 1;
+}
+
+#headerDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#menuDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#submenuDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#logoutDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#currentUserDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#aboutDiv {
+	display: none;
+	visibility: hidden;
+}
+
+#footerDiv {
+	position: relative;
+	float: left;
+	visibility: visible;
+	margin-top: 2cm;
+}
+
+#footerPublicDiv {
+	position: relative;
+	float: left;
+	visibility: visible;
+	margin-top: 3cm;
+}
+
+#copyDiv {
+	visibility: visible;
+}
+
+#signatureDiv {
+	position: relative;
+	float: right;
+	width: 8cm;
+	margin-top: 1.5cm;
+}
+
+#newsboardDiv {
+	display: none;
+	visibility: hidden;
+}
+
+.component {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #000000;
+	font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
+	font-size: 10pt;
+	font-weight: normal;
+	color: #000000;
+	position: relative;
+	margin: 5px auto;
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	z-index: 3;
+}
+
+.dashboardComponents {
+	border-width: 0px;
+	position: relative;
+	width: 100%;
+	padding: 0px;
+	margin: 0px auto;
+	text-align: center;
+}
+
+.dashboardComponentFull {
+	position: relative;
+	width: 99.5%;
+}
+
+.dashboardComponentHalf {
+	position: relative;
+	width: 49.5%;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.left {
+	text-align: left;
+}
+
+.right {
+	text-align: right;
+}
+
+.center {
+	text-align: center;
+}
+
+.justify {
+	text-align: justify;
+}
+
+.middle {
+	vertical-align: middle;
+}
+
+.top {
+	vertical-align: top;
+}
+
+.bottom {
+	vertical-align: bottom;
+}
+
+.text-bottom {
+	vertical-align: text-bottom;
+}
+
+.baseline {
+	vertical-align: baseline;
+}
+
+.invisible {
+	display: none;
+}
+
+.buttons {
+	text-align: center;
+	background-color: #cccccc;
+}
+
+.scheduleHolidays {
+	background-color: #eeeeee;
+}
+
+.scheduleBodyshop {
+	background-color: #eeeeee;
+}
+
+.scheduleTrip {
+	background-color: #eeeeee;
+}
+
+.scheduleInternal {
+	background-color: #eeeeee;
+}
+
+.scheduleWeekend {
+	background-color: #dddddd;
+}
+
+.scheduleDefault {
+	background-color: #ffffff;
+}
+
+div.errors {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	background-color: #cccccc;
+	width: 99.5%;
+	margin-bottom: 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+div.warnings {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	background-color: #cccccc;
+	width: 99.5%;
+	margin-bottom: 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+div.infos {
+	border-style: solid;
+	border-width: 1px;
+	border-color: #000000;
+	background-color: #cccccc;
+	width: 99.5%;
+	margin-bottom: 4px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+span.error {
+	color: #000000;
+}
+
+span.warning {
+	color: #000000;
+}
+
+span.info {
+	color: #000000;
+}
+
+tr.even {
+	background-color: #ffffff;
+}
+
+tr.odd {
+	background-color: #dddddd;
+}
+
+div.exportlinks {
+	display: none;
+	visibility: hidden;
+}
+
+span.export {
+	display: none;
+	visibility: hidden;
+}
+
+span.excel {
+	display: none;
+	visibility: hidden;
+}
+
+span.csv {
+	display: none;
+	visibility: hidden;
+}
+
+span.xml {
+	display: none;
+	visibility: hidden;
+}
+
+span.pdf {
+	display: none;
+	visibility: hidden;
+}
+
+span.rtf {
+	display: none;
+	visibility: hidden;
+}
+
+span.pagebanner {
+	display: none;
+	visibility: hidden;
+}
+
+span.pagelinks {
+	display: none;
+	visibility: hidden;
+}
+
+th.action,td.action {
+	width: 40px;
+	text-align: center;
+}
+
+.visibleOnlyInPrint {
+	visibility: visible;
+}
+
+.invisibleInPrint {
+	display: none;
+	visibility: hidden;
+}
+
+.printBold {
+	font-weight: bold;
+}
+
+td.day,th.day {
+	width: 14.2%;
+}

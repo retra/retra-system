@@ -1,0 +1,31 @@
+<!-- TODO: Describe and explain mean of this file. Usage, examples, ... -->
+<release-notes>
+
+	<release-note version="0.01.002" date="2007-02-">
+		<title>Usability improvements</title>
+		<public-description format="html" language="en">
+			<ul>
+				<li><strong>Daily Worklog</strong> - </li>
+				<li><strong>Permanent Login</strong> - </li>
+				<li><strong>Added hours to worklog</strong> - </li>
+				<li><strong>Hierarchical project combobox</strong> - </li>
+			</ul>
+		</public-description>
+	</release-note>
+
+	<release-note version="0.01.001" date="2007-02-01">
+		<title>Small bug-fixes</title>
+	</release-note>
+	
+	<release-note version="0.01.000" date="2007-01-31">
+		<title>First release</title>
+		<public-description format="html" language="en">
+			<p>Mira is application which helps you with managing internal resources. You can user employee management 
+			for creating your employess a than they can use Mira. Mira allows create worklogs, export them, edit them view 
+			them and print them. Also it allows create schedules and do with them the same things as with worklogs :-). 
+			Main features are Worklog Overview and Schedule Overview.</p>
+			<p class="sign">Mira Team</p>
+		</public-description>
+	</release-note>
+	
+</release-notes>

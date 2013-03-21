@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!--
+	Main configuration file for the Spring's application context. All bean definition
+	files for the application context are defined in web.xml.
+-->
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	
+	<!-- get properties from these files and replace all ${} -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>${retra.config.location}retra.properties</value>
+				<value>${retra.config.location}ldap.properties</value>
+				<!-- 
+				 -->
+			</list>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	</bean>
+
+	<!-- reloadable properties -->	
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basenames">
+        	<list>
+            	<value>/WEB-INF/resources/messages</value>
+            	<value>/WEB-INF/resources/screen</value>
+            	<value>/WEB-INF/resources/worklog</value>
+            	<value>/WEB-INF/resources/about</value>
+            	<value>/WEB-INF/resources/help</value>
+            	<value>/WEB-INF/resources/schedule</value>
+            	<value>/WEB-INF/resources/menu</value>
+	        </list>
+    	</property>
+	    <property name="cacheSeconds" value="${retra.messages.cache}"/>
+	    <property name="defaultEncoding" value="utf-8"/>
+	</bean>
+
+	<bean id="lovsFactory" class="cz.softinel.uaf.lovs.LovsFactory">
+		<property name="lovFiles">
+			<list>
+				<value>WEB-INF/lovs/months.xml</value>
+				<value>WEB-INF/lovs/years.xml</value>
+				<value>WEB-INF/lovs/schedule.xml</value>
+				<value>WEB-INF/lovs/days.xml</value>
+			</list>
+		</property>
+	</bean>	
+
+	<bean id="holidaysFactory" class="cz.softinel.uaf.holidays.HolidaysFactory">
+		<property name="holidaysFile">
+			<value>WEB-INF/holidays/public-holidays.xml</value>
+		</property>
+	</bean>
+
+	<bean id="systemNewsFactory" class="cz.softinel.uaf.news.SystemNewsFactory">
+		<property name="systemNewsFile">
+			<value>WEB-INF/news/system-news.xml</value>
+		</property>
+	</bean>
+
+	<bean id="contactInfoLogic" class="cz.softinel.sis.contactinfo.blo.ContactInfoLogicImpl">
+		<property name="contactInfoDao" ref="contactInfoDao" />
+	</bean>
+
+	<bean id="loginLogic" class="cz.softinel.sis.login.blo.LoginLogicImpl">
+		<property name="loginDao" ref="loginDao" />
+		<property name="ldapUserDetailsService" ref="ldapUserDetailsService"/>
+		<property name="useLdapAuth" value="${retra.ldapAuth.use}" />
+		<property name="useLdapOnly" value="${retra.ldapAuth.only}" />
+	</bean>
+
+	<bean id="userLogic" class="cz.softinel.sis.user.blo.UserLogicImpl">
+		<property name="userDao" ref="userDao" />
+		<property name="loginLogic" ref="loginLogic" />
+		<property name="contactInfoLogic" ref="contactInfoLogic" />
+		<property name="roleLogic" ref="roleLogic" />
+	</bean>
+	
+	<bean id="roleLogic" class="cz.softinel.sis.role.blo.RoleLogicImpl">
+		<property name="roleDao" ref="roleDao" />
+	</bean>
+
+	<bean id="employeeLogic" class="cz.softinel.retra.employee.blo.EmployeeLogicImpl">
+		<property name="employeeDao" ref="employeeDao" />
+		<property name="employeeJdbcDao" ref="employeeJdbcDao" />
+		<property name="userLogic" ref="userLogic" />
+	</bean>
+	
+	<bean id="nameComparator" class="cz.softinel.retra.employee.EmployeeNameComparator"/>
+
+	<!-- implementation of the worklog logic -->
+	<bean id="worklogLogic" class="cz.softinel.retra.worklog.blo.WorklogLogicImpl">
+		<property name="worklogDao" ref="worklogDao" />
+		<!-- 
+		<property name="jiraWorklogDao" ref="jiraWorklogDao" />
+		 -->
+		<property name="invoiceDao" ref="invoiceDao" />
+		<property name="securityLogic" ref="securityLogic" />
+	</bean>
+
+	<!-- implementation of the activity logic -->
+	<bean id="activityLogic" class="cz.softinel.retra.activity.blo.ActivityLogicImpl">
+		<property name="activityDao" ref="activityDao" />
+	</bean>
+
+	<!-- implementation of the project logic -->
+	<bean id="projectLogic" class="cz.softinel.retra.project.blo.ProjectLogicImpl">
+		<property name="projectDao" ref="projectDao" />
+	</bean>
+	
+	<!-- implementation of the component logic -->
+	<bean id="componentLogic" class="cz.softinel.retra.component.blo.ComponentLogicImpl">
+		<property name="componentDao" ref="componentDao" />
+	</bean>
+
+	<!-- implementation of the category logic -->
+	<bean id="categoryLogic" class="cz.softinel.retra.category.blo.CategoryLogicImpl">
+		<property name="categoryDao" ref="categoryDao" />
+	</bean>
+	
+	<!-- implementation of the type logic -->
+	<bean id="typeLogic" class="cz.softinel.retra.type.blo.TypeLogicImpl">
+		<property name="typeDao" ref="typeDao" />
+	</bean>
+
+	<!-- implementation of the invoice sequence logic -->
+	<bean id="invoiceSeqLogic" class="cz.softinel.retra.invoiceseq.blo.InvoiceSeqLogicImpl">
+		<property name="invoiceSeqDao" ref="invoiceSeqDao" />
+	</bean>
+
+	<!-- implementation of the invoice logic -->
+	<bean id="invoiceLogic" class="cz.softinel.retra.invoice.blo.InvoiceLogicImpl">
+		<property name="invoiceDao" ref="invoiceDao" />
+		<property name="worklogDao" ref="worklogDao" />
+		<property name="securityLogic" ref="securityLogic" />
+		<property name="invoiceSeqLogic" ref="invoiceSeqLogic" />
+		<property name="codeGenerated" value="${retra.invoice.code.generated}" />
+	</bean>
+
+	<!-- implementation of the schedule logic -->
+	<bean id="scheduleLogic" class="cz.softinel.retra.schedule.blo.ScheduleLogicImpl">
+		<property name="scheduleDao" ref="scheduleDao" />
+		<property name="securityLogic" ref="securityLogic" />
+	</bean>
+	
+	<!-- implementation of the jiraWorklog logic -->
+	<bean id="jiraWorklogLogic" class="cz.softinel.retra.jiraintegration.worklog.service.JiraWorklogLogicImpl">
+		<property name="jiraWorklogDao" ref="jiraWorklogDao" />
+	</bean>
+	
+	<!-- Settings for integration with Jira. -->
+	<import resource="jiraIntegration.xml"/>
+	
+</beans>

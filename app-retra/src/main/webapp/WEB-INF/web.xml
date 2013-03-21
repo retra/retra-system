@@ -1,0 +1,210 @@
+<?xml version="1.0"?>
+
+<!-- Web application deployment descriptor. -->
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
+
+	<description>Managing of Internal Resource Application</description>
+	
+	<!--
+	  - Configures Log4J for this web app.
+	  - As this context specifies a context-param "log4jConfigLocation", its file path
+	  - is used to load the Log4J configuration, including periodic refresh checks.
+	  -
+	  - Would fall back to default Log4J initialization (non-refreshing) if no special
+	  - context-params are given.
+	  -
+	  - Exports a "web app root key", i.e. a system property that specifies the root
+	  - directory of this web app, for usage in log file paths.
+	  - This web app specifies "mira.root" (see mira.properties file).
+	  -->
+	<!-- Leave the listener commented-out if using JBoss -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- Starts Spring application context.	-->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- Spring application context config locations -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			 /WEB-INF/config/dataAccessContext.xml
+			 /WEB-INF/config/servicesContext.xml
+			 /WEB-INF/config/securityContext.xml
+			 /WEB-INF/config/applicationContext.xml 
+		</param-value>
+	</context-param>
+	
+	<!--
+	    Key of the system property that should specify the root directory of this
+	    web app. Applied by WebAppRootListener or Log4jConfigListener.
+	-->
+ 	<context-param>
+ 		<param-name>webAppRootKey</param-name>
+ 		<param-value>retra.root</param-value>
+ 	</context-param>
+
+	<!--
+	    Location of the Log4J config file, for initialization and refresh checks.
+	    Applied by Log4jConfigListener.
+	-->
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>${retra.config.location}retra.properties</param-value>
+	</context-param>
+	
+	<!--
+		Allows changes in Log4J configuration on the fly. 
+		Remove in production
+	-->
+	<context-param>
+		<param-name>log4jRefreshInterval</param-name>
+		<param-value>1000</param-value>
+	</context-param>
+	
+	<!-- Forces encoding of the incomming requests to UTF-8	-->
+	<filter>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+ 
+	<!-- use encofing filter to all requests -->
+	<filter-mapping>
+		<filter-name>CharacterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>  
+
+	<!-- Security filter - initialize security context for requests  -->
+	<filter>
+		<filter-name>SecurityWebFilter</filter-name>
+		<filter-class>cz.softinel.sis.security.web.SecurityWebFilter</filter-class>
+	</filter>
+
+	<!-- use security filter to all requests -->
+	<filter-mapping>
+		<filter-name>SecurityWebFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>  
+	<filter-mapping>
+		<filter-name>SecurityWebFilter</filter-name>
+		<url-pattern>*.screen</url-pattern>
+	</filter-mapping>
+
+	<!-- this filter is used for display tag export -->
+	<filter>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<filter-class>org.displaytag.filter.ResponseOverrideFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ResponseOverrideFilter</filter-name>
+		<url-pattern>*.screen</url-pattern>
+	</filter-mapping>
+
+	<!-- this filter is used for no-cache -->
+	<filter>
+		<filter-name>NoCacheFilter</filter-name>
+		<filter-class>cz.softinel.sis.core.NoCacheFilter</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>*.screen</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>NoCacheFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+
+	<!-- Forces encoding of the incomming requests to UTF-8	-->
+	<filter>
+		<filter-name>ExceptionHandlerFilter</filter-name>
+		<filter-class>cz.softinel.sis.core.ExceptionHandlerFilter</filter-class>
+	</filter>
+ 
+	<!-- use encofing filter to all requests -->
+	<filter-mapping>
+		<filter-name>ExceptionHandlerFilter</filter-name>
+		<url-pattern>*.do</url-pattern>
+	</filter-mapping>  
+	<filter-mapping>
+		<filter-name>ExceptionHandlerFilter</filter-name>
+		<url-pattern>*.screen</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>ExceptionHandlerFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	
+	<!-- servlet config -->
+	<servlet>
+		<servlet-name>action</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>screen</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	
+	<servlet>
+		<servlet-name>WebProxyCacheServlet</servlet-name>
+		<servlet-class>cz.softinel.uaf.webproxycache.WebProxyCacheServlet</servlet-class>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+
+	<!-- servlet mapping -->
+	<servlet-mapping>
+		<servlet-name>action</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>screen</servlet-name>
+		<url-pattern>*.screen</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>WebProxyCacheServlet</servlet-name>
+		<url-pattern>/WebProxyCache</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>60</session-timeout>
+	</session-config>
+
+	<!-- first page -->
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+ 
+</web-app>

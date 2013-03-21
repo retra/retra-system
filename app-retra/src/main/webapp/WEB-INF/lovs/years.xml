@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE lovs SYSTEM "lovs.dtd">
+
+<lovs>
+	<lov code="years" description="All years">
+		<field value="2000" key="year.2000" />
+		<field value="2001" key="year.2001" />
+		<field value="2002" key="year.2002" />
+		<field value="2003" key="year.2003" />
+		<field value="2004" key="year.2004" />
+		<field value="2005" key="year.2005" />
+		<field value="2006" key="year.2006" />
+		<field value="2007" key="year.2007" />
+		<field value="2008" key="year.2008" />
+		<field value="2009" key="year.2009" />
+		<field value="2010" key="year.2010" />
+		<field value="2011" key="year.2011" />
+		<field value="2012" key="year.2012" />
+		<field value="2013" key="year.2013" />
+		<field value="2014" key="year.2014" />
+		<field value="2015" key="year.2015" />
+		<field value="2016" key="year.2016" />
+		<field value="2017" key="year.2017" />
+		<field value="2018" key="year.2018" />
+		<field value="2019" key="year.2019" />
+		<field value="2020" key="year.2020" />
+	</lov>
+</lovs>

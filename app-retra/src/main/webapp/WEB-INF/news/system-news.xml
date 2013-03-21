@@ -1,0 +1,222 @@
+<!-- TODO: must be done better structure, keys to message properties etc.  -->
+
+<news>
+	<item date="21.2.2013"
+		  title="Build 1.16.000, 1.17.000"
+		  body="This release includes just bugfix."
+		  author="Retra Team"
+	/>
+	<item date="18.2.2013"
+		  title="Build 1.15.000"
+		  body="New format for importing workflow to retra named Retra CSV and change in importing outlook format to possibility set mapping of projects (replace of import rule) and set the invoice number."
+		  author="Retra Team"
+	/>
+	<item date="18.1.2013"
+		  title="Build 1.14.000"
+		  body="From now, it is possible to set flag for project, which means that on project can be logged work or not. Project could have defined category and estimation. Default invoice filter value for state is Open. Last but not least were done some performance improvement."
+		  author="Retra Team"
+	/>
+
+	<item date="6.8.2012"
+		  title="Build 1.13.000"
+		  body="This release includes just bugfix."
+		  author="Retra Team"
+	/>
+
+	<item date="2.8.2012"
+		  title="Build 1.12.000"
+		  body="This release includes improvement in project management (searching, creating) some small improvements in employee management and bugfix."
+		  author="Retra Team"
+	/>
+
+	<item date="7.3.2012"
+		  title="Build 1.11.000"
+		  body="From this release step for invoice generator can be parametrized - for each sequence and date filtering params on invoice list can be defined as range."
+		  author="Retra Team"
+	/>
+
+	<item date="6.3.2012"
+		  title="Build 1.10.000"
+		  body="This release includes small bugfixies and in daily worklog list there is now day name (and also flag if day is working or not)."
+		  author="Retra Team"
+	/>
+
+	<item date="27.2.2012"
+		  title="Build 1.09.000"
+		  body="This release includes: redirecting to common Retra error page in case of some error, fix of problem during login without setting password, problem with importing bad outlook format, problem with connection pool and we have also improved hour pattern for creating worklog and schedule. Now it can include : with no minutes after that - it is valid :-)."
+		  author="Retra Team"
+	/>
+	
+	<item date="23.2.2012"
+		  title="Build 1.08.000"
+		  body="This release includes just bugfixies. Solving browser cache problems, null pointer problem on daily worklog and state problem in exported files."
+		  author="Retra Team"
+	/>
+
+	<item date="17.2.2012"
+		  title="Build 1.07.000"
+		  body="Main change in this release is new logo and themes. In Retra thera are now 3 themes and all of them are in 3 resolution (normal, low res. and hi res.). Change can be done in &lt;a href=&quot;ChangeVisualConfiguration.do?fkprm=true&quot;&gt;Visual Configuration&lt;/a&gt;. Of course we also fix some cosmetic bugs :-)."
+		  author="Retra Team"
+	/>
+
+	<item date="16.2.2012"
+		  title="Build 1.06.000"
+		  body="In this release were improved some filters for selecting worklog items, was done some bugfix and the main feature is automatic generating code from sequence for invoice (activated is this feature in settings on settings)."
+		  author="Retra Team"
+	/>
+
+	<item date="15.2.2012"
+		  title="Build 1.05.000"
+		  body="In this release was improved invoice management, filters on worklog overviews and LDAP integration."
+		  author="Retra Team"
+	/>
+
+	<item date="14.2.2012"
+		  title="Build 1.04.000"
+		  body="In this release was enabled bulk pairing worklog item with invoice, improved invoice management and small bugfixies."
+		  author="Retra Team"
+	/>
+
+	<item date="13.2.2012"
+		  title="Build 1.03.000"
+		  body="In this release was enabled pairing worklog item with invoice (now just during create or update worklog - this will be improved), some default settings were moved to external configuration files and again it includes bugfixies."
+		  author="Retra Team"
+	/>
+
+	<item date="10.2.2012"
+		  title="Build 1.02.000"
+		  body="In this release was improved Invoice management, configuration and it also includes bugfixies."
+		  author="Retra Team"
+	/>
+	
+	<item date="9.2.2012"
+		  title="Build 1.01.000"
+		  body="In this release was added Invoice management and it also includes bugfixies."
+		  author="Retra Team"
+	/>
+
+	<item date="8.2.2012"
+		  title="Build 1.00.000"
+		  body="New generation of Retra is here. First release includes bugfixies, new theme etc."
+		  author="Retra Team"
+	/>
+
+	<!-- item date="12.12.2007"
+		  title="Build 0.01.019"
+		  body="There is new Retra build after long time. Special thanks to:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; &lt;acronym title='Boriša Živković'&gt;borisha&lt;/acronym&gt; &lt;/strong&gt; for greate import worklog from MS Outlook &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; &lt;acronym title='Boriša Živković'&gt;borisha&lt;/acronym&gt; &lt;/strong&gt; for transfer sources to sourceforge SVN and next Mira -> Retra refactoring. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; &lt;acronym title='David Smekal'&gt;dsmekal&lt;/acronym&gt; &lt;/strong&gt; for start work on Project Management screens &lt;/li&gt;
+		  &lt;/ul&gt;"
+		  author="Mira Team"
+	/>
+	<item date="30.7.2007"
+		  title="Build 0.01.018"
+		  body="Resolved issues:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-29 &lt;/strong&gt; - Focus the first input of the first form &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-41 &lt;/strong&gt; - Daily Worklog - work item from previous day is visible &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-40 &lt;/strong&gt; - Edit error when worklog end with 00:00 &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-19 &lt;/strong&gt; - Worklog - There is no possibility to set 'All employees' in the filter &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-42 &lt;/strong&gt; - Missing row with total &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; RAT-3 &lt;/strong&gt; - Quick new name refactoring for AW &lt;/li&gt;
+		  &lt;/ul&gt;"
+		  author="Mira Team"
+	/>
+	<item date="16.4.2007"
+		  title="Build 0.01.016"
+		  body="There is only one greate change: &lt;br /&gt; &lt;strong&gt;New visual skin&lt;/strong&gt; and skin switching was added.
+		  If you can return back to old Yellow Hell skin, you can set it on 'Settings' -> 'Visual Configuration ' screen by yourself.  
+			&lt;p align='left' style='font-weight:bold;'&gt; Special thanks to &lt;acronym title='Jaroslava Faustová'&gt;Jarka&lt;/acronym&gt;! &lt;/p&gt;"
+		  author="Mira Team"
+	/>
+	<item date="10.4.2007"
+		  title="Build 0.01.015"
+		  body="Resolved issues:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-35 &lt;/strong&gt; - Working at midnight - worklog items shound end on 24:00. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-36 &lt;/strong&gt; - Add summary on Daily worklog screen. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; AWIS-34 &lt;/strong&gt; - Usability improvments for Worklod Overview. &lt;/li&gt;
+		  &lt;/ul&gt;"
+		  author="Mira Team"
+	/>
+	<item date="3.4.2007"
+		  title="Build 0.01.014"
+		  body="Changes:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; New projects and activities &lt;/strong&gt; - There are new projects and activities for logging work. Karel prepare new document / rules for logging work. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Work with history data &lt;/strong&gt; - Some of existing projects and activities are marked as disabled. There are 'Work with history data' checkbox on worklog edit screens which allows fill worklog for disabled (historical) projects and activities. It is usable only for fixing worklong in past.&lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Worklog overview filters &lt;/strong&gt; - Worklog overview filters offers only projects and activities which is currently used in overview report (active also disabled).&lt;/li&gt;
+		  &lt;/ul&gt;"
+		  author="Mira Team"
+	/>
+	<item date="5.3.2007"
+		  title="Build 0.01.012"
+		  body="New features:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; Joke Generator &lt;/strong&gt; - There are new joke generators on Newsboard screen. You can see Garfield, Dilbert, Snoopy, Ben and PC and Pixel comics. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Typing time improvements &lt;/strong&gt; - Time control support more benevolent time fromats (as requested in 
+			  &lt;a href='https://www.aspectworks.com/jira/browse/AWIS-27'&gt;AWIS-27&lt;/a&gt;). New experimental javascript component for time selection was added.&lt;/li&gt;
+		  &lt;/ul&gt;"
+		  author="Mira Team"
+	/>
+	<item date="1.3.2007"
+		  title="Build 0.01.011"
+		  body="Added new usability improvements:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; Daily Worklog &lt;/strong&gt; - Added actions [ Previous day ] and [ Next day ] on Daily Worklog screen. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Worklog Overview &lt;/strong&gt; - Added preset filter [ Current Month ] and [ Previous Month ] on Worklog Overview screen. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Create Worklog &lt;/strong&gt; - Save and next button comeback on Create Worklog screen. &lt;/li&gt;
+		  &lt;/ul&gt;
+		  &lt;p align='left'&gt; Template for worklog printing was changed and some bugs were fixed. Special thanks to &lt;acronym title='Karol Urbán'&gt;Kari&lt;/acronym&gt; for share usability ideas and bug report. &lt;/p&gt;"
+		  author="Mira Team"
+	/>
+	<item date="27.2.2007"
+		  title="Build 0.01.009"
+		  body="This released build gives you one &lt;strong&gt;general Worklog Overview&lt;/strong&gt; page.
+		  Second important improvement is changed project filter behaviour. Now when you select
+		  project in filter, &lt;strong&gt;all sub-projects&lt;/strong&gt; are selected too.
+		  Project &lt;strong&gt;worklog overview is extended&lt;/strong&gt; - added more perspectives."
+		  author="Mira Team"
+	/>
+	<item date="19.2.2007"
+		  title="Build 0.01.007"
+		  body="Added new features and improvements:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; Import worklog &lt;/strong&gt; - New wizard for importing worklog from file. Now is implemented import from Track-IT light (TSV) files. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Project overview &lt;/strong&gt; - Worklog overview for project perspective. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Internal improvments &lt;/strong&gt; - There are some bug-fixes, code cleaning and refactoring improve 
+			  Mira implementation. Added transaction management based on anotations. 
+			  Special thanks to &lt;acronym title='Boriša Živković'&gt;borisha&lt;/acronym&gt; 
+			  and &lt;acronym title='Pavel Müller'&gt;paolo&lt;/acronym&gt;. &lt;/li&gt;
+		  &lt;/ul&gt;
+		  "
+		  author="Mira Team"
+	/>
+	<item date="14.2.2007"
+		  title="Next usabilituy improvements"
+		  body="Build 0.01.003 and 004 contains many small bug-fixes. Build 005 prepare new screens for daily, weekly and monthly worklog overview. Build 006 fix GUI tabber styles and add new calendar component for date fields."
+		  author="Mira Team"
+	/>
+	<item date="5.2.2007"
+		  title="Usability improvements"
+		  body="Build 0.01.002 contains some usability improvements:
+		  &lt;ul&gt;
+			  &lt;li&gt;  &lt;strong&gt; Daily Worklog &lt;/strong&gt; - new usecase for filling worklog. Designed for filling and overview for one day. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Permanent Login &lt;/strong&gt; - if you check permanent login checkbox on login screen, login fingerprint is stored in cookies. &lt;/li&gt;
+			  &lt;li&gt;  &lt;strong&gt; Worklog Hours &lt;/strong&gt; - added hours information into worklog screens. &lt;/li&gt;
+		  &lt;/ul&gt;
+		  &lt;p align='left'&gt;and some other small bug-fixes (CSS styles, Serbian letters encoding)&lt;/p&gt;"
+		  author="Mira Team"
+	/>
+	<item date="1.2.2007"
+		  title="Mira released"
+		  body="Mira is application which helps you with managing internal resources. You can user
+		  employee management for creating your employess a than they can use Mira.
+		  Mira allows create worklogs, export them, edit them view them and print them. Also it allows
+		  create schedules and do with them the same things as with worklogs :-). Main features are
+		  Worklog Overview and Schedule Overview."
+		  author="Mira Team"
+	/-->
+</news>

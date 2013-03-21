@@ -1,0 +1,13 @@
+<!ELEMENT lovs (lov)*>
+
+<!ELEMENT lov (field)*>
+<!ATTLIST lov
+              code CDATA #REQUIRED
+              description CDATA #IMPLIED
+>
+
+<!ELEMENT field EMPTY>
+<!ATTLIST field
+              value CDATA #REQUIRED
+              key CDATA #REQUIRED
+>

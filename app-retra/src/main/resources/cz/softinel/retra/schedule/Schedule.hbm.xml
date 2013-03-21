@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.schedule.Schedule" table="mir11schedule">
+		<cache usage="read-write"/>
+		<id name="pk" column="mir11pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="workFrom" not-null="true" column="mir11from" />
+		<property name="workTo" not-null="true" column="mir11to" />
+		<property name="state" not-null="true" column="mir11state" />
+		<property name="comment" not-null="false" column="mir11comment" />
+		<property name="level" not-null="true" column="mir11level" />
+		<property name="hours" not-null="false" column="mir11hours" />
+		<property name="createdOn" not-null="true" column="mir11createdOn" />
+		<property name="changedOn" not-null="false" column="mir11changedOn" />
+
+		<many-to-one class="cz.softinel.retra.employee.Employee" name="employee"
+			column="sis10pk" not-null="true" cascade="none" lazy="false" fetch="join"/>
+
+		<many-to-one class="cz.softinel.retra.type.Type" name="type"
+			column="mir07pk" not-null="true" cascade="none" lazy="false" fetch="join"/>
+
+	</class>
+
+	<query name="Schedule.selectForEmployee">
+		<![CDATA[
+			select
+				schedule 
+			from
+				Schedule as schedule
+				left join fetch schedule.employee
+				left join fetch schedule.type
+			where
+				schedule.employee.pk=:pk
+			order by
+				schedule.workFrom, schedule.type
+		]]>
+	</query>
+
+	<query name="Schedule.selectForEmployeeInPeriod">
+		<![CDATA[
+			select
+				schedule
+			from
+				Schedule as schedule
+				left join fetch schedule.employee
+			where
+				schedule.employee.user.pk=:employeePk
+				and	(
+					(schedule.workFrom>=:dateBegin and schedule.workFrom<=:dateEnd)
+					or (schedule.workTo>=:dateBegin and schedule.workTo<=:dateEnd)
+					or (schedule.workFrom<=:dateBegin and schedule.workTo>=:dateEnd)
+				)
+		]]>
+	</query>
+
+</hibernate-mapping>

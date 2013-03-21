@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.project.Project" table="mir01project">
+		<cache usage="read-write" />
+		<id name="pk" column="mir01pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="code" not-null="true" column="mir01code" />
+		<property name="name" not-null="true" column="mir01name" />
+		<property name="workEnabled" not-null="false" column="mir01workenabled" />
+		<property name="estimation" not-null="false" column="mir01estimation" />
+
+		<many-to-one class="cz.softinel.retra.project.Project" name="parent"
+			column="mir01parentPk" cascade="none" lazy="false"/>
+
+		<property name="state" not-null="true" column="mir01state" />
+
+		<many-to-one class="cz.softinel.retra.category.Category" name="category"
+			column="mir17pk" not-null="false" cascade="none" lazy="false" fetch="join" />
+		
+		<set name="employees" table="mir13link_employee_project" lazy="true" fetch="join">
+			<key column="mir01pk"/>
+			<many-to-many class="cz.softinel.retra.employee.Employee" column="sis10pk" fetch="join"/>
+		</set>
+		
+		<set name="components" table="mir12component" lazy="true" fetch="join">
+			<key column="mir12projectPk"/>
+			<one-to-many class="cz.softinel.retra.component.Component"/>
+		</set>
+		
+	</class>
+			
+	<query name="Project.selectAllWithoutStates">
+		<![CDATA[
+			select
+				project
+			from
+				Project as project
+			where
+				project.state not in (:states)
+		]]>
+	</query>
+	
+	<query name="Project.selectAllParentProjects">
+		<![CDATA[
+			select
+				project
+			from
+				Project as project
+			where
+				project.parent is null
+			and
+				project.state not in (:states)
+		]]>
+	</query>	
+	
+	<query name="Project.selectProjectsWithCode">
+		<![CDATA[
+			select
+				project
+			from
+				Project as project
+			where
+				project.code like :code
+		]]>
+	</query>	
+	
+</hibernate-mapping>

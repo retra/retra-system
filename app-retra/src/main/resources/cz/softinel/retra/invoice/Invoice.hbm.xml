@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.invoice.Invoice" table="mir15invoice">
+		<cache usage="read-write"/>
+		<id name="pk" column="mir15pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="orderDate" not-null="true" column="mir15orderdate" />
+		<property name="finishDate" not-null="true" column="mir15finishdate" />
+		<property name="code" not-null="true" column="mir15code" />
+		<property name="name" not-null="true" column="mir15name" />
+
+		<many-to-one class="cz.softinel.retra.employee.Employee" name="employee"
+			column="sis10pk" not-null="true" cascade="none" lazy="no-proxy" fetch="join"/>
+
+		<property name="state" not-null="true" column="mir15state" />
+		
+	</class>
+
+	<query name="Invoice.selectAllForEmployee">
+		<![CDATA[
+			select
+				invoice
+			from
+				Invoice as invoice
+				left join fetch invoice.employee
+				left join fetch invoice.employee.user
+				left join fetch invoice.employee.user.login
+				left join fetch invoice.employee.user.contactInfo
+				left join fetch invoice.employee.user.personalRole
+			where
+				invoice.employee.pk=:employeePk
+		]]>
+	</query>
+
+	<query name="Invoice.selectAllForEmployeeInStates">
+		<![CDATA[
+			select
+				invoice
+			from
+				Invoice as invoice
+				left join fetch invoice.employee
+				left join fetch invoice.employee.user
+				left join fetch invoice.employee.user.login
+				left join fetch invoice.employee.user.contactInfo
+				left join fetch invoice.employee.user.personalRole
+			where
+				invoice.employee.pk=:employeePk
+				AND invoice.state in (:states)
+		]]>
+	</query>
+			
+	<query name="Invoice.selectAllForEmployeeWithoutStates">
+		<![CDATA[
+			select
+				invoice
+			from
+				Invoice as invoice
+				left join fetch invoice.employee
+				left join fetch invoice.employee.user
+				left join fetch invoice.employee.user.login
+				left join fetch invoice.employee.user.contactInfo
+				left join fetch invoice.employee.user.personalRole
+			where
+				invoice.employee.pk=:employeePk
+				AND invoice.state not in (:states)
+		]]>
+	</query>
+
+	<query name="Invoice.selectInvoiceForEmployeeWithCode">
+		<![CDATA[
+			select
+				invoice
+			from
+				Invoice as invoice
+				left join fetch invoice.employee
+				left join fetch invoice.employee.user
+				left join fetch invoice.employee.user.login
+				left join fetch invoice.employee.user.contactInfo
+				left join fetch invoice.employee.user.personalRole
+			where
+				invoice.employee.pk=:employeePk
+				AND invoice.code like :code
+		]]>
+	</query>
+	
+</hibernate-mapping>

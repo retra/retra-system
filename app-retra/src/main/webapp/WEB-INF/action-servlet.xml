@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- ============================== -->
+	<!-- Common configurations and abstract definitions -->
+	<!-- ============================== -->
+
+	<!-- get properties from these files and replace all ${} -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>${retra.config.location}retra.properties</value>
+			</list>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	</bean>
+
+	<!-- use jstl view resolver, because of using jstl in jsp and displaytag -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+	</bean>
+
+	<!-- This bean adds multipart form support using Jakarta Commons Fileupload -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		
+	</bean>
+	
+	<!-- 
+		Locale resolution made fixed to avoid different look&feel for different deployments.
+		We can change it in the future to support more languages.
+	-->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
+		<property name="defaultLocale" value="en_US" />
+	</bean>
+
+	<!-- Define abstract dispatch controllers for MIRA actions -->
+	<bean id="DispatchController" class="cz.softinel.retra.spring.web.DispatchController" abstract="true">
+		<property name="securityLogic" ref="securityLogic" />
+		<property name="requireLogin" value="true" />
+		<property name="loginPageAction" value="/Login.do?fkprm=true" />
+	</bean>
+
+	<!-- Define abstract form controllers for MIRA form actions -->
+	<bean id="FormController" class="cz.softinel.retra.spring.web.FormController" abstract="true">
+		<property name="securityLogic" ref="securityLogic" />
+		<property name="requireLogin" value="true" />
+		<property name="loginPageAction" value="/Login.do?fkprm=true" />
+	</bean>
+
+	<!-- Define abstract wizard form controllers for MIRA form actions -->
+	<bean id="WizardFormController" class="cz.softinel.retra.spring.web.WizardFormController" abstract="true">
+		<property name="securityLogic" ref="securityLogic" />
+		<property name="requireLogin" value="true" />
+		<property name="loginPageAction" value="/Login.do?fkprm=true" />
+	</bean>	
+
+	<bean id="miraJokeGenerator" class="cz.softinel.retra.core.joke.blo.MiraJokeGenerator" />
+	
+	<!-- ========== -->
+	<!-- System actions -->
+	<!-- ========== -->
+
+	<!-- System controller -->
+	<bean id="SystemController" class="cz.softinel.retra.core.system.web.SystemController" abstract="true" parent="DispatchController">
+		<property name="cookieHelper" ref="worklogCookieHelper" />
+		<property name="jokeGenerator" ref="miraJokeGenerator" />
+		<property name="systemNewsFactory" ref="systemNewsFactory" />
+	</bean>
+
+	<!-- show error -->
+	<bean name="/Error.do" parent="SystemController">
+		<property name="method" value="showError" />
+		<property name="successView" value="/RetraError.screen" />
+	</bean>
+
+	<!-- show login -->
+	<bean name="/Login.do" parent="SystemController">
+		<property name="method" value="showLogin" />
+		<property name="successView" value="/Login.screen" />
+	</bean>
+
+	<!-- login -->
+	<bean name="/LoginAction.do" parent="SystemController">
+		<property name="method" value="doLogin" />
+		<property name="successView" value="redirect:Newsboard.do?fkprm=true" />
+		<property name="errorView" value="Login.screen" />
+	</bean>
+
+	<!-- logout -->
+	<bean name="/Logout.do" parent="SystemController">
+		<property name="method" value="doLogout" />
+		<property name="successView" value="redirect:Login.do?fkprm=true" />
+	</bean>	
+
+	<!-- dashboard -->
+	<bean name="/Dashboard.do" parent="SystemController">
+		<property name="method" value="showDashboard" />
+		<property name="successView" value="/Dashboard.screen" />
+	</bean>
+
+	<!-- dashboard -->
+	<bean name="/Newsboard.do" parent="SystemController">
+		<property name="method" value="showNewsboard" />
+		<property name="successView" value="/Newsboard.screen" />
+	</bean>
+
+	<!-- about -->
+	<bean name="/About.do" parent="SystemController">
+		<property name="method" value="showAbout" />
+		<property name="successView" value="/About.screen" />
+	</bean>
+
+	<!-- set show history data -->
+	<bean name="/SetShowHistoryData.do" parent="SystemController">
+		<property name="method" value="setShowHistoryData" />
+		<property name="successView" value="redirect:Newsboard.do?fkprm=true" />
+	</bean>
+
+	<!-- =============== -->
+	<!-- Employee Management -->
+	<!-- =============== -->
+
+	<bean id="employeeCreateValidator" class="cz.softinel.retra.employee.web.EmployeeCreateValidator" />
+
+	<bean id="EmployeeController" class="cz.softinel.retra.employee.web.EmployeeController" abstract="true">
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="nameComparator" ref="nameComparator" />
+	</bean>
+	<bean name="EmployeeFormController" abstract="true" parent="FormController">
+		<property name="commandClass" value="cz.softinel.retra.employee.web.EmployeeForm" />
+		<property name="commandName" value="employeeForm" />
+		<property name="successView" value="redirect:EmployeeManagement.do?fkprm=true" />
+		<property name="cancelView" value="redirect:EmployeeManagement.do?fkprm=true" />
+		<property name="errorView" value="redirect:EmployeeManagement.do?fkprm=true" />
+	</bean>
+	
+	<bean name="/EmployeeManagement.do" parent="EmployeeController">
+		<property name="method" value="employeeManagement" />
+		<property name="successView" value="/EmployeeManagement.screen" />
+	</bean>
+
+	<bean name="/EmployeeView.do" parent="EmployeeController">
+		<property name="method" value="employeeView" />
+		<property name="successView" value="EmployeeView.screen" />
+	</bean>
+
+	<bean name="/EmployeeCreate.do" class="cz.softinel.retra.employee.web.EmployeeCreateController" parent="EmployeeFormController">
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="formView" value="EmployeeCreate.screen" />
+		<property name="validator" ref="employeeCreateValidator" />
+	</bean>
+	
+	<bean name="/EmployeeEdit.do" class="cz.softinel.retra.employee.web.EmployeeEditController" parent="EmployeeFormController">
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="contactInfoLogic" ref="contactInfoLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="formView" value="EmployeeEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="employeeChangeContactInfoValidator" />
+	</bean>
+	
+	<!-- =============== -->
+	<!-- Project Management -->
+	<!-- =============== -->	
+
+	<bean id="projectValidator" class="cz.softinel.retra.project.web.ProjectValidator" abstract="true">
+		<property name="projectLogic" ref="projectLogic" />
+	</bean>	
+	<bean id="projectCreateValidator" class="cz.softinel.retra.project.web.ProjectCreateValidator" parent="projectValidator">
+	</bean>	
+	<bean id="projectEditValidator" class="cz.softinel.retra.project.web.ProjectEditValidator" parent="projectValidator">
+	</bean>
+	
+	<bean id="ProjectController" class="cz.softinel.retra.project.web.ProjectController" abstract="true">
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="componentLogic" ref="componentLogic" />
+		<property name="securityLogic" ref="securityLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+	</bean>
+	
+	<bean name="/ProjectManagement.do" parent="ProjectController">
+		<property name="method" value="projectManagement" />
+		<property name="successView" value="/ProjectManagement.screen" />
+	</bean>	
+	
+	<bean name="ProjectFormController" abstract="true" parent="FormController">
+		<property name="commandClass" value="cz.softinel.retra.project.web.ProjectForm" />
+		<property name="commandName" value="projectForm" />
+		<property name="successView" value="redirect:ProjectManagement.do?fkprm=true" />
+		<property name="cancelView" value="redirect:ProjectManagement.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManagement.do?fkprm=true" />
+	</bean>	
+	
+	<bean name="/ProjectCreate.do" class="cz.softinel.retra.project.web.ProjectCreateController" parent="ProjectFormController">
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="categoryLogic" ref="categoryLogic" />
+		<property name="formView" value="ProjectCreate.screen" />
+		<property name="validator" ref="projectCreateValidator" />
+	</bean>	
+	
+	<bean name="/ProjectView.do" parent="ProjectController">
+		<property name="method" value="projectView" />
+		<property name="successView" value="ProjectView.screen" />
+	</bean>
+	
+	<bean name="/ProjectEdit.do" class="cz.softinel.retra.project.web.ProjectEditController" parent="ProjectFormController">
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="componentLogic" ref="componentLogic" />
+		<property name="categoryLogic" ref="categoryLogic" />
+		<property name="formView" value="ProjectEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="projectEditValidator" />
+	</bean>	
+	
+	<bean name="/ProjectDelete.do" parent="ProjectController">
+		<property name="method" value="projectDelete" />
+		<property name="successView" value="redirect:ProjectManagement.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManagement.do?fkprm=true" />
+	</bean>
+	
+	<bean name="/ProjectManageComponents.do" class="cz.softinel.retra.project.web.ProjectManageComponentsController" parent="ProjectFormController">
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="formView" value="ProjectManageComponents.screen" />
+		<property name="bindOnNewForm" value="true" />
+	</bean>	
+	
+	<bean name="ComponentFormController" abstract="true" parent="FormController">
+		<property name="commandClass" value="cz.softinel.retra.component.web.ComponentForm" />
+		<property name="commandName" value="componentForm" />
+		<property name="successView" value="redirect:ProjectManageComponents.do?fkprm=true" />
+		<property name="cancelView" value="redirect:ProjectManageComponents.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManageComponents.do?fkprm=true" />
+	</bean>
+	
+	<bean name="/ComponentEdit.do" class="cz.softinel.retra.component.web.ComponentEditController" parent="ComponentFormController">
+		<property name="componentLogic" ref="componentLogic" />
+		<property name="formView" value="ComponentEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+	</bean>	
+	
+		<bean name="/ComponentDelete.do" parent="ProjectController">
+		<property name="method" value="componentDelete" />
+		<property name="successView" value="redirect:ProjectManageComponents.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManageComponents.do?fkprm=true" />
+	</bean>
+	
+	
+	<bean name="/ComponentCreate.do" class="cz.softinel.retra.component.web.ComponentCreateController" parent="ComponentFormController">
+		<property name="componentLogic" ref="componentLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="formView" value="ComponentCreate.screen" />
+		<property name="bindOnNewForm" value="true" />
+	</bean>	
+		
+	<!-- =================== -->
+	<!-- Employee Public Management -->
+	<!-- =================== -->
+
+	<bean id="employeeChangePasswordValidator" class="cz.softinel.retra.employee.web.EmployeeChangePasswordValidator" />
+	<bean id="employeeChangeContactInfoValidator" class="cz.softinel.retra.employee.web.EmployeeChangeContactInfoValidator" />
+
+	<bean name="/EmployeeChangePassword.do" class="cz.softinel.retra.employee.web.EmployeeChangePasswordController" parent="EmployeeFormController">
+		<property name="loginLogic" ref="loginLogic" />
+		<property name="formView" value="EmployeeChangePassword.screen" />
+		<property name="successView" value="redirect:Dashboard.do?fkprm=true" />
+		<property name="cancelView" value="redirect:Dashboard.do?fkprm=true" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="employeeChangePasswordValidator" />
+	</bean>
+
+	<bean name="/EmployeeChangeContactInfo.do" class="cz.softinel.retra.employee.web.EmployeeChangeContactInfoController" parent="EmployeeFormController">
+		<property name="contactInfoLogic" ref="contactInfoLogic" />
+		<property name="formView" value="EmployeeChangeContactInfo.screen" />
+		<property name="successView" value="redirect:Dashboard.do?fkprm=true" />
+		<property name="cancelView" value="redirect:Dashboard.do?fkprm=true" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="employeeChangeContactInfoValidator" />
+	</bean>
+
+	<bean name="/ChangeVisualConfiguration.do" class="cz.softinel.retra.core.system.web.SystemController" parent="SystemController">
+		<property name="method" value="changeVisualConfiguration" />
+		<property name="successView" value="ChangeVisualConfiguration.screen" />
+	</bean>
+
+	<bean name="/ChangeVisualConfigurationStore.do" class="cz.softinel.retra.core.system.web.SystemController" parent="SystemController">
+		<property name="method" value="changeVisualConfigurationStore" />
+		<property name="successView" value="ChangeVisualConfiguration.screen" />
+	</bean>
+
+
+	<!-- ============== -->
+	<!-- Worklog Management -->
+	<!-- ============== -->
+
+	<!-- Worklog controllers  -->
+	<bean id="WorklogController" class="cz.softinel.retra.worklog.web.WorklogController" abstract="true" parent="DispatchController">
+		<property name="worklogLogic" ref="worklogLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="activityLogic" ref="activityLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="componentLogic" ref="componentLogic" />
+	</bean>
+	<bean name="WorklogFormController" class="cz.softinel.retra.worklog.web.AbstractWorklogFormController" abstract="true" parent="FormController">
+		<property name="worklogLogic" ref="worklogLogic" />
+		<property name="activityLogic" ref="activityLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="componentLogic" ref="componentLogic" />
+		<property name="jiraWorklogLogic" ref="jiraWorklogLogic" />
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="jiraIntegrationEnabled" value="${jira.integration.enabled}" />
+		
+		<property name="commandClass" value="cz.softinel.retra.worklog.web.WorklogForm" />
+		<property name="commandName" value="worklogForm" />
+		<property name="successView" value="redirect:WorklogOverview.do?fkprm=true" />
+		<property name="cancelView" value="redirect:WorklogOverview.do?fkprm=true" />
+		<property name="errorView" value="redirect:WorklogOverview.do?fkprm=true" />
+		<property name="cookieHelper" ref="worklogCookieHelper" />
+		<property name="validator" ref="worklogValidator" />
+	</bean>
+	<!-- bean id="worklogFilter" class="cz.softinel.retra.worklog.dao.WorklogFilter">
+	</bean-->
+	<bean id="worklogCookieHelper" class="cz.softinel.retra.worklog.web.WorklogCookieHelper">
+	</bean>
+	<bean id="worklogValidator" class="cz.softinel.retra.worklog.web.WorklogValidator">
+		<property name="projectLogic" ref="projectLogic" />
+	</bean>
+
+	<!-- daily worklog -->
+	<bean name="/WorklogDaily.do" parent="WorklogController">
+		<property name="method" value="worklogDaily" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogDaily.screen" />
+	</bean>
+
+	<!-- show worklog overview -->
+	<bean name="/WorklogOverview.do" parent="WorklogController">
+		<property name="method" value="worklogOverview" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogOverview.screen" />
+	</bean>
+
+	<!-- show worklog -->
+	<bean name="/WorklogList.do" parent="WorklogController">
+		<property name="method" value="worklogList" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogList.screen" />
+	</bean>
+
+	<!-- worklog overview screens -->
+	<bean name="/WorklogDailyOverview.do" parent="WorklogController">
+		<property name="method" value="worklogDailyOverview" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogDailyOverview.screen" />
+	</bean>
+	<bean name="/WorklogWeeklyOverview.do" parent="WorklogController">
+		<property name="method" value="worklogWeeklyOverview" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogWeeklyOverview.screen" />
+	</bean>
+	<bean name="/WorklogMonthlyOverview.do" parent="WorklogController">
+		<property name="method" value="worklogMonthlyOverview" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogMonthlyOverview.screen" />
+	</bean>
+	<bean name="/WorklogProjectOverview.do" parent="WorklogController">
+		<property name="method" value="worklogProjectOverview" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogProjectOverview.screen" />
+	</bean>
+
+	<!-- show worklog overview -->
+	<bean name="/WorklogOverviewList.do" parent="WorklogController">
+		<property name="method" value="worklogOverviewList" />
+		<!-- property name="filter" ref="worklogFilter" /-->
+		<property name="successView" value="WorklogOverviewList.screen" />
+	</bean>
+
+	<!-- create worklog	-->	
+	<bean name="/WorklogDailyCreate.do" class="cz.softinel.retra.worklog.web.WorklogCreateController" parent="WorklogFormController">
+		<property name="formView" value="WorklogDailyCreate.screen" />
+		<property name="successView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="cancelView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="errorView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="saveAndAddView" value="redirect:WorklogDailyCreate.do?fkprm=true" />
+	</bean>
+
+	<!-- create worklog	-->	
+	<bean name="/WorklogCreate.do" class="cz.softinel.retra.worklog.web.WorklogCreateController" parent="WorklogFormController">
+		<property name="formView" value="WorklogCreate.screen" />
+		<property name="saveAndAddView" value="redirect:WorklogCreate.do?fkprm=true" />
+	</bean>
+
+	<!-- daily worklog update -->
+	<bean name="/WorklogDailyEdit.do" class="cz.softinel.retra.worklog.web.WorklogUpdateController" parent="WorklogFormController">
+		<property name="formView" value="WorklogDailyEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="successView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="cancelView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="errorView" value="redirect:WorklogDaily.do?fkprm=true" />
+	</bean>
+
+	<!-- worklog update -->
+	<bean name="/WorklogEdit.do" class="cz.softinel.retra.worklog.web.WorklogUpdateController" parent="WorklogFormController">
+		<property name="formView" value="WorklogEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+	</bean>
+
+	<!-- daily delete worklog -->
+	<bean name="/WorklogDailyDelete.do" parent="WorklogController">
+		<property name="method" value="worklogDelete" />
+		<property name="successView" value="redirect:WorklogDaily.do?fkprm=true" />
+		<property name="errorView" value="redirect:WorklogDaily.do?fkprm=true" />
+	</bean>
+
+	<!-- delete worklog -->
+	<bean name="/WorklogDelete.do" parent="WorklogController">
+		<property name="method" value="worklogDelete" />
+		<property name="successView" value="redirect:WorklogOverview.do?fkprm=true" />
+		<property name="errorView" value="redirect:WorklogOverview.do?fkprm=true" />
+	</bean>
+
+	<!-- view worklog -->
+	<bean name="/WorklogView.do" parent="WorklogController">
+		<property name="method" value="worklogView" />
+		<property name="successView" value="WorklogView.screen" />
+	</bean>
+
+	<!-- view worklog -->
+	<bean name="/WorklogDailyView.do" parent="WorklogController">
+		<property name="method" value="worklogView" />
+		<property name="successView" value="WorklogDailyView.screen" />
+	</bean>
+	
+	<bean name="/WorklogImport.do" class="cz.softinel.retra.worklog.web.WorklogImportController" parent="WizardFormController">
+		<property name="worklogLogic" ref="worklogLogic" />
+		<property name="activityLogic" ref="activityLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="invoiceLogic" ref="invoiceLogic"/>
+		<property name="commandName" value="form"/>
+		<property name="pages">
+			<list>
+				<value>WorklogImportFileUpload.screen</value>
+				<value>WorklogImportMapping.screen</value>
+				<value>WorklogImportConfirm.screen</value>
+			</list>
+		</property>
+		<property name="successView" value="redirect:WorklogOverview.do?fkprm=true"/>
+		<property name="cancelView" value="redirect:WorklogOverview.do?fkprm=true"/>
+	</bean>
+
+	<bean name="/WorklogImportHelp.do" parent="WorklogController">
+	</bean>
+
+	<!-- ============== -->
+	<!-- Invoice Management -->
+	<!-- ============== -->
+
+	<!-- Invoice controllers  -->
+	<bean id="InvoiceController" class="cz.softinel.retra.invoice.web.InvoiceController" abstract="true" parent="DispatchController">
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="worklogLogic" ref="worklogLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+	</bean>
+
+	<bean name="InvoiceFormController" class="cz.softinel.retra.invoice.web.AbstractInvoiceFormController" abstract="true" parent="FormController">
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="commandClass" value="cz.softinel.retra.invoice.web.InvoiceForm" />
+		<property name="commandName" value="invoiceForm" />
+		<property name="successView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="cancelView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="errorView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="cookieHelper" ref="invoiceCookieHelper" />
+	</bean>
+	<bean id="invoiceCookieHelper" class="cz.softinel.retra.invoice.web.InvoiceCookieHelper">
+	</bean>
+	<bean id="invoiceValidator" class="cz.softinel.retra.invoice.web.InvoiceValidator" abstract="true">
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="securityLogic" ref="securityLogic" />
+	</bean>
+	<bean id="invoiceCreateValidator" class="cz.softinel.retra.invoice.web.InvoiceCreateValidator" parent="invoiceValidator">
+	</bean>
+	<bean id="invoiceEditValidator" class="cz.softinel.retra.invoice.web.InvoiceEditValidator" parent="invoiceValidator">
+	</bean>
+
+	<!-- invoice list -->
+	<bean name="/InvoiceList.do" parent="InvoiceController">
+		<property name="method" value="invoiceList" />
+		<property name="successView" value="InvoiceList.screen" />
+	</bean>
+
+	<!-- create invoice	-->	
+	<bean name="/InvoiceCreate.do" class="cz.softinel.retra.invoice.web.InvoiceCreateController" parent="InvoiceFormController">
+		<property name="invoiceSeqLogic" ref="invoiceSeqLogic" />
+		<property name="validator" ref="invoiceCreateValidator" />
+		<property name="formView" value="InvoiceCreate.screen" />
+		<property name="saveAndAddView" value="redirect:InvoiceCreate.do?fkprm=true" />
+	</bean>
+
+	<!-- invoice update -->
+	<bean name="/InvoiceEdit.do" class="cz.softinel.retra.invoice.web.InvoiceEditController" parent="InvoiceFormController">
+		<property name="validator" ref="invoiceEditValidator" />
+		<property name="formView" value="InvoiceEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+	</bean>
+
+	<!-- delete invoice -->
+	<bean name="/InvoiceDelete.do" parent="InvoiceController">
+		<property name="method" value="invoiceDelete" />
+		<property name="successView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="errorView" value="redirect:InvoiceList.do?fkprm=true" />
+	</bean>
+
+	<!-- unpair invoice -->
+	<bean name="/InvoiceWorklogUnpair.do" parent="InvoiceController">
+		<property name="method" value="invoiceWorklogUnpair" />
+		<property name="successView" value="redirect:InvoiceView.do?fkprm=true" />
+		<property name="errorView" value="redirect:InvoiceView.do?fkprm=true" />
+	</bean>
+
+	<!-- delete invoice -->
+	<bean name="/InvoiceClose.do" parent="InvoiceController">
+		<property name="method" value="invoiceClose" />
+		<property name="successView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="errorView" value="redirect:InvoiceList.do?fkprm=true" />
+	</bean>
+
+	<!-- delete invoice -->
+	<bean name="/InvoiceOpen.do" parent="InvoiceController">
+		<property name="method" value="invoiceOpen" />
+		<property name="successView" value="redirect:InvoiceList.do?fkprm=true" />
+		<property name="errorView" value="redirect:InvoiceList.do?fkprm=true" />
+	</bean>
+
+	<!-- view invoice -->
+	<bean name="/InvoiceView.do" parent="InvoiceController">
+		<property name="method" value="invoiceView" />
+		<property name="successView" value="InvoiceView.screen" />
+	</bean>
+
+	<!-- pair worklog and invoice -->
+	<bean name="/WorklogInvoicePair.do" class="cz.softinel.retra.worklog.web.WorklogInvoicePairController" parent="WizardFormController">
+		<property name="worklogLogic" ref="worklogLogic" />
+		<property name="activityLogic" ref="activityLogic" />
+		<property name="projectLogic" ref="projectLogic" />
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="commandName" value="form"/>
+		<property name="pages">
+			<list>
+				<value>WorklogInvoicePairFilter.screen</value>
+				<value>WorklogInvoicePairConfirm.screen</value>
+			</list>
+		</property>
+		<property name="successView" value="redirect:InvoiceList.do?fkprm=true"/>
+		<property name="cancelView" value="redirect:InvoiceList.do?fkprm=true"/>
+	</bean>
+
+	<!-- ============== -->
+	<!-- Schedule Management -->
+	<!-- ============== -->
+
+	<!-- Schedule controllers  -->
+	<bean id="ScheduleController" class="cz.softinel.retra.schedule.web.ScheduleController" abstract="true" parent="DispatchController">
+		<property name="scheduleLogic" ref="scheduleLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="typeLogic" ref="typeLogic" />
+	</bean>
+	<bean name="ScheduleFormController" class="cz.softinel.retra.schedule.web.AbstractScheduleFormController" abstract="true" parent="FormController">
+		<property name="scheduleLogic" ref="scheduleLogic" />
+		<property name="typeLogic" ref="typeLogic" />
+		<property name="commandClass" value="cz.softinel.retra.schedule.web.ScheduleForm" />
+		<property name="commandName" value="scheduleForm" />
+		<property name="successView" value="redirect:ScheduleList.do?fkprm=true" />
+		<property name="cancelView" value="redirect:ScheduleList.do?fkprm=true" />
+		<property name="errorView" value="redirect:ScheduleList.do?fkprm=true" />
+		<property name="cookieHelper" ref="scheduleCookieHelper" />
+	</bean>
+	<!-- bean id="scheduleFilter" class="cz.softinel.retra.schedule.dao.ScheduleFilter">
+	</bean-->
+	<bean id="scheduleCookieHelper" class="cz.softinel.retra.schedule.web.ScheduleCookieHelper">
+	</bean>
+	<bean id="scheduleValidator" class="cz.softinel.retra.schedule.web.ScheduleValidator">
+	</bean>
+	<bean id="scheduleCopyValidator" class="cz.softinel.retra.schedule.web.ScheduleCopyValidator">
+	</bean>
+
+	<!-- show schedule -->
+	<bean name="/ScheduleList.do" parent="ScheduleController">
+		<property name="method" value="scheduleList" />
+		<!-- property name="filter" ref="scheduleFilter" /-->
+		<property name="successView" value="ScheduleList.screen" />
+	</bean>
+
+	<!-- show schedule overview -->
+	<bean name="/ScheduleOverviewList.do" parent="ScheduleController">
+		<property name="method" value="scheduleOverviewList" />
+		<!-- property name="filter" ref="scheduleFilter" /-->
+		<property name="successView" value="ScheduleOverviewList.screen" />
+	</bean>
+
+	<!-- create schedule -->
+	<bean name="/ScheduleCreate.do" class="cz.softinel.retra.schedule.web.ScheduleCreateController" parent="ScheduleFormController">
+		<property name="formView" value="ScheduleCreate.screen" />
+		<property name="saveAndAddView" value="redirect:ScheduleCreate.do?fkprm=true" />
+		<property name="validator" ref="scheduleValidator" />
+	</bean>
+
+	
+	<!-- schedule update -->
+	<bean name="/ScheduleEdit.do" class="cz.softinel.retra.schedule.web.ScheduleUpdateController" parent="ScheduleFormController">
+		<property name="formView" value="ScheduleEdit.screen" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="scheduleValidator" />
+	</bean>
+
+	<!-- delete schedule -->
+	<bean name="/ScheduleDelete.do" parent="ScheduleController">
+		<property name="method" value="scheduleDelete" />
+		<property name="successView" value="redirect:ScheduleList.do?fkprm=true" />
+		<property name="errorView" value="redirect:ScheduleList.do?fkprm=true" />
+	</bean>
+
+
+	<!-- view schedule -->
+	<bean name="/ScheduleView.do" parent="ScheduleController">
+		<property name="method" value="scheduleView" />
+		<property name="successView" value="ScheduleView.screen" />
+	</bean>
+
+	<!-- schedule copy -->
+	<bean name="/ScheduleCopy.do" class="cz.softinel.retra.schedule.web.ScheduleCopyController" parent="ScheduleFormController">
+		<property name="formView" value="ScheduleCopy.screen" />
+		<property name="bindOnNewForm" value="true" />
+		<property name="validator" ref="scheduleCopyValidator" />
+	</bean>
+
+	<!-- ========== -->
+	<!-- Help actions -->
+	<!-- ========== -->
+
+	<!-- Help controller -->
+	<bean id="HelpController" class="cz.softinel.retra.core.system.web.HelpController" abstract="true" parent="DispatchController" />
+
+	<!-- print help -->
+	<bean name="/HelpPrint.do" parent="HelpController">
+		<property name="method" value="helpPrint" />
+		<property name="successView" value="/HelpPrint.screen" />
+	</bean>
+	
+	<!-- worklog import help -->
+	<bean name="/HelpWorklogImport.do" parent="HelpController">
+		<property name="method" value="helpImportWorklog" />
+		<property name="successView" value="/WorklogImportHelp.screen" />
+	</bean>
+	
+	<!-- copy schedule help -->
+	<bean name="/HelpCopySchedule.do" parent="HelpController">
+		<property name="method" value="helpCopySchedule" />
+		<property name="successView" value="/HelpCopySchedule.screen" />
+	</bean>
+	
+</beans>

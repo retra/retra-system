@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.sis.user.User" table="sis10user">
+		<cache usage="nonstrict-read-write" />
+		<id name="pk" column="sis10pk" type="long">
+			<generator class="native" />
+		</id>
+
+		<many-to-one name="contactInfo" class="cz.softinel.sis.contactinfo.ContactInfo" column="sis12pk" 
+			cascade="all" unique="true" lazy="false" not-null="true" fetch="join"/>
+
+		<many-to-one name="personalRole" class="cz.softinel.sis.role.Role" column="sis13pk" 
+			cascade="all" unique="true" not-null="true" lazy="false" fetch="join"/>
+
+		<one-to-one name="login" class="cz.softinel.sis.login.Login" property-ref="user" lazy="false" fetch="join" />
+		
+	</class>
+
+</hibernate-mapping>

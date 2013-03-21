@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.worklog.Worklog" table="mir10worklog">
+		<cache usage="read-write" />
+		<id name="pk" column="mir10pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="workFrom" not-null="true" column="mir10from" />
+		<property name="workTo" not-null="true" column="mir10to" />
+		<property name="description" not-null="true" column="mir10description"/>
+
+		<many-to-one class="cz.softinel.retra.employee.Employee" name="employee"
+			column="sis10pk" not-null="true" cascade="none" lazy="false" fetch="join"/>
+
+		<many-to-one class="cz.softinel.retra.activity.Activity" name="activity"
+			column="mir03pk" not-null="true" cascade="none" lazy="false" fetch="join"/>
+
+		<many-to-one class="cz.softinel.retra.project.Project" name="project"
+			column="mir01pk" not-null="true" cascade="none" lazy="false" fetch="join" />
+			
+		<many-to-one class="cz.softinel.retra.component.Component" name="component"
+			column="mir12pk" not-null="false" cascade="none" lazy="false" fetch="join"/>
+
+		<many-to-one class="cz.softinel.retra.invoice.Invoice" name="invoice"
+			column="mir15pk" not-null="false" cascade="none" lazy="false" fetch="join"/>
+
+		<set name="issueTrackingWorklogs" inverse="true" lazy="true" cascade="save-update" order-by="mir14pk"  fetch="join">
+			<key column="mir10pk" not-null="false"/>
+			<one-to-many class="cz.softinel.retra.jiraintegration.worklog.JiraWorklog"/>
+		</set>			
+	</class>
+
+	<query name="Worklog.selectForEmployee">
+		<![CDATA[
+			select
+				worklog 
+			from
+				Worklog as worklog
+				left join fetch worklog.project
+				left join fetch worklog.component
+				left join fetch worklog.activity
+				left join fetch worklog.employee
+				left join fetch worklog.employee.user
+				left join fetch worklog.employee.user.login
+				left join fetch worklog.employee.user.contactInfo
+				left join fetch worklog.employee.user.personalRole
+			where
+				worklog.employee.pk=:pk
+			order by
+				worklog.workFrom, worklog.project, worklog.component, worklog.activity
+		]]>
+	</query>
+
+	<query name="Worklog.selectForInvoice">
+		<![CDATA[
+			select
+				worklog 
+			from
+				Worklog as worklog
+				left join fetch worklog.project
+				left join fetch worklog.component
+				left join fetch worklog.activity
+				left join fetch worklog.invoice
+				left join fetch worklog.employee
+				left join fetch worklog.employee.user
+				left join fetch worklog.employee.user.login
+				left join fetch worklog.employee.user.contactInfo
+				left join fetch worklog.employee.user.personalRole
+			where
+				worklog.invoice.pk=:pk
+			order by
+				worklog.workFrom, worklog.project, worklog.component, worklog.activity
+		]]>
+	</query>
+
+	<query name="Worklog.selectForEmployeeInPeriod">
+		<![CDATA[
+			select
+				worklog
+			from
+				Worklog as worklog
+				left join fetch worklog.employee
+				left join fetch worklog.employee.user
+				left join fetch worklog.employee.user.login
+				left join fetch worklog.employee.user.contactInfo
+				left join fetch worklog.employee.user.personalRole
+			where
+				worklog.employee.user.pk=:employeePk
+				and	(
+					(worklog.workFrom>=:dateFrom and worklog.workFrom<=:dateTo)
+					or (worklog.workTo>=:dateFrom and worklog.workTo<=:dateTo)
+					or (worklog.workFrom<=:dateFrom and worklog.workTo>=:dateTo)
+				)
+		]]>
+	</query>
+
+	<query name="Worklog.selectForEmployeeInPeriodExclude">
+		<![CDATA[
+			select
+				worklog
+			from
+				Worklog as worklog
+				left join fetch worklog.employee
+				left join fetch worklog.employee.user
+				left join fetch worklog.employee.user.login
+				left join fetch worklog.employee.user.contactInfo
+				left join fetch worklog.employee.user.personalRole
+			where
+				worklog.employee.user.pk=:employeePk
+				and (
+					(worklog.workFrom>:dateFrom and worklog.workFrom<:dateTo)
+					or (worklog.workTo>:dateFrom and worklog.workTo<:dateTo)
+					or (worklog.workFrom<=:dateFrom and worklog.workTo>=:dateTo)
+				)
+		]]>
+	</query>
+
+</hibernate-mapping>

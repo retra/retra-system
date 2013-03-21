@@ -1,0 +1,15 @@
+table.TimeSelectorTable {
+	background-color: #ffffdf;
+	color: #ffffff;
+}
+
+td.TimeSelectorCell, th.TimeSelectorCell {
+	text-align: center; 
+	vertical-align: middle; 
+	background-color: #00253f;
+	width:40px;
+}
+
+td.TimeSelectorCell:hover {
+	background-color: #edd72f;
+}

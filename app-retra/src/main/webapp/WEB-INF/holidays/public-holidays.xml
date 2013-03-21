@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE holidays SYSTEM "holidays.dtd">
+
+<holidays country="CZ">
+
+	<item name="New Year" key="holidays.newYear">
+		<term date="1.1." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Work Celebration" key="holidays.workCelebration">
+		<term date="1.5." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Nacism End" key="holidays.nacismEnd">
+		<term date="8.5." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Cyril and Metoděj" key="holidays.cyrilAndMetodej">
+		<term date="5.7." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Jan Hus" key="hoilydays.janHus">
+		<term date="6.7." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Day of Czech nationhood" key="holidays.newYear">
+		<term date="28.9." validFrom="1.1.2000" validTo="1.1.9999" />
+	</item>
+
+	<item name="Day of Czech land origin" key="holidays.newYear">
+		<term date="28.10." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+	
+	<item name="Day of fight for freedom" key="holidays.fightForFreedom">
+		<term date="17.11." validFrom="1.1.1990" validTo="1.1.9999" />
+	</item>
+
+	<item name="Christmas Eve" key="holidays.christmas">
+		<term date="24.12." validFrom="1.1.1970" validTo="1.1.9999" />
+		<term date="25.12." validFrom="1.1.1970" validTo="1.1.9999" />
+		<term date="26.12." validFrom="1.1.1970" validTo="1.1.9999" />
+	</item>
+
+	<item name="Easter" key="holidays.easter">
+		<term date="23.4." validFrom="1.1.2000" validTo="31.12.2000" />
+		<term date="24.4." validFrom="1.1.2000" validTo="31.12.2000" />
+		<term date="15.4." validFrom="1.1.2001" validTo="31.12.2001" />
+		<term date="16.4." validFrom="1.1.2001" validTo="31.12.2001" />
+		<term date="31.3." validFrom="1.1.2002" validTo="31.12.2002" />
+		<term date="1.4." validFrom="1.1.2002" validTo="31.12.2002" />
+		<term date="20.4." validFrom="1.1.2003" validTo="31.12.2003" />
+		<term date="21.4." validFrom="1.1.2003" validTo="31.12.2003" />
+		<term date="11.4." validFrom="1.1.2004" validTo="31.12.2004" />
+		<term date="12.4." validFrom="1.1.2004" validTo="31.12.2004" />
+		<term date="27.3." validFrom="1.1.2005" validTo="31.12.2005" />
+		<term date="28.3." validFrom="1.1.2005" validTo="31.12.2005" />
+		<term date="16.4." validFrom="1.1.2006" validTo="31.12.2006" />
+		<term date="17.4." validFrom="1.1.2006" validTo="31.12.2006" />
+		<term date="8.4." validFrom="1.1.2007" validTo="31.12.2007" />
+		<term date="9.4." validFrom="1.1.2007" validTo="31.12.2007" />
+		<term date="23.3." validFrom="1.1.2008" validTo="31.12.2008" />
+		<term date="24.3." validFrom="1.1.2008" validTo="31.12.2008" />
+		<term date="12.4." validFrom="1.1.2009" validTo="31.12.2009" />
+		<term date="13.4." validFrom="1.1.2009" validTo="31.12.2009" />
+		<term date="4.4." validFrom="1.1.2010" validTo="31.12.2010" />
+		<term date="5.4." validFrom="1.1.2010" validTo="31.12.2010" />
+		<term date="24.4." validFrom="1.1.2011" validTo="31.12.2011" />
+		<term date="25.4." validFrom="1.1.2011" validTo="31.12.2011" />
+		<term date="8.4." validFrom="1.1.2012" validTo="31.12.2012" />
+		<term date="9.4." validFrom="1.1.2012" validTo="31.12.2012" />
+		<term date="31.3." validFrom="1.1.2013" validTo="31.12.2013" />
+		<term date="1.4." validFrom="1.1.2013" validTo="31.12.2013" />
+		<term date="20.4." validFrom="1.1.2014" validTo="31.12.2014" />
+		<term date="21.4." validFrom="1.1.2014" validTo="31.12.2014" />
+		<term date="5.4." validFrom="1.1.2015" validTo="31.12.2015" />
+		<term date="6.4." validFrom="1.1.2015" validTo="31.12.2015" />
+		<term date="27.3." validFrom="1.1.2016" validTo="31.12.2016" />
+		<term date="28.3." validFrom="1.1.2016" validTo="31.12.2016" />
+		<term date="16.4." validFrom="1.1.2017" validTo="31.12.2017" />
+		<term date="17.4." validFrom="1.1.2017" validTo="31.12.2017" />
+		<term date="1.4." validFrom="1.1.2018" validTo="31.12.2018" />
+		<term date="2.4." validFrom="1.1.2018" validTo="31.12.2018" />
+		<term date="21.4." validFrom="1.1.2019" validTo="31.12.2019" />
+		<term date="22.4." validFrom="1.1.2019" validTo="31.12.2019" />
+		<term date="12.4." validFrom="1.1.2020" validTo="31.12.2020" />
+		<term date="13.4." validFrom="1.1.2020" validTo="31.12.2020" />
+	</item>
+
+</holidays>

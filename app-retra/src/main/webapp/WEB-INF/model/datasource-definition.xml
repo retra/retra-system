@@ -1,0 +1,63 @@
+<data-source name="miraDataSource">
+
+	<table-db-info name="sys00info">
+		<column-name name="" />
+	</table-db-info>
+	
+	<table-change-log name="sys00changelog">
+		<column-name name="sys00name"/>
+		<column-status name="sys00status"/>
+		<column-result name="sys00result"/>
+	</table-change-log>
+	
+	<changes>
+	
+		<change version="DB01" name="ModelChange0002">
+			<prerequisite-change name="ModelChange0001" />
+			<sql-commands dialect="MySQL">
+			</sql-commands>
+			<sql-commands dialect="SyBase">
+			</sql-commands>
+		</change>
+
+		<change version="DB01" name="ModelChange0002">
+			<prerequisite-change name="ModelChange0001" />
+			<sql-commands dialect="MySQL">
+			</sql-commands>
+			<sql-commands dialect="SyBase">
+			</sql-commands>
+		</change>
+
+		<change version="DB01" name="ModelChange0001">
+			<prerequisite-change name="InitialScript" />
+			<sql-commands>
+			
+			</sql-commands>
+		</change>
+
+		<change version="DB01" name="InitialScript">
+			<sql-commands file="DB01_InitialScript.sql" />
+		</change>
+
+	</changes>	
+	
+
+	<current-definition version="DB1-00-001" />
+	
+	<definition version="DB1-00-001">
+		<name>Model Change</name>
+		<description>Added entity for type</description>
+		<update-script prerequisite-version="1-00-000">
+		</update-script>
+	</definition>
+
+	<definition version="1-00-000">
+		<name>Initial Vesion</name>
+		<description>First initial version</description>
+		<create-script file="" />
+		<update-script file="" dialect="" />
+	</definition>
+	
+</data-source>
+
+

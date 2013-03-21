@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.employee.Employee" table="mir04employee">
+		<cache usage="read-write" />	
+		<id name="pk" column="sis10pk" type="long" />
+
+		<one-to-one name="user" class="cz.softinel.sis.user.User" fetch="join" lazy="false" />
+		
+		<!-- many-to-one name="user" class="cz.softinel.sis.user.User" column="sis10pk" 
+			cascade="all" unique="true" not-null="true" lazy="false" insert="false" update="false"/ -->
+
+	<set name="projects" table="mir13link_employee_project" lazy="true" fetch="join">
+		<key column="sis10pk"/>
+		<many-to-many class="cz.softinel.retra.project.Project" column="mir01pk" fetch="join"/>
+	</set>			
+
+	</class>
+	
+	<query name="Employee.findAllFetch">
+		<![CDATA[
+			select employee
+			from Employee as employee
+				left join fetch employee.user user
+				left join fetch user.contactInfo contactInfo
+				left join fetch user.personalRole personalRole
+				left join fetch user.login login
+				order by employee.user.contactInfo.lastName, employee.user.contactInfo.firstName asc
+		]]>
+		<!-- 
+				order by employee.user.contactInfo.firstName, employee.user.contactInfo.lastName asc
+		 -->
+	</query>
+
+</hibernate-mapping>

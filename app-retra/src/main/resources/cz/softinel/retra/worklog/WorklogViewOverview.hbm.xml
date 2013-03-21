@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!-- TODO: howto map (nice) view in hibernate - we do not have no pk -->
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.worklog.WorklogViewOverview" table="mirv01worklogoverview" >
+		<cache usage="read-only" />
+		<composite-id>
+			<key-property name="date" column="mirv01date" />
+
+			<key-many-to-one class="cz.softinel.retra.employee.Employee" name="employee"
+				column="sis10pk" lazy="false"/>
+
+			<key-many-to-one class="cz.softinel.retra.activity.Activity" name="activity"
+				column="mir03pk" lazy="false"/>
+
+			<key-many-to-one class="cz.softinel.retra.project.Project" name="project"
+				column="mir01pk" lazy="false"/>
+				
+			<key-many-to-one class="cz.softinel.retra.component.Component" name="component"
+				column="mir12pk" lazy="false"/>
+				
+		</composite-id>
+
+		<property name="hours" not-null="true" column="mirv01hours" />
+	</class>
+
+</hibernate-mapping>

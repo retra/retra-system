@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!--
+	Configuration file for configuring the classes needed for the Jira integration.
+-->
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>${retra.config.location}retra.properties</value>
+			</list>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	</bean>
+		
+	<!-- The jobs, which are executed are in this class. -->
+	<bean id="jiraIntegrationJobs" class="cz.softinel.retra.jiraintegration.JiraIntegrationJobs">
+		<property name="jiraIntegrationAllowed" value="${jira.integration.enabled}"/>
+		<property name="jiraSoapClient" ref="jiraSoapClient" />
+	</bean>
+	
+	<bean id="marshaller" class="cz.softinel.retra.jiraintegration.soap.JiraSoapClientMarshaller">
+		<constructor-arg value="${jira.soapservice.soapDateFormat}" />
+	</bean>
+	
+	<!-- SOAP client for the jira integration jobs. Implements the Jira SOAP API. -->
+	<bean id="jiraSoapClient" class="cz.softinel.retra.jiraintegration.soap.JiraSoapClientImpl">
+		<constructor-arg value="${jira.soapservice.address}" />
+		<constructor-arg ref="marshaller" />
+		<property name="jiraMasterPassword" value="${jira.soapservice.masterpass}" />
+		<property name="jiraWorklogLogic" ref="jiraWorklogLogic"/>
+		<property name="useLdapLogin" value="${jira.integration.useLdapForJira}" />
+	</bean>
+	
+	<!-- JiraWorklogAdder JobScheduler and JobClass -->
+	<bean id="jiraJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+	  <property name="targetObject" ref="jiraIntegrationJobs" />
+	  <property name="targetMethod" value="executeJobs" />
+	</bean>
+	
+	<!-- Cron runner class for the job. -->
+	<bean id="jiraWorklogAdderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jiraJob" />
+        <property name="cronExpression" value="${jira.integration.cron}" /> 
+	</bean>
+	
+	<!-- Cron scheduler factory. -->
+	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="jiraWorklogAdderCronTrigger"/>
+			</list>
+		</property>
+	</bean>
+</beans>
+		

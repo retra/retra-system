@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.sis.role.Role" table="sis13role">
+		<cache usage="read-only" />
+		<id name="pk" column="sis13pk" type="long" >
+			<generator class="native" />
+		</id>
+
+		<property name="id" column="sis13id" length="60" not-null="true" type="string" />
+		<property name="name" column="sis13name" length="250" not-null="true" type="string" />
+		<property name="description" column="sis13description" not-null="false" type="string" />
+		
+	</class>
+
+</hibernate-mapping>

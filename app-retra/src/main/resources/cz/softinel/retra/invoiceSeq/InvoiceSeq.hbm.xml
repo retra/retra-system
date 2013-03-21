@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.invoiceseq.InvoiceSeq" table="mir16invoiceseq">
+		<id name="pk" column="mir16pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="code" not-null="true" column="mir16code" />
+		<property name="name" not-null="true" column="mir16name" />
+		<property name="pattern" column="mir16pattern" />
+
+		<property name="sequence" not-null="true" column="mir16sequence" />
+
+		<property name="state" not-null="true" column="mir16state" />
+
+		<property name="step" not-null="true" column="mir16step" />
+	</class>
+
+	<query name="InvoiceSeq.selectAllWithStates">
+		<![CDATA[
+			select
+				invoiceSeq
+			from
+				InvoiceSeq as invoiceSeq
+			where
+				invoiceSeq.state in (:states)
+		]]>
+	</query>
+
+</hibernate-mapping>

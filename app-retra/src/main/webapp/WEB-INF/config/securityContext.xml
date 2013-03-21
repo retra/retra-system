@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Spring beans definitions for the security across whole application.
+-->
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- 
+				 -->
+				<value>${retra.config.location}retra.properties</value>
+				<value>${retra.config.location}ldap.properties</value>
+			</list>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	</bean>
+
+	<bean id="securityLogic" class="cz.softinel.retra.security.blo.MiraSecurityLogicImpl">
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="loginLogic" ref="loginLogic" />
+	</bean>
+	
+	<bean id="ldapUserDetailsService" class="cz.softinel.sis.login.ldap.LdapUserDetailsService">
+		<property name="ldapTemplate" ref="ldapTemplate"/>
+		<property name="dnBase"><value>${ldap.users.userBaseDn}</value></property>
+		<property name="filterBase"><value>${ldap.users.userFilter}</value></property>
+	</bean>
+	
+	<bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+    	<constructor-arg ref="contextSource" />
+   	</bean>
+   	
+   	<bean id="contextSource" class="org.springframework.ldap.core.support.DirContextSource">
+		<property name="urls">
+      		<list>
+      			<value>${ldap.server1.url}</value>
+				<value>${ldap.server2.url}</value>
+				<value>${ldap.server3.url}</value>
+				<value>${ldap.server4.url}</value>
+      		</list>
+		</property>
+		<property name="userDn" value="${ldap.server.userDn}"/>
+		<property name="password" value="${ldap.server.password}"/>
+		<property name="referral" value="${ldap.server.referral}"/>
+    </bean>
+
+</beans>

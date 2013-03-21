@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.component.Component" table="mir12component">
+		<cache usage="nonstrict-read-write"/>
+		<id name="pk" column="mir12pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="code" not-null="true" column="mir12code" />
+		<property name="name" not-null="true" column="mir12name" />
+
+		<many-to-one class="cz.softinel.retra.project.Project" name="project"
+			column="mir12projectPk" lazy="no-proxy" fetch="join"/>
+
+		<property name="state" not-null="true" column="mir12state" />			
+	</class>
+
+	<query name="Component.selectAllWithoutStates">
+		<![CDATA[
+			select
+				component
+			from
+				Component as component
+			where
+				component.state not in (:states)
+		]]>
+	</query>
+	
+	<query name="Component.selectComponentsWithCode">
+		<![CDATA[
+			select
+				component
+			from
+				Component as component
+			where
+				component.code like :code
+		]]>
+	</query>	
+
+</hibernate-mapping>

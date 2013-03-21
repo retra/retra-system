@@ -1,0 +1,16 @@
+
+
+table.TimeSelectorTable {
+	background-color: #ff8000;
+}
+
+td.TimeSelectorCell, th.TimeSelectorCell {
+	text-align: center; 
+	vertical-align: middle; 
+	background-color: #ffffaa;
+	width:40px;
+}
+
+td.TimeSelectorCell:hover {
+	background-color: #ff8000;
+}

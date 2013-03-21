@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.sis.login.Login" table="sis11login">
+		<cache usage="nonstrict-read-write"/>
+		<id name="pk" column="sis11pk" type="long" >
+			<generator class="native" />
+		</id>
+		
+		<property name="name" column="sis11name" length="60" not-null="true" type="string" />
+		<property name="ldapLogin" column="sis11ldaplogin" length="60" not-null="false" type="string" unique="true"/>
+		<property name="password" column="sis11password" length="60" not-null="false" type="string" />
+		<property name="permanentPassword" column="sis11permanentPassword" length="250" not-null="false" type="string" />
+		<property name="state" column="sis11state" not-null="true" type="int" />
+
+		<many-to-one name="user" class="cz.softinel.sis.user.User" column="sis10pk" 
+			cascade="all" unique="true" not-null="true" lazy="no-proxy" fetch="join"/>
+
+	</class>
+	
+	<query name="Login.getByName">
+		<![CDATA[
+			select login
+			from Login as login
+				left join fetch login.user
+				left join fetch login.user.contactInfo
+				left join fetch login.user.personalRole
+			where login.name = :name
+		]]>
+	</query>
+	
+	<query name="checkUsernameExists">
+		<![CDATA[
+			select login
+			from Login as login
+			where login.name = :username
+		]]>
+	</query>
+	
+	<query name="Login.getByLdapLogin">
+		<![CDATA[
+			select login
+			from Login as login
+				left join fetch login.user
+				left join fetch login.user.contactInfo
+				left join fetch login.user.personalRole
+			where login.ldapLogin = :ldapLogin
+		]]>
+	</query>
+	
+	<query name="checkLdapLoginExists">
+		<![CDATA[
+			select login
+			from Login as login
+			where login.ldapLogin = :ldapLogin
+		]]>
+	</query>
+
+	<query name="Login.getByPermanentPassword">
+		<![CDATA[
+			select login
+			from Login as login
+				left join fetch login.user
+				left join fetch login.user.contactInfo
+				left join fetch login.user.personalRole
+			where login.permanentPassword = :permanentPassword
+		]]>
+	</query>
+
+</hibernate-mapping>

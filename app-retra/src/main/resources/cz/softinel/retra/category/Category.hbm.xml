@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.category.Category" table="mir17category">
+		<cache usage="read-only"/>
+		<id name="pk" column="mir17pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="code" not-null="true" column="mir17code" />
+		<property name="name" not-null="true" column="mir17name" />
+		<property name="description" column="mir17description" />
+
+		<property name="state" not-null="true" column="mir17state" />
+	</class>
+
+	<query name="Category.selectAllWithoutStates">
+		<![CDATA[
+			select
+				category
+			from
+				Category as category
+			where
+				category.state not in (:states)
+		]]>
+	</query>
+
+</hibernate-mapping>

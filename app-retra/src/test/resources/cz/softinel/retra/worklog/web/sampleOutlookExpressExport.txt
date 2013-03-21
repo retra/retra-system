@@ -1,0 +1,67 @@
+Subject	Start Date	Start Time	End Date	End Time
+Status meeting Datel	1.11.2007	9:00:00	1.11.2007	9:15:00
+"typova operace zmena cvz, editing typova operace"	1.11.2007	8:10:00	1.11.2007	9:00:00
+"typova operace zmena cvz, editing typova operace"	1.11.2007	9:15:00	1.11.2007	12:30:00
+Lunch break	1.11.2007	12:30:00	1.11.2007	13:00:00
+"Typova operace cerpani -fixing bug, working on zmena cvz - editing, insertin new ones"	1.11.2007	13:00:00	1.11.2007	17:45:00
+Typova operace zmen cvz - editing existing values	2.11.2007	8:30:00	2.11.2007	11:45:00
+Lunch break	2.11.2007	11:45:00	2.11.2007	12:20:00
+fixing bugs on typova operace cerpani. Working on zmena CVZ and Protokol subform	2.11.2007	12:20:00	2.11.2007	16:00:00
+typova operace zmena CVZ - editing existing values. Working on kauza details form - fixing bug 3751	5.11.2007	8:20:00	5.11.2007	12:15:00
+Lunch break	5.11.2007	12:15:00	5.11.2007	12:45:00
+"bug 3751, 3763. Zmena CVZ"	5.11.2007	12:45:00	5.11.2007	17:15:00
+"zmena CVZ - database, struts actions, fixing bug 3765"	6.11.2007	8:05:00	6.11.2007	11:00:00
+Lunch break	6.11.2007	11:00:00	6.11.2007	12:00:00
+fixing bugs 3769 and 3770. Implementing reporting  functionality on kauza detail screen (as part of 3768 bug)	6.11.2007	12:00:00	6.11.2007	16:00:00
+zmena cvz - ulozit a dalsi functionality	6.11.2007	16:00:00	6.11.2007	17:00:00
+"fixing bugs 3775, 3776. Mapping data for zmena cvz subforms (odhad, ocena, jinak) to database and working on appropriate conversion methods."	7.11.2007	8:20:00	7.11.2007	16:30:00
+Status meeting Datel	8.11.2007	9:00:00	8.11.2007	9:15:00
+"Working on bugs 3780, 3779, 3778"	8.11.2007	8:20:00	8.11.2007	9:00:00
+"Working on bugs 3780, 3779, 3778"	8.11.2007	9:15:00	8.11.2007	10:15:00
+"zmena CVZ, subforms, mapping to database, testing"	8.11.2007	10:15:00	8.11.2007	12:40:00
+Lunch break	8.11.2007	12:40:00	8.11.2007	13:10:00
+"zmena CVZ, subforms, mapping to database, testing"	8.11.2007	13:10:00	8.11.2007	16:45:00
+"working on bug 3780, working on zmena CVZ subforms, checking what's missing, what's not mapped to database, fixing bad mappings, working on editing data"	9.11.2007	8:15:00	9.11.2007	15:50:00
+"zmena CVZ - working on odhad, oceneni, protokol  data mapping to database. Fixing bugs found while testing. Fixed selecting zmena cvz list on kauza detail page (documentation was changed also)"	12.11.2007	8:20:00	12.11.2007	9:00:00
+"zmena CVZ - working on odhad, oceneni, protokol  data mapping to database. Fixing bugs found while testing. Fixed selecting zmena cvz list on kauza detail page (documentation was changed also)"	12.11.2007	9:15:00	12.11.2007	16:15:00
+Status meeting Datel	12.11.2007	9:00:00	12.11.2007	9:15:00
+"working on zmena CVZ - subforms, enabling, disabling UI based on user input. Checking mapping of data to database columns."	13.11.2007	8:15:00	13.11.2007	11:15:00
+Lunch break	13.11.2007	11:15:00	13.11.2007	11:35:00
+"zmena CVZ, adding changes required by mr Tomas. Fixing JSPs and Struts actions. Cleaning up code."	13.11.2007	11:35:00	13.11.2007	16:50:00
+"zmena cvz, testing and fixing bugs. Working on bug 3788"	14.11.2007	8:20:00	14.11.2007	12:30:00
+working on bug 3788 - trying to solve problem with select boxes and popups in IE. Refactoring code and testing zmena cvz	14.11.2007	12:55:00	14.11.2007	17:00:00
+Lunch break	14.11.2007	12:30:00	14.11.2007	12:55:00
+"working on locking and unlocking kauza record on typova operace cerpani. Fixing bugs 3793, 3794, 3795"	15.11.2007	8:20:00	15.11.2007	9:00:00
+"working on locking and unlocking kauza record on typova operace cerpani. Fixing bugs 3793, 3794, 3795"	15.11.2007	9:15:00	15.11.2007	12:40:00
+Status meeting Datel	15.11.2007	9:00:00	15.11.2007	9:15:00
+Lunch break	15.11.2007	12:40:00	15.11.2007	13:10:00
+"working on bugs 3797, 3796, 3800, 3792. working on kauza locking and unlocking on zmena cvz."	15.11.2007	13:10:00	15.11.2007	17:25:00
+Status meeting Datel	20.11.2007	14:00:00	20.11.2007	14:15:00
+working on rozpad ucetni operace functionality	16.11.2007	8:40:00	16.11.2007	12:30:00
+Lunch break	16.11.2007	12:30:00	16.11.2007	13:00:00
+"working on rozpad ucetni operace functionality, filtering data on vyhledani oceneni - removing duplicates. Cleaning up code"	16.11.2007	13:00:00	16.11.2007	16:30:00
+"working on typovaci misto module, adapting files from datel module. Fixing bugs 3803, 3804, 3806, 3810, 3811, 3805"	19.11.2007	8:15:00	19.11.2007	12:35:00
+Lunch break	19.11.2007	12:35:00	19.11.2007	13:05:00
+"Fixing bugs 3807, 3814, 3815, 3816, 3802"	19.11.2007	13:05:00	19.11.2007	17:30:00
+"fixing bugs  3818, 3820. Working on rozpad ucetni operace"	20.11.2007	8:15:00	20.11.2007	12:20:00
+Lunch break	20.11.2007	12:20:00	20.11.2007	13:00:00
+Meeting regarding user rights functionality	20.11.2007	13:00:00	20.11.2007	14:00:00
+rozpad ucetni operace functionality	20.11.2007	14:15:00	20.11.2007	17:15:00
+"rozpad ucetni operace, fixing bug 3825"	21.11.2007	8:15:00	21.11.2007	12:30:00
+Lunch break	21.11.2007	12:30:00	21.11.2007	13:00:00
+working on typovacimisto module and rozpad ucetni operace. Working on bug 3828	21.11.2007	13:00:00	21.11.2007	17:30:00
+"typovaci misto module, rozpad ucetni operace functionality - testing new queries performance, fixing bugs on zmena cvz screen"	22.11.2007	9:05:00	22.11.2007	12:35:00
+"zmena CVZ, testing validation and fixing problems with messages. Fixing other problems"	22.11.2007	13:00:00	22.11.2007	16:40:00
+"fixing bug 3282, working on protokol subform validation and testing typovaci misto module"	23.11.2007	9:05:00	23.11.2007	12:30:00
+Status meeting Datel	26.11.2007	9:00:00	26.11.2007	9:15:00
+working on typova operace parametri cerpani validation. Testing typovaci misto module. Refactoring code	23.11.2007	13:00:00	23.11.2007	16:35:00
+"fixing bugs 3832, 3833, 3834, 3835, 3836, 3824, 3837, 3838"	26.11.2007	8:20:00	26.11.2007	9:00:00
+"fixing bugs 3832, 3833, 3834, 3835, 3836, 3824, 3837, 3838"	26.11.2007	9:15:00	26.11.2007	12:40:00
+"fixing bugs and changing functionality according to changed documentation (3839, 3840, 3841, 3842, 3843, 3844, 3845)"	26.11.2007	13:05:00	26.11.2007	17:15:00
+"fixing bugs 3853, 3783, 3849, 3850, 3848 (waiting for documentation changes)"	27.11.2007	8:20:00	27.11.2007	12:35:00
+"fixing bugs 3852 (waiting for documentation changes), 3855, 3851, fixing problem with saving oddeleni typove operace state for kauza, 3859"	27.11.2007	13:05:00	27.11.2007	17:15:00
+"fixing bugs 3848, 3860, 3857. Changing oddeleni typove operace so that functionality reflects changes in documentation."	28.11.2007	8:25:00	28.11.2007	12:35:00
+fixing bugs 3847 and 3861	28.11.2007	13:05:00	28.11.2007	17:15:00
+"fixing limity uhrad module - refactoring code, fixing menu on datel and typovaci misto and limity uhrad"	29.11.2007	8:20:00	29.11.2007	12:35:00
+"fixing bugs 3863, 3864, resolving problem with moving individual typove operace to next state and finding why it does not work properly"	29.11.2007	13:05:00	29.11.2007	17:00:00
+"fixing bugs 3819, 3770, 3867, 3865 - refactoring and removing unnecessary code"	30.11.2007	8:20:00	30.11.2007	15:00:00

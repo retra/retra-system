@@ -1,0 +1,17 @@
+<!ELEMENT holidays (item)*>
+<!ATTLIST holidays
+              country CDATA #REQUIRED
+>
+
+<!ELEMENT item (term)*>
+<!ATTLIST item
+              name CDATA #REQUIRED
+              key CDATA #REQUIRED
+>
+
+<!ELEMENT term EMPTY>
+<!ATTLIST term
+              date CDATA #REQUIRED
+              validFrom CDATA #REQUIRED
+              validTo CDATA #REQUIRED
+>

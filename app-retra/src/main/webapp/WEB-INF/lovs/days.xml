@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE lovs SYSTEM "lovs.dtd">
+
+<lovs>
+	<lov code="days" description="All days">
+		<field value="2" key="day.2" />
+		<field value="3" key="day.3" />
+		<field value="4" key="day.4" />
+		<field value="5" key="day.5" />
+		<field value="6" key="day.6" />
+		<field value="7" key="day.7" />
+		<field value="1" key="day.1" />
+	</lov>
+</lovs>

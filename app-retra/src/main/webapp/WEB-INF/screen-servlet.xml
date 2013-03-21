@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans 	xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<!-- get properties from these files and replace all ${} - maybe remove not needed -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>${retra.config.location}retra.properties</value>
+			</list>
+		</property>
+		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+	</bean>
+
+	<!-- main screen bean -->
+	<bean id="ScreenBean" class="cz.softinel.sis.core.ScreenBean">
+		<property name="defaultSkin" value="${retra.default.skin}" />
+		<property name="parameters">
+			<map>
+		    	<entry key="body" value="/WEB-INF/jsp/layout/Empty.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- public screen layout -->
+	<bean name="publicScreen" parent="ScreenBean">
+		<property name="template" value="/WEB-INF/jsp/layout/PublicTemplate.jsp" />
+		<property name="primaryLinks" value="${retra.primary.links.public}" />
+		<property name="parameters">
+			<map>
+			  	<entry key="body" value="/WEB-INF/jsp/layout/Empty.jsp" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="popupScreen" parent="ScreenBean">
+		<property name="template" value="/WEB-INF/jsp/layout/PopupTemplate.jsp" />
+		<property name="parameters">
+			<map>
+			  	<entry key="body" value="/WEB-INF/jsp/layout/Empty.jsp" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- internal screen layout -->
+	<bean name="internalScreen" parent="ScreenBean">
+		<property name="template" value="/WEB-INF/jsp/layout/InternalTemplate.jsp" />
+		<property name="mainMenu" value="/WEB-INF/jsp/menu/MainMenu.jsp" />	
+		<property name="primaryLinks" value="${retra.primary.links.internal}" />
+		<property name="parameters">
+			<map>
+				<entry key="subMenu" value="" />	
+		    	<entry key="body" value="/WEB-INF/jsp/layout/Empty.jsp" />
+			</map>
+		</property>
+	</bean>
+
+	<!-- Retra error screen -->
+	<bean name="/RetraError.screen" parent="publicScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.retraError.name" />
+				<entry key="body" value="/WEB-INF/jsp/system/RetraError.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- dashboard screen -->
+	<bean name="/Dashboard.screen" parent="internalScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.dashboard.name" />
+			  <entry key="body" value="/WEB-INF/jsp/system/Dashboard.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- newsboard screen -->
+	<bean name="/Newsboard.screen" parent="internalScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.newsboard.name" />
+			    <entry key="body" value="/WEB-INF/jsp/system/Newsboard.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- about screen -->
+	<bean name="/About.screen" parent="internalScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.about.name" />
+			    <entry key="body" value="/WEB-INF/jsp/system/About.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	
+	<bean name="/ChangeVisualConfiguration.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/SettingsSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.changeVisualConfiguration.title" />
+			    <entry key="body" value="/WEB-INF/jsp/system/ChangeVisualConfiguration.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+
+	<!-- =============== -->
+	<!-- Employee Management -->
+	<!-- =============== -->
+
+	<!-- employee user management screen -->
+	<bean name="/EmployeeManagement.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/EmployeeSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.employeeUserManagement.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/EmployeeManagement.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/EmployeeView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/EmployeeSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="employeeManagement.view.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/EmployeeView.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/EmployeeCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/EmployeeSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="employeeManagement.create.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/EmployeeCreate.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+	<!-- =============== -->
+	<!-- Project Management -->
+	<!-- =============== -->
+
+	<!-- project management screen -->
+	<bean name="/ProjectManagement.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.projectManagement.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ProjectManagement.jsp"/>
+			</map>
+		</property>
+	</bean>	
+	
+	<!-- project management screen -->
+	<bean name="/ProjectCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.projectCreate.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ProjectCreate.jsp"/>
+			</map>
+		</property>
+	</bean>		
+	
+	<bean name="/ProjectView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.projectView.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ProjectView.jsp"/>
+			</map>
+		</property>
+	</bean>		
+	
+	<bean name="/ProjectEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.projectEdit.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ProjectEdit.jsp"/>
+			</map>
+		</property>
+	</bean>		
+	
+	<bean name="/ProjectManageComponents.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.projectManageComponents.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ProjectManageComponents.jsp"/>
+			</map>
+		</property>
+	</bean>		
+
+	<bean name="/ComponentEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.componentEdit.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ComponentEdit.jsp"/>
+			</map>
+		</property>
+	</bean>	
+	
+	<bean name="/ComponentCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ProjectSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.componentCreate.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/retra/ComponentCreate.jsp"/>
+			</map>
+		</property>
+	</bean>			
+
+	<!-- login screen -->
+	<bean name="/Login.screen" parent="publicScreen">
+		<property name="parameters">
+			<map>
+		    	<entry key="title" value="screen.login.name"/>
+			    <entry key="body" value="/WEB-INF/jsp/system/Login.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- person registration screen -->
+	<bean name="/PersonRegisrationPage.screen" parent="publicScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.personRegistration.name"/>
+				<entry key="body" value="/WEB-INF/jsp/registration/PersonRegistration.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/EmployeeEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/EmployeeSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="employeeManagement.edit.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/EmployeeEdit.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+
+	<!-- =================== -->
+	<!-- Employee Public Management -->
+	<!-- =================== -->
+
+	<bean name="/EmployeeChangePassword.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/SettingsSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="employeeManagement.changePassword.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/EmployeeChangePassword.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/EmployeeChangeContactInfo.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/SettingsSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="employeeManagement.changeContactInfo.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/EmployeeChangeContactInfo.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- =============== -->
+	<!-- Worklog Management -->
+	<!-- =============== -->
+	
+	<!-- worklog list screen -->
+	<bean name="/WorklogDaily.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogDaily.jsp"/>
+				<entry key="requestURI" value="WorklogDaily.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean> 
+
+	<!-- worklog overview screen -->
+	<bean name="/WorklogOverview.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogOverview.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogOverview.jsp"/>
+			</map>
+		</property>
+	</bean> 
+
+	<!-- worklog list screen -->
+	<bean name="/WorklogList.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogList.jsp"/>
+			</map>
+		</property>
+	</bean> 
+
+	<!-- worklog overview screens -->
+	<bean name="/WorklogDailyOverview.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="UC.WorklogDailyOverview.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogDailyOverview.jsp"/>
+			</map>
+		</property>
+	</bean> 
+	<bean name="/WorklogWeeklyOverview.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="UC.WorklogWeeklyOverview.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogWeeklyOverview.jsp"/>
+			</map>
+		</property>
+	</bean> 
+	<bean name="/WorklogMonthlyOverview.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="UC.WorklogMonthlyOverview.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogMonthlyOverview.jsp"/>
+			</map>
+		</property>
+	</bean> 
+	<bean name="/WorklogProjectOverview.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="UC.WorklogProjectOverview.title"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogProjectOverview.jsp"/>
+			</map>
+		</property>
+	</bean> 
+
+	<bean name="/WorklogOverviewList.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogOverviewList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogOverviewList.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogDailyCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogCreate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogCreate.jsp"/>
+				<!--  entry key="hideSaveAndNextButton" value="true"/-->
+				<entry key="requestURI" value="WorklogDailyCreate.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/WorklogCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogCreate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogCreate.jsp"/>
+				<entry key="requestURI" value="WorklogCreate.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogDailyView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogView.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogView.jsp"/>
+				<entry key="requestURI" value="WorklogDaily.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+		
+	<bean name="/WorklogView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogView.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogView.jsp"/>
+				<entry key="requestURI" value="WorklogOverview.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/WorklogDailyEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogEdit.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogEdit.jsp"/>
+				<entry key="requestURI" value="WorklogDailyEdit.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogEdit.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogEdit.jsp"/>
+				<entry key="requestURI" value="WorklogEdit.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogImportFileUpload.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogImport.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogImportFileUpload.jsp"/>
+				<entry key="requestURI" value="WorklogImport.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogImportMapping.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogImport.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogImportMapping.jsp"/>
+				<entry key="requestURI" value="WorklogImport.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogImportConfirm.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/WorklogSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogImport.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogImportConfirm.jsp"/>
+				<entry key="requestURI" value="WorklogImport.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/WorklogImportHelp.screen" parent="popupScreen">
+		<property name="subMenu" value="" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogImportHelp.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogImportHelp.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogInvoicePairFilter.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogInvoicePair.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogInvoicePairFilter.jsp"/>
+				<entry key="requestURI" value="WorklogInvoicePair.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/WorklogInvoicePairConfirm.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogInvoicePair.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/WorklogInvoicePairConfirm.jsp"/>
+				<entry key="requestURI" value="WorklogInvoicePair.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- =============== -->
+	<!-- Invoice Management -->
+	<!-- =============== -->
+	
+	<!-- invoice list screen -->
+	<bean name="/InvoiceList.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceList.jsp"/>
+				<entry key="requestURI" value="InvoiceList.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean> 
+	
+	<bean name="/InvoiceCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceCreate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceCreate.jsp"/>
+				<entry key="requestURI" value="InvoiceCreate.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/InvoiceView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceView.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceView.jsp"/>
+				<entry key="requestURI" value="InvoiceList.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/InvoiceEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceEdit.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceEdit.jsp"/>
+				<entry key="requestURI" value="InvoiceEdit.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- =============== -->
+	<!-- Schedule Management -->
+	<!-- =============== -->
+	
+	<!-- schedule list screen -->
+	<bean name="/ScheduleList.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleList.jsp"/>
+			</map>
+		</property>
+	</bean> 
+
+	<bean name="/ScheduleOverviewList.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleOverviewList.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleOverviewList.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/ScheduleCreate.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleCreate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleCreate.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/ScheduleView.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleView.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleView.jsp"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean name="/ScheduleEdit.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleEdit.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleEdit.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/ScheduleCopy.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/ScheduleSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.scheduleCopy.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/ScheduleCopy.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- =============== -->
+	<!-- Help screens -->
+	<!-- =============== -->
+	
+	<bean name="/HelpPrint.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/HelpSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.helpPrint.name"/>
+				<entry key="body" value="/WEB-INF/jsp/system/HelpPrint.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/HelpCopySchedule.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/HelpSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.helpCopySchedule.name"/>
+				<entry key="body" value="/WEB-INF/jsp/system/HelpCopySchedule.jsp"/>
+			</map>
+		</property>
+	</bean>
+
+</beans>
