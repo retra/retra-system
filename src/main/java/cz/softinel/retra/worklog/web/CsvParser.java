@@ -126,7 +126,6 @@ public class CsvParser extends LineBasedParser {
 		return false;
 	}
 
-	@Override
 	public boolean canSpecifyImportRules() {
 		return false;
 	}

@@ -73,7 +73,7 @@ public class TsvTrackItParser extends LineBasedParser {
 			if (holder!=null) {
 				project=holder.getProject();
 			}
-			Activity activity = activityMapping.get(Long.valueOf(tokens[3]));
+			Activity activity = activityMapping.get(tokens[3]);
 			if (project == null || activity == null) {
 				// item should not be imported
 				return null;

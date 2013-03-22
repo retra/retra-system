@@ -55,7 +55,7 @@ public class TsvTrackItParserTest {
 	@Test
 	public void testParseActivity() {
 		ExternalActivity activity = parser.parseExternalActivity(TEST_LINE);
-		assertEquals(new Long(106), activity.getId());
+		assertEquals("106", activity.getId());
 		assertEquals("Programming", activity.getName());
 	}
 	
@@ -67,11 +67,15 @@ public class TsvTrackItParserTest {
 	@Test
 	public void testParseWorklogItem() {
 		Map<String, ProjectInvoiceHolder> projectMapping = new HashMap<String, ProjectInvoiceHolder>();
-		ProjectInvoiceHolder project = new ProjectInvoiceHolder();
-		projectMapping.put("1017", project);
+		ProjectInvoiceHolder projectInvoice = new ProjectInvoiceHolder();
+		Project project=new Project();
+		project.setCode("1017");
+		projectInvoice.setProject(project);
+		projectMapping.put("1017", projectInvoice);
 		
 		Map<String, Activity> activityMapping = new HashMap<String, Activity>();
 		Activity activity = new Activity();
+		activity.setCode("106");
 		activityMapping.put("106", activity);
 		
 		Worklog worklog = parser.parseWorklogItem(TEST_LINE, projectMapping, activityMapping);

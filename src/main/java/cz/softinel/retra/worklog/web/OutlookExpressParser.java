@@ -259,7 +259,6 @@ public class OutlookExpressParser extends LineBasedParser {
 		return true;
 	}
 
-	@Override
 	public boolean canSpecifyImportRules() {
 		return true;
 	}
