@@ -31,8 +31,21 @@ public class MiraSecurityLogicImpl extends WebSecurityLogicImpl implements MiraS
 	}
 	
 	public MiraSecurityContext getMiraSecurityContext() {
+		if (((MiraSecurityContext)getSecurityContext()).getLoggedEmployee()==null) {
+			((MiraSecurityContext)getSecurityContext()).setLoggedEmployee(getEmployee(getSecurityContext().getLoggedUser()));
+		}
 		return (MiraSecurityContext) getSecurityContext();
 	}
+
+	private Employee getEmployee(User user){
+		if(user == null){
+			return null;
+		}
+		Employee employee = new Employee();
+		employee.setPk(user.getPk());
+		employeeLogic.loadAndLoadLazy(employee);
+		return employee;
+	}	
 	
 	private User loadEmployee(User user){
 		if(user == null){

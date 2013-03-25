@@ -28,6 +28,9 @@ public abstract class WebSecurityLogicImpl extends SecurityLogicImpl implements 
 			// TODO radek: Configure security context implementation by spring
 			securityContext = newSecurityContext();
 			session.setAttribute(SECURITY_CONTEXT_KEY, securityContext);
+			System.out.println("Creating new securityContext");
+		} else {
+			System.out.println("Found security context "+securityContext.getClass());
 		}
 		SecurityContext originalSecurityContext = null;
 		synchronized (storage) {
