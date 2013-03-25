@@ -6,13 +6,15 @@
  */
 package cz.softinel.sis.login;
 
+import java.io.Serializable;
+
 import cz.softinel.sis.user.User;
 
 /**
  * @author Radek Pinc
  *
  */
-public class Login {
+public class Login implements Serializable {
 
 	private Long pk;
 	private String name;

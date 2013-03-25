@@ -1,5 +1,7 @@
 package cz.softinel.uaf.messages;
 
+import java.io.Serializable;
+
 /**
  * Context for holding {@link Messages} object.
  * Use this context to access current messages.
@@ -14,7 +16,7 @@ package cz.softinel.uaf.messages;
  * @see DefaultMessagesContext
  * @see MessagesHolder
  */
-public interface MessagesContext {
+public interface MessagesContext extends Serializable {
 	
 	/**
 	 * Returns current messages.

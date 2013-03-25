@@ -1,5 +1,7 @@
 package cz.softinel.sis.security;
 
+import java.io.Serializable;
+
 import cz.softinel.sis.user.User;
 
 /**
@@ -7,7 +9,7 @@ import cz.softinel.sis.user.User;
  * @author Radek Pinc
  *
  */
-public interface SecurityContext {
+public interface SecurityContext extends Serializable {
 
 	/** Check if user is logged in */
 	public boolean isUserLoggedIn();

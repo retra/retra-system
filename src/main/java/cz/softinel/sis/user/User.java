@@ -6,6 +6,8 @@
  */
 package cz.softinel.sis.user;
 
+import java.io.Serializable;
+
 import cz.softinel.sis.contactinfo.ContactInfo;
 import cz.softinel.sis.login.Login;
 import cz.softinel.sis.role.Role;
@@ -16,7 +18,7 @@ import cz.softinel.sis.role.Role;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class User {
+public class User implements Serializable {
 
 	private Long pk;
 	

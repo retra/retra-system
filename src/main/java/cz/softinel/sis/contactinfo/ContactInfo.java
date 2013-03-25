@@ -6,6 +6,8 @@
  */
 package cz.softinel.sis.contactinfo;
 
+import java.io.Serializable;
+
 
 /**
  * @author Radek Pinc
@@ -13,7 +15,7 @@ package cz.softinel.sis.contactinfo;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class ContactInfo {
+public class ContactInfo implements Serializable {
 
 	private Long pk;
 

@@ -6,13 +6,15 @@
  */
 package cz.softinel.sis.role;
 
+import java.io.Serializable;
+
 /**
  * @author Radek Pinc
  *
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-public class Role {
+public class Role implements Serializable {
 	
 	private Long pk;
 	private String id;
