@@ -2,6 +2,7 @@ package cz.softinel.retra.worklog.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.activity.blo.ActivityLogic;
@@ -168,14 +169,24 @@ public abstract class AbstractWorklogFormController extends FormController {
 		List<Project> projects = null;
 		if (showAll) {
 			//projects = projectLogic.findAllProjects();
-			projects = new ArrayList<Project>(getSecurityLogic().getLoggedEmployee().getProjects());
+			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
 		}
 		else {
 			//projects = projectLogic.findAllNotDeletedProjects();	
-			projects = new ArrayList<Project>(getSecurityLogic().getLoggedEmployee().getProjects());
+			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
 		}
 
 		model.put("projects", projects);
+	}
+	
+	private List<Project> filterActiveProject(Set<Project> projects) {
+		List<Project> filtersList=new ArrayList<Project>();
+		for (Project p:projects) {
+			if (p.getState()==Project.STATE_ACTIVE) {
+				filtersList.add(p);
+			}
+		}
+		return filtersList;
 	}
 	
 	protected void prepareComponents(Model model) {

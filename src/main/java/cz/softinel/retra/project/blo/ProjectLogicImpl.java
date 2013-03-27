@@ -1,5 +1,6 @@
 package cz.softinel.retra.project.blo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -51,6 +52,23 @@ public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic 
 	public List<Project> findAllNotDeletedProjects() {
 		return projectDao.selectAllNotDeleted();
 	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	public List<Project> findAllActiveProjects() {
+		return projectDao.selectByState(Project.STATE_ACTIVE);
+	}
+	
+	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	public List<Project> findAllProjectsInWhichCouldDoWorkLog() {
+		List<Project> projects=projectDao.selectByState(Project.STATE_ACTIVE);
+		List<Project> onlyWhichCouldDoWorkLog=new ArrayList<Project>();
+		for (Project p:projects) {
+			if (Boolean.TRUE.equals(p.getWorkEnabled())) {
+				onlyWhichCouldDoWorkLog.add(p);
+			}
+		}
+		return onlyWhichCouldDoWorkLog;
+	}	
 
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Project> findByFilter(Filter filter) {
@@ -85,4 +103,5 @@ public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic 
 	public void store(Project project) {
 		projectDao.update(project);
 	}
+
 }

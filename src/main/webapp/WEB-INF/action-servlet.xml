@@ -230,6 +230,18 @@
 		<property name="errorView" value="redirect:ProjectManagement.do?fkprm=true" />
 	</bean>
 	
+	<bean name="/ProjectClose.do" parent="ProjectController">
+		<property name="method" value="projectClose" />
+		<property name="successView" value="redirect:ProjectManagement.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManagement.do?fkprm=true" />
+	</bean>
+	
+	<bean name="/ProjectOpen.do" parent="ProjectController">
+		<property name="method" value="projectOpen" />
+		<property name="successView" value="redirect:ProjectManagement.do?fkprm=true" />
+		<property name="errorView" value="redirect:ProjectManagement.do?fkprm=true" />
+	</bean>		
+	
 	<bean name="/ProjectManageComponents.do" class="cz.softinel.retra.project.web.ProjectManageComponentsController" parent="ProjectFormController">
 		<property name="projectLogic" ref="projectLogic" />
 		<property name="formView" value="ProjectManageComponents.screen" />

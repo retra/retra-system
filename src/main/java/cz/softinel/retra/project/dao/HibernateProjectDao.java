@@ -8,6 +8,7 @@ import org.springframework.util.Assert;
 
 import cz.softinel.retra.invoice.dao.InvoiceFilter;
 import cz.softinel.retra.project.Project;
+import cz.softinel.retra.project.blo.ProjectLogicImpl;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
@@ -78,6 +79,19 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Project> selectByState(int state) {
+		Session session = getSession();
+		Query query = session.getNamedQuery("Project.selectAllByState");
+		query.setParameter("state",state);
+		
+		try {
+			return query.list();
+		} finally{
+			releaseSession(session);
+		}
+	}	
+	
 	/**
 	 * @see cz.softinel.retra.project.dao.ProjectDao#load(cz.softinel.retra.project.Project)
 	 */
@@ -144,6 +158,7 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		Long employeePk = FilterHelper.getFieldAsLong(ProjectFilter.PROJECT_FILTER_EMPLOYEE, filter);
 		String code = getLikeValue(FilterHelper.getFieldAsString(ProjectFilter.PROJECT_FILTER_CODE, filter));
 		String name = getLikeValue(FilterHelper.getFieldAsString(ProjectFilter.PROJECT_FILTER_NAME, filter));
+		Long parentPk = FilterHelper.getFieldAsLong(ProjectFilter.PROJECT_FILTER_PARENT, filter);
 		Integer state = FilterHelper.getFieldAsInteger(ProjectFilter.PROJECT_FILTER_STATE, filter); 
 		
 		StringBuffer sb = new StringBuffer();
@@ -164,12 +179,18 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		if (name != null) {
 			sb.append(" and project.name like :name ");
 		}
-
+		if (parentPk != null) {
+			sb.append(" and project.parent.pk = :parentPk");
+		}		
+		
 		Session session = getSession();
 		Query query = session.createQuery(sb.toString());
 		if (employeePk != null && employeePk > 0) {
 			query.setLong("employeePk", employeePk);
 		}
+		if (parentPk != null) {
+			query.setLong("parentPk", parentPk);
+		}		
 		if (state != null && state.intValue() > 0) {
 			query.setInteger("state", state);
 		}

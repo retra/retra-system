@@ -46,6 +46,17 @@
 		]]>
 	</query>
 	
+	<query name="Project.selectAllByState">
+		<![CDATA[
+			select
+				project
+			from
+				Project as project
+			where
+				project.state = :state
+		]]>
+	</query>	
+	
 	<query name="Project.selectAllParentProjects">
 		<![CDATA[
 			select

@@ -74,9 +74,9 @@
 	    <fmt:message key="action.view"/>
     </display:column>
 
-	<display:column media="html" class="action"  headerClass="action" titleKey="projectManagement.create.action">
+	<display:column media="html" class="action"  headerClass="action">
 		<c:choose>
-			<c:when test="${project.state != ENTITY_STATE_DELETED}">
+			<c:when test="${project.state == ENTITY_STATE_ACTIVE}">
 				<a href="ProjectEdit.do?fkprm=true&pk=${project.pk}"><fmt:message key="action.edit"/></a>
 			</c:when>
 			<c:otherwise>
@@ -87,7 +87,22 @@
 
     <display:column media="html" class="action"  headerClass="action" title="">
 		<c:choose>
-			<c:when test="${project.state != ENTITY_STATE_DELETED}">
+			<c:when test="${project.state == ENTITY_STATE_ACTIVE}">
+				<a href="ProjectClose.do?fkprm=true&pk=${project.pk}"><fmt:message key="action.close"/></a>
+			</c:when>
+			<c:when test="${project.state == ENTITY_STATE_CLOSED}">
+				<a href="ProjectOpen.do?fkprm=true&pk=${project.pk}"><fmt:message key="action.open"/></a>
+			</c:when>
+			<c:otherwise>
+				&nbsp;			
+			</c:otherwise>
+		</c:choose>
+	</display:column>   
+
+	
+    <display:column media="html" class="action"  headerClass="action" title="">
+		<c:choose>
+			<c:when test="${project.state == ENTITY_STATE_CLOSED}">
 				<a href="ProjectDelete.do?fkprm=true&pk=${project.pk}"><span onclick="JavaScript: {return deleteConfirm('<fmt:message key="delete.confirmation" />')}"><fmt:message key="action.delete"/></span></a>
 			</c:when>
 			<c:otherwise>
@@ -98,7 +113,7 @@
 
 	<display:column media="html" class="action"  headerClass="action" title="">
 		<c:choose>
-			<c:when test="${project.state != ENTITY_STATE_DELETED}">
+			<c:when test="${project.state == ENTITY_STATE_ACTIVE}">
 				<a href="ProjectManageComponents.do?fkprm=true&pk=${project.pk}"><fmt:message key="action.managecomponents"/></a>
 			</c:when>
 			<c:otherwise>

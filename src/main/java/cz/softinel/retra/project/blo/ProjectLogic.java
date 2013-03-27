@@ -27,6 +27,9 @@ public interface ProjectLogic {
 	 */
 	public List<Project> findAllNotDeletedProjects();
 	
+	public List<Project> findAllActiveProjects();
+
+	public List<Project> findAllProjectsInWhichCouldDoWorkLog();
 	/**
 	 * Find all parent projects. It means parent == null and state == ACTIVE;
 	 * 
@@ -68,5 +71,6 @@ public interface ProjectLogic {
 	 * @param Project
 	 */
 	public void store(Project project);
+
 
 }

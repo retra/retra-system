@@ -127,6 +127,78 @@ public class ProjectController extends CommonDispatchController {
 	}
 	
 	/**
+	 * Close given project
+	 * 
+	 * @param model
+	 * @param requestContext
+	 * @return
+	 */
+	public ModelAndView projectClose(Model model, RequestContext requestContext) {
+		String projectPkStr = requestContext.getParameter("pk");
+		Long projectPk = LongConvertor.getLongFromString(projectPkStr);
+		String view = getSuccessView();
+		if (projectPk != null) {
+			ProjectFilter projectFilter=new ProjectFilter();
+			projectFilter.setFieldValue(ProjectFilter.PROJECT_FILTER_PARENT,Long.toString(projectPk));
+			List<Project> projects=projectLogic.findByFilter(projectFilter);
+			for (Project p:projects) {
+				if (p.getState()==Project.STATE_ACTIVE) {
+					requestContext.addRedirectIgnoreError(new Message("Some projects under project is not closed."));
+					return createModelAndView(model,getErrorView());					
+				}
+			}
+			Project project = projectLogic.get(projectPk);
+			project.setState(Project.STATE_CLOSED);
+			projectLogic.store(project);
+			if (requestContext.getErrors().size() > 0) {
+				view = getErrorView();
+			} else {
+				securityLogic.reloadLoggedEmployee();
+				requestContext.addRedirectIgnoreInfo(new Message("Project closed."));
+			}
+			requestContext.convertMessagesToRedirectIgnoring();
+		} else {
+			view = getErrorView();
+		}
+		return createModelAndView(model, view);
+	}	
+	
+	/**
+	 * Delete given project
+	 * 
+	 * @param model
+	 * @param requestContext
+	 * @return
+	 */
+	public ModelAndView projectOpen(Model model, RequestContext requestContext) {
+		String projectPkStr = requestContext.getParameter("pk");
+		Long projectPk = LongConvertor.getLongFromString(projectPkStr);
+		String view = getSuccessView();
+		if (projectPk != null) {
+			Project project = projectLogic.get(projectPk);
+			if (project.getParent()!=null) {
+				Project parentProject=projectLogic.get(project.getParent().getPk());
+				if (parentProject.getState()!=Project.STATE_ACTIVE) {
+					requestContext.addRedirectIgnoreError(new Message("Parent project is not open."));
+					return createModelAndView(model,getErrorView());					
+				}				
+			}
+			project.setState(Project.STATE_ACTIVE);
+			projectLogic.store(project);
+			if (requestContext.getErrors().size() > 0) {
+				view = getErrorView();
+			} else {
+				securityLogic.reloadLoggedEmployee();
+				requestContext.addRedirectIgnoreInfo(new Message("Project opened again."));
+			}
+			requestContext.convertMessagesToRedirectIgnoring();
+		} else {
+			view = getErrorView();
+		}
+		return createModelAndView(model, view);
+	}	
+	
+	/**
 	 * Delete given component
 	 * 
 	 * @param model

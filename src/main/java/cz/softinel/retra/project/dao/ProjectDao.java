@@ -83,4 +83,6 @@ public interface ProjectDao {
 	 * @return
 	 */
 	public List<Project> selectByFilter(Filter filter);
+
+	public List<Project> selectByState(int state);
 }
