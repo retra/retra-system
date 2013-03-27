@@ -271,7 +271,7 @@
 				<span class="invisible">${worklog.component.code}</span>
 				<acronym title="${worklog.component.name}">${worklog.component.code}</acronym>
 			</display:column>
-			<display:column property="component.code" titleKey="worklog.component" media="csv excel xml pdf rtf"/>
+			<display:column property="component.code" titleKey="worklog.component" media="csv excel xml rtf"/>
 		
 			<display:column titleKey="worklog.activity" media="html">
 				<!-- this is hack for sorting -->
@@ -286,7 +286,7 @@
 					<acronym title="${worklog.invoice.name}">${worklog.invoice.code}</acronym>&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="middle"/>
 				</c:if>
 			</display:column>
-			<display:column property="invoice.code" titleKey="worklog.invoice" media="csv excel xml pdf rtf"/>
+			<display:column property="invoice.code" titleKey="worklog.invoice" media="csv excel xml rtf"/>
 		
 			<display:column property="employee.user.contactInfo.displayName" titleKey="worklog.employee"/>
 		
@@ -309,7 +309,8 @@
 					<th><strong><fmt:formatNumber value="${worklogTotals.column10}" type="number" maxFractionDigits="2" minFractionDigits="2"/></strong></th>
 				</tr>
 			</display:footer>
-	
+			<display:footer media="pdf"><fmt:message key="worklog.total" />:                                                                                                                                                                                                                               <fmt:formatNumber value="${worklogTotals.column8}" type="number" maxFractionDigits="2" minFractionDigits="2"/></display:footer>
+			<display:footer media="rtf"><fmt:message key="worklog.total" />:<fmt:formatNumber value="${worklogTotals.column10}" type="number" maxFractionDigits="2" minFractionDigits="2"/></display:footer>
 		</display:table>
 
 	</div>
