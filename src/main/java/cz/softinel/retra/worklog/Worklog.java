@@ -1,5 +1,7 @@
 package cz.softinel.retra.worklog;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -40,10 +42,10 @@ public class Worklog {
 	
 	// Business fileds ...
 	
-	public float getHours() {
+	public BigDecimal getHours() {
 		// TODO: Use helper method???
 		long deltaMiliseconds = workTo.getTime() - workFrom.getTime();
-		return ((float) (deltaMiliseconds / 1000)) / 60 / 60;
+		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000),2,RoundingMode.DOWN);
 	}
 	
 	public Date getDate() {

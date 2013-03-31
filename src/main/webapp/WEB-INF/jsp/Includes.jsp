@@ -28,9 +28,3 @@
 --%><c:set var="ENTITY_STATE_ACTIVE"><%=StateEntity.STATE_ACTIVE%></c:set><%--
 --%><c:set var="ENTITY_STATE_CLOSED"><%=StateEntity.STATE_CLOSED%></c:set><%--
 --%>
-
-<fmt:setLocale value="cs_CZ" scope="page" />
-<fmt:setLocale value="cs_CZ" scope="request" />
-<fmt:setLocale value="cs_CZ" scope="session" />
-<fmt:setLocale value="cs_CZ" scope="application" />
-<fmt:setLocale value="cs_CZ" />

@@ -40,7 +40,7 @@
 		We can change it in the future to support more languages.
 	-->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
-		<property name="defaultLocale" value="en_US" />
+		<property name="defaultLocale" value="cs_CZ" />
 	</bean>
 
 	<!-- Define abstract dispatch controllers for MIRA actions -->
