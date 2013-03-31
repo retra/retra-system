@@ -160,7 +160,7 @@
 				<display:column property="description" titleKey="worklog.description"/>
 				<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 				<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
-				<display:column property="hours" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" total="true"/>
+				<display:column property="hours" titleKey="worklog.hours" total="true" format="{0,number,#,##0.00}"/>
 
 				<!-- action columns -only for html (parameter media) -->
 				<display:column title="" url="/WorklogView.do?fkprm=true" paramId="worklogPk" paramProperty="pk" media="html" class="action" headerClass="action">
@@ -193,7 +193,7 @@
 						<th></th>
 						<th></th>
 						<th></th>
-						<th><strong><fmt:formatNumber value="${worklogTotals.column10}" type="number" maxFractionDigits="2" minFractionDigits="2"/></strong></th>
+						<th><strong><fmt:formatNumber value="${worklogTotals.column10}" type="number" pattern="#,##0.00"/></strong></th>
 						<th></th>
 					    <c:if test="${securityContext.loggedEmployee.pk == employee.pk}">
 						<th></th>
@@ -202,7 +202,7 @@
 				    </tr>
 				</display:footer>
 				<display:footer media="pdf"><fmt:message key="worklog.total" />:                                                                                                                                                                                                                               <fmt:formatNumber value="${worklogTotals.column8}" type="number" maxFractionDigits="2" minFractionDigits="2"/></display:footer>
-				<display:footer media="rtf"><fmt:message key="worklog.total" />:<fmt:formatNumber value="${worklogTotals.column10}" type="number" maxFractionDigits="2" minFractionDigits="2"/></display:footer>
+				<display:footer media="rtf"><fmt:message key="worklog.total" />:<fmt:formatNumber value="${worklogTotals.column10}" type="number" pattern="#,##0.0#"/></display:footer>
 			</display:table>
 	
 		</div>

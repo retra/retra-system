@@ -56,6 +56,11 @@
 		<param-value>1000</param-value>
 	</context-param>
 
+	<context-param>
+		<param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
+		<param-value>cs_CZ</param-value>
+	</context-param>
+
 	<!-- Forces encoding of the incomming requests to UTF-8 -->
 	<filter>
 		<filter-name>CharacterEncodingFilter</filter-name>
@@ -69,6 +74,7 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
+
 
 	<!-- use encofing filter to all requests -->
 	<filter-mapping>

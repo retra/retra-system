@@ -84,7 +84,7 @@
 	<display:column property="description" titleKey="worklog.description"/>
 	<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
-	<display:column property="hours" titleKey="worklog.hours" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator"/>
+	<display:column property="hours" titleKey="worklog.hours" sortable="true" format="{0,number,#,##0.00}"/>
 
 </display:table>
 
@@ -94,7 +94,7 @@
 		<h2>Project overview</h2>
 		<display:table id="worklogByProjectId" name="worklogByProject.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.project" />
-			<display:column property="value.sum" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" />
+			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>
@@ -108,7 +108,7 @@
 		<h2>Activity overview</h2>
 		<display:table id="worklogByActivityId" name="worklogByActivity.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.activity" />
-			<display:column property="value.sum" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" />
+			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>

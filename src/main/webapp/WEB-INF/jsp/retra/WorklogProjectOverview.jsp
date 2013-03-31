@@ -90,7 +90,7 @@
 		<h2>Employee</h2>
 		<display:table id="worklogByEmployeeId" name="worklogByEmployee.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.employee" />
-			<display:column property="value.sum" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator"/>
+			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>
@@ -104,7 +104,7 @@
 		<h2>Activity</h2>
 		<display:table id="worklogByAcrivityId" name="worklogByAcrivity.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.activity" />
-			<display:column property="value.sum" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" />
+			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>
@@ -118,7 +118,7 @@
 		<h2>Project</h2>
 		<display:table id="worklogByProjectId" name="worklogByProject.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.project" />
-			<display:column property="value.sum" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" />
+			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>
@@ -194,18 +194,18 @@
 					<th>${employee.key}</th>
 					<c:forEach items="${projectProjectionList}" var="project">
 						<td style='text-align:right;'>
-							<fmt:formatNumber value="${worklogGroupped.map[employee.key][false][project.key].sum}" maxFractionDigits="2" minFractionDigits="2" />
+							<fmt:formatNumber value="${worklogGroupped.map[employee.key][false][project.key].sum}" pattern="#,##0.0#" />
 						</td>
 					</c:forEach>
-					<th style='text-align:right;'><fmt:formatNumber value="${employee.value.sum}" maxFractionDigits="2" minFractionDigits="2" /></th>
+					<th style='text-align:right;'><fmt:formatNumber value="${employee.value.sum}" pattern="#,##0.0#" /></th>
 				</tr>
 			</c:forEach>
 			<tr class="tableBottom">
 				<th><fmt:message key="worklog.total"/></th>
 				<c:forEach items="${projectProjectionList}" var="project">
-					<th style='text-align:right;'><fmt:formatNumber value="${project.value.sum}" maxFractionDigits="2" minFractionDigits="2" /></th>
+					<th style='text-align:right;'><fmt:formatNumber value="${project.value.sum}" pattern="#,##0.0#" /></th>
 				</c:forEach>
-				<th style='text-align:right;'><fmt:formatNumber value="${worklogGroupped.map[false][false][false].sum}" maxFractionDigits="2" minFractionDigits="2" /></th>
+				<th style='text-align:right;'><fmt:formatNumber value="${worklogGroupped.map[false][false][false].sum}" pattern="#,##0.0#" /></th>
 			</tr>
 		</table>
 	</div>
@@ -293,7 +293,7 @@
 			<display:column property="description" titleKey="worklog.description"/>
 			<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 			<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
-			<display:column property="hours" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator" total="true"/>
+			<display:column property="hours" titleKey="worklog.hours" format="{0,number,#,##0.00}" total="true"/>
 	
 			<display:footer media="html">
 				<tr>

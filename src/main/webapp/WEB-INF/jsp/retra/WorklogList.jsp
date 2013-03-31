@@ -101,7 +101,7 @@
 	<display:column property="description" titleKey="worklog.description" sortable="true"/>
 	<display:column property="workFrom" titleKey="worklog.workFrom" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="workTo" titleKey="worklog.workTo" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
-	<display:column property="hours" titleKey="worklog.hours" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator"/>
+	<display:column property="hours" titleKey="worklog.hours" sortable="true" format="{0,number,#,##0.00}"/>
 
 	<!-- action columns -only for html (parameter media) -->
 	<display:column title="" url="/WorklogView.do?fkprm=true" paramId="worklogPk" paramProperty="pk" media="html" class="action" headerClass="action">

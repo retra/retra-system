@@ -19,7 +19,7 @@
 		<display:column property="description" titleKey="worklog.description"/>
 		<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 		<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
-		<display:column property="hours" titleKey="worklog.hours" decorator="cz.softinel.retra.core.utils.decorator.HoursDecorator"/>
+		<display:column property="hours" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>
 	</display:table>
 	
 	<table class="formTable">
