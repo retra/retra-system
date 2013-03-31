@@ -1,5 +1,6 @@
 package cz.softinel.retra.worklog;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -83,7 +84,7 @@ public class WorklogHelper {
 			jiraWorklog.setCreated(entity.getWorkFrom());
 			jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
 			jiraWorklog.setState(JiraWorklog.CREATED); 
-			jiraWorklog.setTimeSpentInSeconds((long)(entity.getHours() * 60 * 60)); // TODO Zoli, not exact
+			jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue()); // TODO Zoli, not exact
 
 			entity.addIssueTrackingWorklog(jiraWorklog);
 		} 
@@ -153,7 +154,7 @@ public class WorklogHelper {
 			if (jiraWorklogs.size() == 1) {
 				jiraWorklog = jiraWorklogs.iterator().next();
 				jiraWorklog.setCreated(entity.getWorkFrom());
-				jiraWorklog.setTimeSpentInSeconds((long)(entity.getHours() * 60 * 60));
+				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
 				if (jiraWorklog.getJiraIssue().equals(form.getIssueTrackingReference())) {
 					jiraWorklog.setState(JiraWorklog.UPDATED); 
 				} else {
@@ -166,7 +167,7 @@ public class WorklogHelper {
 				jiraWorklog.setCreated(entity.getWorkFrom());
 				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
 				jiraWorklog.setState(JiraWorklog.CREATED); 
-				jiraWorklog.setTimeSpentInSeconds((long)(entity.getHours() * 60 * 60));
+				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
 				entity.addIssueTrackingWorklog(jiraWorklog);
 			}
 		} 
