@@ -170,7 +170,7 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		if (employeePk != null && employeePk > 0) {
 			sb.append(" and :employeePk member of project.employees");
 		}
-		if (state != null && state.intValue() > 0) {
+		if (state != null && state.intValue() >= 0) {
 			sb.append(" and project.state = :state ");
 		}
 		if (code != null) {
@@ -191,7 +191,7 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		if (parentPk != null) {
 			query.setLong("parentPk", parentPk);
 		}		
-		if (state != null && state.intValue() > 0) {
+		if (state != null && state.intValue() >= 0) {
 			query.setInteger("state", state);
 		}
 		if (code != null) {
