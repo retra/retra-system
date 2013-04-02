@@ -45,7 +45,7 @@ public class Worklog {
 	public BigDecimal getHours() {
 		// TODO: Use helper method???
 		long deltaMiliseconds = workTo.getTime() - workFrom.getTime();
-		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000),2,RoundingMode.DOWN);
+		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000),10,RoundingMode.CEILING);
 	}
 	
 	public Date getDate() {
