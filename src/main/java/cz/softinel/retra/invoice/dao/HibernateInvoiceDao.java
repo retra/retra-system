@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.util.Assert;
 
+import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
@@ -122,6 +123,16 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Assert.notNull(invoice.getPk());
 		getHibernateTemplate().load(invoice, invoice.getPk());
 	}
+	
+	public void loadAndLoadLazy(Invoice invoice) {
+		Session session = getSession();
+		session.load(invoice,invoice.getPk());
+		if (invoice.getEmployee() != null) {
+			invoice.getEmployee().getUser().getContactInfo().getDisplayName();
+		}
+		releaseSession(session);
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	private List<Invoice> filterInvoices(Filter filter) {

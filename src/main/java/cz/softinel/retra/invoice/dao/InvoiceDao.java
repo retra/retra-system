@@ -2,6 +2,7 @@ package cz.softinel.retra.invoice.dao;
 
 import java.util.List;
 
+import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.uaf.filter.Filter;
 
@@ -81,5 +82,5 @@ public interface InvoiceDao {
 	 * @param invoice where load and where is pk set
 	 */
 	public void load(Invoice invoice);
-	
+	public void loadAndLoadLazy(Invoice invoice);	
 }

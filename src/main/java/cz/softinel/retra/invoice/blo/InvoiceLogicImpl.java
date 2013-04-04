@@ -125,7 +125,10 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 	}
 
 	public Invoice get(Long pk) {
-		return invoiceDao.get(pk);
+		Invoice invoice=new Invoice();
+		invoice.setPk(pk);
+		invoiceDao.loadAndLoadLazy(invoice);
+		return invoice;
 	}
 	
 	@Transactional(propagation=Propagation.REQUIRED)
@@ -178,13 +181,13 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 	
 	private boolean checkOwnership(Invoice invoice) {
 		if (invoice != null && invoice.getEmployee() == null) {
-			invoiceDao.load(invoice);
+			invoiceDao.loadAndLoadLazy(invoice);
 		}
 		
 		Employee employeeLogged = securityLogic.getLoggedEmployee();
 
 		//logged user is not owner
-		if (!employeeLogged.equals(invoice.getEmployee())) {
+		if (!employeeLogged.getPk().equals(invoice.getEmployee().getPk())) {
 			return false;
 		}
 		
