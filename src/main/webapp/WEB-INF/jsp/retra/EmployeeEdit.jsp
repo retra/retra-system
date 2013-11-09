@@ -125,9 +125,8 @@
 	
 	
 	<br><center><b>Projects</b></center><br>
-	
 	<spring:bind path="employeeForm.projects">
-	<select name="${status.expression}" multiple="multiple">
+	<select class="jquery-doubleselect-leftSelect" name="${status.expression}" multiple="multiple">
            <c:forEach items="${projects}" var="project">
                <c:forEach items="${status.value}" var="currentProject">
                
@@ -161,3 +160,57 @@
 		</tr>
 	</table>
 </form>
+
+<script>
+(function() {
+	var input = $('<label for="filterProject" style="padding-right: 20px;">Filter Projects</label><input id="filterProject" type="text" style="width: 418px" />');
+
+	$(input).insertBefore(".jquery-doubleselect-leftSelect");
+
+
+	jQuery.fn.filterByText = function(textbox) {
+		return this.each(function() {
+			var select = this;
+			var options = [];
+			$(select).find('option').each(function() {
+				options.push({value: $(this).val(), text: $(this).text()});
+			});
+			$(select).data('options', options);
+
+			$(textbox).bind('change keyup', function() {
+				var options = $(select).empty().data("options");
+				var search = $.trim($(this).val());
+				var regex = new RegExp(search, "gi");
+
+				$.each(options, function(i) {
+					var option = options[i];
+					if (option.text.match(regex) !== null) {
+						$(select).append($('<option>').text(option.text).val(option.value));
+					}
+				});
+			});
+		});
+	};
+
+	$(function() {
+		$('.jquery-doubleselect-leftSelect').filterByText(input);
+	});
+
+
+	$(".jquery-doubleselect-middle input[type=button]").click(function() {
+		$(".jquery-doubleselect-originalSelect option").each(function() {
+			$(this)[0].selected = false;
+		});
+
+		$(".jquery-doubleselect-rightSelect option").each(function(e) {
+			var self = this;
+			$(".jquery-doubleselect-originalSelect option").each(function() {
+				if ($(this).val() == $(self).val()) {
+					$(this)[0].selected = true;
+				}
+			});
+		});
+	});
+
+}).apply(this);
+</script>
