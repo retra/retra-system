@@ -28,6 +28,7 @@ import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.retra.worklog.blo.WorklogLogic;
 import cz.softinel.uaf.messages.Message;
 import cz.softinel.uaf.messages.Messages;
+import cz.softinel.uaf.messages.MessagesHolder;
 import cz.softinel.uaf.spring.web.controller.HttpRequestContext;
 import cz.softinel.uaf.spring.web.controller.HttpSessionContext;
 
@@ -302,11 +303,13 @@ public class WorklogImportController extends WizardFormController {
 		}
 
 		// store to DB
+		
+		Messages messages = new Messages(getApplicationContext());
+		MessagesHolder.setMessages(messages);
 		int importItems = worklogLogic.create(worklogItems);
 
 		// HACK pavel: to display a warn message without making a controller
 		// superclass
-		Messages messages = new Messages(getApplicationContext());
 		messages.addInfo(new Message("worklogImportForm.import.success", new Object[] { importItems }, 1));
 		request.getSession().setAttribute(HttpSessionContext.SESSION_MESSAGES_KEY, messages);
 

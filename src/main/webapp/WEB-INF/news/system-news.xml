@@ -1,6 +1,11 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="8.12.2013"
+		  title="Build 1.18.3"
+		  body="&lt;a href='https://github.com/retra/retra-system/issues?milestone=4&amp;page=1&amp;state=closed' &gt;Release notes here&lt;/a&gt;"
+		  author="Retra Team"
+	/>
 	<item date="4.4.2013"
 		  title="Build 1.18.2"
 		  body="&lt;a href='https://github.com/retra/retra-system/issues?milestone=3&amp;page=1&amp;state=closed' &gt;Release notes here&lt;/a&gt;"
