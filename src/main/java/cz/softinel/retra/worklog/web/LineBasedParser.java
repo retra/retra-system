@@ -29,15 +29,15 @@ public abstract class LineBasedParser implements ImportDataParser {
 
 	private final String encoding;
 
-	private static Log logger = LogFactory.getLog(LineBasedParser.class);
+	protected static Log logger = LogFactory.getLog(LineBasedParser.class);
 
 	public LineBasedParser(final String encoding) {
 		this.encoding = encoding;
 	}
 
 	private List<String> lines = null;
-	private int numberOfLines;
-	private int parseErrors;
+	protected int numberOfLines;
+	protected int parseErrors;
 
 	public void init(byte[] data) throws IOException {
 		final Reader reader = getDataReader(data);
