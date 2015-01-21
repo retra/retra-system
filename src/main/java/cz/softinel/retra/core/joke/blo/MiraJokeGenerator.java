@@ -89,9 +89,9 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 	}
 	
 	private String getDilbertHtmlJokeForDate(Date date, String title) throws JokeFinderException {
-		String targetURL = "http://dilbert.com";
+		String targetURL = "";
 		String baseURL = "http://dilbert.com/strips/";
-		String imageDefinition = "src=\"/dyn/str_strip";
+		String imageDefinition = "src=\"http://assets.amuniversal.com";
 		int imagePathStart = 5;
 
 		StringBuffer sb = new StringBuffer();
@@ -236,6 +236,7 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		if (lineImageFound) {
 			String lineWithImg = inputLine.substring(start+imagePathStart);
 			String replaced = lineWithImg.replaceAll("(.*)(\" />).*", "$1");
+			replaced = replaced.replaceAll("\"", "");
 			
 			sb = new StringBuffer("");
 			sb.append(replaced);
@@ -274,12 +275,8 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 			while ((inputLine = in.readLine()) != null) {
 				start = inputLine.indexOf(imageDefinition);
 				if (start > -1) {
-					if (first) {
-						first = false;
-					} else {
-						lineImageFound = true;
-						break;
-					}
+					lineImageFound = true;
+					break;
 				}
 			}
 			in.close();
@@ -290,7 +287,8 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		
 		if (lineImageFound) {
 			String lineWithImg = inputLine.substring(start+imagePathStart);
-			String replaced = lineWithImg.replaceAll("(.*)(\\.(gif|jpg|jpeg|png)).*", "$1$2");
+			//String replaced = lineWithImg.replaceAll("(.*)(\\.(gif|jpg|jpeg|png)).*", "$1$2");
+			String replaced = lineWithImg.replaceAll("(.*)(\" width=\").*", "$1");
 			//replaced = replaced.replaceAll("(zoom\\.)(gif|jpg|jpeg|png)", "$2");
 			
 			sb = new StringBuffer(targetURL);
