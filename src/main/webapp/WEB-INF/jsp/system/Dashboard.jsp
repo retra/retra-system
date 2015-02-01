@@ -25,6 +25,7 @@
 				<p><a href="InvoiceList.do?fkprm=true&cleanFilter=true"><fmt:message key="menu.invoiceList" /></a></p>
 				<p><a href="InvoiceCreate.do?fkprm=true"><fmt:message key="menu.invoiceCreate" /></a></p>
 				<p><a href="WorklogInvoicePair.do?fkprm=true"><fmt:message key="menu.invoiceWorklogPair" /></a></p>
+				<p><a href="InvoiceBatchGenerate.do?fkprm=true"><fmt:message key="menu.invoiceBatchGenerate" /></a></p>
 			</div>
 		</td>
 		<td>

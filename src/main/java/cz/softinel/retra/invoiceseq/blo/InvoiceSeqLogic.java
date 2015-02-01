@@ -25,5 +25,21 @@ public interface InvoiceSeqLogic {
 	 * @return
 	 */
 	public String getNextCodeForSequence(Long pk);
+
+	/**
+	 * Returns next code in sequence and update!!! sequence in DB.
+	 * 
+	 * @param pk
+	 * @return
+	 */
+	public String getNextCodeForSequenceIgnoreStep(Long pk);
+	
+	/**
+	 * Returns sequence in DB.
+	 * 
+	 * @param pk
+	 * @return
+	 */
+	public InvoiceSeq get(Long pk);
 	
 }

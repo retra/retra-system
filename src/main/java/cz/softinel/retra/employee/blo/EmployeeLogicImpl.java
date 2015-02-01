@@ -42,6 +42,10 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 		return employeeDao.findAll();
 	}
 
+	public List<Employee> getAllEmployeesForGeneratingInvoice() {
+		return employeeDao.findAllForGenerate();
+	}
+	
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Employee> getAllEmployeesNotFull() {
 		return employeeJdbcDao.findAll();

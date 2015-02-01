@@ -85,6 +85,10 @@ public class JdbcEmployeeDao extends SimpleJdbcDaoSupport implements EmployeeDao
 		return result;
 	}
 	
+	public List<Employee> findAllForGenerate() {
+		throw new IllegalStateException("Not supported...");
+	}
+	
 	/**
 	 * @see cz.softinel.retra.employee.dao.EmployeeDao#load(cz.softinel.retra.employee.Employee)
 	 */

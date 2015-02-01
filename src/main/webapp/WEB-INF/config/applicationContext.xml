@@ -148,6 +148,7 @@
 		<property name="worklogDao" ref="worklogDao" />
 		<property name="securityLogic" ref="securityLogic" />
 		<property name="invoiceSeqLogic" ref="invoiceSeqLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
 		<property name="codeGenerated" value="${retra.invoice.code.generated}" />
 	</bean>
 

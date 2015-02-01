@@ -28,9 +28,20 @@ public class InvoiceSeqLogicImpl extends AbstractLogicBean implements InvoiceSeq
 	public List<InvoiceSeq> findAllActive() {
 		return invoiceSeqDao.selectAllActive();
 	}
-	
+
 	@Transactional(propagation=Propagation.REQUIRED)
 	public String getNextCodeForSequence(Long pk) {
+		String result = getNextCodeForSequenceImpl(pk, false);
+		return result;
+	}
+
+	@Transactional(propagation=Propagation.REQUIRED)
+	public String getNextCodeForSequenceIgnoreStep(Long pk) {
+		String result = getNextCodeForSequenceImpl(pk, true);
+		return result;
+	}
+	
+	private String getNextCodeForSequenceImpl(Long pk, boolean ignoreStep) {
 		String result = null;
 		
 		InvoiceSeq invoiceSeq = invoiceSeqDao.getForNextNumber(pk);
@@ -40,9 +51,13 @@ public class InvoiceSeqLogicImpl extends AbstractLogicBean implements InvoiceSeq
 			return null;
 		}
 
+		int step = 1;
+		if (!ignoreStep) {
+			step = invoiceSeq.getStep();
+		}
 		//generate code
 		String pattern = invoiceSeq.getPattern();
-		int newSeq = invoiceSeq.getSequence() + invoiceSeq.getStep();
+		int newSeq = invoiceSeq.getSequence() + step;
 		result = CodeGenerator.generateNewCode(pattern, newSeq);
 		//update sequence
 		invoiceSeq.setSequence(newSeq);
@@ -50,4 +65,8 @@ public class InvoiceSeqLogicImpl extends AbstractLogicBean implements InvoiceSeq
 		return result;
 	}
 
+	public InvoiceSeq get(Long pk) {
+		InvoiceSeq invoiceSeq = invoiceSeqDao.get(pk);
+		return invoiceSeq;
+	}
 }

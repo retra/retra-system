@@ -25,6 +25,7 @@ public interface EmployeeDao {
 	public void delete(Employee employee);
 	
 	public List<Employee> findAll();
+	public List<Employee> findAllForGenerate();
 	
 	public void load(Employee employee);
 	public void loadAndLoadLazy(Employee employee);

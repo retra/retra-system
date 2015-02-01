@@ -12,6 +12,13 @@ import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
 
 public class HibernateInvoiceSeqDao extends AbstractHibernateDao implements InvoiceSeqDao {
 
+	public InvoiceSeq get(Long pk) {
+		// check if invoice id is defined
+		Assert.notNull(pk);
+		InvoiceSeq invoiceSeq = (InvoiceSeq) getHibernateTemplate().get(InvoiceSeq.class, pk);
+		return invoiceSeq;
+	}
+	
 	public InvoiceSeq getForNextNumber(Long pk) {
 		// check if invoice id is defined
 		Assert.notNull(pk);

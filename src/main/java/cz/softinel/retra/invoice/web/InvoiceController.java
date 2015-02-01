@@ -61,6 +61,9 @@ public class InvoiceController extends DispatchController {
 	 * @return
 	 */
 	public ModelAndView invoiceList(Model model, RequestContext requestContext) {
+		//reset batch result
+		requestContext.getSessionContext().setAttribute("invoiceBatchResult", null);
+
 		Filter filter = getFilter(model);
 		Long employeePk = FilterHelper.getFieldAsLong(InvoiceFilter.INVOICE_FILTER_EMPLOYEE, filter);
 
@@ -86,6 +89,25 @@ public class InvoiceController extends DispatchController {
 		return createModelAndView(model, getSuccessView());
 	}
 
+	/**
+	 * Show invoice batch result.
+	 * 
+	 * @param model
+	 * @param requestContext
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ModelAndView invoiceBatchResult(Model model, RequestContext requestContext) {
+		List<Invoice> list = (List<Invoice>) requestContext.getSessionContext().getAttribute("invoiceBatchResult");
+		if (list != null) {
+			model.set("invoices", list);			
+			return createModelAndView(model, getSuccessView());
+		}
+
+		return createModelAndView(model, getFailureView());
+	}
+
+	
 	/**
 	 * View given invoice. 
 	 * 

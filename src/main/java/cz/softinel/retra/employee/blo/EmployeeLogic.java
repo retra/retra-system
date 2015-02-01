@@ -24,6 +24,12 @@ public interface EmployeeLogic {
 	 */
 	List<Employee> getAllEmployeesNotFull();
 
+	/** 
+	 * Returns all employees for generating invoice
+	 * 
+	 * @return
+	 */
+	List<Employee> getAllEmployeesForGeneratingInvoice();
 	
 	/**
 	 * Load emlpoyee instance fields

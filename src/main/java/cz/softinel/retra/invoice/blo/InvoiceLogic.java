@@ -1,5 +1,6 @@
 package cz.softinel.retra.invoice.blo;
 
+import java.util.Date;
 import java.util.List;
 
 import cz.softinel.retra.invoice.Invoice;
@@ -80,6 +81,18 @@ public interface InvoiceLogic {
 	 */
 	public Invoice create(Invoice invoice, Long sequencePk);
 	
+	/**
+	 * Batch create invoices.
+	 * 
+	 * @param sequencePk
+	 * @param name
+	 * @param orderDate
+	 * @param finishDate
+	 * @param employeePks
+	 * @return
+	 */
+	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date finishDate, Long[] employeePks);
+
 	/**
 	 * Get invoice according to given pk.
 	 * 

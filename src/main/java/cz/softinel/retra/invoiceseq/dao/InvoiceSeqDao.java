@@ -17,6 +17,14 @@ public interface InvoiceSeqDao {
 	 * @param pk primary key of invoice
 	 * @return
 	 */
+	public InvoiceSeq get(Long pk);
+	
+	/**
+	 * Returns invoice sequence according to primary key. 
+	 * 
+	 * @param pk primary key of invoice
+	 * @return
+	 */
 	public InvoiceSeq getForNextNumber(Long pk);
 	
 	/**

@@ -1,5 +1,7 @@
 package cz.softinel.retra.invoice.blo;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cz.softinel.retra.core.blo.AbstractLogicBean;
 import cz.softinel.retra.employee.Employee;
+import cz.softinel.retra.employee.blo.EmployeeLogic;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.retra.invoice.dao.InvoiceDao;
 import cz.softinel.retra.invoiceseq.blo.InvoiceSeqLogic;
@@ -27,6 +30,7 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 	private WorklogDao worklogDao;
 	private MiraSecurityLogic securityLogic;
 	private InvoiceSeqLogic invoiceSeqLogic;
+	private EmployeeLogic employeeLogic;
 	
 	private boolean codeGenerated = false;
 	
@@ -65,6 +69,10 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 
 	public void setCodeGenerated(boolean codeGenerated) {
 		this.codeGenerated = codeGenerated;
+	}
+
+	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
+		this.employeeLogic = employeeLogic;
 	}
 
 	/**
@@ -124,6 +132,39 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 		return invoiceDao.insert(invoice);
 	}
 
+	@Transactional(propagation=Propagation.REQUIRED)
+	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date finishDate, Long[] employeePks) {
+		List<Invoice> invoices = new ArrayList<Invoice>();
+		if (employeePks == null || employeePks.length <= 0 || !isCodeGenerated()) {
+			return invoices;
+		}
+
+		if (sequencePk == null) {
+			addError(new Message("invoice.error.create.no.sequence"));
+			return null;
+		} else {
+			for (Long employeePk : employeePks) {
+				Employee employee = employeeLogic.get(employeePk);
+				
+				if(employee != null) {
+					Invoice invoice = new Invoice();
+					invoice.setOrderDate(orderDate);
+					invoice.setFinishDate(finishDate);
+					invoice.setName(name);
+					String genCode = invoiceSeqLogic.getNextCodeForSequenceIgnoreStep(sequencePk);
+					invoice.setCode(genCode);
+					
+					invoice.setEmployee(employee);
+					
+					Invoice ires = invoiceDao.insert(invoice);
+					invoices.add(ires);
+				}
+			}
+		}
+		
+		return invoices;
+	}
+	
 	public Invoice get(Long pk) {
 		Invoice invoice=new Invoice();
 		invoice.setPk(pk);

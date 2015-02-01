@@ -1,6 +1,11 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="2.2.2015"
+		  title="Build 2.0.0"
+		  body="Invoice batch generating, filtering projects and employees for assign and some bugfix."
+		  author="Retra Team"
+	/>
 	<item date="8.12.2013"
 		  title="Build 1.18.3"
 		  body="&lt;a href='https://github.com/retra/retra-system/issues?milestone=4&amp;page=1&amp;state=closed' &gt;Release notes here&lt;/a&gt;"

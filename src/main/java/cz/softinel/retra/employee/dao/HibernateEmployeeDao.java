@@ -65,6 +65,11 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 	public List<Employee> findAll() {
 		return (List<Employee>) getHibernateTemplate().findByNamedQuery("Employee.findAllFetch");
 	}
+
+	@SuppressWarnings("unchecked")
+	public List<Employee> findAllForGenerate() {
+		return (List<Employee>) getHibernateTemplate().findByNamedQuery("Employee.findAllForGenerateFetch");
+	}
 	
 	/**
 	 * @see cz.softinel.retra.employee.dao.EmployeeDao#load(cz.softinel.retra.employee.Employee)

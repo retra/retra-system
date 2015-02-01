@@ -3,6 +3,7 @@ package cz.softinel.retra.invoice.web;
 import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import cz.softinel.uaf.spring.web.controller.AbstractCookieHelper;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
@@ -43,7 +44,7 @@ public class InvoiceCookieHelper extends AbstractCookieHelper {
 	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest, java.util.Map)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
-		InvoiceForm invoice = (InvoiceForm) commandForm;
+		AbstractInvoiceForm invoice = (AbstractInvoiceForm) commandForm;
 		Cookie[] cookies = requestContext.getCookies();
 		if (cookies != null){
 			for (Cookie cookie: cookies){
@@ -57,4 +58,18 @@ public class InvoiceCookieHelper extends AbstractCookieHelper {
 		}	
 	}
 
+	public void importFromCookies(Object commandForm, HttpServletRequest request) {
+		AbstractInvoiceForm invoice = (AbstractInvoiceForm) commandForm;
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null){
+			for (Cookie cookie: cookies){
+				String name = cookie.getName();
+				String value = cookie.getValue();
+				if (COOKIE_NAME_INVOICE_SEQUENCE.equals(name)){
+					invoice.setSequence(value);
+					continue;
+				}
+			}
+		}	
+	}
 }

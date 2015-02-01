@@ -547,6 +547,40 @@
 		</property>
 	</bean>
 
+	<bean name="/InvoiceBatchGenerateForm.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceBatchGenerate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceBatchGenerateForm.jsp"/>
+				<entry key="requestURI" value="InvoiceBatchGenerate.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<bean name="/InvoiceBatchGenerateConfirm.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceBatchGenerate.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra//InvoiceBatchGenerateConfirm.jsp"/>
+				<entry key="requestURI" value="InvoiceBatchGenerate.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean>
+
+	<!-- invoice list screen -->
+	<bean name="/InvoiceBatchResult.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/InvoiceSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.invoiceBatchResult.name"/>
+				<entry key="body" value="/WEB-INF/jsp/retra/InvoiceBatchResult.jsp"/>
+				<entry key="requestURI" value="InvoiceBatchResult.do?fkprm=true"/>
+			</map>
+		</property>
+	</bean> 
+	
 	<!-- =============== -->
 	<!-- Schedule Management -->
 	<!-- =============== -->

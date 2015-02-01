@@ -514,6 +514,13 @@
 		<property name="successView" value="InvoiceList.screen" />
 	</bean>
 
+	<!-- invoice batch result -->
+	<bean name="/InvoiceBatchResult.do" parent="InvoiceController">
+		<property name="method" value="invoiceBatchResult" />
+		<property name="successView" value="InvoiceBatchResult.screen" />
+		<property name="failureView" value="redirect:InvoiceList.do?fkprm=true"/>
+	</bean>
+
 	<!-- create invoice	-->	
 	<bean name="/InvoiceCreate.do" class="cz.softinel.retra.invoice.web.InvoiceCreateController" parent="InvoiceFormController">
 		<property name="invoiceSeqLogic" ref="invoiceSeqLogic" />
@@ -561,6 +568,23 @@
 	<bean name="/InvoiceView.do" parent="InvoiceController">
 		<property name="method" value="invoiceView" />
 		<property name="successView" value="InvoiceView.screen" />
+	</bean>
+
+	<!-- invoice batch generate -->
+	<bean name="/InvoiceBatchGenerate.do" class="cz.softinel.retra.invoice.web.InvoiceBatchGenerateController" parent="WizardFormController">
+		<property name="invoiceLogic" ref="invoiceLogic" />
+		<property name="invoiceSeqLogic" ref="invoiceSeqLogic" />
+		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="commandName" value="form"/>
+		<property name="cookieHelper" ref="invoiceCookieHelper" />
+		<property name="pages">
+			<list>
+				<value>InvoiceBatchGenerateForm.screen</value>
+				<value>InvoiceBatchGenerateConfirm.screen</value>
+			</list>
+		</property>
+		<property name="successView" value="redirect:InvoiceBatchResult.do?fkprm=true"/>
+		<property name="cancelView" value="redirect:InvoiceList.do?fkprm=true"/>
 	</bean>
 
 	<!-- pair worklog and invoice -->
