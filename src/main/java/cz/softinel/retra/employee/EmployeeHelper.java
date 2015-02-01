@@ -2,6 +2,7 @@ package cz.softinel.retra.employee;
 
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.employee.web.EmployeeForm;
+import cz.softinel.retra.icompany.Icompany;
 import cz.softinel.sis.user.User;
 import cz.softinel.sis.user.UserHelper;
 
@@ -18,6 +19,19 @@ public class EmployeeHelper {
 			UserHelper.formToEntity(form.getUser(), entity.getUser());
 		}
 		
+		final Long icompanyPk = LongConvertor.getLongFromString(form.getIcompany());
+		if (icompanyPk == null) {
+			entity.setIcompany(null);
+		} else {
+			Icompany icompany = entity.getIcompany();
+			if (icompany == null) {
+				icompany = new Icompany();
+			}
+			entity.setIcompany(icompany);
+			icompany.setPk(icompanyPk);
+		}
+		
+		entity.setIgenerate(form.getIgenerate());
 		entity.setProjects(form.getProjects());
 	}
 
@@ -29,7 +43,14 @@ public class EmployeeHelper {
 		if (user != null) {
 			UserHelper.entityToForm(user, form.getUser());
 		}
-		
+
+		Icompany icompany = entity.getIcompany();
+		if (icompany != null) {
+			String icompanyPk = LongConvertor.convertToStringFromLong(entity.getIcompany().getPk());
+			form.setIcompany(icompanyPk);
+		}
+
+		form.setIgenerate(entity.getIgenerate());
 		form.setProjects(entity.getProjects());
 	}
 	

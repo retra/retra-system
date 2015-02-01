@@ -12,7 +12,6 @@ import org.hibernate.Session;
 import org.springframework.util.Assert;
 
 import cz.softinel.retra.employee.Employee;
-import cz.softinel.retra.project.Project;
 import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
 
 /**

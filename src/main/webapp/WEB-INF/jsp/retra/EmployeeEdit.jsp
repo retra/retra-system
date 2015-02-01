@@ -121,12 +121,43 @@
 				</td>
 			</spring:bind>
 		</tr>
+		<tr>
+			<spring:bind path="employeeForm.icompany">
+				<th><fmt:message key="entity.employee.icompany" /></th>
+				<td>
+					<vc:select name="${status.expression}" valueObjects="${icompanies}" selected="${status.value}" 
+					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
+						<vc:select-option value=""><fmt:message key="employee.icompany.unassigned" /></vc:select-option>
+					</vc:select>
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+				</td>
+			</spring:bind>
+		</tr>
+		<tr>
+			<spring:bind path="employeeForm.igenerate">
+				<th><fmt:message key="entity.employee.igenerate" /></th>
+				<td>
+					<c:choose>
+						<c:when test="${status.value != null && status.value == true}"><input type="checkbox" name="${status.expression}" checked="checked" /></c:when>
+						<c:otherwise><input type="checkbox" name="${status.expression}" /></c:otherwise>
+					</c:choose>
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+				</td>
+			</spring:bind>
+		</tr>
 	</table>
 	
 	
 	<br><center><b>Projects</b></center><br>
+	
+	<div class="filterDiv"><br /></div>
+	
 	<spring:bind path="employeeForm.projects">
-	<select class="jquery-doubleselect-leftSelect" name="${status.expression}" multiple="multiple">
+	<select name="${status.expression}" multiple="multiple">
            <c:forEach items="${projects}" var="project">
                <c:forEach items="${status.value}" var="currentProject">
                
@@ -165,8 +196,7 @@
 (function() {
 	var input = $('<label for="filterProject" style="padding-right: 20px;">Filter Projects</label><input id="filterProject" type="text" style="width: 418px" />');
 
-	$(input).insertBefore(".jquery-doubleselect-leftSelect");
-
+	$(input).insertBefore(".filterDiv");
 
 	jQuery.fn.filterByText = function(textbox) {
 		return this.each(function() {
@@ -195,7 +225,6 @@
 	$(function() {
 		$('.jquery-doubleselect-leftSelect').filterByText(input);
 	});
-
 
 	$(".jquery-doubleselect-middle input[type=button]").click(function() {
 		$(".jquery-doubleselect-originalSelect option").each(function() {

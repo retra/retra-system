@@ -15,20 +15,13 @@ import cz.softinel.uaf.messages.Message;
 import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
-public class EmployeeCreateController extends FormController {
+public class EmployeeCreateController extends AbstractEmployeeFormController {
 
-	private EmployeeLogic employeeLogic;
-
-	// Configuration setter methods ..
-	
-	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
-		this.employeeLogic = employeeLogic;
-	}
-	
 	// Action methods ...
 
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
+		prepareIcompanies(model);
 	}
 	
 	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
@@ -49,7 +42,7 @@ public class EmployeeCreateController extends FormController {
 
 			// Process business logic ...
 			try{
-				employeeLogic.create(employee);
+				getEmployeeLogic().create(employee);
 			} catch(Exception e){
 				requestContext.addError(new Message("employeeManagement.create.username.exists"));
 			}

@@ -47,6 +47,22 @@
 			<th><fmt:message key="entity.login.ldapLogin" /></th>
 			<td>${employee.user.login.ldapLogin}</td>
 		</tr>
+		<tr>
+			<th><fmt:message key="entity.employee.icompany" /></th>
+			<td>
+				<c:if test="${employee.icompany != null}" >${employee.icompany.codeAndName}</c:if>
+				<c:if test="${employee.icompany == null}" >-</c:if>
+			</td>
+		</tr>
+		<tr>
+			<th><fmt:message key="entity.employee.igenerate" /></th>
+			<td>
+				<c:choose>
+					<c:when test="${employee.igenerate != null && employee.igenerate == true}"><input type="checkbox" checked="checked" disabled="disabled" /></c:when>
+					<c:otherwise><input type="checkbox" disabled="disabled" /></c:otherwise>
+				</c:choose>
+			</td>
+		</tr>
 	</table>
 	
 	<br><center><b>Projects</b></center>

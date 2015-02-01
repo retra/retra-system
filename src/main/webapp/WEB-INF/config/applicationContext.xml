@@ -126,6 +126,11 @@
 	<bean id="categoryLogic" class="cz.softinel.retra.category.blo.CategoryLogicImpl">
 		<property name="categoryDao" ref="categoryDao" />
 	</bean>
+
+	<!-- implementation of the icompany logic -->
+	<bean id="icompanyLogic" class="cz.softinel.retra.icompany.blo.IcompanyLogicImpl">
+		<property name="icompanyDao" ref="icompanyDao" />
+	</bean>
 	
 	<!-- implementation of the type logic -->
 	<bean id="typeLogic" class="cz.softinel.retra.type.blo.TypeLogicImpl">

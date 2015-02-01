@@ -8,6 +8,9 @@ import cz.softinel.retra.project.Project;
 public class EmployeeForm {
 
 	private String pk;
+	
+	private Boolean igenerate;
+	private String icompany; 
 
 	UserForm user;
 	Set<Project> projects;
@@ -28,6 +31,22 @@ public class EmployeeForm {
 
 	public void setPk(String pk) {
 		this.pk = pk;
+	}
+
+	public Boolean getIgenerate() {
+		return igenerate;
+	}
+
+	public void setIgenerate(Boolean igenerate) {
+		this.igenerate = igenerate;
+	}
+
+	public String getIcompany() {
+		return icompany;
+	}
+
+	public void setIcompany(String icompany) {
+		this.icompany = icompany;
 	}
 
 	public Set<Project> getProjects() {

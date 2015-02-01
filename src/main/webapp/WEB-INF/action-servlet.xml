@@ -156,6 +156,7 @@
 
 	<bean name="/EmployeeCreate.do" class="cz.softinel.retra.employee.web.EmployeeCreateController" parent="EmployeeFormController">
 		<property name="employeeLogic" ref="employeeLogic" />
+		<property name="icompanyLogic" ref="icompanyLogic" />
 		<property name="formView" value="EmployeeCreate.screen" />
 		<property name="validator" ref="employeeCreateValidator" />
 	</bean>
@@ -164,6 +165,7 @@
 		<property name="employeeLogic" ref="employeeLogic" />
 		<property name="contactInfoLogic" ref="contactInfoLogic" />
 		<property name="projectLogic" ref="projectLogic" />
+		<property name="icompanyLogic" ref="icompanyLogic" />
 		<property name="formView" value="EmployeeEdit.screen" />
 		<property name="bindOnNewForm" value="true" />
 		<property name="validator" ref="employeeChangeContactInfoValidator" />

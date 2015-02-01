@@ -8,15 +8,20 @@
 		<cache usage="read-write" />	
 		<id name="pk" column="sis10pk" type="long" />
 
-		<one-to-one name="user" class="cz.softinel.sis.user.User" fetch="join" lazy="false" />
+		<property name="igenerate" column="mir04igenerate" />
 		
+		<one-to-one name="user" class="cz.softinel.sis.user.User" fetch="join" lazy="false" />
+
+		<many-to-one class="cz.softinel.retra.icompany.Icompany" name="icompany"
+			column="mir18pk" cascade="none" lazy="false" fetch="join"/>
+
 		<!-- many-to-one name="user" class="cz.softinel.sis.user.User" column="sis10pk" 
 			cascade="all" unique="true" not-null="true" lazy="false" insert="false" update="false"/ -->
 
-	<set name="projects" table="mir13link_employee_project" lazy="true" fetch="join">
-		<key column="sis10pk"/>
-		<many-to-many class="cz.softinel.retra.project.Project" column="mir01pk" fetch="join"/>
-	</set>			
+		<set name="projects" table="mir13link_employee_project" lazy="true" fetch="join">
+			<key column="sis10pk"/>
+			<many-to-many class="cz.softinel.retra.project.Project" column="mir01pk" fetch="join"/>
+		</set>			
 
 	</class>
 	

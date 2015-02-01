@@ -30,6 +30,7 @@
 				<value>cz/softinel/retra/employee/Employee.hbm.xml</value>
         	    <value>cz/softinel/retra/activity/Activity.hbm.xml</value>
         	    <value>cz/softinel/retra/category/Category.hbm.xml</value>
+        	    <value>cz/softinel/retra/icompany/Icompany.hbm.xml</value>
         	    <value>cz/softinel/retra/project/Project.hbm.xml</value>
         	    <value>cz/softinel/retra/component/Component.hbm.xml</value>
         	    <value>cz/softinel/retra/invoice/Invoice.hbm.xml</value>

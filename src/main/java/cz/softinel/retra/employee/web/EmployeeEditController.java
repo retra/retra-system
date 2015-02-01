@@ -3,17 +3,19 @@ package cz.softinel.retra.employee.web;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.propertyeditors.CustomCollectionEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+
 import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.employee.EmployeeHelper;
 import cz.softinel.retra.employee.blo.EmployeeLogic;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.blo.ProjectLogic;
-import cz.softinel.retra.spring.web.FormController;
 import cz.softinel.sis.contactinfo.blo.ContactInfoLogic;
 import cz.softinel.uaf.messages.Message;
 import cz.softinel.uaf.spring.web.controller.Model;
@@ -24,17 +26,12 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
  * 
  * @author Zoltan Vadasz
  */
-public class EmployeeEditController extends FormController {
+public class EmployeeEditController extends AbstractEmployeeFormController {
 	
-	private EmployeeLogic employeeLogic;
 	private ContactInfoLogic contactInfoLogic;
 	private ProjectLogic projectLogic;
 
 	// Configuration setter methods ..
-	
-	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
-		this.employeeLogic = employeeLogic;
-	}
 	
 	public void setContactInfoLogic(ContactInfoLogic contactInfoLogic) {
 		this.contactInfoLogic = contactInfoLogic;
@@ -52,7 +49,7 @@ public class EmployeeEditController extends FormController {
 		// Load data ...
 		Employee employee = new Employee(); 
 		employee.setPk(Long.valueOf(pkString));
-		employeeLogic.loadAndLoadLazy(employee);
+		getEmployeeLogic().loadAndLoadLazy(employee);
 		EmployeeForm form = (EmployeeForm) command;
 		EmployeeHelper.entityToForm(employee, form);
 	}
@@ -60,6 +57,7 @@ public class EmployeeEditController extends FormController {
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
 		prepareProjects(model);
+		prepareIcompanies(model);
 	}	
 	
 	protected void prepareProjects(Model model) {
@@ -78,7 +76,7 @@ public class EmployeeEditController extends FormController {
 			// Prepare entities ...
 			Employee employee = new Employee(); 
 			employee.setPk(Long.valueOf(Long.valueOf(form.getPk())));
-			employeeLogic.loadAndLoadLazy(employee);
+			getEmployeeLogic().loadAndLoadLazy(employee);
 			// Map form into entities ...
 			EmployeeHelper.formToEntity(form, employee);
 			// Process business logic ...
@@ -94,7 +92,7 @@ public class EmployeeEditController extends FormController {
 				}
 			}
 			employee.setProjects(projects);
-			employeeLogic.store(employee);
+			getEmployeeLogic().store(employee);
 			// Some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), form);

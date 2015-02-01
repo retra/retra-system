@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+	<class name="cz.softinel.retra.icompany.Icompany" table="mir18icompany">
+		<cache usage="read-only"/>
+		<id name="pk" column="mir18pk">
+			<generator class="native" />
+		</id>
+		
+		<property name="code" not-null="true" column="mir18code" />
+		<property name="name" not-null="true" column="mir18name" />
+
+		<property name="state" not-null="true" column="mir18state" />
+	</class>
+
+	<query name="Icompany.selectAllWithoutStates">
+		<![CDATA[
+			select
+				icompany
+			from
+				Icompany as icompany
+			where
+				icompany.state not in (:states)
+		]]>
+	</query>
+
+</hibernate-mapping>

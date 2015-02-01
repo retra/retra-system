@@ -8,6 +8,7 @@ package cz.softinel.retra.employee;
 
 import java.util.Set;
 
+import cz.softinel.retra.icompany.Icompany;
 import cz.softinel.retra.project.Project;
 import cz.softinel.sis.user.User;
 
@@ -19,7 +20,10 @@ public class Employee {
 
 	private Long pk;
 	
+	private Boolean igenerate;
+	
 	private User user;
+	private Icompany icompany;
 	
 	private Set<Project> projects;
 	
@@ -38,6 +42,18 @@ public class Employee {
 	 */
 	public void setPk(Long pk) {
 		this.pk = pk;
+	}
+	public Boolean getIgenerate() {
+		return igenerate;
+	}
+	public void setIgenerate(Boolean igenerate) {
+		this.igenerate = igenerate;
+	}
+	public Icompany getIcompany() {
+		return icompany;
+	}
+	public void setIcompany(Icompany icompany) {
+		this.icompany = icompany;
 	}
 	/**
 	 * @return Returns the user.

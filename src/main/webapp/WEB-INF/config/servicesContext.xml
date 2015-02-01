@@ -46,10 +46,12 @@
 
 	<!-- dao for category -->
 	<bean id="categoryDao" class="cz.softinel.retra.category.dao.HibernateCategoryDao" parent="miraAbstractDao" />
-	
+
+	<!-- dao for icompany -->
+	<bean id="icompanyDao" class="cz.softinel.retra.icompany.dao.HibernateIcompanyDao" parent="miraAbstractDao" />
+		
 	<!-- dao for jiraWorklog -->
 	<bean id="jiraWorklogDao" class="cz.softinel.retra.jiraintegration.worklog.dao.HibernateJiraWorklogDao" parent="miraAbstractDao" />
-	
 	
 	<!-- dao for type -->
 	<bean id="typeDao" class="cz.softinel.retra.type.dao.HibernateTypeDao" parent="miraAbstractDao" />

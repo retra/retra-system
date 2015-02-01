@@ -89,8 +89,10 @@
 	
 	<br><center><b>Employees</b></center><br>
 	
+	<div class="filterDiv"><br /></div>
+	
 	<spring:bind path="projectForm.employees">
-	<select class="jquery-doubleselect-leftSelect" name="${status.expression}" multiple="multiple">
+	<select name="${status.expression}" multiple="multiple">
            <c:forEach items="${employees}" var="employee">
                <c:forEach items="${status.value}" var="currentEmployee">
                
@@ -130,8 +132,7 @@
 (function() {
 	var input = $('<label for="filterProject" style="padding-right: 20px;">Filter User</label><input id="filterProject" type="text" style="width: 418px" />');
 
-	$(input).insertBefore(".jquery-doubleselect-leftSelect");
-
+	$(input).insertBefore(".filterDiv");
 
 	jQuery.fn.filterByText = function(textbox) {
 		return this.each(function() {

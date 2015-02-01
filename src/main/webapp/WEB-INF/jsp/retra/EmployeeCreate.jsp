@@ -127,6 +127,34 @@
 				</td>
 			</spring:bind>
 		</tr>
+		<tr>
+			<spring:bind path="employeeForm.icompany">
+				<th><fmt:message key="entity.employee.icompany" /></th>
+				<td>
+					<vc:select name="${status.expression}" valueObjects="${icompanies}" selected="${status.value}" 
+					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
+						<vc:select-option value=""><fmt:message key="employee.icompany.unassigned" /></vc:select-option>
+					</vc:select>
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+				</td>
+			</spring:bind>
+		</tr>
+		<tr>
+			<spring:bind path="employeeForm.igenerate">
+				<th><fmt:message key="entity.employee.igenerate" /></th>
+				<td>
+					<c:choose>
+						<c:when test="${status.value != null && status.value == true}"><input type="checkbox" name="${status.expression}" checked="checked" /></c:when>
+						<c:otherwise><input type="checkbox" name="${status.expression}" /></c:otherwise>
+					</c:choose>
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+				</td>
+			</spring:bind>
+		</tr>
 	</table>
 	<table class="formTable">
 		<tr class="buttons">
