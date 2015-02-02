@@ -129,7 +129,9 @@
 </form>
 
 <script>
-(function() {
+$(document).ready(initCustomFilter);
+
+function initCustomFilter() {
 	var input = $('<label for="filterProject" style="padding-right: 20px;">Filter User</label><input id="filterProject" type="text" style="width: 418px" />');
 
 	$(input).insertBefore(".filterDiv");
@@ -178,5 +180,5 @@
 		});
 	});
 
-}).apply(this);
+}
 </script>

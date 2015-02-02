@@ -26,7 +26,6 @@ import cz.softinel.retra.invoiceseq.blo.InvoiceSeqLogic;
 import cz.softinel.retra.spring.web.WizardFormController;
 import cz.softinel.uaf.messages.Message;
 import cz.softinel.uaf.messages.Messages;
-import cz.softinel.uaf.spring.web.controller.HttpRequestContext;
 import cz.softinel.uaf.spring.web.controller.HttpSessionContext;
 
 /**
