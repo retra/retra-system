@@ -3,8 +3,24 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cz.retra</groupId>
 	<artifactId>app-retra</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>2.1.0-SNAPSHOT</version>
 	<packaging>war</packaging>
+
+	<properties>
+		<encoding>UTF-8</encoding>
+
+		<java.version>1.6</java.version>
+		<java.source>${java.version}</java.source>
+		<java.target>${java.version}</java.target>
+		<pmd.targetJdk>${java.version}</pmd.targetJdk>
+
+		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+		
+		<maven-compiler-plugin.version> 2.5.1 </maven-compiler-plugin.version>
+		<maven-jar-plugin.version>      2.4   </maven-jar-plugin.version>
+		<maven-war-plugin.version>		  2.3         </maven-war-plugin.version>
+	</properties>
+
 	<dependencies>
 		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring</artifactId> 
 			<version>2.0.2</version> </dependency> <dependency> <groupId>org.springframework</groupId> 
@@ -163,5 +179,58 @@
 	</dependencies>
 	<build>
 		<finalName>retra</finalName>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin.version}</version>
+					<configuration>
+						<source>${java.source}</source>
+						<target>${java.target}</target>
+						<encoding>${encoding}</encoding>
+						<compilerVersion>${java.version}</compilerVersion>
+					</configuration>
+				</plugin>
+
+				<!-- ~~~~ jar/ejb/war/ear: add Implementation-* & Maven-Version to manifest ~~~~ -->
+				<plugin>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>${maven-jar-plugin.version}</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+							<manifestEntries>
+								<Implementation-Id>${project.artifactId}</Implementation-Id>
+								<Maven-Version>${maven.version}</Maven-Version>
+								<Build-Time>${maven.build.timestamp}</Build-Time>
+								<Jenkins-Build-Number>${BUILD_NUMBER}</Jenkins-Build-Number>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+					<artifactId>maven-war-plugin</artifactId>
+					<version>${maven-war-plugin.version}</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							</manifest>
+							<manifestEntries>
+								<Implementation-Id>${project.artifactId}</Implementation-Id>
+								<Maven-Version>${maven.version}</Maven-Version>
+								<Build-Time>${maven.build.timestamp}</Build-Time>
+								<Jenkins-Build-Number>${BUILD_NUMBER}</Jenkins-Build-Number>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
 	</build>
+
 </project>
