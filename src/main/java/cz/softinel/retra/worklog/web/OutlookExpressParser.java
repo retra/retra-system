@@ -76,8 +76,10 @@ public class OutlookExpressParser extends LineBasedParser {
 					result.addLine(line.toString());
 					line = new StringBuilder();
 				}
-			} else if (quotedString && character == '\t') {
+			} else if (character == '\t' && quotedString) {
 				line.append(' ');
+			} else if (character == ',' && !quotedString) {
+				line.append('\t');
 			} else {
 				line.append((char) character);
 			}
