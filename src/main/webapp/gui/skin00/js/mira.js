@@ -96,6 +96,7 @@ function copyTextIntoTextArea(what, where) {
 	var oldValue = textArea.value;
 	var newValue = what + ' ' + oldValue;
 	textArea.value = newValue;
+	textArea.focus();
 	return false;
 }
 
