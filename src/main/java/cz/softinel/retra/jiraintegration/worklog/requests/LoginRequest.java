@@ -5,6 +5,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
  * @author andy
  * @see LoginResponse
  */
+@Deprecated
 public class LoginRequest {
 	private String username;
 	private String password;

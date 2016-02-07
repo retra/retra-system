@@ -289,7 +289,7 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 			String lineWithImg = inputLine.substring(start+imagePathStart);
 			//String replaced = lineWithImg.replaceAll("(.*)(\\.(gif|jpg|jpeg|png)).*", "$1$2");
 			String replaced = lineWithImg.replaceAll("(.*)(\" width=\").*", "$1");
-			//replaced = replaced.replaceAll("(zoom\\.)(gif|jpg|jpeg|png)", "$2");
+			replaced = replaced.replaceAll("\" />", "");
 			
 			sb = new StringBuffer(targetURL);
 			sb.append(replaced);

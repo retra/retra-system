@@ -4,6 +4,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
  * Response to the worklog adding.
  * @author Erik Szalai
  */
+@Deprecated
 public class WorklogAddResponse {
 	
 private String success;

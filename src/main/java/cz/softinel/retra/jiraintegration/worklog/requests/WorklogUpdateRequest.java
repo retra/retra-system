@@ -6,6 +6,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraRemoteWorklog;
  * Request to update a worklog in the remote Jira.
  * @author Erik Szalai
  */
+@Deprecated
 public class WorklogUpdateRequest {
 	/**
 	 * The login token got from the Jira system.

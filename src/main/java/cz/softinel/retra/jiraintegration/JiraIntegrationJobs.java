@@ -9,6 +9,7 @@ import cz.softinel.retra.jiraintegration.soap.JiraSoapClient;
  * a cron job or similar timing tool.
  * @author Erik Szalai
  */
+@Deprecated
 public class JiraIntegrationJobs {
 	private JiraSoapClient jiraSoapClient;
 	/**

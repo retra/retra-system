@@ -32,6 +32,7 @@ public class WorklogUpdateController extends AbstractWorklogFormController {
 		prepareProjects(model, getShowHistoryData(requestContext));
 		prepareComponents(model, getShowHistoryData(requestContext));
 		prepareInvoicesForCreateOrEdit(model);
+		prepareJiraIssues(model);
 		model.put("jiraIntegrationEnabled", this.isJiraIntegrationEnabled());
 	}
 	

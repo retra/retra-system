@@ -4,6 +4,7 @@ package cz.softinel.retra.jiraintegration.worklog;
  * A helper class to work with {@link JiraWorklog}s.
  * @author SzalaiErik
  */
+@Deprecated
 public class JiraWorklogHelper {
 	
 	/**

@@ -14,7 +14,7 @@
 		<tr>
 			<spring:bind path="worklogForm.date">
 				<th><fmt:message key="worklog.date" /></th>
-				<td>
+				<td colspan="2">
 					<input type="text" name="${status.expression}" value="${status.value}" id="worklogDateId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogDateImgId"/>
 					<script type="text/javascript">
@@ -31,7 +31,7 @@
 		<tr>
 			<spring:bind path="worklogForm.project">
 				<th><fmt:message key="worklog.project" /></th>
-				<td>
+				<td colspan="2">
 					<!-- valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" />  -->
 					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${status.value}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk"/> 
@@ -44,7 +44,7 @@
 		<tr>
 			<spring:bind path="worklogForm.component">
 				<th><fmt:message key="worklog.component" /></th>
-				<td>
+				<td colspan="2">
 					<vc:select name="${status.expression}" valueObjects="${components}" selected="${status.value}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 					>
@@ -59,7 +59,7 @@
 		<tr>
 			<spring:bind path="worklogForm.activity">
 				<th><fmt:message key="worklog.activity" /></th>
-				<td>
+				<td colspan="2">
 					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${status.value}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" />
 					<c:forEach items="${status.errorMessages}">
@@ -71,7 +71,7 @@
 		<tr>
 			<spring:bind path="worklogForm.invoice">
 				<th><fmt:message key="worklog.invoice" /></th>
-				<td>
+				<td colspan="2">
 					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${status.value}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 					>
@@ -86,7 +86,7 @@
 		<tr>
 			<spring:bind path="worklogForm.workFrom">
 				<th><fmt:message key="worklog.workFrom" /></th>
-				<td>
+				<td colspan="2">
 					<input type="text" name="${status.expression}" value="${status.value}" id="worklogWorkFromId"/><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="worklogWorkFromImgId"/>
 					<script type="text/javascript">
@@ -103,7 +103,7 @@
 		<tr>
 			<spring:bind path="worklogForm.workTo">
 				<th><fmt:message key="worklog.workTo" /></th>
-				<td>
+				<td colspan="2">
 					<input type="text" name="${status.expression}" value="${status.value}" id="worklogWorkToId"/><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="worklogWorkToImgId"/>
 					<script type="text/javascript">
@@ -120,8 +120,8 @@
 		<tr>
 			<spring:bind path="worklogForm.description">
 				<th><fmt:message key="worklog.description" /></th>
-				<td>
-					<textarea name="${status.expression}" cols="40" rows="5" onkeypress="return imposeMaxLength(event, this, 249);">${status.value}</textarea>
+				<td width="300">
+					<textarea id="descriptionId" name="${status.expression}" cols="40" rows="7" onkeypress="return imposeMaxLength(event, this, 249);">${status.value}</textarea>
 					<script language="javascript" type="text/javascript">
 					<!--
 					function imposeMaxLength(Event, Object, MaxLen)
@@ -135,20 +135,30 @@
 					</c:forEach>
 				</td>
 			</spring:bind>
+			<td>
+				<c:if test="${!empty issues}" >
+				<div style="max-height:100px; overflow:auto;">
+					<c:forEach items="${issues}" var="issue" varStatus="count">
+						<a href="" title="Copy to description" onclick="return copyTextIntoTextArea('${issue.key}', 'descriptionId')">+&nbsp;${issue.key}</a> - ${issue.summary} ${issue.guiLink}<br />
+					</c:forEach>
+				</div>
+				</c:if>
+			</td>
 		</tr>
+		<%-- deprecated so not used --%>
+		<c:if test="${jiraIntegrationEnabled}" >
 		<tr>
-			<c:if test="${jiraIntegrationEnabled}" >
 			<spring:bind path="worklogForm.issueTrackingReference">
 				<td><fmt:message key="worklog.jiraIssue" /></td>
-				<td>
+				<td colspan="2">
 					<input type="text" name="${status.expression}" value="${status.value}" id="jiraissue" maxlength="50"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
 				</td>
 			</spring:bind>
-			</c:if>
 		</tr>
+		</c:if>
 	</table>
 	<table class="formTable">
 		<tr class="buttons">

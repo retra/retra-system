@@ -4,6 +4,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
  * This request class is used to delete worklogs.
  * @author SzalaiErik
  */
+@Deprecated
 public class DeleteWorklogRequest {
 	private String loginToken;
 	private String issueId;

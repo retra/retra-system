@@ -8,6 +8,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
  * @author andy
  * @see LoginRequest
  */
+@Deprecated
 public class LoginResponse {
 	/**
 	 * This token is given by Jira after a successfull login.

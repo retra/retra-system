@@ -8,6 +8,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
  * Interface for the {@link JiraWorklog} manager.
  * @author SzalaiErik
  */
+@Deprecated
 public interface JiraWorklogLogic {
 	
 	/** 

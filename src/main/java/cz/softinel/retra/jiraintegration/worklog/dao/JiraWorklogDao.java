@@ -11,6 +11,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
  * @author Erik Szalai
  * @see JiraWorklog
  */
+@Deprecated
 public interface JiraWorklogDao {
 
 	/**

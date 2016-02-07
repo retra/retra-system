@@ -10,6 +10,9 @@ import cz.softinel.retra.component.Component;
 import cz.softinel.retra.component.blo.ComponentLogic;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.retra.invoice.blo.InvoiceLogic;
+import cz.softinel.retra.jiraintegration.JiraHelper;
+import cz.softinel.retra.jiraintegration.JiraIssue;
+import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 import cz.softinel.retra.jiraintegration.worklog.service.JiraWorklogLogic;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.blo.ProjectLogic;
@@ -30,11 +33,14 @@ public abstract class AbstractWorklogFormController extends FormController {
 	private JiraWorklogLogic jiraWorklogLogic;
 	private InvoiceLogic invoiceLogic;
 	
+	private JiraLogic jiraLogic;
+	
 	/**
 	 * Use this as a switch for UI elements. If the JiraIntegration is not enabled, set this to false and
 	 * the Jira issue field will not be available.
 	 * @author Erik Szalai
 	 */
+	@Deprecated
 	private boolean jiraIntegrationEnabled = false;
 	
 	/**
@@ -53,7 +59,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 	public void setJiraIntegrationEnabled(boolean jiraIntegrationEnabled) {
 		this.jiraIntegrationEnabled = jiraIntegrationEnabled;
 	}
-
+	
 	/**
 	 * @return
 	 */
@@ -66,6 +72,14 @@ public abstract class AbstractWorklogFormController extends FormController {
 	 */
 	public void setJiraWorklogLogic(JiraWorklogLogic jiraWorklogLogic) {
 		this.jiraWorklogLogic = jiraWorklogLogic;
+	}
+
+	public JiraLogic getJiraLogic() {
+		return jiraLogic;
+	}
+
+	public void setJiraLogic(JiraLogic jiraLogic) {
+		this.jiraLogic = jiraLogic;
 	}
 
 	/**
@@ -177,6 +191,17 @@ public abstract class AbstractWorklogFormController extends FormController {
 		}
 
 		model.put("projects", projects);
+	}
+	
+	protected void prepareJiraIssues(Model model) {
+		String ldapLogin = getSecurityLogic().getLoggedUser().getLogin().getLdapLogin();
+		List<JiraIssue> issues = jiraLogic.findJiraIssuesForUser(ldapLogin);
+		if (issues != null && !issues.isEmpty()) {
+			for (JiraIssue ji : issues) {
+				ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic.getJiraConfig()));
+			}
+		}
+		model.put("issues", issues);
 	}
 	
 	private List<Project> filterActiveProject(Set<Project> projects) {

@@ -91,4 +91,12 @@ function setFocusFirstInputOfFirstForm() {
   
 }
 
+function copyTextIntoTextArea(what, where) {
+	var textArea = document.getElementById(where);
+	var oldValue = textArea.value;
+	var newValue = what + ' ' + oldValue;
+	textArea.value = newValue;
+	return false;
+}
+
 window.onload=setFocusFirstInputOfFirstForm;

@@ -9,6 +9,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
  * @see JiraSoapClientMarshaller
  * @see JiraWorklog
  */
+@Deprecated
 public interface JiraSoapClient {
 	
 	/**

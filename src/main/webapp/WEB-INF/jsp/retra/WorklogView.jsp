@@ -42,7 +42,7 @@
 		</tr>
 		<tr>
 			<th><fmt:message key="worklog.description" /></th>
-			<td>${worklog.description}</td>
+			<td>${worklog.descriptionGui}</td>
 		</tr>
 	</table>
 	<table class="formTable">

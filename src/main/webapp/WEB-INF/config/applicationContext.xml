@@ -105,6 +105,8 @@
 		 -->
 		<property name="invoiceDao" ref="invoiceDao" />
 		<property name="securityLogic" ref="securityLogic" />
+		
+		<property name="jiraLogic" ref="jiraLogic" />
 	</bean>
 
 	<!-- implementation of the activity logic -->
@@ -161,6 +163,12 @@
 	<!-- implementation of the jiraWorklog logic -->
 	<bean id="jiraWorklogLogic" class="cz.softinel.retra.jiraintegration.worklog.service.JiraWorklogLogicImpl">
 		<property name="jiraWorklogDao" ref="jiraWorklogDao" />
+	</bean>
+
+	<!-- implementation of the jira logic -->
+	<bean id="jiraLogic" class="cz.softinel.retra.jiraintegration.logic.JiraLogicImpl">
+		<property name="jiraConfig" ref="jiraConfig" />
+		<property name="jiraConnector" ref="jiraConector" />
 	</bean>
 	
 	<!-- Settings for integration with Jira. -->

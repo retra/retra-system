@@ -2,7 +2,6 @@ package cz.softinel.retra.jiraintegration.worklog.service;
 
 import java.util.List;
 
-
 import cz.softinel.retra.jiraintegration.soap.JiraSoapClient;
 import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
 import cz.softinel.retra.jiraintegration.worklog.dao.JiraWorklogDao;
@@ -15,6 +14,7 @@ import cz.softinel.retra.jiraintegration.worklog.dao.JiraWorklogDao;
  * @see JiraWorklog
  * @see JiraWorklogDaof
  */
+@Deprecated
 public class JiraWorklogLogicImpl implements JiraWorklogLogic {
 
 	private JiraWorklogDao jiraWorklogDao;

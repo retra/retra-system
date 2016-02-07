@@ -1,6 +1,11 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="7.2.2016"
+		  title="Build 2.1.0"
+		  body="New integration with JIRA implemented (worklogs) and some bugfix."
+		  author="Retra Team"
+	/>
 	<item date="2.2.2015"
 		  title="Build 2.0.0"
 		  body="Invoice batch generating, filtering projects and employees for assign and some bugfix."

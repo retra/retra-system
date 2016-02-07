@@ -29,6 +29,9 @@ public class Worklog {
 	private Date workTo;
 	private String description;
 
+	//counted field
+	private String descriptionGui;
+	
 	private Employee employee;
 	private Activity activity;
 	private Project project;
@@ -47,6 +50,13 @@ public class Worklog {
 		long deltaMiliseconds = workTo.getTime() - workFrom.getTime();
 		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000),10,RoundingMode.CEILING);
 	}
+
+	public long getSeconds() {
+		// TODO: Use helper method???
+		long deltaMiliseconds = workTo.getTime() - workFrom.getTime();
+		return deltaMiliseconds / 1000;
+	}
+
 	
 	public Date getDate() {
 		return DateHelper.getStartOfDay(workFrom);
@@ -84,6 +94,14 @@ public class Worklog {
 	 */
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getDescriptionGui() {
+		return descriptionGui;
+	}
+
+	public void setDescriptionGui(String descriptionGui) {
+		this.descriptionGui = descriptionGui;
 	}
 
 	/**

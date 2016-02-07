@@ -6,6 +6,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraRemoteWorklog;
  * Add a worklog to the given issue. This request is the object for the marshaller. 
  * @author Erik Szalai
  */
+@Deprecated
 public class WorklogAddRequest {
 	
 	/**

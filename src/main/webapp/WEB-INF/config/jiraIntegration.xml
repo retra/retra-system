@@ -20,6 +20,25 @@
 		</property>
 		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 	</bean>
+
+	<!-- NEW -->
+	
+	<bean id="jiraConfig" class="cz.softinel.retra.jiraintegration.JiraConfig">
+		<property name="enabled" value="${jira.new.int.enabled}"/>
+		<property name="user" value="${jira.new.user}"/>
+		<property name="password" value="${jira.new.password}"/>
+		<property name="baseUrl" value="${jira.new.base.url}"/>
+		<property name="issuePath" value="${jira.new.browse.issue.path}"/>
+		<property name="restPath" value="${jira.new.rest.path}"/>
+	</bean>
+
+	<bean id="jiraConector" class="cz.softinel.retra.jiraintegration.JiraConnector">
+		<property name="jiraConfig" ref="jiraConfig"/>
+	</bean>
+
+	<!-- NEW -->
+	
+	<!-- OLD -->
 		
 	<!-- The jobs, which are executed are in this class. -->
 	<bean id="jiraIntegrationJobs" class="cz.softinel.retra.jiraintegration.JiraIntegrationJobs">
@@ -60,5 +79,8 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- OLD -->
+
 </beans>
 		

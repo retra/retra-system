@@ -99,7 +99,7 @@
 				<td><fmt:formatDate value="${worklog.workFrom}" pattern="${TypeFormats.DATE_FORMAT}"/></td>
 				<td><fmt:formatDate value="${worklog.workFrom}" pattern="${TypeFormats.HOUR_FORMAT}"/></td>
 				<td><fmt:formatDate value="${worklog.workTo}" pattern="${TypeFormats.HOUR_FORMAT}"/></td>
-				<td>${worklog.description}</td>
+				<td>${worklog.descriptionGui}</td>
 				<td><acronym title="${worklog.project.name}">${worklog.project.code}</acronym></td>
 				<td><acronym title="${worklog.component.name}">${worklog.component.code}</acronym></td>
 				<td><acronym title="${worklog.activity.name}">${worklog.activity.code}</acronym></td>

@@ -4,6 +4,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
  * Request object for getting an issue. Used mainly for issue name validation purposes before other operations.
  * @author SzalaiErik
  */
+@Deprecated
 public class GetIssueRequest {
 	/**
 	 * The session token got after a login.

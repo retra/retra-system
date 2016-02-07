@@ -11,6 +11,7 @@ import cz.softinel.retra.worklog.Worklog;
  * Worklog stored locally for the Jira system.
  *
  */
+@Deprecated
 public class JiraWorklog {
 	
 	public static final int EXPORTED = 0;

@@ -9,6 +9,8 @@ import org.springframework.util.Assert;
 import cz.softinel.retra.core.blo.AbstractLogicBean;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.retra.invoice.dao.InvoiceDao;
+import cz.softinel.retra.jiraintegration.JiraHelper;
+import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 import cz.softinel.retra.security.blo.MiraSecurityLogic;
 import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.retra.worklog.WorklogViewOverview;
@@ -31,7 +33,8 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	private InvoiceDao invoiceDao;
 	private MiraSecurityLogic securityLogic;
 
-
+	private JiraLogic jiraLogic;
+	
 	/**
 	 * @param worklogDao the worklogDao to set
 	 */
@@ -50,12 +53,22 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		this.securityLogic = securityLogic;
 	}
 
+	public JiraLogic getJiraLogic() {
+		return jiraLogic;
+	}
+
+	public void setJiraLogic(JiraLogic jiraLogic) {
+		this.jiraLogic = jiraLogic;
+	}
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findAllWorklogs()
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Worklog> findAllWorklogs() {
-		return worklogDao.selectAll();
+		List<Worklog> result = worklogDao.selectAll();
+		updateDescriptionGui(result);
+		return result;
 	}
 	
 	/**
@@ -63,12 +76,16 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Worklog> findAllWorklogsForEmployee(Long pk) {
-		return worklogDao.selectForEmployee(pk);
+		List<Worklog> result = worklogDao.selectForEmployee(pk);
+		updateDescriptionGui(result);		
+		return result;
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Worklog> findAllWorklogsForInvoice(Long pk) {
-		return worklogDao.selectForInvoice(pk);
+		List<Worklog> result = worklogDao.selectForInvoice(pk);
+		updateDescriptionGui(result);		
+		return result;
 	}
 	
 	/**
@@ -88,7 +105,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			return null;
 		}
 
-		return worklogDao.insert(worklog);
+		return worklogCreate(worklog);
 	}
 	
 	/**
@@ -108,12 +125,29 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 				addError(new Message("worklog.has.invalid.invoice"));
 				continue;
 			}
-			worklogDao.insert(worklog);
+			worklogCreate(worklog);
 			counter++;
 		}
 		return counter;
 	}
 
+	/**
+	 * Implementation of creating worklog.
+	 * 
+	 * @param worklog
+	 * @return
+	 */
+	private Worklog worklogCreate(Worklog worklog) {
+		Worklog result = worklogDao.insert(worklog);
+		
+		if (isJiraEnabled()) {
+			jiraLogic.addJiraWorklog(worklog);
+			updateDescriptionGui(result);
+		}
+		
+		return result;
+	}
+	
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#remove(cz.softinel.retra.worklog.Worklog)
 	 */
@@ -129,6 +163,10 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		if (!hasValidInvoice(worklog, actualEmployeePk)) {
 			addError(new Message("worklog.error.delete.invalid.invoice"));
 			return;
+		}
+
+		if (isJiraEnabled()) {
+			jiraLogic.deleteJiraWorklog(worklog);
 		}
 		worklogDao.delete(worklog);
 	}
@@ -148,12 +186,15 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Worklog get(Long pk) {
-		return worklogDao.get(pk);
+		Worklog result = worklogDao.get(pk);
+		updateDescriptionGui(result);		
+		return result;
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public void loadAndLoadLazy(Worklog worklog) {
 		worklogDao.loadAndLoadLazy(worklog);
+		updateDescriptionGui(worklog);
 	}
 	
 	/**
@@ -181,8 +222,14 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			addError(new Message("worklog.error.update.not.own"));
 			return;
 		}
+
+		if (isJiraEnabled()) {
+			jiraLogic.updateJiraWorklog(worklogInDB, worklog);
+			updateDescriptionGui(worklog);
+		}
+
 		worklogDao.merge(worklog);
-//		worklogDao.update(worklog); //Does not work with two worklogs in the session.
+	//		worklogDao.update(worklog); //Does not work with two worklogs in the session.
 	}
 
 	/**
@@ -190,7 +237,9 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Worklog> findByFilter(Filter filter) {
-		return worklogDao.selectByFilter(filter);
+		List<Worklog> result = worklogDao.selectByFilter(filter);
+		updateDescriptionGui(result);		
+		return result;
 	}
 
 	/**
@@ -320,6 +369,28 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 				return worklog.getInvoice().getState() == Invoice.STATE_ACTIVE;
 			}
 		}
+	}
+	
+	private boolean isJiraEnabled() {
+		return jiraLogic.isJiraEnabled();
+	}
+	
+	private void updateDescriptionGui(List<Worklog> worklogs) {
+		if (isJiraEnabled() && worklogs != null && !worklogs.isEmpty()) {
+			for (Worklog worklog : worklogs) {
+				updateDescriptionGuiImpl(worklog);
+			}
+		}
+	}
+
+	private void updateDescriptionGui(Worklog worklog) {
+		if (isJiraEnabled() && worklog != null) {
+			updateDescriptionGuiImpl(worklog);
+		}
+	}
+	
+	private void updateDescriptionGuiImpl(Worklog worklog) {
+		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic.getJiraConfig()));
 	}
 }
 

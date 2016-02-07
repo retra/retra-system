@@ -12,6 +12,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
  * Hibernate implementation for the {@link JiraWorklogDao}
  * @author SzalaiErik
  */
+@Deprecated
 public class HibernateJiraWorklogDao extends HibernateDaoSupport implements JiraWorklogDao {
 
 	/* (non-Javadoc)

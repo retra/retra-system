@@ -9,6 +9,7 @@ import org.w3c.dom.DocumentType;
  * Helping the marshaller with utility methods.
  * @author SzalaiErik
  */
+@Deprecated
 public class MarshallerHelper {
 	
 	/**

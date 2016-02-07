@@ -334,6 +334,7 @@
 		<property name="jiraWorklogLogic" ref="jiraWorklogLogic" />
 		<property name="invoiceLogic" ref="invoiceLogic" />
 		<property name="jiraIntegrationEnabled" value="${jira.integration.enabled}" />
+		<property name="jiraLogic" ref="jiraLogic" />
 		
 		<property name="commandClass" value="cz.softinel.retra.worklog.web.WorklogForm" />
 		<property name="commandName" value="worklogForm" />

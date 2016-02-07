@@ -28,6 +28,7 @@ import cz.softinel.uaf.util.StringHelper;
  * @see JiraSoapClient
  * @see JiraSoapClientMarshaller
  */
+@Deprecated
 public class JiraSoapClientImpl implements JiraSoapClient {
 	
 	private JiraWorklogLogic jiraWorklogLogic;

@@ -98,7 +98,9 @@
 	</display:column>
 	<display:column property="activity.code" titleKey="worklog.activity" sortable="true" media="csv excel xml pdf rtf"/>
 
-	<display:column property="description" titleKey="worklog.description" sortable="true"/>
+	<display:column property="descriptionGui" titleKey="worklog.description" media="html" sortable="true"/>	
+	<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf"/>
+	
 	<display:column property="workFrom" titleKey="worklog.workFrom" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="workTo" titleKey="worklog.workTo" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="hours" titleKey="worklog.hours" sortable="true" format="{0,number,#,##0.00}"/>

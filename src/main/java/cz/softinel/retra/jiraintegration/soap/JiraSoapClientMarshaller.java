@@ -38,6 +38,7 @@ import cz.softinel.retra.jiraintegration.worklog.requests.WorklogUpdateResponse;
  * Marshaller for the web service template.
  * @author SzalaiErik
  */
+@Deprecated
 public class JiraSoapClientMarshaller extends AbstractMarshaller {
 	
     private SimpleDateFormat requestDateFormat;

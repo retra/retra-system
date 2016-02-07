@@ -6,6 +6,7 @@ import java.util.Date;
  * Object for converting between {@link JiraWorklog} and the SOAP XML.
  * This class' importance needs to be rethinked.
  */
+@Deprecated
 public class JiraRemoteWorklog {
 	
 	/**
