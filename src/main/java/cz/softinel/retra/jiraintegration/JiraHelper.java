@@ -1,0 +1,73 @@
+package cz.softinel.retra.jiraintegration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public abstract class JiraHelper {
+
+	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z]{1,10}\\-[1-9]{1}[0-9]{0,9}";
+	public static final String SW_CODE_PREFIX = "SW-";
+	
+	private static final Pattern JIRA_ISSUE_CODE_PATTERN = Pattern.compile(JIRA_ISSUE_CODE_REGEXP);
+	
+	private JiraHelper() {
+	}
+
+	public static List<String> findIssueCodesInText(final String text) {
+		List<String> result = new ArrayList<String>();
+
+		if (text != null) {
+			Matcher m = JIRA_ISSUE_CODE_PATTERN.matcher(text);
+			while (m.find()) {
+				String code = m.group(0);
+				if (!code.startsWith(SW_CODE_PREFIX)) {
+					result.add(m.group(0));					
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public static String getLinkableText(final String text, final JiraConfig jiraConfig) {
+		return getLinkableText(text, null, jiraConfig);
+	}
+
+	public static String getLinkableText(final String text, String linkText, final JiraConfig jiraConfig) {
+		String result = null;
+		
+		if (jiraConfig != null) {
+			StringBuilder urlsb = new StringBuilder("<a href=\"");
+			urlsb.append(jiraConfig.getBaseUrl());
+			urlsb.append(jiraConfig.getIssuePath());
+			urlsb.append("%s\" title=\"%s\" target=\"_blank\">");
+			if (linkText != null) {
+				urlsb.append(linkText);	
+			} else {
+				urlsb.append("%s");				
+			}
+			urlsb.append("</a>");
+
+			String url = urlsb.toString();
+			List<String> issues = findIssueCodesInText(text);
+			if (issues != null && !issues.isEmpty()) {
+				result = text;
+				for (String code : issues) {
+					String replacement = String.format(url, code, code, code);
+					result = result.replaceAll(code, replacement);
+				}
+			} else {
+				result = text;
+			}
+		} else {
+			result = text;
+		}
+		
+		return result;
+	}
+
+
+
+}
