@@ -2,7 +2,7 @@
 
 <news>
 	<item date="7.2.2016"
-		  title="Build 2.1.0"
+		  title="Build 2.1.0, 2.1.1"
 		  body="New integration with JIRA implemented (worklogs) and some bugfix."
 		  author="Retra Team"
 	/>
