@@ -5,7 +5,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import javax.ws.rs.core.MediaType;
 
@@ -65,11 +64,8 @@ public class JiraConnector implements InitializingBean {
 						ClientResponse.class,
 						data
 				);
-		if (response.getStatus() == 400) {
-			return false;
-		}
 		if (response.getStatus() != 201) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus() + " / ");
+			return false;
 		}
 		return true;
 	}
@@ -85,11 +81,8 @@ public class JiraConnector implements InitializingBean {
 						ClientResponse.class,
 						data
 				);
-		if (response.getStatus() == 400) {
-			return false;
-		}
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus() + " / ");
+			return false;
 		}
 		return true;
 	}
@@ -101,11 +94,8 @@ public class JiraConnector implements InitializingBean {
 				.delete(
 						ClientResponse.class
 				);
-		if (response.getStatus() == 400) {
-			return false;
-		}
 		if (response.getStatus() != 204) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus() + " / ");
+			return false;
 		}
 		return true;
 	}
@@ -115,11 +105,8 @@ public class JiraConnector implements InitializingBean {
 		final ClientResponse response = client.resource(url)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.get(ClientResponse.class);
-		if (response.getStatus() == 400) {
-			return null;
-		}
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus() + " / ");
+			return null;
 		}
 		final JiraWorklogsResult searchResult = response.getEntity(JiraWorklogsResult.class);
 		final List<JiraWorklog> worklogs = searchResult.getWorklogs();
@@ -158,11 +145,8 @@ public class JiraConnector implements InitializingBean {
 		final ClientResponse response = client.resource(url)
 				.accept(MediaType.APPLICATION_JSON_TYPE)
 				.get(ClientResponse.class);
-		if (response.getStatus() == 400) {
-			return null;
-		}
 		if (response.getStatus() != 200) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus() + " / " + query);
+			return null;
 		}
 		final JiraSearchResult searchResult = response.getEntity(JiraSearchResult.class);
 		final List<JiraIssue> result = searchResult.getIssues();
