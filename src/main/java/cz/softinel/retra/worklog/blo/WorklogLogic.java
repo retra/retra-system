@@ -97,6 +97,13 @@ public interface WorklogLogic {
 	 * @param worklog
 	 */
 	public void store(Worklog worklog);
+
+	/**
+	 * Stores given worklog
+	 * 
+	 * @param worklog
+	 */
+	public void storeFromInvoice(Worklog worklog);
 	
 	/**
 	 * Find worklog overviews according to given filter parameters

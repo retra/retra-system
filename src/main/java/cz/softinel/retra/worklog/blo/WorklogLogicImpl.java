@@ -196,12 +196,21 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		worklogDao.loadAndLoadLazy(worklog);
 		updateDescriptionGui(worklog);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#store(cz.softinel.retra.worklog.Worklog, cz.softinel.uaf.messages.Messages)
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public void store(Worklog worklog) {
+		storeImpl(worklog, true);
+	}
+
+	@Override
+	public void storeFromInvoice(Worklog worklog) {
+		storeImpl(worklog, false);
+	}
+	
+	private void storeImpl(Worklog worklog, boolean updateJira) {
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 
 		//business validation
@@ -223,7 +232,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			return;
 		}
 
-		if (isJiraEnabled()) {
+		if (isJiraEnabled() && updateJira) {
 			jiraLogic.updateJiraWorklog(worklogInDB, worklog);
 			updateDescriptionGui(worklog);
 		}
@@ -260,7 +269,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			&& actualEmployeePk.equals(invoice.getEmployee().getPk())
 			&& worklog.getInvoice().getPk().equals(invoice.getPk())) {
 			worklog.setInvoice(null);
-			store(worklog);
+			storeFromInvoice(worklog);
 		} else {
 			addError(new Message("invoice.worklog.unpair.error"));
 		}
@@ -303,7 +312,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		if (actualEmployeePk.equals(worklog.getEmployee().getPk())
 			&& actualEmployeePk.equals(invoice.getEmployee().getPk())) {
 			worklog.setInvoice(invoice);
-			store(worklog);
+			storeFromInvoice(worklog);
 			return true;
 		}
 
