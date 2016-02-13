@@ -198,7 +198,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 		List<JiraIssue> issues = jiraLogic.findJiraIssuesForUser(ldapLogin);
 		if (issues != null && !issues.isEmpty()) {
 			for (JiraIssue ji : issues) {
-				ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic.getJiraConfig()));
+				ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic));
 			}
 		}
 		model.put("issues", issues);

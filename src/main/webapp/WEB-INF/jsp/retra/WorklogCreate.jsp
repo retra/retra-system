@@ -34,7 +34,7 @@
 				<td colspan="2">
 					<!-- valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" />  -->
 					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${status.value}" 
-						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk"/> 
+						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" onchange="worklogProjectChange()" id="worklogProjectId" /> 
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -61,7 +61,7 @@
 				<th><fmt:message key="worklog.activity" /></th>
 				<td colspan="2">
 					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${status.value}" 
-					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" />
+					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" id="worklogActivityId" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

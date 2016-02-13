@@ -399,7 +399,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	}
 	
 	private void updateDescriptionGuiImpl(Worklog worklog) {
-		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic.getJiraConfig()));
+		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic));
 	}
 }
 

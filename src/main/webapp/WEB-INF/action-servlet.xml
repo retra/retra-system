@@ -75,6 +75,7 @@
 		<property name="cookieHelper" ref="worklogCookieHelper" />
 		<property name="jokeGenerator" ref="miraJokeGenerator" />
 		<property name="systemNewsFactory" ref="systemNewsFactory" />
+		<property name="activityLogic" ref="activityLogic" />
 	</bean>
 
 	<!-- show error -->
