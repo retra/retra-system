@@ -15,6 +15,7 @@ import cz.softinel.uaf.util.CommonHelper;
 @SuppressWarnings("serial")
 public class SelectTag extends VisualComponentTag {
 
+	private String id;
 	private String name;
 	private Map<String, String> staticValues;
 	private List<Object> valueObjects;
@@ -24,9 +25,11 @@ public class SelectTag extends VisualComponentTag {
 	private String parentProperty;
 	private String orderBy;
 	private boolean multiselect;
+	private String onchange;
 
 	@Override
 	protected void reset() {
+		id = null;
 		name = null;
 		staticValues = new HashMap<String, String>();
 		valueObjects = null;
@@ -36,6 +39,7 @@ public class SelectTag extends VisualComponentTag {
 		parentProperty = null;
 		orderBy = null;
 		multiselect = false;
+		onchange = null;
 	}
 
 	@Override
@@ -154,7 +158,14 @@ public class SelectTag extends VisualComponentTag {
 	}
 
 	private void generateSelectBegin() {
-		output.append("\n	<select name='"+name+"'>");
+		output.append("\n	<select name='"+name+"'");
+		if (onchange != null) {
+			output.append(" onchange='"+onchange+"'");
+		}
+		if (id != null) {
+			output.append(" id='"+id+"'");
+		}
+		output.append(">");
 	}
 
 	private void generateSelectEnd() {
@@ -231,6 +242,22 @@ public class SelectTag extends VisualComponentTag {
 
 	public Map<String, String> getStaticValues() {
 		return staticValues;
+	}
+
+	public String getOnchange() {
+		return onchange;
+	}
+
+	public void setOnchange(String onchange) {
+		this.onchange = onchange;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override

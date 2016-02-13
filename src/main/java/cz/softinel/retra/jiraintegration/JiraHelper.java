@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import cz.softinel.retra.jiraintegration.logic.JiraLogic;
+
 public abstract class JiraHelper {
 
 	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z]{1,10}\\-[1-9]{1}[0-9]{0,9}";
@@ -31,17 +33,17 @@ public abstract class JiraHelper {
 		return result;
 	}
 
-	public static String getLinkableText(final String text, final JiraConfig jiraConfig) {
-		return getLinkableText(text, null, jiraConfig);
+	public static String getLinkableText(final String text, final JiraLogic jiraLogic) {
+		return getLinkableText(text, null, jiraLogic);
 	}
 
-	public static String getLinkableText(final String text, String linkText, final JiraConfig jiraConfig) {
+	public static String getLinkableText(final String text, String linkText, final JiraLogic jiraLogic) {
 		String result = null;
 		
-		if (jiraConfig != null) {
+		if (jiraLogic != null && jiraLogic.getJiraConfig() != null) {
 			StringBuilder urlsb = new StringBuilder("<a href=\"");
-			urlsb.append(jiraConfig.getBaseUrl());
-			urlsb.append(jiraConfig.getIssuePath());
+			urlsb.append(jiraLogic.getJiraConfig().getBaseUrl());
+			urlsb.append(jiraLogic.getJiraConfig().getIssuePath());
 			urlsb.append("%s\" title=\"%s\" target=\"_blank\">");
 			if (linkText != null) {
 				urlsb.append(linkText);	
@@ -55,7 +57,12 @@ public abstract class JiraHelper {
 			if (issues != null && !issues.isEmpty()) {
 				result = text;
 				for (String code : issues) {
-					String replacement = String.format(url, code, code, code);
+					JiraIssue issue = jiraLogic.getJiraIssue(code);
+					String title = code;
+					if (issue != null) {
+						title = code + " - " + issue.getSummary();
+					}
+					String replacement = String.format(url, code, title, code);
 					result = result.replaceAll(code, replacement);
 				}
 			} else {

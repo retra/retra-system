@@ -8,6 +8,16 @@ public class JiraConfig {
 	private String baseUrl;
 	private String issuePath;
 	private String restPath;
+	
+	private JiraCache jiraCache;
+
+	public JiraCache getJiraCache() {
+		return jiraCache;
+	}
+
+	public void setJiraCache(JiraCache jiraCache) {
+		this.jiraCache = jiraCache;
+	}
 
 	public boolean isEnabled() {
 		return enabled;

@@ -53,6 +53,18 @@ public class JiraConnector implements InitializingBean {
 		return result;
 	}
 
+	public JiraIssue getJiraIssue(final String issueKey) {
+		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "?fields=id,key,summary";
+		final ClientResponse response = client.resource(url)
+				.accept(MediaType.APPLICATION_JSON_TYPE)
+				.get(ClientResponse.class);
+		if (response.getStatus() != 200) {
+			return null;
+		}
+		final JiraIssue result = response.getEntity(JiraIssue.class);
+		return result;
+	}
+	
 	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment) {
 		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
 		final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null);

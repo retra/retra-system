@@ -100,4 +100,29 @@ function copyTextIntoTextArea(what, where) {
 	return false;
 }
 
+function worklogProjectChange() {
+	var project = document.getElementById("worklogProjectId");
+	var activity = document.getElementById("worklogActivityId");
+	for (i = 0; i < 10; i++) {
+		var cookieP = getCookie("retra.projectActivityRelation"+"P"+i);
+		var cookieA = getCookie("retra.projectActivityRelation"+"A"+i);
+		if (cookieP != undefined && cookieP != null && cookieP != ""
+			&& cookieA != undefined && cookieA != null && cookieA != ""
+			&& cookieP == project.value) {
+			activity.value = cookieA;
+		}
+	}
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+} 
+
 window.onload=setFocusFirstInputOfFirstForm;

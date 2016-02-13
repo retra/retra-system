@@ -39,10 +39,32 @@ public class JiraLogicImpl implements JiraLogic {
 		List<JiraIssue> result = null;
 		if (isJiraEnabled()) {
 			result = jiraConnector.findIssuesForWorklog(ldapLogin);
+			//add issues to cache
+			if (jiraConfig.getJiraCache() != null) {
+				for (JiraIssue issue : result) {
+					jiraConfig.getJiraCache().addIssueToCache(issue);
+				}
+			}
 		}
 		return result;
 	}
 
+	public JiraIssue getJiraIssue(final String code) {
+		JiraIssue result = null;
+		
+		//first try cache
+		if (jiraConfig.getJiraCache() != null) {
+			result = jiraConfig.getJiraCache().getIssueFromCache(code);
+		}
+		
+		//second try rest-api
+		if (result == null) {
+			result = getJiraIssueFromConnector(code);
+		}
+		
+		return result;
+	}
+	
 	public void addJiraWorklog(Worklog worklog) {
 		if (isJiraEnabled()) {
 			List<String> issues = JiraHelper.findIssueCodesInText(worklog.getDescription());
@@ -55,6 +77,8 @@ public class JiraLogicImpl implements JiraLogic {
 				
 				if (!jiraConnector.addWorklog(issueKey, started, duration, loginName, comment)) {
 					logger.error("Couldn't log in JIRA.");
+				} else {
+					getJiraIssueFromConnector(issueKey);
 				}
 				
 			}
@@ -113,6 +137,8 @@ public class JiraLogicImpl implements JiraLogic {
 						
 				if (!jiraConnector.updateWorklog(issueKey, started, duration, loginName, comment, id)) {
 					logger.error("Couldn't log in JIRA.");
+				} else {
+					getJiraIssueFromConnector(issueKey);
 				}
 			}
 		}
@@ -152,4 +178,12 @@ public class JiraLogicImpl implements JiraLogic {
 		return false;
 	}
 
+	private JiraIssue getJiraIssueFromConnector(final String code) {
+		JiraIssue result = null;
+		result = jiraConnector.getJiraIssue(code);
+		if (jiraConfig.getJiraCache() != null) {
+			jiraConfig.getJiraCache().addIssueToCache(result);				
+		}
+		return result;
+	}
 }

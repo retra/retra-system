@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="12.2.2012"
+		  title="Build 2.2.0"
+		  body="Jira issues summary is now visible in title of issues. Second change is that tehere can be defiend default Project / Activity relation in &lt;a href=&quot;ChangeVisualConfiguration.do?fkprm=true&quot;&gt;Retra Configuration&lt;/a&gt;."
+		  author="Retra Team"
+	/>
+
 	<item date="7.2.2016"
 		  title="Build 2.1.0, 2.1.1"
 		  body="New integration with JIRA implemented (worklogs) and some bugfix."
@@ -85,7 +91,7 @@
 
 	<item date="17.2.2012"
 		  title="Build 1.07.000"
-		  body="Main change in this release is new logo and themes. In Retra thera are now 3 themes and all of them are in 3 resolution (normal, low res. and hi res.). Change can be done in &lt;a href=&quot;ChangeVisualConfiguration.do?fkprm=true&quot;&gt;Visual Configuration&lt;/a&gt;. Of course we also fix some cosmetic bugs :-)."
+		  body="Main change in this release is new logo and themes. In Retra thera are now 3 themes and all of them are in 3 resolution (normal, low res. and hi res.). Change can be done in &lt;a href=&quot;ChangeVisualConfiguration.do?fkprm=true&quot;&gt;Retra Configuration&lt;/a&gt;. Of course we also fix some cosmetic bugs :-)."
 		  author="Retra Team"
 	/>
 
@@ -157,7 +163,7 @@
 	<item date="16.4.2007"
 		  title="Build 0.01.016"
 		  body="There is only one greate change: &lt;br /&gt; &lt;strong&gt;New visual skin&lt;/strong&gt; and skin switching was added.
-		  If you can return back to old Yellow Hell skin, you can set it on 'Settings' -> 'Visual Configuration ' screen by yourself.  
+		  If you can return back to old Yellow Hell skin, you can set it on 'Settings' -> 'Retra Configuration ' screen by yourself.  
 			&lt;p align='left' style='font-weight:bold;'&gt; Special thanks to &lt;acronym title='Jaroslava Faustová'&gt;Jarka&lt;/acronym&gt;! &lt;/p&gt;"
 		  author="Mira Team"
 	/>
