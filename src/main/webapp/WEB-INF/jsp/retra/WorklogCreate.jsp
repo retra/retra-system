@@ -173,3 +173,9 @@
 		</tr>
 	</table>
 </form>
+
+<script type="text/javascript">
+<!--
+	worklogProjectChange();
+// -->
+</script>

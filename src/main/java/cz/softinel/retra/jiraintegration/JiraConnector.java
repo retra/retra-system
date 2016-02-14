@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.sun.jersey.api.client.Client;
@@ -21,6 +23,8 @@ import cz.softinel.uaf.ssl.SSLTool;
 
 public class JiraConnector implements InitializingBean {
 
+	protected Log logger = LogFactory.getLog(this.getClass());
+	
 	private SimpleDateFormat jiraDateFormat; 
 	
 	private JiraConfig jiraConfig;
@@ -54,115 +58,145 @@ public class JiraConnector implements InitializingBean {
 	}
 
 	public JiraIssue getJiraIssue(final String issueKey) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "?fields=id,key,summary";
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.get(ClientResponse.class);
-		if (response.getStatus() != 200) {
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "?fields=id,key,summary";
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.get(ClientResponse.class);
+			if (response.getStatus() != 200) {
+				return null;
+			}
+			final JiraIssue result = response.getEntity(JiraIssue.class);
+			return result;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
 			return null;
 		}
-		final JiraIssue result = response.getEntity(JiraIssue.class);
-		return result;
 	}
 	
 	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
-		final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null);
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.type(MediaType.APPLICATION_JSON_TYPE)		
-				.header("sudo", loginName)
-				.post(
-						ClientResponse.class,
-						data
-				);
-		if (response.getStatus() != 201) {
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
+			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null);
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.type(MediaType.APPLICATION_JSON_TYPE)		
+					.header("sudo", loginName)
+					.post(
+							ClientResponse.class,
+							data
+					);
+			if (response.getStatus() != 201) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
 			return false;
 		}
-		return true;
 	}
 	
 	public boolean updateWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
-		final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, id);
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.type(MediaType.APPLICATION_JSON_TYPE)		
-				.header("sudo", loginName)
-				.put(
-						ClientResponse.class,
-						data
-				);
-		if (response.getStatus() != 200) {
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
+			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, id);
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.type(MediaType.APPLICATION_JSON_TYPE)		
+					.header("sudo", loginName)
+					.put(
+							ClientResponse.class,
+							data
+					);
+			if (response.getStatus() != 200) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
 			return false;
 		}
-		return true;
 	}
 
 	public boolean deleteWorklog(final String issueKey, final String id) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.delete(
-						ClientResponse.class
-				);
-		if (response.getStatus() != 204) {
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.delete(
+							ClientResponse.class
+					);
+			if (response.getStatus() != 204) {
+				return false;
+			}
+			return true;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
 			return false;
 		}
-		return true;
 	}
 	
 	public String findWorklogId(final String issueKey, final Date started, final long duration, final String loginName, final String comment) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.get(ClientResponse.class);
-		if (response.getStatus() != 200) {
-			return null;
-		}
-		final JiraWorklogsResult searchResult = response.getEntity(JiraWorklogsResult.class);
-		final List<JiraWorklog> worklogs = searchResult.getWorklogs();
-
-		String result = null;
-		if (worklogs != null && !worklogs.isEmpty()) {
-			for (JiraWorklog jw : worklogs) {
-				try {
-					if (jw.getAuthor() != null && jw.getAuthor().getName() != null
-						&& jw.getStarted() != null
-						&& jw.getTimeSpentSeconds() != null) {
-						
-						Date startedDate = jiraDateFormat.parse(jw.getStarted());
-						long timeSpent = Long.parseLong(jw.getTimeSpentSeconds());
-						String author = jw.getAuthor().getName();
-						
-						if (startedDate.equals(started)
-							&& timeSpent == duration
-							&& author.equals(loginName)) {
-
-							result = jw.getId();
-							break;
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.get(ClientResponse.class);
+			if (response.getStatus() != 200) {
+				return null;
+			}
+			final JiraWorklogsResult searchResult = response.getEntity(JiraWorklogsResult.class);
+			final List<JiraWorklog> worklogs = searchResult.getWorklogs();
+	
+			String result = null;
+			if (worklogs != null && !worklogs.isEmpty()) {
+				for (JiraWorklog jw : worklogs) {
+					try {
+						if (jw.getAuthor() != null && jw.getAuthor().getName() != null
+							&& jw.getStarted() != null
+							&& jw.getTimeSpentSeconds() != null) {
+							
+							Date startedDate = jiraDateFormat.parse(jw.getStarted());
+							long timeSpent = Long.parseLong(jw.getTimeSpentSeconds());
+							String author = jw.getAuthor().getName();
+							
+							if (startedDate.equals(started)
+								&& timeSpent == duration
+								&& author.equals(loginName)) {
+	
+								result = jw.getId();
+								break;
+							}
 						}
+					} catch (Exception e) {
+						logger.error("Problem with Jira connect.", e);
 					}
-				} catch (Exception e) {
-					//TODO:
 				}
 			}
+			
+			return result;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
+			return null;
 		}
-		
-		return result;
 	}
 	
 	private List<JiraIssue> findIssues(final String query) {
-		final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "search?fields=id,key,summary&maxResults=100&jql=" + urlEncode(query);
-		final ClientResponse response = client.resource(url)
-				.accept(MediaType.APPLICATION_JSON_TYPE)
-				.get(ClientResponse.class);
-		if (response.getStatus() != 200) {
+		try {
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "search?fields=id,key,summary&maxResults=100&jql=" + urlEncode(query);
+			final ClientResponse response = client.resource(url)
+					.accept(MediaType.APPLICATION_JSON_TYPE)
+					.get(ClientResponse.class);
+			if (response.getStatus() != 200) {
+				return null;
+			}
+			final JiraSearchResult searchResult = response.getEntity(JiraSearchResult.class);
+			final List<JiraIssue> result = searchResult.getIssues();
+			return result;
+		} catch (Exception e) {
+			logger.error("Problem with Jira connect.", e);
 			return null;
 		}
-		final JiraSearchResult searchResult = response.getEntity(JiraSearchResult.class);
-		final List<JiraIssue> result = searchResult.getIssues();
-		return result;
 	}
 	
 	private String urlEncode(final String string) {

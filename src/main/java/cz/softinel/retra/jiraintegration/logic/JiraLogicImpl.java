@@ -40,7 +40,7 @@ public class JiraLogicImpl implements JiraLogic {
 		if (isJiraEnabled()) {
 			result = jiraConnector.findIssuesForWorklog(ldapLogin);
 			//add issues to cache
-			if (jiraConfig.getJiraCache() != null) {
+			if (jiraConfig.getJiraCache() != null && result != null && !result.isEmpty()) {
 				for (JiraIssue issue : result) {
 					jiraConfig.getJiraCache().addIssueToCache(issue);
 				}
