@@ -83,7 +83,9 @@ public final class LovsFactory extends ApplicationObjectSupport {
 		}
 		
 		Lov lov = lovsInMap.get(code);
-		
+		if (lov == null || lov.getFields() != null) {
+			throw new RuntimeException("Missing LOV for code: " + code); 
+		}
 		// TODO: Check ... it is good solution?
 		// FIXME: siglp - I think this is not good way, because of calling everytime, when lov needed. I think
 		// better is to have only keys to resource bundles and where I need label (jsp, tag etc.) I can take it from resource bundle 
