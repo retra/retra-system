@@ -31,10 +31,10 @@ public class OutlookExpressParser extends LineBasedParser {
 																	// 15, 22
 	private static final String FIELD_DELIMITER = "\t";
 
-	private static final String DATE_TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
+	private static final String CZECH_DATETIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
 	private static final String ENGLISH_DATETIME_FORMAT = "MM/dd/yyyy HH:mm";
 
-	private SimpleDateFormat formatter = new SimpleDateFormat(DATE_TIME_FORMAT);
+	private SimpleDateFormat czechFormatter = new SimpleDateFormat(CZECH_DATETIME_FORMAT);
 	private SimpleDateFormat englishFormatter = new SimpleDateFormat(ENGLISH_DATETIME_FORMAT);
 
 	public OutlookExpressParser(final String encoding) {
@@ -212,11 +212,11 @@ public class OutlookExpressParser extends LineBasedParser {
 		if (StringUtils.isEmpty(date) || StringUtils.isEmpty(time)) {
 			throw new IllegalArgumentException("Date or time must not be empty");
 		}
-		String fullDateTime = date.trim() + " " + time.trim();
-		try {
-			return formatter.parse(fullDateTime); // if fails Czech format
-		} catch (ParseException pe) {
-			return englishFormatter.parse(fullDateTime); // try English
+		final String fullDateTime = date.trim() + " " + time.trim();
+		if (fullDateTime.contains("/")) {
+			return englishFormatter.parse(fullDateTime); // Dates with slash use english convention: month/day/year
+		} else {
+			return czechFormatter.parse(fullDateTime); // Otherwise use czech convention: day.month.year
 		}
 	}
 
