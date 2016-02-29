@@ -2,10 +2,7 @@
 
 <%@ include file="../Includes.jsp"%>
 
-<%-- TODO: RequestURI is not nice practice --%>
-<c:set var="requestURI" value="EmployeeManagement.do?fkprm=true" />
-
-<form action="${requestURI}" method="post" >
+<form action="EmployeeManagement.do?fkprm=true" method="post" >
 	<table class="formTable">
 		<tr>
 			<th><fmt:message key="entity.contactInfo.displayName" /></th>
@@ -67,11 +64,10 @@
 	
 	<br><center><b>Projects</b></center>
 	
-	<display:table name="employee.projects" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="project"
-		sort="list">
+	<display:table name="employee.projects" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="project" sort="list">
 		<display:column property="name" titleKey="entity.project.name" sortable="true"/>
-	</display:table>	
-		
+	</display:table>
+	
 	<table class="formTable">
 		<tr class="buttons">
 			<td>
