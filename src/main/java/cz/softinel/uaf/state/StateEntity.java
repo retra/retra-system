@@ -1,12 +1,14 @@
 package cz.softinel.uaf.state;
 
+import java.io.Serializable;
+
 /**
  * This interface must implements all entities, which have defined state cycle.
  *
  * @version $Revision: 1.1 $ $Date: 2007-04-03 07:55:39 $
  * @author Petr Sígl
  */
-public interface StateEntity {
+public interface StateEntity extends Serializable {
 
 	/**
 	 * Deleted state
