@@ -6,6 +6,7 @@
  */
 package cz.softinel.retra.employee;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import cz.softinel.retra.icompany.Icompany;
@@ -16,7 +17,7 @@ import cz.softinel.sis.user.User;
  * @author Radek Pinc
  *
  */
-public class Employee {
+public class Employee implements Serializable {
 
 	private Long pk;
 	
