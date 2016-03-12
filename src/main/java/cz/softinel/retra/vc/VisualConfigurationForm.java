@@ -5,6 +5,8 @@ public class VisualConfigurationForm {
 	String skinName;
 	String timeSelectorImplementation;
 
+	String da;
+	
 	String p0;
 	String a0;
 	
@@ -48,6 +50,12 @@ public class VisualConfigurationForm {
 	}
 	public void setTimeSelectorImplementation(String timeSelectorImplementation) {
 		this.timeSelectorImplementation = timeSelectorImplementation;
+	}
+	public String getDa() {
+		return da;
+	}
+	public void setDa(String da) {
+		this.da = da;
 	}
 	public String getP0() {
 		return p0;

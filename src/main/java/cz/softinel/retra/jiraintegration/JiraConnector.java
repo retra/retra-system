@@ -52,7 +52,7 @@ public class JiraConnector implements InitializingBean {
 	}
 	
 	public List<JiraIssue> findIssuesForWorklog(final String loginName) {
-		String jql = "status != Closed AND assignee =" + loginName;
+		String jql = "status != Closed AND assignee =" + loginName + " OR (watcher = " + loginName + " AND labels in (STANDUP, CONSULT, ADMIN))";
 		List<JiraIssue> result = findIssues(jql);
 		return result;
 	}
@@ -209,9 +209,10 @@ public class JiraConnector implements InitializingBean {
 
 	private String getAddWorklogString(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id) {
 		String startedStr = jiraDateFormat.format(started); 
+		String clearComment = clearComment(comment);
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"author\": {\"name\": \"").append(loginName).append("\"}, ");
-		sb.append("\"comment\": \"").append(loginName).append(" - auto from Retra: ").append(comment).append("\", ");
+		sb.append("\"comment\": \"").append(loginName).append(" - auto from Retra: ").append(clearComment).append("\", ");
 		sb.append("\"started\": \"").append(startedStr).append("\", ");
 		sb.append("\"timeSpentSeconds\": \"").append(duration).append("\"");
 		if (id != null) {
@@ -220,4 +221,17 @@ public class JiraConnector implements InitializingBean {
 		sb.append("}");
 		return sb.toString();
 	}
+
+	private String clearComment(final String old) {
+		String result = "";
+		if (old != null) {
+			result = old.trim();
+			result = result.replaceAll("\t", " ");
+			result = result.replaceAll("\n", " ");
+			result = result.replaceAll("\r", " ");
+			result = result.replaceAll("\\s+", " ").trim();
+		}
+		return result;
+	}
+
 }

@@ -74,16 +74,66 @@
 		<term date="21.4." validFrom="1.1.2014" validTo="31.12.2014" />
 		<term date="5.4." validFrom="1.1.2015" validTo="31.12.2015" />
 		<term date="6.4." validFrom="1.1.2015" validTo="31.12.2015" />
+		<term date="25.3." validFrom="1.1.2016" validTo="31.12.2016" />
+		<term date="26.3." validFrom="1.1.2016" validTo="31.12.2016" />
 		<term date="27.3." validFrom="1.1.2016" validTo="31.12.2016" />
 		<term date="28.3." validFrom="1.1.2016" validTo="31.12.2016" />
+		<term date="14.4." validFrom="1.1.2017" validTo="31.12.2017" />
+		<term date="15.4." validFrom="1.1.2017" validTo="31.12.2017" />
 		<term date="16.4." validFrom="1.1.2017" validTo="31.12.2017" />
 		<term date="17.4." validFrom="1.1.2017" validTo="31.12.2017" />
+		<term date="30.3." validFrom="1.1.2018" validTo="31.12.2018" />
+		<term date="31.3." validFrom="1.1.2018" validTo="31.12.2018" />
 		<term date="1.4." validFrom="1.1.2018" validTo="31.12.2018" />
 		<term date="2.4." validFrom="1.1.2018" validTo="31.12.2018" />
+		<term date="19.4." validFrom="1.1.2019" validTo="31.12.2019" />
+		<term date="20.4." validFrom="1.1.2019" validTo="31.12.2019" />
 		<term date="21.4." validFrom="1.1.2019" validTo="31.12.2019" />
 		<term date="22.4." validFrom="1.1.2019" validTo="31.12.2019" />
+		<term date="10.4." validFrom="1.1.2020" validTo="31.12.2020" />
+		<term date="11.4." validFrom="1.1.2020" validTo="31.12.2020" />
 		<term date="12.4." validFrom="1.1.2020" validTo="31.12.2020" />
 		<term date="13.4." validFrom="1.1.2020" validTo="31.12.2020" />
+		<term date="2.4." validFrom="1.1.2021" validTo="31.12.2021" />
+		<term date="3.4." validFrom="1.1.2021" validTo="31.12.2021" />
+		<term date="4.4." validFrom="1.1.2021" validTo="31.12.2021" />
+		<term date="5.4." validFrom="1.1.2021" validTo="31.12.2021" />
+		<term date="15.4." validFrom="1.1.2022" validTo="31.12.2022" />
+		<term date="16.4." validFrom="1.1.2022" validTo="31.12.2022" />
+		<term date="17.4." validFrom="1.1.2022" validTo="31.12.2022" />
+		<term date="18.4." validFrom="1.1.2022" validTo="31.12.2022" />
+		<term date="7.4." validFrom="1.1.2023" validTo="31.12.2023" />
+		<term date="8.4." validFrom="1.1.2023" validTo="31.12.2023" />
+		<term date="9.4." validFrom="1.1.2023" validTo="31.12.2023" />
+		<term date="10.4." validFrom="1.1.2023" validTo="31.12.2023" />
+		<term date="29.3." validFrom="1.1.2024" validTo="31.12.2024" />
+		<term date="30.3." validFrom="1.1.2024" validTo="31.12.2024" />
+		<term date="31.3." validFrom="1.1.2024" validTo="31.12.2024" />
+		<term date="1.4." validFrom="1.1.2024" validTo="31.12.2024" />
+		<term date="18.4." validFrom="1.1.2025" validTo="31.12.2025" />
+		<term date="19.4." validFrom="1.1.2025" validTo="31.12.2025" />
+		<term date="20.4." validFrom="1.1.2025" validTo="31.12.2025" />
+		<term date="21.4." validFrom="1.1.2025" validTo="31.12.2025" />
+		<term date="3.4." validFrom="1.1.2026" validTo="31.12.2026" />
+		<term date="4.4." validFrom="1.1.2026" validTo="31.12.2026" />
+		<term date="5.4." validFrom="1.1.2026" validTo="31.12.2026" />
+		<term date="6.4." validFrom="1.1.2026" validTo="31.12.2026" />
+		<term date="26.3." validFrom="1.1.2027" validTo="31.12.2027" />
+		<term date="27.3." validFrom="1.1.2027" validTo="31.12.2027" />
+		<term date="28.3." validFrom="1.1.2027" validTo="31.12.2027" />
+		<term date="29.3." validFrom="1.1.2027" validTo="31.12.2027" />
+		<term date="14.4." validFrom="1.1.2028" validTo="31.12.2028" />
+		<term date="15.4." validFrom="1.1.2028" validTo="31.12.2028" />
+		<term date="16.4." validFrom="1.1.2028" validTo="31.12.2028" />
+		<term date="17.4." validFrom="1.1.2028" validTo="31.12.2028" />
+		<term date="30.3." validFrom="1.1.2029" validTo="31.12.2029" />
+		<term date="31.3." validFrom="1.1.2029" validTo="31.12.2029" />
+		<term date="1.4." validFrom="1.1.2029" validTo="31.12.2029" />
+		<term date="2.4." validFrom="1.1.2029" validTo="31.12.2029" />
+		<term date="19.4." validFrom="1.1.2030" validTo="31.12.2030" />
+		<term date="20.4." validFrom="1.1.2030" validTo="31.12.2030" />
+		<term date="21.4." validFrom="1.1.2030" validTo="31.12.2030" />
+		<term date="22.4." validFrom="1.1.2030" validTo="31.12.2030" />
 	</item>
 
 </holidays>

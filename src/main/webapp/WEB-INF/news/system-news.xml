@@ -1,7 +1,13 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
-	<item date="12.2.2012"
+	<item date="12.3.2016"
+		  title="Build 2.3.0"
+		  body="Bugfix and small improvement in default Project / Activity relation relation."
+		  author="Retra Team"
+	/>
+
+	<item date="12.2.2016"
 		  title="Build 2.2.0"
 		  body="Jira issues summary is now visible in title of issues. Second change is that tehere can be defiend default Project / Activity relation in &lt;a href=&quot;ChangeVisualConfiguration.do?fkprm=true&quot;&gt;Retra Configuration&lt;/a&gt;."
 		  author="Retra Team"

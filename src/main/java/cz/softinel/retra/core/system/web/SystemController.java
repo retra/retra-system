@@ -222,6 +222,9 @@ public class SystemController extends DispatchController {
 
 	//TODO: fast horrible implementation
 	private void storeProjectActivityRelation(RequestContext requestContext, VisualConfigurationForm form) {
+		form.setDa(requestContext.getParameter("da"));
+		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "DA", form.getDa(), requestContext);
+		
 		form.setP0(requestContext.getParameter("p0"));
 		form.setA0(requestContext.getParameter("a0"));
 		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "P0", form.getP0(), requestContext);
@@ -277,6 +280,10 @@ public class SystemController extends DispatchController {
 	private void loadProjectActivityRelation(RequestContext requestContext, VisualConfigurationForm form) {
 		Cookie[] cookies = requestContext.getCookies();
 		for (Cookie cookie : cookies) {
+			if ((PROJECT_ACTIVITY_KEY+"DA").equals(cookie.getName())) {
+				form.setDa(cookie.getValue());
+			}
+			
 			if ((PROJECT_ACTIVITY_KEY+"P0").equals(cookie.getName())) {
 				form.setP0(cookie.getValue());
 			}

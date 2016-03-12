@@ -36,6 +36,20 @@
 			</spring:bind>
 		</tr>
 		<tr>
+				<th>Default activity for projects</th>
+				<td>
+			<spring:bind path="visualConfigurationForm.da">
+					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${status.value}" 
+					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
+						<vc:select-option value="">--- default activity ---</vc:select-option>
+					</vc:select>					
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+			</spring:bind>
+				</td>
+		</tr>
+		<tr>
 				<th>Project / Default activity</th>
 				<td>
 			<spring:bind path="visualConfigurationForm.p0">

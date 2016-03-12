@@ -186,4 +186,5 @@ public class JiraLogicImpl implements JiraLogic {
 		}
 		return result;
 	}
+
 }

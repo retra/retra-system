@@ -103,6 +103,12 @@ function copyTextIntoTextArea(what, where) {
 function worklogProjectChange() {
 	var project = document.getElementById("worklogProjectId");
 	var activity = document.getElementById("worklogActivityId");
+
+	var cookieDA = getCookie("retra.projectActivityRelation"+"DA");
+	if (cookieDA != undefined && cookieDA != null && cookieDA != "") {
+		activity.value = cookieDA;
+	}
+	
 	for (i = 0; i < 10; i++) {
 		var cookieP = getCookie("retra.projectActivityRelation"+"P"+i);
 		var cookieA = getCookie("retra.projectActivityRelation"+"A"+i);
