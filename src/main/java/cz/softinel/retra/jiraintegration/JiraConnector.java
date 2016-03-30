@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -229,7 +230,8 @@ public class JiraConnector implements InitializingBean {
 			result = result.replaceAll("\t", " ");
 			result = result.replaceAll("\n", " ");
 			result = result.replaceAll("\r", " ");
-			result = result.replaceAll("\\s+", " ").trim();
+			result = result.replaceAll("\\s+", " ");
+			result = StringEscapeUtils.escapeJava(result).trim();
 		}
 		return result;
 	}
