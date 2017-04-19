@@ -18,6 +18,9 @@
 
 		<one-to-one name="login" class="cz.softinel.sis.login.Login" property-ref="user" lazy="false" fetch="join" />
 		
+		<property name="state" column="sis10state" length="1" not-null="true" type="string" />
+		<property name="uid" column="sis10uid" length="60" not-null="true" type="string" />
+		
 	</class>
 
 </hibernate-mapping>

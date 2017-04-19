@@ -243,7 +243,7 @@ public class ProjectController extends CommonDispatchController {
 	 * @param model
 	 */
 	private void prepareEmployees(Model model) {
-		List<Employee> employees = employeeLogic.getAllEmployeesNotFull();
+		List<Employee> employees = employeeLogic.getAllEmployeesNotFull(true, true);
 		model.set("employees", employees);
 	}
 

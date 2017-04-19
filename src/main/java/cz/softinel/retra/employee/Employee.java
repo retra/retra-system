@@ -21,6 +21,7 @@ public class Employee implements Serializable {
 
 	private Long pk;
 	
+	private Boolean worklog;
 	private Boolean igenerate;
 	
 	private User user;
@@ -43,6 +44,12 @@ public class Employee implements Serializable {
 	 */
 	public void setPk(Long pk) {
 		this.pk = pk;
+	}
+	public Boolean getWorklog() {
+		return worklog;
+	}
+	public void setWorklog(Boolean worklog) {
+		this.worklog = worklog;
 	}
 	public Boolean getIgenerate() {
 		return igenerate;

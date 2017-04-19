@@ -37,18 +37,20 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 
 	// Logic implementation ...
 	
+	/** @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployees(boolean, boolean) */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
-	public List<Employee> getAllEmployees() {
-		return employeeDao.findAll();
+	public List<Employee> getAllEmployees(final boolean onlyActive, final boolean onlyWorkLogging) {
+		return employeeDao.findAll(onlyActive, onlyWorkLogging);
 	}
 
 	public List<Employee> getAllEmployeesForGeneratingInvoice() {
 		return employeeDao.findAllForGenerate();
 	}
 	
+	/** @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployeesNotFull(boolean, boolean) */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
-	public List<Employee> getAllEmployeesNotFull() {
-		return employeeJdbcDao.findAll();
+	public List<Employee> getAllEmployeesNotFull(final boolean onlyActive, final boolean onlyWorkLogging) {
+		return employeeJdbcDao.findAll(onlyActive, onlyWorkLogging);
 	}
 	
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)

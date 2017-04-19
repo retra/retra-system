@@ -43,6 +43,39 @@ public class StateDecorator implements DisplaytagColumnDecorator {
 				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
 				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
 				return test;	
+			} else if (columnValue instanceof Boolean) {
+				// HACK pincr: Used for employee flags "worklog" and "igenerate"
+				final Boolean state = (Boolean) columnValue;
+				final String imageName;
+				final String altLabelName;
+				if (state) {
+					imageName = "stateActive.png";
+					altLabelName = "Yes";
+				} else {
+					imageName = "stateClosed.png";
+					altLabelName = "No";
+				}
+				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
+				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
+				return test;	
+			} else if (columnValue instanceof String) {
+				// HACK pincr: Used for user state attribute
+				String state = (String) columnValue;
+				String imageName;
+				String altLabelName;
+				if ("A".equals(state)) {
+					imageName = "stateActive.png";
+					altLabelName = "Active";
+				} else if ("I".equals(state)) {
+					imageName = "stateClosed.png";
+					altLabelName = "Inactive";
+				} else {
+					imageName = "stateDeleted.png";
+					altLabelName = "Unknown: " + state;
+				}
+				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
+				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
+				return test;	
 			} else {
 				return columnValue;
 			}

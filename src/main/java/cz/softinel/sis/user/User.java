@@ -22,6 +22,9 @@ public class User implements Serializable {
 
 	private Long pk;
 	
+	private String uid;
+	private String state;
+	
 	private ContactInfo contactInfo;
 	private Role personalRole;
 	private Login login;
@@ -30,7 +33,21 @@ public class User implements Serializable {
 
 	
 	// Getter and Setters ...
-
+	
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	
 	/**
 	 * @return Returns the contactInfo.
 	 */

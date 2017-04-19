@@ -12,6 +12,10 @@
 		comparator="${nameComparator}"/>
 	<display:column property="user.contactInfo.email" titleKey="entity.contactInfo.email" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.EmailDecorator"/>
 
+	<display:column property="user.state" titleKey="entity.user.state" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" />
+	<display:column property="worklog" titleKey="entity.employee.worklog" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" />
+	<display:column property="igenerate" titleKey="entity.employee.igenerate.short" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" />
+
 	<!-- action columns -only for html (parameter media) -->
 	<display:column url="/EmployeeView.do?fkprm=true" paramId="pk" paramProperty="pk" media="html" class="action" headerClass="action" title="">
 	    <fmt:message key="action.view"/>

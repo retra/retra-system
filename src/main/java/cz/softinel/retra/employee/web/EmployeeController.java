@@ -50,7 +50,7 @@ public class EmployeeController extends CommonDispatchController {
 	
 	public ModelAndView employeeManagement(Model model, RequestContext requestContext)
 	{
-		List<Employee> list = employeeLogic.getAllEmployees();
+		List<Employee> list = employeeLogic.getAllEmployees(false, false);
 		model.set("list", list);
 		model.set("nameComparator", nameComparator );
 		return createModelAndView(model, getSuccessView());

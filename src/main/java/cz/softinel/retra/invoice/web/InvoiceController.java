@@ -259,7 +259,7 @@ public class InvoiceController extends DispatchController {
 	 * @param model
 	 */
 	private void prepareEmployees(Model model) {
-		List<Employee> employees = employeeLogic.getAllEmployees();
+		List<Employee> employees = employeeLogic.getAllEmployees(true, true);
 		model.set("employees", employees);
 	}
 

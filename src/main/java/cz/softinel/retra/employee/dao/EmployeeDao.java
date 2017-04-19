@@ -24,7 +24,7 @@ public interface EmployeeDao {
 	public void update(Employee employee);
 	public void delete(Employee employee);
 	
-	public List<Employee> findAll();
+	public List<Employee> findAll(final boolean onlyActive, final boolean onlyWorkLogging);
 	public List<Employee> findAllForGenerate();
 	
 	public void load(Employee employee);

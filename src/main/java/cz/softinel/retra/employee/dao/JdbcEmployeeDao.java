@@ -62,12 +62,19 @@ public class JdbcEmployeeDao extends SimpleJdbcDaoSupport implements EmployeeDao
 		throw new IllegalStateException("Not supported...");
 	}
 
-	/**
-	 * @see cz.softinel.openproject.mira.dao.EmployeeDao#findAll()
-	 */
+	/** @see cz.softinel.retra.employee.dao.EmployeeDao#findAll(boolean, boolean) */
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Employee> findAll() {
-		StringBuilder sql = new StringBuilder("SELECT u.sis10pk, c.sis12firstName, c.sis12lastName  FROM sis10user u, sis11login l, sis12contactinfo c where u.sis10pk = l.sis10pk and u.sis12pk=c.sis12pk");
+	public List<Employee> findAll(final boolean onlyActive, final boolean onlyWorkLogging) {
+		StringBuilder sql = new StringBuilder("SELECT u.sis10pk, c.sis12firstName, c.sis12lastName");
+		sql.append(" FROM sis10user u, sis11login l, sis12contactinfo c, mir04employee AS e");
+		sql.append(" WHERE u.sis10pk=l.sis10pk AND u.sis12pk=c.sis12pk AND e.sis10pk = u.sis10pk");
+		if (onlyActive) {
+			sql.append(" AND u.sis10state = 'A'");
+		}
+		if (onlyWorkLogging) {
+			sql.append(" AND e.mir04worklog = 1");
+		}
 		List<Employee> result = getJdbcTemplate().query(sql.toString(), new RowMapper() {
 			public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Employee employee = new Employee();

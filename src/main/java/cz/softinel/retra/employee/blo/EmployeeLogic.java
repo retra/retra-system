@@ -15,14 +15,14 @@ public interface EmployeeLogic {
 	 * 
 	 * @return
 	 */
-	List<Employee> getAllEmployees();
+	List<Employee> getAllEmployees(final boolean onlyActive, final boolean onlyWorkLogging);
 
 	/** 
 	 * Returns all employees 
 	 * 
 	 * @return
 	 */
-	List<Employee> getAllEmployeesNotFull();
+	List<Employee> getAllEmployeesNotFull(final boolean onlyActive, final boolean onlyWorkLogging);
 
 	/** 
 	 * Returns all employees for generating invoice

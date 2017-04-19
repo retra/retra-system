@@ -54,14 +54,14 @@ public class ProjectEditController extends AbstractProjectFormController {
 		prepareProjects(model);
 		prepareCategories(model);
 		prepareAllEmployees(model);
-	}	
+	}
 	
 	protected void prepareAllEmployees(Model model) {
 		List<Employee> employees = null;
-		employees = getEmployeeLogic().getAllEmployeesNotFull();	
+		employees = getEmployeeLogic().getAllEmployeesNotFull(false, false);
 		//put employees into the model
 		model.put("employees", employees);
-	}	
+	}
 	
 	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
 		

@@ -8,6 +8,7 @@ package cz.softinel.retra.employee.dao;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.util.Assert;
 
@@ -58,12 +59,19 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 		getHibernateTemplate().delete(employee);
 	}
 
-	/**
-	 * @see cz.softinel.openproject.mira.dao.EmployeeDao#findAll()
-	 */
+	/** @see cz.softinel.retra.employee.dao.EmployeeDao#findAll(boolean, boolean) */
+	@Override
 	@SuppressWarnings("unchecked")
-	public List<Employee> findAll() {
-		return (List<Employee>) getHibernateTemplate().findByNamedQuery("Employee.findAllFetch");
+	public List<Employee> findAll(final boolean onlyActive, final boolean onlyWorkLogging) {
+		final Session session = getSession();
+		try {
+			final Query query = session.getNamedQuery("Employee.findAllFetch");
+			query.setParameter("onlyActive", onlyActive);
+			query.setParameter("onlyWorkLogging", onlyWorkLogging);
+			return query.list();
+		} finally{
+			releaseSession(session);
+		}
 	}
 
 	@SuppressWarnings("unchecked")

@@ -222,7 +222,7 @@ public class ScheduleController extends DispatchController {
 	}
 
 	protected void prepareEmployees(Model model) {
-		List<Employee> employees = employeeLogic.getAllEmployeesNotFull();
+		List<Employee> employees = employeeLogic.getAllEmployeesNotFull(true, true);
 		model.set("employees", employees);
 	}
 

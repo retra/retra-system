@@ -8,6 +8,7 @@
 		<cache usage="read-write" />	
 		<id name="pk" column="sis10pk" type="long" />
 
+		<property name="worklog" column="mir04worklog" />
 		<property name="igenerate" column="mir04igenerate" />
 		
 		<one-to-one name="user" class="cz.softinel.sis.user.User" fetch="join" lazy="false" />
@@ -27,13 +28,16 @@
 	
 	<query name="Employee.findAllFetch">
 		<![CDATA[
-			select employee
-			from Employee as employee
+			SELECT employee
+			FROM Employee as employee
 				left join fetch employee.user user
 				left join fetch user.contactInfo contactInfo
 				left join fetch user.personalRole personalRole
 				left join fetch user.login login
-				order by employee.user.contactInfo.lastName, employee.user.contactInfo.firstName asc
+			WHERE 1=1
+				AND (:onlyActive = FALSE OR user.state = 'A')
+				AND (:onlyWorkLogging = FALSE OR employee.worklog = 1)
+			ORDER BY employee.user.contactInfo.lastName, employee.user.contactInfo.firstName asc
 		]]>
 		<!-- 
 				order by employee.user.contactInfo.firstName, employee.user.contactInfo.lastName asc
