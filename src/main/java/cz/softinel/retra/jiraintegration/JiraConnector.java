@@ -53,7 +53,7 @@ public class JiraConnector implements InitializingBean {
 	}
 	
 	public List<JiraIssue> findIssuesForWorklog(final String loginName) {
-		String jql = "status != Closed AND assignee =" + loginName + " OR (watcher = " + loginName + " AND labels in (STANDUP, CONSULT, ADMIN))";
+		String jql = "status NOT IN (Done, Closed) AND assignee =" + loginName + " OR (watcher = " + loginName + " AND labels in (STANDUP, CONSULT, ADMIN))";
 		List<JiraIssue> result = findIssues(jql);
 		return result;
 	}
@@ -88,6 +88,7 @@ public class JiraConnector implements InitializingBean {
 							data
 					);
 			if (response.getStatus() != 201) {
+				logger.error("Couldn't write worklog for user: " + loginName + ", response status code: " + response.getStatus());
 				return false;
 			}
 			return true;
