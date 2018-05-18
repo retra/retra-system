@@ -12,6 +12,7 @@ import cz.softinel.sis.login.LoginException;
 import cz.softinel.sis.login.LoginHelper;
 import cz.softinel.sis.login.dao.LoginDao;
 import cz.softinel.sis.login.ldap.LdapUserDetailsService;
+import cz.softinel.sis.role.RoleHelper;
 import cz.softinel.uaf.messages.Message;
 
 /**
@@ -85,6 +86,9 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 				}
 			}
 		}
+
+		//prepare roles and permissions
+		RoleHelper.prepareUserPermissions(login.getUser());
 		
 		//return login
 		return login;

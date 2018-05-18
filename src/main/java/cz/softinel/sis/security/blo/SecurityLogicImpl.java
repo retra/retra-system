@@ -82,8 +82,13 @@ public abstract class SecurityLogicImpl implements SecurityLogic {
 	}
 
 	public boolean hasPermission(Permission permission) {
-		// TODO radek: Implement it ...
-		return true;
+		User user = getSecurityContext().getLoggedUser();
+		
+		if (user.getPermissions().contains(permission)) {
+			return true;
+		}
+
+		return false;
 	}
 
 

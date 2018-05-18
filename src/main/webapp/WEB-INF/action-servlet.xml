@@ -84,6 +84,12 @@
 		<property name="successView" value="/RetraError.screen" />
 	</bean>
 
+	<!-- show no permission -->
+	<bean name="/NoPermission.do" parent="SystemController">
+		<property name="method" value="showNoPermission" />
+		<property name="successView" value="/RetraNoPermission.screen" />
+	</bean>
+
 	<!-- show login -->
 	<bean name="/Login.do" parent="SystemController">
 		<property name="method" value="showLogin" />

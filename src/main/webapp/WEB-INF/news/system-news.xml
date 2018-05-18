@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="18.5.2018"
+		  title="Build 2.5.0"
+		  body="Permissions support for worklog functionality."
+		  author="Retra Team"
+	/>
+
 	<item date="3.4.2018"
 		  title="Build 2.4.0"
 		  body="Bugfix."

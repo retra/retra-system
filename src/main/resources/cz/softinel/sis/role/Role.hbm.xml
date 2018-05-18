@@ -14,6 +14,11 @@
 		<property name="name" column="sis13name" length="250" not-null="true" type="string" />
 		<property name="description" column="sis13description" not-null="false" type="string" />
 		
+		<set name="roles" table="sis15join" lazy="true" fetch="select">
+			<key column="sis15first"/>
+			<many-to-many class="cz.softinel.sis.role.Role" column="sis15second" fetch="join" not-found="ignore" />
+		</set>
+		
 	</class>
 
 </hibernate-mapping>

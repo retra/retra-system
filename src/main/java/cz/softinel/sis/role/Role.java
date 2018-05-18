@@ -7,6 +7,7 @@
 package cz.softinel.sis.role;
 
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * @author Radek Pinc
@@ -14,12 +15,19 @@ import java.io.Serializable;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
+/**
+ * @author petr
+ *
+ */
 public class Role implements Serializable {
 	
 	private Long pk;
 	private String id;
 	private String name;
 	private String description;
+	
+	//roles assigned to this role
+	private Set<Role> roles;
 	
 	// Business fields ...
 
@@ -73,4 +81,13 @@ public class Role implements Serializable {
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
+	
 }

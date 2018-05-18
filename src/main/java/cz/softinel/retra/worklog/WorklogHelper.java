@@ -24,6 +24,8 @@ public class WorklogHelper {
 	
 	public static final String HELP_COOKIE_PARAM_ADD_ALSO_FROM = "addAlsoFrom";
 	
+	private static final Worklog NO_PERMISSION_WORKLOG = new Worklog();
+	
 	public static void formToEntity(WorklogForm form, Worklog entity) {
 		if (form.getPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getPk());
@@ -219,5 +221,29 @@ public class WorklogHelper {
 		if (entity.hasAnyIssueTrackingWorklog()) {
 			form.setIssueTrackingReference(entity.getCurrentIssueTrackingWorklog().getJiraIssue());
 		}
+	}
+	
+	public static Worklog getNoPermissionWorklog() {
+		if (NO_PERMISSION_WORKLOG.getPk() == null) {
+			NO_PERMISSION_WORKLOG.setPk(-1L);
+			
+			NO_PERMISSION_WORKLOG.setDescription("You don't have permission for this action.");
+			NO_PERMISSION_WORKLOG.setDescriptionGui("You don't have permission for this action.");
+			NO_PERMISSION_WORKLOG.setWorkFrom(new Date(0));
+			NO_PERMISSION_WORKLOG.setWorkTo(new Date(0));
+			
+			Project project = new Project();
+			project.setCode("NONE");
+			project.setName("No project");
+						
+			NO_PERMISSION_WORKLOG.setProject(project);
+			
+			Activity activity = new Activity();
+			activity.setCode("NONE");
+			activity.setName("No activity");
+			
+			NO_PERMISSION_WORKLOG.setActivity(activity);
+		}
+		return NO_PERMISSION_WORKLOG;
 	}
 }

@@ -1,5 +1,6 @@
 package cz.softinel.retra.invoice.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.servlet.ModelAndView;
@@ -13,7 +14,9 @@ import cz.softinel.retra.invoice.blo.InvoiceLogic;
 import cz.softinel.retra.invoice.dao.InvoiceFilter;
 import cz.softinel.retra.spring.web.DispatchController;
 import cz.softinel.retra.worklog.Worklog;
+import cz.softinel.retra.worklog.WorklogHelper;
 import cz.softinel.retra.worklog.blo.WorklogLogic;
+import cz.softinel.sis.security.PermissionHelper;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.messages.Message;
@@ -122,7 +125,18 @@ public class InvoiceController extends DispatchController {
 			Invoice invoice = invoiceLogic.get(pk);
 			model.put("invoice", invoice);
 			
-			List<Worklog> worklogs = prepareWorklogItems(pk);
+			boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+			
+			List<Worklog> worklogs = new ArrayList<Worklog>();
+
+			//can see worklog items
+			if (hasWorklogAdminPermission ||
+				getSecurityLogic().getLoggedEmployee().getPk().equals(invoice.getEmployee().getPk())
+				) {
+				worklogs = prepareWorklogItems(pk);				
+			} else {
+				worklogs.add(WorklogHelper.getNoPermissionWorklog());
+			}
 			model.set("worklogs", worklogs);
 		}
 		return createModelAndView(model, getSuccessView());

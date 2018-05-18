@@ -13,6 +13,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.springframework.web.util.NestedServletException;
+
+import cz.softinel.sis.security.NoPermissionException;
 
 /**
  * Filter for prevent cache on browser.
@@ -36,7 +39,23 @@ public class ExceptionHandlerFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		try	{
 			chain.doFilter(request, response);
-		} catch (Throwable e) {
+		} catch (NestedServletException e) {
+			if (e.getRootCause() instanceof NoPermissionException) {
+				logger.error("No permission for user.");
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				String url = "NoPermission.do";
+				httpResponse.sendRedirect(url);
+			} else {
+				//same as in catch (Throwable e)
+				Long id = Math.abs(rnd.nextLong());
+				String errorCode = "ERRID-" + df.format(id);
+				logger.error("Error - " + errorCode, e);
+				HttpServletResponse httpResponse = (HttpServletResponse) response;
+				String url = "Error.do?errId=" + errorCode;
+				httpResponse.sendRedirect(url);
+			}
+		}
+		catch (Throwable e) {
 			Long id = Math.abs(rnd.nextLong());
 			String errorCode = "ERRID-" + df.format(id);
 			logger.error("Error - " + errorCode, e);

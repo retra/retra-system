@@ -72,6 +72,16 @@
 		</property>
 	</bean>
 
+	<!-- Retra no permission screen -->
+	<bean name="/RetraNoPermission.screen" parent="publicScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.retraNoPermission.name" />
+				<entry key="body" value="/WEB-INF/jsp/system/RetraNoPermission.jsp"/>
+			</map>
+		</property>
+	</bean>
+
 	<!-- dashboard screen -->
 	<bean name="/Dashboard.screen" parent="internalScreen">
 		<property name="parameters">

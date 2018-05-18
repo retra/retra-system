@@ -7,10 +7,13 @@
 package cz.softinel.sis.user;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import cz.softinel.sis.contactinfo.ContactInfo;
 import cz.softinel.sis.login.Login;
 import cz.softinel.sis.role.Role;
+import cz.softinel.sis.security.Permission;
 
 /**
  * @author Radek Pinc
@@ -28,6 +31,9 @@ public class User implements Serializable {
 	private ContactInfo contactInfo;
 	private Role personalRole;
 	private Login login;
+	
+	//counted permissions from all roles
+	private Set<Permission> permissions = new HashSet<Permission>(); 
 	
 	// Business fields ...
 
@@ -89,6 +95,21 @@ public class User implements Serializable {
 	}
 	public void setLogin(Login login) {
 		this.login = login;
+	}
+
+	public void addPermission(final Permission permission) {
+		permissions.add(permission);
+	}
+	
+	public Set<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public Set<Role> getRoles() {
+		if (personalRole != null) {
+			return personalRole.getRoles();
+		}
+		return new HashSet<Role>();
 	}
 	
 }

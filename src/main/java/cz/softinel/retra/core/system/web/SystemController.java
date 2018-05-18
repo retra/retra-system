@@ -84,6 +84,10 @@ public class SystemController extends DispatchController {
 		model.set("errId", errId);
 		return createModelAndView(model, getSuccessView());
 	}
+
+	public ModelAndView showNoPermission(Model model, RequestContext requestContext) {
+		return createModelAndView(model, getSuccessView());
+	}
 	
 	public ModelAndView doLogin(Model model, RequestContext requestContext)	{
 		// Prepare parameters ...
