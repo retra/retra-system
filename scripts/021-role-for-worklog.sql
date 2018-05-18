@@ -1,0 +1,3 @@
+INSERT INTO `retradb`.`sis14type` (sis14pk, sis14mode, sis14id, sis14name, sis14description) VALUES ('140004', 'G', 'PermGroup', 'Permissions Groups', 'Skupiny pro definici práv.');
+
+INSERT INTO `retradb`.`sis13role` (sis13pk, sis13roleType, sis13id, sis13name, sis13description, sis13type, sis13mode) VALUES ('130300', '140004', 'PermGroup:WorklogAdmin', 'Skupina práv Worklog Admins', 'Skupina práv pro administrátory výkazů', NULL, 'G');
