@@ -87,8 +87,10 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 			}
 		}
 
-		//prepare roles and permissions
-		RoleHelper.prepareUserPermissions(login.getUser());
+		if (login != null) {
+			//prepare roles and permissions (must be here because of lazy loading)
+			RoleHelper.prepareUserPermissions(login.getUser());
+		}
 		
 		//return login
 		return login;
@@ -99,7 +101,13 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 		if (permanentPassword == null) {
 			return null;
 		}
-		return loginDao.getByPermanentPassword(permanentPassword);
+
+		Login login = loginDao.getByPermanentPassword(permanentPassword);
+		
+		//prepare roles and permissions (must be here because of lazy loading)
+		RoleHelper.prepareUserPermissions(login.getUser());
+
+		return login;
 	}
 
 	@Transactional(propagation=Propagation.REQUIRED)
