@@ -104,8 +104,10 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 
 		Login login = loginDao.getByPermanentPassword(permanentPassword);
 		
-		//prepare roles and permissions (must be here because of lazy loading)
-		RoleHelper.prepareUserPermissions(login.getUser());
+		if (login != null) {
+			//prepare roles and permissions (must be here because of lazy loading)
+			RoleHelper.prepareUserPermissions(login.getUser());
+		}
 
 		return login;
 	}
