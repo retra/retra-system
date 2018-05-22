@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="22.5.2018"
+		  title="Build 2.5.2"
+		  body="Small refactoring of permissions and bugfix."
+		  author="Retra Team"
+	/>
+
 	<item date="20.5.2018"
 		  title="Build 2.5.2"
 		  body="Another bugfix permissions for permanent login."

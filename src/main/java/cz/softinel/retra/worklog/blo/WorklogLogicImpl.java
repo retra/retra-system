@@ -1,5 +1,6 @@
 package cz.softinel.retra.worklog.blo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -16,6 +17,8 @@ import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.retra.worklog.WorklogViewOverview;
 import cz.softinel.retra.worklog.dao.WorklogDao;
 import cz.softinel.retra.worklog.dao.WorklogFilter;
+import cz.softinel.sis.security.NoPermissionException;
+import cz.softinel.sis.security.PermissionHelper;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.messages.Message;
@@ -66,8 +69,11 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.REQUIRED)
 	public List<Worklog> findAllWorklogs() {
-		List<Worklog> result = worklogDao.selectAll();
-		updateDescriptionGui(result);
+		List<Worklog> result = new ArrayList<Worklog>();
+		if (hasAdminWorklogPermission()) {
+			result = worklogDao.selectAll();
+			updateDescriptionGui(result);
+		}
 		return result;
 	}
 	
@@ -76,15 +82,30 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Worklog> findAllWorklogsForEmployee(Long pk) {
-		List<Worklog> result = worklogDao.selectForEmployee(pk);
-		updateDescriptionGui(result);		
+		List<Worklog> result = new ArrayList<Worklog>();
+		
+		if (hasAdminWorklogPermission()
+				|| isGivenEmpLoggedEmployee(pk)) {
+
+			result = worklogDao.selectForEmployee(pk);
+			updateDescriptionGui(result);		
+			
+		}
 		return result;
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public List<Worklog> findAllWorklogsForInvoice(Long pk) {
-		List<Worklog> result = worklogDao.selectForInvoice(pk);
-		updateDescriptionGui(result);		
+		List<Worklog> result = new ArrayList<Worklog>();
+		Invoice invoice = invoiceDao.get(pk);
+		if (invoice != null) {
+			if (hasAdminWorklogPermission()
+					|| isGivenEmpLoggedEmployee(invoice.getEmployee().getPk())) {
+				result = worklogDao.selectForInvoice(pk);
+				updateDescriptionGui(result);
+			}
+		}
+		
 		return result;
 	}
 	
@@ -156,7 +177,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		//check if deleting just own worklog
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 		worklogDao.load(worklog);
-		if (!actualEmployeePk.equals(worklog.getEmployee().getPk())){
+		if (!hasOwnWorklogPermission(worklog)){
 			addError(new Message("worklog.error.delete.not.own"));
 			return;
 		}
@@ -186,15 +207,26 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public Worklog get(Long pk) {
-		Worklog result = worklogDao.get(pk);
-		updateDescriptionGui(result);		
-		return result;
+		Worklog worklog = worklogDao.get(pk);
+		if (hasAdminWorklogPermission()
+			|| hasOwnWorklogPermission(worklog)) {
+			updateDescriptionGui(worklog);
+			return worklog;
+		}
+		throw new NoPermissionException();
 	}
 
 	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
 	public void loadAndLoadLazy(Worklog worklog) {
-		worklogDao.loadAndLoadLazy(worklog);
-		updateDescriptionGui(worklog);
+		if (hasAdminWorklogPermission()
+				|| hasOwnWorklogPermission(worklog)) {
+			if (worklog.getEmployee() == null) {
+				loadAndLoadLazyImpl(worklog);
+			}
+			updateDescriptionGui(worklog);
+			return;
+		}
+		throw new NoPermissionException();
 	}
 
 	/**
@@ -227,7 +259,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 //		this.jiraWorklogDao.update(worklog.getCurrentIssueTrackingWorklog());
 		//check if do not try to update not own worklog
 		Worklog worklogInDB = worklogDao.get(worklog.getPk());
-		if(!actualEmployeePk.equals(worklogInDB.getEmployee().getPk())){
+		if(!hasOwnWorklogPermission(worklogInDB)){
 			addError(new Message("worklog.error.update.not.own"));
 			return;
 		}
@@ -265,7 +297,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		Assert.notNull(invoice);
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 
-		if (actualEmployeePk.equals(worklog.getEmployee().getPk())
+		if (hasOwnWorklogPermission(worklog)
 			&& actualEmployeePk.equals(invoice.getEmployee().getPk())
 			&& worklog.getInvoice().getPk().equals(invoice.getPk())) {
 			worklog.setInvoice(null);
@@ -309,7 +341,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	}
 	
 	private boolean pairWorklogWithInvoice(Worklog worklog, Invoice invoice, Long actualEmployeePk) {
-		if (actualEmployeePk.equals(worklog.getEmployee().getPk())
+		if (hasOwnWorklogPermission(worklog)
 			&& actualEmployeePk.equals(invoice.getEmployee().getPk())) {
 			worklog.setInvoice(invoice);
 			storeFromInvoice(worklog);
@@ -401,5 +433,52 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	private void updateDescriptionGuiImpl(Worklog worklog) {
 		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic));
 	}
+
+	private boolean isGivenEmpLoggedEmployee(Long givenPk) {
+		Long loggedEmployeePk = securityLogic.getLoggedEmployee().getPk();
+
+		//not logged employee
+		if (!loggedEmployeePk.equals(givenPk)) {
+			return false;
+		}
+
+		return true;
+	}
+	
+	private boolean hasOwnWorklogPermission(final Worklog worklog) {
+		if (worklog == null) {
+			return false;
+		}
+
+		if (worklog.getEmployee() == null) {
+			loadAndLoadLazyImpl(worklog);
+		}
+
+		Long worklogEmployeePk = worklog.getEmployee().getPk();
+			
+		//not owned worklog
+		if (!isGivenEmpLoggedEmployee(worklogEmployeePk)) {
+			return false;					
+		}
+		
+		return true;
+	}
+
+	private boolean hasAdminWorklogPermission() {
+		//check permission
+		boolean hasWorklogAdminPermission = securityLogic.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+		//do not have admin worklog permission
+		if (!hasWorklogAdminPermission) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	private void loadAndLoadLazyImpl(Worklog worklog) {
+		worklogDao.loadAndLoadLazy(worklog);
+	}
+
+	
 }
 
