@@ -2,7 +2,7 @@
 
 <news>
 	<item date="22.5.2018"
-		  title="Build 2.5.2"
+		  title="Build 2.6.0"
 		  body="Small refactoring of permissions and bugfix."
 		  author="Retra Team"
 	/>
