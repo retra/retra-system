@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="12.3.2019"
+		  title="Build 2.7.0"
+		  body="Bugfixing of jokes generator."
+		  author="Retra Team"
+	/>
+
 	<item date="22.5.2018"
 		  title="Build 2.6.0"
 		  body="Small refactoring of permissions and bugfix."
@@ -54,7 +60,7 @@
 		  body="New integration with JIRA implemented (worklogs) and some bugfix."
 		  author="Retra Team"
 	/>
-	<item date="2.2.2015"
+	<!-- item date="2.2.2015"
 		  title="Build 2.0.0"
 		  body="Invoice batch generating, filtering projects and employees for assign and some bugfix."
 		  author="Retra Team"
@@ -179,7 +185,7 @@
 		  author="Retra Team"
 	/>
 
-	<!-- item date="12.12.2007"
+	<item date="12.12.2007"
 		  title="Build 0.01.019"
 		  body="There is new Retra build after long time. Special thanks to:
 		  &lt;ul&gt;

@@ -24,8 +24,20 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 	private static List<Joke> jokes = null;
 	private static Date nextLoad = null;
 	
+	private Boolean jokesEnabled = Boolean.TRUE;
+	
+	public Boolean getJokesEnabled() {
+		return jokesEnabled;
+	}
+
+	public void setJokesEnabled(Boolean jokesEnabled) {
+		this.jokesEnabled = jokesEnabled;
+	}
+
 	public synchronized List<Joke> getJokesForDate(Date date) {
-		if (jokes == null || (nextLoad == null || (new Date()).after(nextLoad))) {
+		if (jokesEnabled &&
+				(jokes == null || (nextLoad == null || (new Date()).after(nextLoad)))
+			) {
 			prepareJokes(date);
 		}
 		return jokes;
@@ -68,12 +80,12 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 	
 	private Joke getGarfieldJokeForDate(Date date) {
 		//TODO: put in xml
-		String targetURL = "http://www.gocomics.com/garfield/";
-		String baseURL = "http://www.gocomics.com/printable/garfield/";
-		String imageDefinition = "id=\"comic_";
+		String targetURL = "https://www.gocomics.com/garfield/";
+		String baseURL = "https://www.gocomics.com/garfield/";
+		String imageLineDefinition = "<picture class=\"item-comic-image\">";
+		String imageSrcDefinition = "data-srcset=\"";
 		String labelKey = "garfield.label";
-		int imagePathStart = 23;
-		Joke joke = getComicsJoke(date, targetURL, baseURL, imageDefinition, labelKey, imagePathStart);
+		Joke joke = getComicsJoke(date, targetURL, baseURL, imageLineDefinition, labelKey, imageSrcDefinition);
 		return joke;
 	}
 	
@@ -90,14 +102,14 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 	
 	private String getDilbertHtmlJokeForDate(Date date, String title) throws JokeFinderException {
 		String targetURL = "";
-		String baseURL = "http://dilbert.com/strips/";
-		String imageDefinition = "src=\"http://assets.amuniversal.com";
-		int imagePathStart = 5;
-
-		StringBuffer sb = new StringBuffer();
-		sb.append("<a href=\"http://www.dilbert.com\" target=\"_blank\">");
+		String baseURL = "https://dilbert.com/strip/";
+		String imageLineDefinition = "data-image=\"//assets.amuniversal.com";
+		String imageSrcDefinition = "data-image=\"";
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("<a href=\"https://www.dilbert.com\" target=\"_blank\">");
 		sb.append("<img src=\"");
-		sb.append(getProxyUrl(getDilbertJoke(date, targetURL, baseURL, imageDefinition, imagePathStart)));
+		sb.append(getProxyUrl(getDilbertJoke(date, targetURL, baseURL, imageLineDefinition, imageSrcDefinition)));
 		sb.append("\" alt=\"");
 		sb.append(title);
 		sb.append("\" title=\"");
@@ -109,38 +121,38 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 
 	private Joke getSnoopyJokeForDate(Date date) {
 		//TODO: put in xml
-		String targetURL = "http://www.gocomics.com/peanuts/";
-		String baseURL = "http://www.gocomics.com/printable/peanuts/";
-		String imageDefinition = "id=\"comic_";
+		String targetURL = "https://www.gocomics.com/peanuts/";
+		String baseURL = "https://www.gocomics.com/peanuts/";
+		String imageLineDefinition = "<picture class=\"item-comic-image\">";
+		String imageSrcDefinition = "data-srcset=\"";
 		String labelKey = "snoopy.label";
-		int imagePathStart = 23;
-		Joke joke = getComicsJoke(date, targetURL, baseURL, imageDefinition, labelKey, imagePathStart);
+		Joke joke = getComicsJoke(date, targetURL, baseURL, imageLineDefinition, labelKey, imageSrcDefinition);
 		return joke;
 	}
 	
 	private Joke getBenJokeForDate(Date date) {
 		//TODO: put in xml
-		String targetURL = "http://www.gocomics.com/ben/";
-		String baseURL = "http://www.gocomics.com/printable/ben/";
-		String imageDefinition = "id=\"comic_";
+		String targetURL = "https://www.gocomics.com/ben/";
+		String baseURL = "https://www.gocomics.com/ben/";
+		String imageLineDefinition = "<picture class=\"item-comic-image\">";
+		String imageSrcDefinition = "data-srcset=\"";
 		String labelKey = "ben.label";
-		int imagePathStart = 23;
-		Joke joke = getComicsJoke(date, targetURL, baseURL, imageDefinition, labelKey, imagePathStart);
+		Joke joke = getComicsJoke(date, targetURL, baseURL, imageLineDefinition, labelKey, imageSrcDefinition);
 		return joke;
 	}
 
 	private Joke getPcAndPixelJokeForDate(Date date) {
 		//TODO: put in xml 
-		String targetURL = "http://www.gocomics.com/pcandpixel/";
-		String baseURL = "http://www.gocomics.com/printable/pcandpixel/";
-		String imageDefinition = "id=\"comic_";
+		String targetURL = "https://www.gocomics.com/pcandpixel/";
+		String baseURL = "https://www.gocomics.com/pcandpixel/";
+		String imageLineDefinition = "<picture class=\"item-comic-image\">";
+		String imageSrcDefinition = "data-srcset=\"";
 		String labelKey = "pcAndPixel.label";
-		int imagePathStart = 23;
-		Joke joke = getComicsJoke(date, targetURL, baseURL, imageDefinition, labelKey, imagePathStart);
+		Joke joke = getComicsJoke(date, targetURL, baseURL, imageLineDefinition, labelKey, imageSrcDefinition);
 		return joke;
 	}
 	
-	private Joke getComicsJoke(Date date, String targetURL, String baseURL, String imageDefinition, String labelKey, int imagePathStart) {
+	private Joke getComicsJoke(Date date, String targetURL, String baseURL, String imageLineDefinition, String labelKey, String imageSrcDefinition) {
 		Joke joke = null;
 		
 		try {
@@ -148,12 +160,12 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		
 			String label = getMessageSourceAccessor().getMessage(labelKey);
 		
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			sb.append("<a href=\"");
 			sb.append(targetURL);
 			sb.append("\" target=\"_blank\">");
 			sb.append("<img src=\"");
-			sb.append(getProxyUrl(getImageUrlForComicsJoke(date, baseURL, imageDefinition, imagePathStart)));
+			sb.append(getProxyUrl(getImageUrlForComicsJoke(date, baseURL, imageLineDefinition, imageSrcDefinition)));
 			sb.append("\" alt=\"");
 			sb.append(label);
 			sb.append("\" title=\"");
@@ -174,10 +186,10 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		return joke;
 	}
 	
-	private String getImageUrlForComicsJoke(Date date, String baseURL, String imageDefinition, int imagePathStart) throws JokeFinderException {
+	private String getImageUrlForComicsJoke(Date date, String baseURL, String imageLineDefinition, String imageSrcDefinition) throws JokeFinderException {
 		String imageUrl = null;
 		try {
-			imageUrl = getBaseImageComicsJoke(date, baseURL, imageDefinition, imagePathStart);
+			imageUrl = getBaseImageComicsJoke(date, baseURL, imageLineDefinition, imageSrcDefinition);
 			URL url = new URL(imageUrl);
 			url.openStream();
 		}
@@ -198,8 +210,8 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		return imageUrl;
 	}
 	
-	private String getBaseImageComicsJoke(Date date, String baseURL, String imageDefinition, int imagePathStart) throws JokeFinderException {
-		StringBuffer sb = new StringBuffer();
+	private String getBaseImageComicsJoke(Date date, String baseURL, String imageLineDefinition, String imageSrcDefinition) throws JokeFinderException {
+		StringBuilder sb = new StringBuilder();
 		URL comicsPageURL = null;
 		InputStreamReader inr = null;
 		try {
@@ -214,43 +226,13 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 			throw new JokeFinderException(e);
 		}
 
-		BufferedReader in = new BufferedReader(inr);
-		String inputLine;
-			
-		int start = 0;
-		boolean lineImageFound = false;
-		try {
-			while ((inputLine = in.readLine()) != null) {
-				start = inputLine.indexOf(imageDefinition);
-				if (start > -1) {
-					lineImageFound = true;
-					break;
-				}
-			}
-			in.close();
-		}
-		catch (IOException e) {
-			throw new JokeFinderException(e);
-		}
+		String result = getImageUrlFromWeb(inr, imageLineDefinition, imageSrcDefinition, ' ');
 		
-		if (lineImageFound) {
-			String lineWithImg = inputLine.substring(start+imagePathStart);
-			String replaced = lineWithImg.replaceAll("(.*)(\" />).*", "$1");
-			replaced = replaced.replaceAll("\"", "");
-			
-			sb = new StringBuffer("");
-			sb.append(replaced);
-			
-		}
-		else {
-			throw new JokeFinderException("Img for joke couldn't be found.");
-		}
-
-		return sb.toString();
+		return result;
 	}
 
-	private String getDilbertJoke(Date date, String targetURL, String baseURL, String imageDefinition, int imagePathStart) throws JokeFinderException {
-		StringBuffer sb = new StringBuffer();
+	private String getDilbertJoke(Date date, String targetURL, String baseURL, String imageLineDefinition, String imageSrcDefinition) throws JokeFinderException {
+		StringBuilder sb = new StringBuilder();
 		URL comicsPageURL = null;
 		InputStreamReader inr = null;
 		try {
@@ -265,15 +247,26 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 			throw new JokeFinderException(e);
 		}
 
+		String result = getImageUrlFromWeb(inr, imageLineDefinition, imageSrcDefinition, '\"');
+		
+		if (result != null && result.startsWith("//")) {
+			result = "https:" + result;
+		}
+		
+		return result;
+	}
+
+	private String getImageUrlFromWeb(InputStreamReader inr, String imageLineDefinition, String imageSrcDefinition, char imageSrcEndChar) throws JokeFinderException {
 		BufferedReader in = new BufferedReader(inr);
 		String inputLine;
+		
+		String result = null;
 			
 		int start = 0;
-		boolean first = true;
 		boolean lineImageFound = false;
 		try {
 			while ((inputLine = in.readLine()) != null) {
-				start = inputLine.indexOf(imageDefinition);
+				start = inputLine.indexOf(imageLineDefinition);
 				if (start > -1) {
 					lineImageFound = true;
 					break;
@@ -286,29 +279,25 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 		}
 		
 		if (lineImageFound) {
-			String lineWithImg = inputLine.substring(start+imagePathStart);
-			//String replaced = lineWithImg.replaceAll("(.*)(\\.(gif|jpg|jpeg|png)).*", "$1$2");
-			String replaced = lineWithImg.replaceAll("(.*)(\" width=\").*", "$1");
-			replaced = replaced.replaceAll("\" />", "");
-			
-			sb = new StringBuffer(targetURL);
-			sb.append(replaced);
-			
+			int srcStart = inputLine.indexOf(imageSrcDefinition) + imageSrcDefinition.length();
+			int srcEnd = inputLine.indexOf(imageSrcEndChar, srcStart);
+			String imgUrl = inputLine.substring(srcStart, srcEnd);
+			result = imgUrl;
 		}
 		else {
 			throw new JokeFinderException("Img for joke couldn't be found.");
 		}
 
-		return sb.toString();
-	}
+		return result;
 
+	}
 	
-//	private String getAlternateImageComicsJoke(Date date, String targetURL, String alternateURL, String imageDefinition, int imagePathStart) throws JokeFinderException {
-//		StringBuffer sb = new StringBuffer();
+//	private String getAlternateImageComicsJoke(Date date, String targetURL, String alternateURL, String imageLineDefinition, int imagePathStart) throws JokeFinderException {
+//		StringBuilder sb = new StringBuilder();
 //		URL comicsPageURL = null;
 //		InputStreamReader inr = null;
 //		try {
-//			sb = new StringBuffer();
+//			sb = new StringBuilder();
 //			sb.append(alternateURL);
 //			comicsPageURL = new URL(sb.toString());
 //			inr = new InputStreamReader(comicsPageURL.openStream());
@@ -329,7 +318,7 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 //		boolean lineImageFound = false;
 //		try {
 //			while ((inputLine = in.readLine()) != null) {
-//				start = inputLine.indexOf(imageDefinition);
+//				start = inputLine.indexOf(imageLineDefinition);
 //				if (start > -1) {
 //					lineImageFound = true;
 //					break;
@@ -346,7 +335,7 @@ public class MiraJokeGenerator extends ApplicationObjectSupport implements JokeG
 //			int gifIndex = lineWithImg.indexOf(".gif");
 //			String resultImgString = lineWithImg.substring(0,gifIndex); 
 //			
-//			sb = new StringBuffer(targetURL);
+//			sb = new StringBuilder(targetURL);
 //			sb.append(resultImgString);
 //			sb.append(".gif");
 //		}

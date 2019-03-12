@@ -64,7 +64,9 @@
 		<property name="loginPageAction" value="/Login.do?fkprm=true" />
 	</bean>	
 
-	<bean id="miraJokeGenerator" class="cz.softinel.retra.core.joke.blo.MiraJokeGenerator" />
+	<bean id="miraJokeGenerator" class="cz.softinel.retra.core.joke.blo.MiraJokeGenerator">
+		<property name="jokesEnabled" value="${retra.jokes.enabled}"></property>
+	</bean>
 	
 	<!-- ========== -->
 	<!-- System actions -->
