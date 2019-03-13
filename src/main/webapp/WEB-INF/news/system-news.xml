@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="13.3.2019"
+		  title="Build 2.7.0"
+		  body="Upgrade Retra to Java 8."
+		  author="Retra Team"
+	/>
+
 	<item date="12.3.2019"
 		  title="Build 2.7.0"
 		  body="Bugfixing of jokes generator."
