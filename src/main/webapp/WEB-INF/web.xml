@@ -8,6 +8,11 @@
 
 	<description>Managing of Internal Resource Application</description>
 
+	<!-- Java version workaround 1.7.0_888 -->
+	<listener>
+		<listener-class>cz.softinel.retra.core.JavaVersionWorkaroundListener</listener-class>
+	</listener>
+
 	<!-- - Configures Log4J for this web app. - As this context specifies a 
 		context-param "log4jConfigLocation", its file path - is used to load the 
 		Log4J configuration, including periodic refresh checks. - - Would fall back 
