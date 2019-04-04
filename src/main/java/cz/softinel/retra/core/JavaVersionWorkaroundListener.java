@@ -14,6 +14,10 @@ public class JavaVersionWorkaroundListener implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		System.setProperty("java.version", "1.7.0_888");
+		final String configLocation = sce.getServletContext().getInitParameter("retra.config.location");
+		if (configLocation != null) {
+			System.setProperty("retra.config.location", configLocation);
+		}
 	}
 
 	@Override
