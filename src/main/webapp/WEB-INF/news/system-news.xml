@@ -1,6 +1,16 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="4.4.2019"
+		  title="Build 2.9.0"
+		  body="&lt;ul>
+		  &lt;li>Fix &lt;a href='https://jira/browse/RETRA-42'>RETRA-42&lt;/a> - Nefunguje logování výkazu v projektu S1&lt;/li>
+		  &lt;li>Improved logging worklog records to Jira.&lt;/li>
+		  &lt;li>Added support for set &quot;retra.config.location&quot; by context init parameter.&lt;/li>
+		  &lt;/ul>"
+		  author="Retra Team"
+	/>
+
 	<item date="13.3.2019"
 		  title="Build 2.8.0"
 		  body="Upgrade Retra to Java 8."
