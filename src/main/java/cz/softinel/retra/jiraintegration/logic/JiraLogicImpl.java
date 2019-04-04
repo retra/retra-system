@@ -74,8 +74,8 @@ public class JiraLogicImpl implements JiraLogic {
 				final long duration = worklog.getSeconds(); 
 				final String loginName = worklog.getEmployee().getUser().getLogin().getLdapLogin();
 				final String comment = worklog.getDescription();
-				
-				if (!jiraConnector.addWorklog(issueKey, started, duration, loginName, comment)) {
+				final Long worklogPk = worklog.getPk();
+				if (!jiraConnector.addWorklog(issueKey, started, duration, loginName, comment, worklogPk)) {
 					logger.error("Couldn't log in JIRA.");
 				} else {
 					getJiraIssueFromConnector(issueKey);
@@ -134,8 +134,8 @@ public class JiraLogicImpl implements JiraLogic {
 				long duration = newWorklog.getSeconds(); 
 				String loginName = newWorklog.getEmployee().getUser().getLogin().getLdapLogin();
 				String comment = newWorklog.getDescription();
-						
-				if (!jiraConnector.updateWorklog(issueKey, started, duration, loginName, comment, id)) {
+				final Long worklogPk = newWorklog.getPk();
+				if (!jiraConnector.updateWorklog(issueKey, started, duration, loginName, comment, id, worklogPk)) {
 					logger.error("Couldn't log in JIRA.");
 				} else {
 					getJiraIssueFromConnector(issueKey);

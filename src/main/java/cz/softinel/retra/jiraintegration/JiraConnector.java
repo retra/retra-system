@@ -75,10 +75,10 @@ public class JiraConnector implements InitializingBean {
 		}
 	}
 	
-	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment) {
+	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final Long worklogPk) {
 		try {
 			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
-			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null);
+			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null, worklogPk);
 			final ClientResponse response = client.resource(url)
 					.accept(MediaType.APPLICATION_JSON_TYPE)
 					.type(MediaType.APPLICATION_JSON_TYPE)		
@@ -98,10 +98,10 @@ public class JiraConnector implements InitializingBean {
 		}
 	}
 	
-	public boolean updateWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id) {
+	public boolean updateWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id, final Long worklogPk) {
 		try {
 			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
-			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, id);
+			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, id, worklogPk);
 			final ClientResponse response = client.resource(url)
 					.accept(MediaType.APPLICATION_JSON_TYPE)
 					.type(MediaType.APPLICATION_JSON_TYPE)		
@@ -208,13 +208,28 @@ public class JiraConnector implements InitializingBean {
 			return string;
 		}
 	}
-
-	private String getAddWorklogString(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id) {
+	
+	protected String buildJiraComment(final Long worklogPk, final String loginName, final String clearComment) {
+		final StringBuilder result = new StringBuilder();
+//		result.append(loginName);
+//		result.append(" - auto from Retra: ");
+//		result.append(clearComment);
+		result.append("Retra log #");
+		result.append(worklogPk);
+		result.append(" by @");
+		result.append(loginName);
+		result.append(": ");
+		result.append(clearComment);
+		return result.toString();
+	}
+	
+	private String getAddWorklogString(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id, final Long worklogPk) {
 		String startedStr = jiraDateFormat.format(started); 
 		String clearComment = clearComment(comment);
+		String jiraComment = buildJiraComment(worklogPk, loginName, clearComment);
 		StringBuilder sb = new StringBuilder();
 		sb.append("{\"author\": {\"name\": \"").append(loginName).append("\"}, ");
-		sb.append("\"comment\": \"").append(loginName).append(" - auto from Retra: ").append(clearComment).append("\", ");
+		sb.append("\"comment\": \"").append(jiraComment).append("\", ");
 		sb.append("\"started\": \"").append(startedStr).append("\", ");
 		sb.append("\"timeSpentSeconds\": \"").append(duration).append("\"");
 		if (id != null) {
