@@ -9,7 +9,7 @@ import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 
 public abstract class JiraHelper {
 
-	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z]{1,10}\\-[1-9]{1}[0-9]{0,9}";
+	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z][A-Z0-9]{0,9}\\-[1-9]{1}[0-9]{0,9}";
 	public static final String SW_CODE_PREFIX = "SW-";
 	
 	private static final Pattern JIRA_ISSUE_CODE_PATTERN = Pattern.compile(JIRA_ISSUE_CODE_REGEXP);
