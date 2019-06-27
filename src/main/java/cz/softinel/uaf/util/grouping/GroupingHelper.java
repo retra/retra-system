@@ -11,13 +11,14 @@ public class GroupingHelper {
 
 //	private static Log logger = LogFactory.getLog(GroupingHelper.class);
 
-	public static GroupingMap group(Collection collection, String valueProperty, String groupKeyProperty, boolean removeIt) {
+	public static GroupingMap group(Collection collection, String valueProperty, String groupKeyProperty, String groupKeyInfoProperty, boolean removeIt) {
 		try {
 			GroupingMap groupedMap = new GroupingMap(1);
 			for (Object item : collection) {
 				Object groupKey = PropertyUtils.getProperty(item, groupKeyProperty);
+				Object groupKeyInfo = PropertyUtils.getProperty(item, groupKeyInfoProperty);
 				Float value = Float.valueOf(String.valueOf(PropertyUtils.getProperty(item, valueProperty)));
-				groupedMap.add(new GroupingKey(new Object[]{groupKey}), new GroupedItem(value));
+				groupedMap.add(new GroupingKey(new Object[]{groupKey}, new Object[]{groupKeyInfo}), new GroupedItem(value));
 			}
 			return groupedMap;
 		} catch (IllegalAccessException e) {
@@ -29,19 +30,28 @@ public class GroupingHelper {
 		}
 	}
 	
-	public static GroupingMap group(Collection collection, String valueProperty, String[] groupKeyProperties) {
+	public static GroupingMap group(Collection collection, String valueProperty, String[] groupKeyProperties, String[] groupKeyInfoProperties) {
 		try {
 			GroupingMap groupedMap = new GroupingMap(groupKeyProperties.length);
 			for (Object item : collection) {
 				Object[] groupKeys = new Object[groupKeyProperties.length];
+				Object[] groupKeyInfos = new Object[groupKeyProperties.length];
 				for (int i=0; i<groupKeyProperties.length; i++) {
 //					logger.info(" >>> " + item + " ///  " + groupKeyProperties[i]);
 					Object val = PropertyUtils.getProperty(item, groupKeyProperties[i]);
 //					logger.info("   - " + val + " / " + groupKeys[i]);
 					groupKeys[i] = val;
+
+					if (groupKeyInfoProperties != null && groupKeyInfoProperties.length >= i
+						&& groupKeyInfoProperties[i] != null) {
+						Object info = PropertyUtils.getProperty(item, groupKeyInfoProperties[i]);
+						groupKeyInfos[i] = info;
+					} else {
+						groupKeyInfos[i] = "";
+					}
 				}
 				Float value = Float.valueOf(String.valueOf(PropertyUtils.getProperty(item, valueProperty)));
-				groupedMap.add(new GroupingKey(groupKeys), new GroupedItem(value));
+				groupedMap.add(new GroupingKey(groupKeys, groupKeyInfos), new GroupedItem(value));
 			}
 			return groupedMap;
 		} catch (IllegalAccessException e) {

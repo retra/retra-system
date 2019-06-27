@@ -176,7 +176,7 @@ public class WorklogController extends DispatchController {
 		}
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] {"project", "activity"});
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] {"project", "activity"}, new String[] {null, null});
 
 		prepareActivities(model, grouppedWorklog.getProjection(1).getKeyList());
 		prepareProjects(model, grouppedWorklog.getProjection(0).getKeyList());
@@ -186,7 +186,7 @@ public class WorklogController extends DispatchController {
 		prepareInvoiceRelations(model);
 		
 		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours", 
-				new String[] {"week", "date", "project.code", "activity.code"});
+				new String[] {"week", "date", "project.code", "activity.code"}, new String[] {null, null, null, null});
 		
 		// Add all days ...
 		Date from = FilterHelper.getFieldAsDate(WorklogFilter.WORKLOG_FILTER_FROM, filter);
@@ -389,14 +389,14 @@ public class WorklogController extends DispatchController {
 		}
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", 	new String[] {"project", "activity"});
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] {"project", "activity"}, new String[] {null, null});
 
 		prepareActivities(model, grouppedWorklog.getProjection(1).getKeyList());
 		prepareProjects(model, grouppedWorklog.getProjection(0).getKeyList());
 		prepareInvoiceRelations(model);
 		
-		GroupingMap groupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.codeAndName", "project.codeAndName"});
-		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.code", "project.code"});
+		GroupingMap groupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.codeAndName", "project.codeAndName"}, new String[] {"employee.user.login.ldapLogin", null, null});
+		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.code", "project.code"}, new String[] {"employee.user.login.ldapLogin", null, null});
 
 		model.set("worklogs", worklogs);
 
@@ -449,7 +449,7 @@ public class WorklogController extends DispatchController {
 		prepareEmployees(model, hasWorklogAdminPermission, actualEmployee);
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", 	new String[] {"project", "activity"});
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", 	new String[] {"project", "activity"}, new String[] {null, null});
 		
 		model.set("worklogs", worklogs);
 		model.set("grouppedWorklog", grouppedWorklog);

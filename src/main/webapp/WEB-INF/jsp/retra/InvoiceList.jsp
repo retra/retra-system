@@ -113,12 +113,13 @@
 	<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10"/> 
 	<display:column property="name" titleKey="entity.invoice.name" sortable="true" />
 	<display:column property="employee.user.contactInfo.displayName" titleKey="entity.invoice.employee"/>
+	<display:column property="employee.user.login.ldapLogin" titleKey="entity.invoice.employee.ldaplogin" media="csv excel xml pdf rtf" />
 	
 	<display:column property="state" titleKey="entity.invoice.state" media="html" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" maxLength="5" class="center"/>
 	<display:column titleKey="entity.invoice.state" media="csv excel xml pdf rtf">
 		<fmt:message key="invoice.state.${invoice.state}" />
 	</display:column>
-	
+
 	<!-- action columns -only for html (parameter media) -->
 	<display:column url="/InvoiceView.do?fkprm=true" paramId="pk" paramProperty="pk" media="html" class="action" headerClass="action"
 		title="">

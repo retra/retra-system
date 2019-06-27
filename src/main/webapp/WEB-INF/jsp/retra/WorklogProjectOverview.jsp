@@ -90,6 +90,7 @@
 		<h2>Employee</h2>
 		<display:table id="worklogByEmployeeId" name="worklogByEmployee.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.employee" />
+			<display:column property="keyInfo" titleKey="worklog.employee.ldaplogin" media="csv excel xml pdf rtf"/>			
 			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>
 			<display:footer media="html">
 				<tr>

@@ -56,7 +56,8 @@ public class Projection {
 			GroupedItem item = entry.getValue();
 			if (projectionKey.isSubKey(itemKey)) {
 				Object key = itemKey.getKey(projectionDimension);
-				ProjectionListItem projectionListItem = new ProjectionListItem(this, itemKey, key, item);
+				Object keyInfo = itemKey.getKeyInfo(projectionDimension);
+				ProjectionListItem projectionListItem = new ProjectionListItem(this, itemKey, key, keyInfo, item);
 				projectionList.add(projectionListItem);
 			}
 		}

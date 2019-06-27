@@ -8,11 +8,13 @@ public class ProjectionListItem {
 	private GroupingKey groupingKey;
 	private Object key;
 	private GroupedItem value;
+	private Object keyInfo;
 	
-	public ProjectionListItem(Projection projection, GroupingKey groupingKey, Object key, GroupedItem value) {
+	public ProjectionListItem(Projection projection, GroupingKey groupingKey, Object key, Object keyInfo, GroupedItem value) {
 		this.projection = projection;
 		this.groupingKey = groupingKey;
 		this.key = key;
+		this.keyInfo = keyInfo;
 		this.value = value;
 	}
 	
@@ -30,6 +32,14 @@ public class ProjectionListItem {
 	
 	public GroupedItem getValue() {
 		return value;
+	}
+
+	public Object getKeyInfo() {
+		return keyInfo;
+	}
+
+	public void setKeyInfo(Object keyInfo) {
+		this.keyInfo = keyInfo;
 	}
 
 	private class ProjectionAccessMap extends ReadOnlyMap {
