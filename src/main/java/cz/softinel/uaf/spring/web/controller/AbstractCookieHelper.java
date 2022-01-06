@@ -12,30 +12,30 @@ import javax.servlet.http.Cookie;
  * @author Petr Sígl
  */
 public abstract class AbstractCookieHelper {
-	
+
 	public static final int COOKIE_MAX_AGE = Integer.MAX_VALUE;
 	public static final String COOKIE_COMMENT = "Retra cookie";
 	public static final String RETRA_PERMANENT_COOKIE_NAME = "RETRA-PermanentPassword";
-	
+
 	/**
 	 * This method is used for common adding something to cookies.
 	 * 
-	 * @param commandForm form or entity from which add to cookies
+	 * @param commandForm    form or entity from which add to cookies
 	 * @param requestContext for setting cookie
 	 */
-	public void addToCookies(Object commandForm, RequestContext requestContext){
+	public void addToCookies(Object commandForm, RequestContext requestContext) {
 		addToCookies(commandForm, requestContext, null);
 	}
 
 	/**
-	 * This method is used for adding something to cookies and if you need some
-	 * help parameters than use map for it.
+	 * This method is used for adding something to cookies and if you need some help
+	 * parameters than use map for it.
 	 * 
 	 * @param commandForm
 	 * @param requestContext
 	 * @param helpParameters
 	 */
-	public void addToCookies(Object commandForm, RequestContext requestContext, Map helpParameters){
+	public void addToCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 	}
 
 	/**
@@ -44,39 +44,40 @@ public abstract class AbstractCookieHelper {
 	 * @param commandForm
 	 * @param requestContext
 	 */
-	public void importFromCookies(Object commandForm, RequestContext requestContext){
+	public void importFromCookies(Object commandForm, RequestContext requestContext) {
 		importFromCookies(commandForm, requestContext, null);
 	}
 
 	/**
-	 * Import data from cookies to object and when you need some help parameters use map.
+	 * Import data from cookies to object and when you need some help parameters use
+	 * map.
 	 * 
 	 * @param commandForm
 	 * @param requestContext
 	 * @param helpParameters
 	 */
-	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters){
+	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 	}
-	
+
 	/**
 	 * Sometimes is needed to clean cookies - so implement this method.
 	 * 
 	 * @param requestContext
 	 */
-	public void cleanCookies(RequestContext requestContext){
+	public void cleanCookies(RequestContext requestContext) {
 		cleanCookies(requestContext, null);
 	}
 
 	/**
-	 * Implement if needed to clean cookies and for cleaning is needed some
-	 * help parameters - use map.
+	 * Implement if needed to clean cookies and for cleaning is needed some help
+	 * parameters - use map.
 	 * 
 	 * @param requestContext
 	 * @param helpParameters
 	 */
-	public void cleanCookies(RequestContext requestContext, Map helpParameters){
+	public void cleanCookies(RequestContext requestContext, Map helpParameters) {
 	}
-	
+
 	/**
 	 * This method creates default cookie
 	 * 
@@ -90,7 +91,7 @@ public abstract class AbstractCookieHelper {
 		cookie.setComment(COOKIE_COMMENT);
 		return cookie;
 	}
-	
+
 	/**
 	 * This method creates cookie and set it to response.
 	 * 

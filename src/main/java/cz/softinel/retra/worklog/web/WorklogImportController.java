@@ -1,6 +1,5 @@
 package cz.softinel.retra.worklog.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,8 +50,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Sets activity logic
 	 * 
-	 * @param activityLogic
-	 *            the activityLogic to set
+	 * @param activityLogic the activityLogic to set
 	 */
 	public void setActivityLogic(ActivityLogic activityLogic) {
 		this.activityLogic = activityLogic;
@@ -61,8 +59,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Sets project logic
 	 * 
-	 * @param projectLogic
-	 *            the projectLogic to set
+	 * @param projectLogic the projectLogic to set
 	 */
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
@@ -71,8 +68,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Sets worklog logic
 	 * 
-	 * @param worklogLogic
-	 *            the worklogLogic to set
+	 * @param worklogLogic the worklogLogic to set
 	 */
 	public void setWorklogLogic(WorklogLogic worklogLogic) {
 		this.worklogLogic = worklogLogic;
@@ -85,8 +81,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Sets success view used at the end of this wizard.
 	 * 
-	 * @param successView
-	 *            the successView to set
+	 * @param successView the successView to set
 	 */
 	public void setSuccessView(String successView) {
 		this.successView = successView;
@@ -95,8 +90,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Sets cancel view used if user presses Cancel.
 	 * 
-	 * @param cancelView
-	 *            the cancelView to set
+	 * @param cancelView the cancelView to set
 	 */
 	public void setCancelView(String cancelView) {
 		this.cancelView = cancelView;
@@ -127,17 +121,18 @@ public class WorklogImportController extends WizardFormController {
 	 *      java.lang.Object, org.springframework.validation.Errors, int)
 	 */
 	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page)
+			throws Exception {
 		WorklogImportForm form = (WorklogImportForm) command;
 		if (page == 0) {
 			if (form.isFreshImportData()) {
 				// prepare data for mapping projects and activities
-				List<Project> projects=projectLogic.findAllProjectsInWhichCouldDoWorkLog();
+				List<Project> projects = projectLogic.findAllProjectsInWhichCouldDoWorkLog();
 				int parseErrors = form.prepareMapping(getParser(form), projects,
 						activityLogic.findAllNotDeletedActivities());
 				/**
-				 * if all lines in file are bad then there is no point in
-				 * continuing with worklog import.
+				 * if all lines in file are bad then there is no point in continuing with
+				 * worklog import.
 				 */
 				if (form.isAllLinesBad()) {
 					Messages messages = new Messages(getApplicationContext());
@@ -176,8 +171,7 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Returns a data parser according to the import type
 	 * 
-	 * @param form
-	 *            form with selected import type
+	 * @param form form with selected import type
 	 * @return data parser
 	 */
 	private ImportDataParser getParser(WorklogImportForm form) {
@@ -196,10 +190,8 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Loads project and activity mappings from cookies.
 	 * 
-	 * @param request
-	 *            currect HTTP request
-	 * @param form
-	 *            current command object
+	 * @param request currect HTTP request
+	 * @param form    current command object
 	 */
 	private void loadMappingFromCookies(HttpServletRequest request, WorklogImportForm form) {
 		Cookie[] cookies = request.getCookies();
@@ -219,10 +211,8 @@ public class WorklogImportController extends WizardFormController {
 	/**
 	 * Stores the last project and activity mapping into cookies.
 	 * 
-	 * @param response
-	 *            current HTTP response
-	 * @param form
-	 *            current command object
+	 * @param response current HTTP response
+	 * @param form     current command object
 	 */
 	private void storeMappingToCookies(HttpServletResponse response, WorklogImportForm form) {
 		// projects
@@ -279,7 +269,8 @@ public class WorklogImportController extends WizardFormController {
 	 *      org.springframework.validation.BindException)
 	 */
 	@Override
-	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, Object command,
+			BindException errors) throws Exception {
 		return new ModelAndView(cancelView);
 	}
 
@@ -289,7 +280,8 @@ public class WorklogImportController extends WizardFormController {
 	 *      org.springframework.validation.BindException)
 	 */
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command,
+			BindException errors) throws Exception {
 		WorklogImportForm form = (WorklogImportForm) command;
 		List<Worklog> worklogItems = form.getConfirmedWorklogItems();
 
@@ -303,7 +295,7 @@ public class WorklogImportController extends WizardFormController {
 		}
 
 		// store to DB
-		
+
 		Messages messages = new Messages(getApplicationContext());
 		MessagesHolder.setMessages(messages);
 		int importItems = worklogLogic.create(worklogItems);
@@ -342,7 +334,8 @@ public class WorklogImportController extends WizardFormController {
 	}
 
 	protected void prepareInvoices(Map<String, Object> model) {
-		List<Invoice> invoices = invoiceLogic.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
+		List<Invoice> invoices = invoiceLogic
+				.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
 		model.put("invoices", invoices);
 		if (invoices.size() > 0) {
 			model.put("showInvoices", Boolean.TRUE);

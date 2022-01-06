@@ -2,7 +2,6 @@ package cz.softinel.retra.invoice.dao;
 
 import java.util.List;
 
-import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.uaf.filter.Filter;
 
@@ -14,13 +13,13 @@ import cz.softinel.uaf.filter.Filter;
 public interface InvoiceDao {
 
 	/**
-	 * Returns invoice according to primary key. 
+	 * Returns invoice according to primary key.
 	 * 
 	 * @param pk primary key of invoice
 	 * @return
 	 */
 	public Invoice get(Long pk);
-	
+
 	/**
 	 * Insert Invoice
 	 * 
@@ -34,7 +33,7 @@ public interface InvoiceDao {
 	 * @param invoice to update
 	 */
 	public void update(Invoice invoice);
-	
+
 	/**
 	 * Returns all invoices
 	 * 
@@ -48,7 +47,7 @@ public interface InvoiceDao {
 	 * @return all invoices
 	 */
 	public List<Invoice> selectAllForEmployee(Long employeePk);
-	
+
 	/**
 	 * Returns all invoices for employee which are not deleted
 	 * 
@@ -62,12 +61,12 @@ public interface InvoiceDao {
 	 * @return all invoices
 	 */
 	public List<Invoice> selectAllForEmployeeActive(Long employeePk);
-	
+
 	/**
 	 * @return invoices with the given code
 	 */
 	public List<Invoice> selectInvoicesForEmployeeWithCode(Long employeePk, String code);
-	
+
 	/**
 	 * Select by filter.
 	 * 
@@ -75,12 +74,13 @@ public interface InvoiceDao {
 	 * @return
 	 */
 	public List<Invoice> selectByFilter(Filter filter);
-	
+
 	/**
 	 * Load informations about invoice (defined by pk)
 	 * 
 	 * @param invoice where load and where is pk set
 	 */
 	public void load(Invoice invoice);
-	public void loadAndLoadLazy(Invoice invoice);	
+
+	public void loadAndLoadLazy(Invoice invoice);
 }

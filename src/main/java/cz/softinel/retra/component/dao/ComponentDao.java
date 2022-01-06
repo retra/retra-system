@@ -3,8 +3,6 @@ package cz.softinel.retra.component.dao;
 import java.util.List;
 
 import cz.softinel.retra.component.Component;
-import cz.softinel.retra.project.Project;
-
 
 /**
  * Dao for worklog components
@@ -15,13 +13,13 @@ import cz.softinel.retra.project.Project;
 public interface ComponentDao {
 
 	/**
-	 * Returns component according to primary key. 
+	 * Returns component according to primary key.
 	 * 
 	 * @param pk primary key of component
 	 * @return
 	 */
 	public Component get(Long pk);
-	
+
 	/**
 	 * Insert Component
 	 * 
@@ -42,7 +40,7 @@ public interface ComponentDao {
 	 * @param component to delete
 	 */
 	public void delete(Component component);
-	
+
 	/**
 	 * Returns all components
 	 * 
@@ -63,6 +61,6 @@ public interface ComponentDao {
 	 * @param component where load and where is pk set
 	 */
 	public void load(Component component);
-	
+
 	public List<Component> selectComponentsWithCode(String code);
 }

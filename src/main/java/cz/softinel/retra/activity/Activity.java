@@ -2,7 +2,6 @@ package cz.softinel.retra.activity;
 
 import cz.softinel.uaf.state.StateEntity;
 
-
 /**
  * This class represents employee activity.
  * 
@@ -98,7 +97,6 @@ public class Activity implements StateEntity {
 		this.state = state;
 	}
 
-
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -125,12 +123,12 @@ public class Activity implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Activity: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(Activity: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
 
 }

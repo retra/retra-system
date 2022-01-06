@@ -3,12 +3,12 @@ package cz.softinel.retra.jiraintegration.worklog;
 import java.util.Date;
 
 /**
- * Object for converting between {@link JiraWorklog} and the SOAP XML.
- * This class' importance needs to be rethinked.
+ * Object for converting between {@link JiraWorklog} and the SOAP XML. This
+ * class' importance needs to be rethinked.
  */
 @Deprecated
 public class JiraRemoteWorklog {
-	
+
 	/**
 	 * The ID of the remote worklog in the Jira system.
 	 */
@@ -20,12 +20,12 @@ public class JiraRemoteWorklog {
 	private Date updated;
 	private String timeSpent;
 	private long timeSpentInSeconds;
-	
+
 	public JiraRemoteWorklog() {
 	}
-	
-	JiraRemoteWorklog(String id, String author, String updateAuthor, Date created, 
-			Date updated, String timeSpent, long timeSpentInSeconds) {
+
+	JiraRemoteWorklog(String id, String author, String updateAuthor, Date created, Date updated, String timeSpent,
+			long timeSpentInSeconds) {
 		this.id = id;
 		this.author = author;
 		this.updateAuthor = updateAuthor;
@@ -148,7 +148,5 @@ public class JiraRemoteWorklog {
 	public void setTimeSpentInSeconds(long timeSpentInSeconds) {
 		this.timeSpentInSeconds = timeSpentInSeconds;
 	}
-	
-	
 
 }

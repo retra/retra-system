@@ -16,9 +16,10 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 public class InvoiceCookieHelper extends AbstractCookieHelper {
 
 	private static final String COOKIE_NAME_INVOICE_SEQUENCE = "retra.invoiceForm.sequence";
-	
+
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@SuppressWarnings("unchecked")
 	public void addToCookies(Object commandForm, RequestContext requestContext) {
@@ -26,7 +27,8 @@ public class InvoiceCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse, java.util.Map)
 	 */
 	public void addToCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		InvoiceForm invoice = (InvoiceForm) commandForm;
@@ -34,42 +36,44 @@ public class InvoiceCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext) {
 		importFromCookies(commandForm, requestContext, null);
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest, java.util.Map)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		AbstractInvoiceForm invoice = (AbstractInvoiceForm) commandForm;
 		Cookie[] cookies = requestContext.getCookies();
-		if (cookies != null){
-			for (Cookie cookie: cookies){
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				String value = cookie.getValue();
-				if (COOKIE_NAME_INVOICE_SEQUENCE.equals(name)){
+				if (COOKIE_NAME_INVOICE_SEQUENCE.equals(name)) {
 					invoice.setSequence(value);
 					continue;
 				}
 			}
-		}	
+		}
 	}
 
 	public void importFromCookies(Object commandForm, HttpServletRequest request) {
 		AbstractInvoiceForm invoice = (AbstractInvoiceForm) commandForm;
 		Cookie[] cookies = request.getCookies();
-		if (cookies != null){
-			for (Cookie cookie: cookies){
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				String value = cookie.getValue();
-				if (COOKIE_NAME_INVOICE_SEQUENCE.equals(name)){
+				if (COOKIE_NAME_INVOICE_SEQUENCE.equals(name)) {
 					invoice.setSequence(value);
 					continue;
 				}
 			}
-		}	
+		}
 	}
 }

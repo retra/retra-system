@@ -15,11 +15,11 @@ import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public class EmployeeChangePasswordController extends FormController {
-	
+
 	private LoginLogic loginLogic;
 
 	// Configuration setter methods ..
-	
+
 	public void setLoginLogic(LoginLogic loginLogic) {
 		this.loginLogic = loginLogic;
 	}
@@ -33,8 +33,9 @@ public class EmployeeChangePasswordController extends FormController {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -46,8 +47,7 @@ public class EmployeeChangePasswordController extends FormController {
 			employee.getUser().setLogin(new Login());
 			// Map form into entities ...
 			EmployeeHelper.formToEntity(form, employee);
-			
-			
+
 			// Process business logic ...
 			User loggedUser = getSecurityLogic().getLoggedUser();
 			LoginForm loginForm = form.getUser().getLogin();
@@ -58,12 +58,11 @@ public class EmployeeChangePasswordController extends FormController {
 				model.put(getCommandName(), form);
 				return createModelAndView(model, getFormView());
 			}
-			
+
 			requestContext.addRedirectIgnoreInfo(new Message("employeeManagement.changePassword.success"));
 		}
 
 		return createModelAndView(view);
 	}
-	
 
 }

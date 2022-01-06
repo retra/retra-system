@@ -13,15 +13,15 @@ import cz.softinel.retra.category.Category;
 public interface CategoryDao {
 
 	/**
-	 * Returns category according to primary key. 
+	 * Returns category according to primary key.
 	 * 
 	 * @param pk primary key of category
 	 * @return
 	 */
 	public Category get(Long pk);
-	
+
 	/**
-	 * Insert Category
+	 * Insert Logger
 	 * 
 	 * @param category to insert
 	 */
@@ -40,7 +40,7 @@ public interface CategoryDao {
 	 * @param category to delete
 	 */
 	public void delete(Category category);
-	
+
 	/**
 	 * Returns all activities
 	 * 

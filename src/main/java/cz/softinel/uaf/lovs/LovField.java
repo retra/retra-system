@@ -43,7 +43,7 @@ public class LovField {
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 	public String getLabel() {
 		return label;
 	}
@@ -51,5 +51,5 @@ public class LovField {
 	public void setLabel(String label) {
 		this.label = label;
 	}
-	
+
 }

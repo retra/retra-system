@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
  * @author Petr Sígl
  */
 public class Lov {
-	
+
 	private String code;
 	private String description;
 	private List<LovField> fields;
@@ -50,7 +50,7 @@ public class Lov {
 	/**
 	 * @return the fields
 	 */
-	@XmlElement(name="field")
+	@XmlElement(name = "field")
 	public List<LovField> getFields() {
 		return fields;
 	}
@@ -60,5 +60,5 @@ public class Lov {
 	 */
 	public void setFields(List<LovField> fields) {
 		this.fields = fields;
-	}	
+	}
 }

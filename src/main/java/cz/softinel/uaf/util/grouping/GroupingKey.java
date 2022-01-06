@@ -15,7 +15,7 @@ public class GroupingKey {
 	public GroupingKey(Object[] keyParts, Object[] keyInfos) {
 		this(keyParts, makeKeyPartStatus(keyParts), keyInfos);
 	}
-	
+
 	public GroupingKey(Object[] keyParts, KeyPartStatus[] keyPartStatus, Object[] keyInfos) {
 		if (keyParts.length != keyPartStatus.length || keyParts.length != keyInfos.length) {
 			throw new IllegalArgumentException("Different key dimensions.");
@@ -27,7 +27,7 @@ public class GroupingKey {
 
 	private static KeyPartStatus[] makeKeyPartStatus(Object[] keyParts) {
 		KeyPartStatus[] keyPartStatus = new KeyPartStatus[keyParts.length];
-		for (int i=0; i<keyParts.length; i++) {
+		for (int i = 0; i < keyParts.length; i++) {
 			if (keyParts[i] != null) {
 				keyPartStatus[i] = KeyPartStatus.DEFINED;
 			} else {
@@ -39,7 +39,7 @@ public class GroupingKey {
 
 	private static String[] emptyKeyInfos(Object[] keyParts) {
 		String[] keyInfos = new String[keyParts.length];
-		for (int i=0; i<keyParts.length; i++) {
+		for (int i = 0; i < keyParts.length; i++) {
 			keyInfos[i] = "";
 		}
 		return keyInfos;
@@ -47,7 +47,7 @@ public class GroupingKey {
 
 	private static Object[] makeEmptyKey(int dimension) {
 		Object[] keyParts = new Object[dimension];
-		for (int i=0; i<dimension; i++) {
+		for (int i = 0; i < dimension; i++) {
 			keyParts[i] = null;
 		}
 		return keyParts;
@@ -59,19 +59,19 @@ public class GroupingKey {
 
 	public GroupingKey(GroupingKey groupingKey) {
 		this.keyParts = new Object[groupingKey.keyParts.length];
-		for (int i=0; i<this.keyParts.length; i++) {
+		for (int i = 0; i < this.keyParts.length; i++) {
 			this.keyParts[i] = groupingKey.keyParts[i];
 		}
 		this.keyPartStatus = new KeyPartStatus[groupingKey.keyPartStatus.length];
-		for (int i=0; i<this.keyPartStatus.length; i++) {
+		for (int i = 0; i < this.keyPartStatus.length; i++) {
 			this.keyPartStatus[i] = groupingKey.keyPartStatus[i];
 		}
 		this.keyInfos = new Object[groupingKey.keyInfos.length];
-		for (int i=0; i<this.keyInfos.length; i++) {
+		for (int i = 0; i < this.keyInfos.length; i++) {
 			this.keyInfos[i] = groupingKey.keyInfos[i];
 		}
 	}
-	
+
 //	public static GroupingKey create(Object[] keys) {
 //		return new GroupingKey(keys);
 //	}
@@ -89,12 +89,12 @@ public class GroupingKey {
 //	}
 
 	public static GroupingKey maskKey(GroupingKey base, int mask) {
-		//int originalMask = mask;
+		// int originalMask = mask;
 		Object[] keys = new Object[base.getDimension()];
 		KeyPartStatus[] statuses = new KeyPartStatus[base.getDimension()];
 		Object[] keyInfos = new Object[base.getDimension()];
-		for (int i=0; i<base.getDimension(); i++) {
-			if ((mask&1) == 1) {
+		for (int i = 0; i < base.getDimension(); i++) {
+			if ((mask & 1) == 1) {
 				keys[i] = base.keyParts[i];
 				statuses[i] = base.keyPartStatus[i];
 				keyInfos[i] = base.keyInfos[i];
@@ -106,18 +106,19 @@ public class GroupingKey {
 			mask = mask / 2;
 		}
 		GroupingKey groupingKey = new GroupingKey(keys, keyInfos);
-		// System.out.println("Masking Key: " + base + " / " + originalMask + " -> " + groupingKey);
+		// System.out.println("Masking Key: " + base + " / " + originalMask + " -> " +
+		// groupingKey);
 		return groupingKey;
 	}
 
 	public int getDimension() {
 		return keyParts.length;
 	}
-	
+
 	public Object getKey(int dimension) {
 		return keyParts[dimension];
 	}
-	
+
 	public void setKey(int dimension, Object keyValue) {
 		this.keyParts[dimension] = keyValue;
 		this.keyPartStatus[dimension] = KeyPartStatus.DEFINED;
@@ -126,15 +127,15 @@ public class GroupingKey {
 	public Object getKeyInfo(int dimension) {
 		return keyInfos[dimension];
 	}
-	
+
 	public void setKeyInfo(int dimension, Object keyInfo) {
 		this.keyInfos[dimension] = keyInfo;
 	}
-	
+
 	public int getMask() {
 		int mask = 0;
 		int pointer = 1;
-		for (int i=0; i<keyPartStatus.length; i++) {
+		for (int i = 0; i < keyPartStatus.length; i++) {
 			if (keyPartStatus[i] == KeyPartStatus.DEFINED) {
 				mask = mask | pointer;
 			}
@@ -142,7 +143,7 @@ public class GroupingKey {
 		}
 		return mask;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
@@ -161,8 +162,8 @@ public class GroupingKey {
 		if (this.keyPartStatus.length != object.keyPartStatus.length) {
 			return false;
 		}
-		for (int i=0; i<this.keyParts.length; i++) {
-			if (! CommonHelper.isEquals(this.keyParts[i], object.keyParts[i])) {
+		for (int i = 0; i < this.keyParts.length; i++) {
+			if (!CommonHelper.isEquals(this.keyParts[i], object.keyParts[i])) {
 				return false;
 			}
 			if (this.keyPartStatus[i] != object.keyPartStatus[i]) {
@@ -171,16 +172,16 @@ public class GroupingKey {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		int hashCode = Integer.valueOf(keyParts.length).hashCode();
 		for (Object k : keyParts) {
-			hashCode = 31 * hashCode + ( k==null ? 0 : k.hashCode() );
+			hashCode = 31 * hashCode + (k == null ? 0 : k.hashCode());
 		}
 		return hashCode;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuffer stringBuffer = new StringBuffer();
@@ -200,12 +201,12 @@ public class GroupingKey {
 			return false;
 		}
 		boolean match = true;
-		for (int i=0; i<keyParts.length; i++) {
+		for (int i = 0; i < keyParts.length; i++) {
 			if (keyPartStatus[i] == KeyPartStatus.DEFINED) {
 				if (groupingKey.keyPartStatus[i] != KeyPartStatus.DEFINED) {
 					return false;
 				}
-				if (! CommonHelper.isEquals(keyParts[i], groupingKey.keyParts[i])) {
+				if (!CommonHelper.isEquals(keyParts[i], groupingKey.keyParts[i])) {
 					return false;
 				}
 			}

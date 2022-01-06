@@ -14,7 +14,7 @@ public class InvoiceFilter extends EntityFilter {
 	public static final String INVOICE_FILTER_FINISH_DATE_TO = "invoiceFilterFinishDateTo";
 	public static final String INVOICE_FILTER_CODE = "invoiceFilterCode";
 	public static final String INVOICE_FILTER_STATE = "invoiceFilterState";
-	
+
 	private static List<String> fieldNames = new ArrayList<String>();
 
 	static {
@@ -26,7 +26,7 @@ public class InvoiceFilter extends EntityFilter {
 		fieldNames.add(INVOICE_FILTER_CODE);
 		fieldNames.add(INVOICE_FILTER_STATE);
 	}
-	
+
 	public InvoiceFilter() {
 		super(InvoiceFilter.fieldNames);
 	}

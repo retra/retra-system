@@ -12,13 +12,13 @@ import cz.softinel.retra.icompany.Icompany;
 public interface IcompanyDao {
 
 	/**
-	 * Returns icompany according to primary key. 
+	 * Returns icompany according to primary key.
 	 * 
 	 * @param pk primary key of icompany
 	 * @return
 	 */
 	public Icompany get(Long pk);
-	
+
 	/**
 	 * Insert Icompany
 	 * 
@@ -39,7 +39,7 @@ public interface IcompanyDao {
 	 * @param icompany to delete
 	 */
 	public void delete(Icompany icompany);
-	
+
 	/**
 	 * Returns all activities
 	 * 

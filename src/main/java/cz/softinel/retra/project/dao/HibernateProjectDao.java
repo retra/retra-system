@@ -6,9 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.util.Assert;
 
-import cz.softinel.retra.invoice.dao.InvoiceFilter;
 import cz.softinel.retra.project.Project;
-import cz.softinel.retra.project.blo.ProjectLogicImpl;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
@@ -25,10 +23,10 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		Project project = (Project) getHibernateTemplate().get(Project.class, pk);
 		return project;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.project.dao.ProjectDao#insert(cz.softinel.retra.project.Project)
-	 */	
+	 */
 	public Project insert(Project project) {
 		getHibernateTemplate().save(project);
 		return project;
@@ -45,17 +43,17 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 	 * @see cz.softinel.retra.project.dao.ProjectDao#delete(cz.softinel.retra.project.Project)
 	 */
 	public void delete(Project project) {
-		//TODO: is there some better way, to do delete - without load?
-		//must be at first loaded
+		// TODO: is there some better way, to do delete - without load?
+		// must be at first loaded
 		load(project);
-		//than deleted
+		// than deleted
 		getHibernateTemplate().delete(project);
 	}
 
 	/**
 	 * @see cz.softinel.retra.project.dao.ProjectDao#findAll()
-	 */	
-	public List<Project> selectAll() {		
+	 */
+	public List<Project> selectAll() {
 		@SuppressWarnings("unchecked")
 		List<Project> result = getHibernateTemplate().loadAll(Project.class);
 		return result;
@@ -66,32 +64,32 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Project> selectAllNotDeleted() {
-		Object[] states = new Object[] {Project.STATE_DELETED}; 
+		Object[] states = new Object[] { Project.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Project.selectAllWithoutStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Project> selectByState(int state) {
 		Session session = getSession();
 		Query query = session.getNamedQuery("Project.selectAllByState");
-		query.setParameter("state",state);
-		
+		query.setParameter("state", state);
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
-	}	
-	
+	}
+
 	/**
 	 * @see cz.softinel.retra.project.dao.ProjectDao#load(cz.softinel.retra.project.Project)
 	 */
@@ -116,34 +114,34 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		}
 		releaseSession(session);
 	}
-		
+
 	/**
 	 * @see cz.softinel.retra.project.dao.ProjectDao#selectAllParentProjects()
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Project> selectAllParentProjects() {
-		Object[] states = new Object[] {Project.STATE_DELETED}; 
+		Object[] states = new Object[] { Project.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Project.selectAllParentProjects");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Project> selectProjectsWithCode(String code) {	
+	public List<Project> selectProjectsWithCode(String code) {
 		Session session = getSession();
 		Query query = session.getNamedQuery("Project.selectProjectsWithCode");
 		query.setParameter("code", code);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
@@ -152,15 +150,15 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		Assert.notNull(filter);
 		return filterProjects(filter);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private List<Project> filterProjects(Filter filter) {
 		Long employeePk = FilterHelper.getFieldAsLong(ProjectFilter.PROJECT_FILTER_EMPLOYEE, filter);
 		String code = getLikeValue(FilterHelper.getFieldAsString(ProjectFilter.PROJECT_FILTER_CODE, filter));
 		String name = getLikeValue(FilterHelper.getFieldAsString(ProjectFilter.PROJECT_FILTER_NAME, filter));
 		Long parentPk = FilterHelper.getFieldAsLong(ProjectFilter.PROJECT_FILTER_PARENT, filter);
-		Integer state = FilterHelper.getFieldAsInteger(ProjectFilter.PROJECT_FILTER_STATE, filter); 
-		
+		Integer state = FilterHelper.getFieldAsInteger(ProjectFilter.PROJECT_FILTER_STATE, filter);
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");
 		sb.append(" project ");
@@ -181,8 +179,8 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		}
 		if (parentPk != null) {
 			sb.append(" and project.parent.pk = :parentPk");
-		}		
-		
+		}
+
 		Session session = getSession();
 		Query query = session.createQuery(sb.toString());
 		if (employeePk != null && employeePk > 0) {
@@ -190,7 +188,7 @@ public class HibernateProjectDao extends AbstractHibernateDao implements Project
 		}
 		if (parentPk != null) {
 			query.setLong("parentPk", parentPk);
-		}		
+		}
 		if (state != null && state.intValue() >= 0) {
 			query.setInteger("state", state);
 		}

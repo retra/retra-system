@@ -11,7 +11,7 @@ public class Attribute {
 	private String title;
 	private String type;
 	private String typeClass;
-	
+
 	private ObjectInstance objectInstance;
 
 	// Business fields ...
@@ -33,7 +33,7 @@ public class Attribute {
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -66,7 +66,6 @@ public class Attribute {
 		this.typeClass = typeClass;
 	}
 
-	
 	// Object implementation ...
 
 	/**
@@ -95,12 +94,13 @@ public class Attribute {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Attribute: pk=" + pk + ", name=" + name +", title=" + title +", type=" + type +", typeClass=" + typeClass +")";
+		return "(Attribute: pk=" + pk + ", name=" + name + ", title=" + title + ", type=" + type + ", typeClass="
+				+ typeClass + ")";
 	}
 
 }

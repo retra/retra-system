@@ -21,7 +21,7 @@ import cz.softinel.retra.project.Project;
  * @author Petr Sígl
  */
 public class Worklog {
-	
+
 	// attributes
 	private Long pk;
 
@@ -29,9 +29,9 @@ public class Worklog {
 	private Date workTo;
 	private String description;
 
-	//counted field
+	// counted field
 	private String descriptionGui;
-	
+
 	private Employee employee;
 	private Activity activity;
 	private Project project;
@@ -39,16 +39,16 @@ public class Worklog {
 	private Invoice invoice;
 
 	private Set<JiraWorklog> issueTrackingWorklogs;
-	
-	//constants
-	public static Long DUMMY_WORKLOG_PK = (long)-1;
-	
+
+	// constants
+	public static Long DUMMY_WORKLOG_PK = (long) -1;
+
 	// Business fileds ...
-	
+
 	public BigDecimal getHours() {
 		// TODO: Use helper method???
 		long deltaMiliseconds = workTo.getTime() - workFrom.getTime();
-		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000),10,RoundingMode.CEILING);
+		return new BigDecimal(deltaMiliseconds).divide(new BigDecimal(3600000), 10, RoundingMode.CEILING);
 	}
 
 	public long getSeconds() {
@@ -57,17 +57,16 @@ public class Worklog {
 		return deltaMiliseconds / 1000;
 	}
 
-	
 	public Date getDate() {
 		return DateHelper.getStartOfDay(workFrom);
 	}
-	
+
 	public String getWeek() {
 		return DateHelper.getWeekCode(workFrom);
 	}
 
 	// Entity fields ...
-	
+
 	/**
 	 * @return the activity
 	 */
@@ -145,7 +144,7 @@ public class Worklog {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	
+
 	/**
 	 * @return the component
 	 */
@@ -159,7 +158,6 @@ public class Worklog {
 	public void setComponent(Component component) {
 		this.component = component;
 	}
-	
 
 	/**
 	 * @return the workFrom
@@ -222,13 +220,15 @@ public class Worklog {
 	public boolean hasAnyIssueTrackingWorklog() {
 		return issueTrackingWorklogs != null && !issueTrackingWorklogs.isEmpty();
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public JiraWorklog getCurrentIssueTrackingWorklog() {
-		return hasAnyIssueTrackingWorklog() ? (JiraWorklog) issueTrackingWorklogs.toArray()[issueTrackingWorklogs.size() - 1] : null;
+		return hasAnyIssueTrackingWorklog()
+				? (JiraWorklog) issueTrackingWorklogs.toArray()[issueTrackingWorklogs.size() - 1]
+				: null;
 	}
 
 	/**
@@ -246,7 +246,7 @@ public class Worklog {
 	}
 
 	/**
-	 * Returns true if worklog is on some invoice. 
+	 * Returns true if worklog is on some invoice.
 	 * 
 	 * @return
 	 */
@@ -254,7 +254,7 @@ public class Worklog {
 		if (invoice != null && invoice.getPk() != null) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -271,7 +271,24 @@ public class Worklog {
 
 			return false;
 		}
-		
+
 		return true;
 	}
+
+	public String toString() {
+		return "(Worklog: pk=" + pk + ", workFrom=" + workFrom + ", workTo=" + workTo + ", description=" + description
+				+  ", employee="
+				+ (employee != null ? employee.toString() : "")
+				+  ", activity="
+				+ (activity != null ? activity.getCodeAndName() : "")
+				+  ", project="
+				+ (project != null ? project.getCodeAndName() : "")
+				+  ", component="
+				+ (component != null ? component.getCodeAndName() : "")
+				+  ", invoice="
+				+ (invoice != null ? invoice.getCodeAndName() : "")
+				+ ")";
+	}
+
+
 }

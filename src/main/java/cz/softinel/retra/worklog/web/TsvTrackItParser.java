@@ -17,18 +17,18 @@ import cz.softinel.retra.worklog.Worklog;
  * @author Pavel Mueller
  */
 public class TsvTrackItParser extends LineBasedParser {
-	
+
 	private static final int MIN_LINE_TOKENS = 8;
 	private static final String FIELD_DELIMITER = "\t";
 	private static final String DATETIME_FORMAT = "dd.MM.yyyy HH:mm";
 	private static final String ENGLISH_DATETIME_FORMAT = "MM/dd/yyyy HH:mm";
-	
+
 	private static final String PROJECT_MAPPING_COOKIE = "mira.worklog.tsv.mapping.project";
 	private static final String ACTIVITY_MAPPING_COOKIE = "mira.worklog.tsv.mapping.activity";
-	
+
 	private SimpleDateFormat formatter = new SimpleDateFormat(DATETIME_FORMAT);
 	private SimpleDateFormat englishFormatter = new SimpleDateFormat(ENGLISH_DATETIME_FORMAT);
-	
+
 	public TsvTrackItParser(final String encoding) {
 		super(encoding);
 	}
@@ -41,10 +41,10 @@ public class TsvTrackItParser extends LineBasedParser {
 		if (tokens.length < MIN_LINE_TOKENS) {
 			throw new ImportParsingException("Line has less than " + MIN_LINE_TOKENS + " fields.");
 		}
-		
+
 		return new ExternalActivity(tokens[3], tokens[4]);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.web.ImportDataParser#parseExternalProject(java.lang.String)
 	 */
@@ -55,23 +55,25 @@ public class TsvTrackItParser extends LineBasedParser {
 		}
 		return new ExternalProject(tokens[1], tokens[2]);
 	}
-	
+
 	/**
-	 * @see cz.softinel.retra.worklog.web.ImportDataParser#parseWorklogItem(java.lang.String, java.util.Map, java.util.Map)
+	 * @see cz.softinel.retra.worklog.web.ImportDataParser#parseWorklogItem(java.lang.String,
+	 *      java.util.Map, java.util.Map)
 	 */
-	public Worklog parseWorklogItem(String line, Map<String, ProjectInvoiceHolder> projectMapping, Map<String, Activity> activityMapping) {
+	public Worklog parseWorklogItem(String line, Map<String, ProjectInvoiceHolder> projectMapping,
+			Map<String, Activity> activityMapping) {
 		String tokens[] = StringUtils.delimitedListToStringArray(line, FIELD_DELIMITER);
 		if (tokens.length < MIN_LINE_TOKENS) {
-			throw new ImportParsingException("Line has less than "+MIN_LINE_TOKENS+" fields.");
+			throw new ImportParsingException("Line has less than " + MIN_LINE_TOKENS + " fields.");
 		}
 
 		Worklog worklog = new Worklog();
-		
+
 		try {
 			ProjectInvoiceHolder holder = projectMapping.get(tokens[1]);
-			Project project=null;
-			if (holder!=null) {
-				project=holder.getProject();
+			Project project = null;
+			if (holder != null) {
+				project = holder.getProject();
 			}
 			Activity activity = activityMapping.get(tokens[3]);
 			if (project == null || activity == null) {
@@ -82,7 +84,7 @@ public class TsvTrackItParser extends LineBasedParser {
 			// set worklog project and activity
 			worklog.setProject(project);
 			worklog.setActivity(activity);
-			
+
 			// set worklog range
 			String dateFrom = tokens[0] + " " + tokens[5];
 			String dateTo = tokens[0] + " " + tokens[6];
@@ -94,7 +96,7 @@ public class TsvTrackItParser extends LineBasedParser {
 				worklog.setWorkFrom(englishFormatter.parse(dateFrom));
 				worklog.setWorkTo(englishFormatter.parse(dateTo));
 			}
-			
+
 			// set description in any
 			if (tokens.length > MIN_LINE_TOKENS) {
 				worklog.setDescription(tokens[8]);
@@ -102,7 +104,7 @@ public class TsvTrackItParser extends LineBasedParser {
 		} catch (Exception e) {
 			throw new ImportParsingException(e.getMessage());
 		}
-		
+
 		return worklog;
 	}
 

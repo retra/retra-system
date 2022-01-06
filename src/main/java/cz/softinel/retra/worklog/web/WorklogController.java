@@ -106,7 +106,7 @@ public class WorklogController extends DispatchController {
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
 	}
-	
+
 	/**
 	 * @return the componentLogic
 	 */
@@ -120,7 +120,7 @@ public class WorklogController extends DispatchController {
 	public void setComponentLogic(ComponentLogic componentLogic) {
 		this.componentLogic = componentLogic;
 	}
-	
+
 	@Override
 	public Filter getFilter(Model model) {
 		Filter filter = (Filter) model.get(WorklogFilter.class.toString());
@@ -130,7 +130,7 @@ public class WorklogController extends DispatchController {
 		}
 		return filter;
 	}
-	
+
 	/**
 	 * Show worklog for user.
 	 * 
@@ -143,9 +143,10 @@ public class WorklogController extends DispatchController {
 		Long employeePk = FilterHelper.getFieldAsLong(WorklogFilter.WORKLOG_FILTER_EMPLOYEE, filter);
 		String fromStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_FROM, filter);
 		String toStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_TO, filter);
-		
-		boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-		
+
+		boolean hasWorklogAdminPermission = getSecurityLogic()
+				.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+
 		// employee not set, so show actualy logged user
 		// no permission for others, so show actualy logged user
 		if (employeePk == null || !hasWorklogAdminPermission) {
@@ -176,7 +177,8 @@ public class WorklogController extends DispatchController {
 		}
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] {"project", "activity"}, new String[] {null, null});
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] { "project", "activity" },
+				new String[] { null, null });
 
 		prepareActivities(model, grouppedWorklog.getProjection(1).getKeyList());
 		prepareProjects(model, grouppedWorklog.getProjection(0).getKeyList());
@@ -184,10 +186,11 @@ public class WorklogController extends DispatchController {
 		Employee actualEmployee = prepareEmployee(model, employeePk);
 		prepareEmployees(model, hasWorklogAdminPermission, actualEmployee);
 		prepareInvoiceRelations(model);
-		
-		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours", 
-				new String[] {"week", "date", "project.code", "activity.code"}, new String[] {null, null, null, null});
-		
+
+		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours",
+				new String[] { "week", "date", "project.code", "activity.code" },
+				new String[] { null, null, null, null });
+
 		// Add all days ...
 		Date from = FilterHelper.getFieldAsDate(WorklogFilter.WORKLOG_FILTER_FROM, filter);
 		Date to = FilterHelper.getFieldAsDate(WorklogFilter.WORKLOG_FILTER_TO, filter);
@@ -196,17 +199,18 @@ public class WorklogController extends DispatchController {
 			calendar.setTime(from);
 			while (to.compareTo(calendar.getTime()) >= 0) {
 				Date date = calendar.getTime();
-				worklogGroupped.add(new GroupingKey(new Object[] {DateHelper.getWeekCode(date), date, null, null}), new GroupedItem(0));
+				worklogGroupped.add(new GroupingKey(new Object[] { DateHelper.getWeekCode(date), date, null, null }),
+						new GroupedItem(0));
 				calendar.add(Calendar.DAY_OF_YEAR, 1);
 			}
 		}
-		
+
 		model.set("worklogs", worklogs);
 		model.set("worklogGroupped", worklogGroupped);
 
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	/**
 	 * Show worklog for user.
 	 * 
@@ -220,8 +224,9 @@ public class WorklogController extends DispatchController {
 		String fromStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_FROM, filter);
 		String toStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_TO, filter);
 
-		boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-		
+		boolean hasWorklogAdminPermission = getSecurityLogic()
+				.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+
 		// employee not set, so show actualy logged user
 		// no permission for others, so show actualy logged user
 		if (employeePk == null || !hasWorklogAdminPermission) {
@@ -242,13 +247,13 @@ public class WorklogController extends DispatchController {
 		Employee actualEmployee = prepareEmployee(model, employeePk);
 		prepareEmployees(model, hasWorklogAdminPermission, actualEmployee);
 		prepareInvoiceRelations(model);
-		
+
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
 		model.set("worklogs", worklogs);
 
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	// TODO radek: There are very similar methods ... do not repeat your self?
 
 //	public ModelAndView worklogDailyOverview(Model model, RequestContext requestContext) {
@@ -374,7 +379,7 @@ public class WorklogController extends DispatchController {
 		if (!getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS)) {
 			throw new NoPermissionException();
 		}
-		
+
 		Filter filter = getFilter(model);
 		String fromStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_FROM, filter);
 		String toStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_TO, filter);
@@ -389,14 +394,19 @@ public class WorklogController extends DispatchController {
 		}
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] {"project", "activity"}, new String[] {null, null});
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] { "project", "activity" },
+				new String[] { null, null });
 
 		prepareActivities(model, grouppedWorklog.getProjection(1).getKeyList());
 		prepareProjects(model, grouppedWorklog.getProjection(0).getKeyList());
 		prepareInvoiceRelations(model);
-		
-		GroupingMap groupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.codeAndName", "project.codeAndName"}, new String[] {"employee.user.login.ldapLogin", null, null});
-		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours", new String[] {"employee.user.contactInfo.displayName", "activity.code", "project.code"}, new String[] {"employee.user.login.ldapLogin", null, null});
+
+		GroupingMap groupped = GroupingHelper.group(worklogs, "hours",
+				new String[] { "employee.user.contactInfo.displayName", "activity.codeAndName", "project.codeAndName" },
+				new String[] { "employee.user.login.ldapLogin", null, null });
+		GroupingMap worklogGroupped = GroupingHelper.group(worklogs, "hours",
+				new String[] { "employee.user.contactInfo.displayName", "activity.code", "project.code" },
+				new String[] { "employee.user.login.ldapLogin", null, null });
 
 		model.set("worklogs", worklogs);
 
@@ -422,8 +432,9 @@ public class WorklogController extends DispatchController {
 		Long employeePk = FilterHelper.getFieldAsLong(WorklogFilter.WORKLOG_FILTER_EMPLOYEE, filter);
 		String dateStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_DATE, filter);
 
-		boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-		
+		boolean hasWorklogAdminPermission = getSecurityLogic()
+				.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+
 		// employee not set, so show actualy logged user
 		// no permission for others, so show actualy logged user
 		if (employeePk == null || !hasWorklogAdminPermission) {
@@ -436,11 +447,11 @@ public class WorklogController extends DispatchController {
 			date = new Date();
 			FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_DATE, date, true, filter);
 		} else {
-			//BUGFIX NullPointer if date is not valid
+			// BUGFIX NullPointer if date is not valid
 			date = FilterHelper.getFieldAsDate(WorklogFilter.WORKLOG_FILTER_DATE, filter);
 			if (date == null) {
 				requestContext.addInfo(new Message("worklogFilterForm.date.bad.format"));
-				date=new Date();
+				date = new Date();
 				FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_DATE, date, true, filter);
 			}
 		}
@@ -449,21 +460,22 @@ public class WorklogController extends DispatchController {
 		prepareEmployees(model, hasWorklogAdminPermission, actualEmployee);
 
 		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
-		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", 	new String[] {"project", "activity"}, new String[] {null, null});
-		
+		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] { "project", "activity" },
+				new String[] { null, null });
+
 		model.set("worklogs", worklogs);
 		model.set("grouppedWorklog", grouppedWorklog);
-				
+
 		// Prepare previous and next parameters ...
 		prepareNextDay(model, filter);
 		preparePreviousDay(model, filter);
-		
-		//day of week
+
+		// day of week
 		prepareDayOfWeek(model, date);
-				
+
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	/**
 	 * Show worklog for user.
 	 * 
@@ -477,8 +489,9 @@ public class WorklogController extends DispatchController {
 		Integer year = FilterHelper.getFieldAsInteger(WorklogFilter.WORKLOG_FILTER_YEAR, filter);
 		Integer month = FilterHelper.getFieldAsInteger(WorklogFilter.WORKLOG_FILTER_MONTH, filter);
 
-		boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-		
+		boolean hasWorklogAdminPermission = getSecurityLogic()
+				.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+
 		// employee not set, so show actualy logged user
 		// no permission for others, so show actualy logged user
 		if (employeePk == null || !hasWorklogAdminPermission) {
@@ -503,7 +516,7 @@ public class WorklogController extends DispatchController {
 		Employee actualEmployee = prepareEmployee(model, employeePk);
 		prepareEmployees(model, hasWorklogAdminPermission, actualEmployee);
 		prepareInvoiceRelations(model);
-		
+
 		// prepare next and previous parameters
 		prepareNext(model, filter);
 		preparePrevious(model, filter);
@@ -562,7 +575,6 @@ public class WorklogController extends DispatchController {
 		return createModelAndView(model, view);
 	}
 
-	
 	protected void prepareWeeks(Model model) {
 		List<DateHelper.Week> weeks = DateHelper.getWeekList(12);
 		model.set("weeks", weeks);
@@ -577,7 +589,7 @@ public class WorklogController extends DispatchController {
 		if (showAll) {
 			activities = activityLogic.findAllActivities();
 		} else {
-			activities = activityLogic.findAllNotDeletedActivities();			
+			activities = activityLogic.findAllNotDeletedActivities();
 		}
 		prepareActivities(model, activities);
 	}
@@ -595,7 +607,7 @@ public class WorklogController extends DispatchController {
 		if (showAll) {
 			projects = projectLogic.findAllProjects();
 		} else {
-			projects = projectLogic.findAllNotDeletedProjects();			
+			projects = projectLogic.findAllNotDeletedProjects();
 		}
 		prepareProjects(model, projects);
 	}
@@ -612,7 +624,7 @@ public class WorklogController extends DispatchController {
 	protected void prepareEmployees(Model model, boolean hasWorklogAdminPermission, Employee actualEmployee) {
 		List<Employee> employees = new ArrayList<Employee>();
 		if (hasWorklogAdminPermission) {
-			employees = employeeLogic.getAllEmployeesNotFull(true, true);			
+			employees = employeeLogic.getAllEmployeesNotFull(true, true);
 		} else {
 			employees.add(actualEmployee);
 		}
@@ -700,7 +712,7 @@ public class WorklogController extends DispatchController {
 		Integer dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
 		model.set("dayOfWeek", dayOfWeek);
-		
+
 		String dayOfWeekCss = "scheduleDefault";
 		String titleKey = "day.normal";
 		if (HolidaysHelper.isPublicHoliday(date) || dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY) {

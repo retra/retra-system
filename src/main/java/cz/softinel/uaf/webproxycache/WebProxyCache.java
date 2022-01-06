@@ -10,47 +10,47 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.uaf.util.EncryptionHelper;
 import cz.softinel.uaf.util.StreamHelper;
 
 public final class WebProxyCache {
 
-	private final Log logger = LogFactory.getLog(this.getClass());
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private static WebProxyCache instance;
-	
+
 	private final Map<String, Content> cache;
-	
+
 	private WebProxyCache() {
 		cache = new HashMap<String, Content>();
 	}
-	
+
 	public static WebProxyCache getInstance() {
 		if (instance == null) {
 			instance = new WebProxyCache();
 		}
 		return instance;
 	}
-	
+
 	public String getProxyUrl(String url) {
 		// TODO radek: Use some spring configuration ...
-		String proxyUrl = "WebProxyCache?url=" + EncryptionHelper.urlEncode(url); 
+		String proxyUrl = "WebProxyCache?url=" + EncryptionHelper.urlEncode(url);
 		logger.debug("Using proxy URL for: " + url + " -> " + proxyUrl);
 		return proxyUrl;
 	}
-	
+
 	public Content getContent(String url) {
 		Content content = cache.get(url);
-		if (content == null || ! content.isValid()) {
+		if (content == null || !content.isValid()) {
 			content = loadContent(url);
 			cache.put(url, content);
 		}
 		return content;
 	}
-	
+
 	public Content loadContent(String urlString) {
 		try {
 			URL url = new URL(urlString);
@@ -64,24 +64,24 @@ public final class WebProxyCache {
 			os.close();
 			return new Content(contentFile);
 		} catch (MalformedURLException e) {
-			throw new RuntimeException("An error occured during getting content: " + e.getMessage(), e); 
+			throw new RuntimeException("An error occured during getting content: " + e.getMessage(), e);
 		} catch (IOException e) {
-			throw new RuntimeException("An error occured during getting content: " + e.getMessage(), e); 
+			throw new RuntimeException("An error occured during getting content: " + e.getMessage(), e);
 		}
-		
+
 	}
-	
+
 	private File makeCacheFile(String url) throws IOException {
 		File temp = File.createTempFile("WebProxyCache", "." + getFileName(url));
 		temp.deleteOnExit();
 		return temp;
 	}
-	
+
 	private String getFileName(String urlString) throws MalformedURLException {
 		URL url = new URL(urlString);
 		String path = url.getPath();
 		String parts[] = path.split("/");
-		return parts[parts.length-1];
+		return parts[parts.length - 1];
 	}
-	
+
 }

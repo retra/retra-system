@@ -12,7 +12,7 @@ public class EmailDecorator implements DisplaytagColumnDecorator {
 		if (columnValue == null) {
 			return null;
 		}
-		return "<a href='mailto:"+columnValue+"'>"+columnValue+"</a>";
+		return "<a href='mailto:" + columnValue + "'>" + columnValue + "</a>";
 	}
 
 }

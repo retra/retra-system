@@ -18,81 +18,89 @@ import cz.softinel.sis.security.Permission;
 /**
  * @author Radek Pinc
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class User implements Serializable {
 
 	private Long pk;
-	
+
 	private String uid;
 	private String state;
-	
+
 	private ContactInfo contactInfo;
 	private Role personalRole;
 	private Login login;
-	
-	//counted permissions from all roles
-	private Set<Permission> permissions = new HashSet<Permission>(); 
-	
+
+	// counted permissions from all roles
+	private Set<Permission> permissions = new HashSet<Permission>();
+
 	// Business fields ...
 
-	
 	// Getter and Setters ...
-	
+
 	public String getUid() {
 		return uid;
 	}
+
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-	
+
 	public String getState() {
 		return state;
 	}
+
 	public void setState(String state) {
 		this.state = state;
 	}
-	
+
 	/**
 	 * @return Returns the contactInfo.
 	 */
 	public ContactInfo getContactInfo() {
 		return contactInfo;
 	}
+
 	/**
 	 * @param contactInfo The contactInfo to set.
 	 */
 	public void setContactInfo(ContactInfo contactInfo) {
 		this.contactInfo = contactInfo;
 	}
+
 	/**
 	 * @return Returns the personalRole.
 	 */
 	public Role getPersonalRole() {
 		return personalRole;
 	}
+
 	/**
 	 * @param personalRole The personalRole to set.
 	 */
 	public void setPersonalRole(Role personalRole) {
 		this.personalRole = personalRole;
 	}
+
 	/**
 	 * @return Returns the pk.
 	 */
 	public Long getPk() {
 		return pk;
 	}
+
 	/**
 	 * @param pk The pk to set.
 	 */
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
+
 	public Login getLogin() {
 		return login;
 	}
+
 	public void setLogin(Login login) {
 		this.login = login;
 	}
@@ -100,7 +108,7 @@ public class User implements Serializable {
 	public void addPermission(final Permission permission) {
 		permissions.add(permission);
 	}
-	
+
 	public Set<Permission> getPermissions() {
 		return permissions;
 	}
@@ -111,5 +119,17 @@ public class User implements Serializable {
 		}
 		return new HashSet<Role>();
 	}
-	
+
+	@Override
+	public String toString() {
+		return "(User: pk=" + pk + ", uid=" + uid + ", state=" + state
+				+  ", contactInfo="
+				+ (contactInfo != null ? contactInfo.toString() : "")
+				+  ", personalRole="
+				+ (personalRole != null ? personalRole.toString() : "")
+				+  ", login="
+				+ (login != null ? login.toString() : "")
+				+ ")";
+	}
+
 }

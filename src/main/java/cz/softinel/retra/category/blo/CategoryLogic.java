@@ -11,18 +11,18 @@ import cz.softinel.retra.category.Category;
  * @author Petr Sígl
  */
 public interface CategoryLogic {
-	
+
 	/**
 	 * Find all category items.
 	 * 
 	 * @return
 	 */
-	public List<Category> findAllCategories();	
+	public List<Category> findAllCategories();
 
 	/**
 	 * Find all category items, which are not deleted.
 	 * 
 	 * @return
 	 */
-	public List<Category> findAllNotDeletedCategories();	
+	public List<Category> findAllNotDeletedCategories();
 }

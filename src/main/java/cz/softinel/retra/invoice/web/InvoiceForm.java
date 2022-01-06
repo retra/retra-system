@@ -3,7 +3,7 @@ package cz.softinel.retra.invoice.web;
 public class InvoiceForm extends AbstractInvoiceForm {
 
 	private String pk;
-	
+
 	public void setPk(String pk) {
 		this.pk = pk;
 	}
@@ -12,4 +12,9 @@ public class InvoiceForm extends AbstractInvoiceForm {
 		return pk;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString()+"=>(InvoiceForm: pk=" + pk + ")";
+	}
+	
 }

@@ -11,11 +11,11 @@ import cz.softinel.retra.type.Type;
  * @author Petr Sígl
  */
 public interface TypeLogic {
-	
+
 	/**
 	 * Find all type items.
 	 * 
 	 * @return
 	 */
-	public List<Type> findAllTypes();	
+	public List<Type> findAllTypes();
 }

@@ -10,7 +10,7 @@ import cz.softinel.retra.invoiceseq.InvoiceSeq;
  * @author Petr Sígl
  */
 public interface InvoiceSeqLogic {
-	
+
 	/**
 	 * Find all invoice items, which are active.
 	 * 
@@ -33,7 +33,7 @@ public interface InvoiceSeqLogic {
 	 * @return
 	 */
 	public String getNextCodeForSequenceIgnoreStep(Long pk);
-	
+
 	/**
 	 * Returns sequence in DB.
 	 * 
@@ -41,5 +41,5 @@ public interface InvoiceSeqLogic {
 	 * @return
 	 */
 	public InvoiceSeq get(Long pk);
-	
+
 }

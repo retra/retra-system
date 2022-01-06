@@ -14,13 +14,13 @@ import cz.softinel.uaf.filter.Filter;
 public interface ScheduleDao {
 
 	/**
-	 * Returns schedule according to primary key. 
+	 * Returns schedule according to primary key.
 	 * 
 	 * @param pk primary key of schedule
 	 * @return
 	 */
 	public Schedule get(Long pk);
-	
+
 	/**
 	 * Insert Schedule
 	 * 
@@ -37,6 +37,7 @@ public interface ScheduleDao {
 
 	/**
 	 * Merges schedule
+	 * 
 	 * @param schedule schedule to update
 	 */
 	public void merge(Schedule schedule);
@@ -47,7 +48,7 @@ public interface ScheduleDao {
 	 * @param schedule to delete
 	 */
 	public void delete(Schedule schedule);
-	
+
 	/**
 	 * Returns all schedules
 	 * 
@@ -61,15 +62,16 @@ public interface ScheduleDao {
 	 * @return all schedules
 	 */
 	public List<Schedule> selectAllForEmployee(Long pk);
-	
+
 	/**
 	 * Load informations about schedule (defined by pk)
 	 * 
 	 * @param schedule where load and where is pk set
 	 */
 	public void load(Schedule schedule);
-	
+
 	public List<Schedule> selectForEmployeeInPeriod(Filter filter);
+
 	public List<Schedule> selectByFilter(Filter filter);
 
 }

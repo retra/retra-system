@@ -1,7 +1,5 @@
 package cz.softinel.retra.type;
 
-
-
 /**
  * This class represents type for schedule (default, holidays etc.).
  *
@@ -9,10 +7,10 @@ package cz.softinel.retra.type;
  * @author Petr Sígl
  */
 public class Type {
-	
-	//attributes
+
+	// attributes
 	private Long pk;
-	
+
 	private String code;
 	private String name;
 	private String description;
@@ -22,9 +20,9 @@ public class Type {
 	public String getCodeAndName() {
 		return TypeHelper.getCodeAndName(this);
 	}
-	
+
 	// Getter and Setters ...
-	
+
 	/**
 	 * @return the pk
 	 */
@@ -80,15 +78,21 @@ public class Type {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	//bussiness and gui methods
-	
+
+	// bussiness and gui methods
+
+	@Override
+	public String toString() {
+		return "(Type: pk=" + pk + ", code=" + code + ", name=" + name + ", description=" + description + ")";
+	}
+
 	/**
-	 * This method returns cssClass (for gui) 
+	 * This method returns cssClass (for gui)
+	 * 
 	 * @return the css class
 	 */
-	//TODO: maybe better move somewhere else, but question is where
-	public String getCssClass(){
+	// TODO: maybe better move somewhere else, but question is where
+	public String getCssClass() {
 		return TypeHelper.getCssClass(this);
 	}
 }

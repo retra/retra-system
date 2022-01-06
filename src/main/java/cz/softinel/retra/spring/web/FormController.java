@@ -33,7 +33,7 @@ public abstract class FormController extends CommonFormController implements Mir
 	public void setSecurityLogic(MiraSecurityLogic securityLogic) {
 		miraController.setSecurityLogic(securityLogic);
 	}
-	
+
 	public void setShowHistoryData(boolean showHistoryData, RequestContext requestContext) {
 		miraController.setShowHistoryData(showHistoryData, requestContext);
 	}

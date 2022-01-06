@@ -14,14 +14,14 @@ import cz.softinel.uaf.filter.Filter;
  * @author Petr Sígl
  */
 public interface WorklogLogic {
-	
+
 	/**
 	 * Find all worklog items.
 	 * 
 	 * @return
 	 */
 	public List<Worklog> findAllWorklogs();
-	
+
 	/**
 	 * Find all worklog items for employee identified by pk.
 	 * 
@@ -37,9 +37,9 @@ public interface WorklogLogic {
 	 * @return
 	 */
 	public List<Worklog> findAllWorklogsForInvoice(Long pk);
-	
+
 	/**
-	 * Find worklogs according to given filter parameters  
+	 * Find worklogs according to given filter parameters
 	 * 
 	 * @param filter
 	 * @return
@@ -53,9 +53,10 @@ public interface WorklogLogic {
 	 * @return
 	 */
 	public Worklog create(Worklog worklog);
-	
+
 	/**
 	 * Creates all worklog items given in the list
+	 * 
 	 * @param worklogItems worklogs to create
 	 * @param messages
 	 */
@@ -67,14 +68,14 @@ public interface WorklogLogic {
 	 * @param worklog
 	 */
 	public void remove(Worklog worklog);
-	
+
 	/**
 	 * Remove worklog with given pk
 	 * 
 	 * @param pk
 	 */
 	public void remove(Long pk);
-	
+
 	/**
 	 * Get worklog according to given pk.
 	 * 
@@ -82,7 +83,7 @@ public interface WorklogLogic {
 	 * @return
 	 */
 	public Worklog get(Long pk);
-	
+
 	/**
 	 * Get worklog according to given pk.
 	 * 
@@ -90,7 +91,7 @@ public interface WorklogLogic {
 	 * @return
 	 */
 	public void loadAndLoadLazy(Worklog worklog);
-	
+
 	/**
 	 * Stores given worklog
 	 * 
@@ -104,7 +105,7 @@ public interface WorklogLogic {
 	 * @param worklog
 	 */
 	public void storeFromInvoice(Worklog worklog);
-	
+
 	/**
 	 * Find worklog overviews according to given filter parameters
 	 * 
@@ -120,7 +121,7 @@ public interface WorklogLogic {
 	 * @param worklog
 	 * @param invoice
 	 */
-	public void unpairWorklogWithInvoice(Worklog worklog, Invoice invoice); 
+	public void unpairWorklogWithInvoice(Worklog worklog, Invoice invoice);
 
 	/**
 	 * Pair worklog with invoice.
@@ -128,7 +129,7 @@ public interface WorklogLogic {
 	 * @param worklog
 	 * @param invoice
 	 */
-	public void pairWorklogWithInvoice(Worklog worklog, Invoice invoice); 
+	public void pairWorklogWithInvoice(Worklog worklog, Invoice invoice);
 
 	/**
 	 * Unpair worklog with invoice.

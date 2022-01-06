@@ -11,12 +11,11 @@ import java.util.List;
 import cz.softinel.sis.role.Role;
 import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
 
-
 /**
  * @author Radek Pinc
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class HibernateRoleDao extends AbstractHibernateDao implements RoleDao {
 

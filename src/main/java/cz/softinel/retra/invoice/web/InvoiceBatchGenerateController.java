@@ -35,13 +35,13 @@ import cz.softinel.uaf.spring.web.controller.HttpSessionContext;
  *
  */
 public class InvoiceBatchGenerateController extends WizardFormController {
-	
+
 	private InvoiceLogic invoiceLogic;
 	private InvoiceSeqLogic invoiceSeqLogic;
 	private EmployeeLogic employeeLogic;
-	
+
 	private InvoiceCookieHelper cookieHelper;
-	
+
 	private String successView;
 	private String cancelView;
 
@@ -63,20 +63,22 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 
 	/**
 	 * Sets success view used at the end of this wizard.
+	 * 
 	 * @param successView the successView to set
 	 */
 	public void setSuccessView(String successView) {
 		this.successView = successView;
 	}
-	
+
 	/**
 	 * Sets cancel view used if user presses Cancel.
+	 * 
 	 * @param cancelView the cancelView to set
 	 */
 	public void setCancelView(String cancelView) {
 		this.cancelView = cancelView;
 	}
-	
+
 	/**
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
@@ -84,57 +86,61 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 		return new InvoiceBatchGenerateForm();
 	}
-	
+
 	/**
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#postProcessPage(javax.servlet.http.HttpServletRequest, java.lang.Object, org.springframework.validation.Errors, int)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#postProcessPage(javax.servlet.http.HttpServletRequest,
+	 *      java.lang.Object, org.springframework.validation.Errors, int)
 	 */
 	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page)
+			throws Exception {
 		InvoiceBatchGenerateForm form = (InvoiceBatchGenerateForm) command;
 		if (page == 0) {
 			if (!errors.hasErrors()) {
-				//prepare invoice seq
+				// prepare invoice seq
 				Long pk = LongConvertor.getLongFromString(form.getSequence());
 				InvoiceSeq selectedInvoiceSeq = invoiceSeqLogic.get(pk);
 				request.setAttribute("selectedInvoiceSeq", selectedInvoiceSeq);
-	
-				//prepare employees to confirm
+
+				// prepare employees to confirm
 				List<Employee> employees = employeeLogic.getAllEmployeesForGeneratingInvoice();
 				request.setAttribute("employeesForBatchGenerate", employees);
 			}
 		} else if (page == 1) {
-			//nothing?
-			form.setConfirmedItems(new Long[]{});
+			// nothing?
+			form.setConfirmedItems(new Long[] {});
 		}
 	}
-	
+
 	/**
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#referenceData(javax.servlet.http.HttpServletRequest, int)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#referenceData(javax.servlet.http.HttpServletRequest,
+	 *      int)
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	protected Map referenceData(HttpServletRequest request, int page) throws Exception {
 		Map<String, Object> model = new HashMap<String, Object>();
-		
+
 		// first page - selects
 		if (page == 0) {
 			model.put("isCodeGenerated", invoiceLogic.isCodeGenerated());
-			//prepare seq
+			// prepare seq
 			prepareSequences(model);
 		} else if (page == 1) {
-			//invoice seq
+			// invoice seq
 			InvoiceSeq invoiceSeq = (InvoiceSeq) request.getAttribute("selectedInvoiceSeq");
 			model.put("invoiceSeq", invoiceSeq);
-			//employees
+			// employees
 			List<Employee> employees = (List<Employee>) request.getAttribute("employeesForBatchGenerate");
 			model.put("employees", employees);
 		}
-		
+
 		return model;
 	}
-	
+
 	/**
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#validatePage(java.lang.Object, org.springframework.validation.Errors, int, boolean)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#validatePage(java.lang.Object,
+	 *      org.springframework.validation.Errors, int, boolean)
 	 */
 	@Override
 	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
@@ -148,40 +154,47 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 			CommonValidator.validateDate("finishDate", errors, "invoice.error.bad.format.finishDate", null);
 
 			validateFinishGreaterThanOrder(errors);
-			
+
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "invoice.error.require.name");
 		}
 	}
-	
+
 	/**
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processCancel(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processCancel(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
 	@Override
-	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+	protected ModelAndView processCancel(HttpServletRequest request, HttpServletResponse response, Object command,
+			BindException errors) throws Exception {
 		return new ModelAndView(cancelView);
 	}
-	
+
 	/**
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command,
+			BindException errors) throws Exception {
 		InvoiceBatchGenerateForm form = (InvoiceBatchGenerateForm) command;
 		Long invoiceSeqPk = LongConvertor.getLongFromString(form.getSequence());
 		String name = form.getName();
 		Date orderDate = DateConvertor.getDateFromDateString(form.getOrderDate());
 		Date finishDate = DateConvertor.getDateFromDateString(form.getFinishDate());
 		Long[] employeePks = form.getConfirmedItems();
-		
+
 		// store to DB
-		List<Invoice> generatedInvoices = invoiceLogic.batchCreate(invoiceSeqPk, name, orderDate, finishDate, employeePks);
-		
+		List<Invoice> generatedInvoices = invoiceLogic.batchCreate(invoiceSeqPk, name, orderDate, finishDate,
+				employeePks);
+
 		// HACK: to display a warn message without making a controller superclass
 		Messages messages = new Messages(getApplicationContext());
 		messages.addInfo(new Message("invoiceBatchGenerate.success", new Object[] { generatedInvoices.size() }, 1));
 		request.getSession().setAttribute(HttpSessionContext.SESSION_MESSAGES_KEY, messages);
 		request.getSession().setAttribute("invoiceBatchResult", generatedInvoices);
-	
+
 		return new ModelAndView(successView);
 	}
 
@@ -189,27 +202,27 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 		List<InvoiceSeq> sequences = invoiceSeqLogic.findAllActive();
 		model.put("sequences", sequences);
 	}
-	
+
 	protected void prepareInvoicesForCreateOrEdit(Map<String, Object> model) {
-		List<Invoice> invoices = invoiceLogic.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
+		List<Invoice> invoices = invoiceLogic
+				.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
 		model.put("invoices", invoices);
 	}
 
-	private void validateFinishGreaterThanOrder(Errors errors){
+	private void validateFinishGreaterThanOrder(Errors errors) {
 		Date order = null;
 		Date finish = null;
 		try {
-			String orders = (String)errors.getFieldValue("orderDate");
-			String finishs = (String)errors.getFieldValue("finishDate");
+			String orders = (String) errors.getFieldValue("orderDate");
+			String finishs = (String) errors.getFieldValue("finishDate");
 
 			order = DateConvertor.convertToDateFromDateString(orders);
 			finish = DateConvertor.convertToDateFromDateString(finishs);
-		}
-		catch (ConvertException e) {
-			//couldn't compare return
+		} catch (ConvertException e) {
+			// couldn't compare return
 			return;
 		}
-		
+
 		if (order.getTime() >= finish.getTime()) {
 			errors.reject("invoiceForm.finish.greater.order");
 		}

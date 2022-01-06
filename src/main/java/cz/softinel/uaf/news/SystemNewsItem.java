@@ -2,7 +2,6 @@ package cz.softinel.uaf.news;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
-
 public class SystemNewsItem implements News {
 
 	private String date;
@@ -85,4 +84,11 @@ public class SystemNewsItem implements News {
 	public String getNewsTitle() {
 		return getTitle();
 	}
+
+	@Override
+	public String toString() {
+		return "(SystemNewsItem: date=" + date + ", author=" + author + ", body=" + body + ", title=" + title + ")";
+	}
+
+
 }

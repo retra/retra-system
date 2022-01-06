@@ -10,18 +10,18 @@ import cz.softinel.retra.icompany.Icompany;
  * @author Petr Sígl
  */
 public interface IcompanyLogic {
-	
+
 	/**
 	 * Find all icompany items.
 	 * 
 	 * @return
 	 */
-	public List<Icompany> findAllIcompanies();	
+	public List<Icompany> findAllIcompanies();
 
 	/**
 	 * Find all icompany items, which are not deleted.
 	 * 
 	 * @return
 	 */
-	public List<Icompany> findAllNotDeletedIcompanies();	
+	public List<Icompany> findAllNotDeletedIcompanies();
 }

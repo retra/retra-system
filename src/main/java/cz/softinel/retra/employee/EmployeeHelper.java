@@ -18,7 +18,7 @@ public class EmployeeHelper {
 		if (entity.getUser() != null) {
 			UserHelper.formToEntity(form.getUser(), entity.getUser());
 		}
-		
+
 		final Long icompanyPk = LongConvertor.getLongFromString(form.getIcompany());
 		if (icompanyPk == null) {
 			entity.setIcompany(null);
@@ -30,15 +30,15 @@ public class EmployeeHelper {
 			entity.setIcompany(icompany);
 			icompany.setPk(icompanyPk);
 		}
-		
+
 		entity.setIgenerate(form.getIgenerate());
 		entity.setProjects(form.getProjects());
 	}
 
 	public static void entityToForm(Employee entity, EmployeeForm form) {
-		
+
 		form.setPk(LongConvertor.convertToStringFromLong(entity.getPk()));
-		
+
 		User user = entity.getUser();
 		if (user != null) {
 			UserHelper.entityToForm(user, form.getUser());
@@ -53,5 +53,5 @@ public class EmployeeHelper {
 		form.setIgenerate(entity.getIgenerate());
 		form.setProjects(entity.getProjects());
 	}
-	
+
 }

@@ -10,39 +10,38 @@ import cz.softinel.uaf.state.StateEntity;
 
 public class StateDecorator implements DisplaytagColumnDecorator {
 
-	public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media)
-			throws DecoratorException {
+	public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException {
 		if (columnValue == null) {
-			return null;			
+			return null;
 		} else {
 			if (columnValue instanceof Integer) {
 				Integer state = (Integer) columnValue;
 				String imageName;
 				String altLabelName;
 				switch (state) {
-				//Todo - formalize the lifecycle states in application
+				// Todo - formalize the lifecycle states in application
 				case StateEntity.STATE_DELETED:
 					imageName = "stateDeleted.png";
-					//altLabelName = "state.deleted";
+					// altLabelName = "state.deleted";
 					altLabelName = "Deleted";
-					break;					
+					break;
 				case StateEntity.STATE_CLOSED:
 					imageName = "stateClosed.png";
-					//altLabelName = "state.active";
+					// altLabelName = "state.active";
 					altLabelName = "Closed";
 					break;
 				case StateEntity.STATE_ACTIVE:
 				default:
 					imageName = "stateActive.png";
-					//altLabelName = "state.active";
+					// altLabelName = "state.active";
 					altLabelName = "Active/Open";
 					break;
-				}		
+				}
 //				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
 //				" alt=\"<fmt:message key='"+altLabelName+"'/>\" align=\"middle\"/>";	
-				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
-				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
-				return test;	
+				String test = "<img src=\"" + pageContext.getAttribute("imgRoot") + '/' + imageName + '"' + " alt=\""
+						+ altLabelName + "\" title=\"" + altLabelName + "\" align=\"middle\"/>";
+				return test;
 			} else if (columnValue instanceof Boolean) {
 				// HACK pincr: Used for employee flags "worklog" and "igenerate"
 				final Boolean state = (Boolean) columnValue;
@@ -55,9 +54,9 @@ public class StateDecorator implements DisplaytagColumnDecorator {
 					imageName = "stateClosed.png";
 					altLabelName = "No";
 				}
-				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
-				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
-				return test;	
+				String test = "<img src=\"" + pageContext.getAttribute("imgRoot") + '/' + imageName + '"' + " alt=\""
+						+ altLabelName + "\" title=\"" + altLabelName + "\" align=\"middle\"/>";
+				return test;
 			} else if (columnValue instanceof String) {
 				// HACK pincr: Used for user state attribute
 				String state = (String) columnValue;
@@ -73,12 +72,12 @@ public class StateDecorator implements DisplaytagColumnDecorator {
 					imageName = "stateDeleted.png";
 					altLabelName = "Unknown: " + state;
 				}
-				String test = "<img src=\""+ pageContext.getAttribute("imgRoot")+'/'+imageName+'"'+ 
-				" alt=\""+altLabelName+"\" title=\""+altLabelName+"\" align=\"middle\"/>";				
-				return test;	
+				String test = "<img src=\"" + pageContext.getAttribute("imgRoot") + '/' + imageName + '"' + " alt=\""
+						+ altLabelName + "\" title=\"" + altLabelName + "\" align=\"middle\"/>";
+				return test;
 			} else {
 				return columnValue;
 			}
-		}		
+		}
 	}
 }

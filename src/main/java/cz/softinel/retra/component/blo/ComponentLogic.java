@@ -3,7 +3,6 @@ package cz.softinel.retra.component.blo;
 import java.util.List;
 
 import cz.softinel.retra.component.Component;
-import cz.softinel.retra.project.Project;
 
 /**
  * this class represents all logic for components.
@@ -11,13 +10,13 @@ import cz.softinel.retra.project.Project;
  * @author Zoltan Vadasz
  */
 public interface ComponentLogic {
-	
+
 	/**
 	 * Find all components items.
 	 * 
 	 * @return
 	 */
-	public List<Component> findAllComponents();	
+	public List<Component> findAllComponents();
 
 	/**
 	 * Find all component items, which are not deleted.
@@ -25,11 +24,11 @@ public interface ComponentLogic {
 	 * @return
 	 */
 	public List<Component> findAllNotDeletedComponents();
-	
+
 	public List<Component> findComponentsWithCode(String code);
-	
+
 	public Component create(Component component);
-	
+
 	public Component get(Long pk);
 
 	public void store(Component component);

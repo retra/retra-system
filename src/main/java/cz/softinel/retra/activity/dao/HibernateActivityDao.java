@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import cz.softinel.retra.activity.Activity;
 
 /**
- * This class is hibernate dependent implementation of ActivityDao  
+ * This class is hibernate dependent implementation of ActivityDao
  *
  * @version $Revision: 1.4 $ $Date: 2007-04-03 07:55:39 $
  * @author Petr Sígl
@@ -27,10 +27,10 @@ public class HibernateActivityDao extends HibernateDaoSupport implements Activit
 		Activity activity = (Activity) getHibernateTemplate().get(Activity.class, pk);
 		return activity;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.activity.dao.ActivityDao#insert(cz.softinel.retra.activity.Activity)
-	 */	
+	 */
 	public Activity insert(Activity activity) {
 		getHibernateTemplate().save(activity);
 		return activity;
@@ -47,10 +47,10 @@ public class HibernateActivityDao extends HibernateDaoSupport implements Activit
 	 * @see cz.softinel.retra.activity.dao.ActivityDao#delete(cz.softinel.retra.activity.Activity)
 	 */
 	public void delete(Activity activity) {
-		//TODO: is there some better way, to do delete - without load?
-		//must be at first loaded
+		// TODO: is there some better way, to do delete - without load?
+		// must be at first loaded
 		load(activity);
-		//than deleted
+		// than deleted
 		getHibernateTemplate().delete(activity);
 	}
 
@@ -69,20 +69,19 @@ public class HibernateActivityDao extends HibernateDaoSupport implements Activit
 	@SuppressWarnings("unchecked")
 	public List<Activity> selectAllNotDeleted() {
 
-		Object[] states = new Object[] {Activity.STATE_DELETED}; 
+		Object[] states = new Object[] { Activity.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Activity.selectAllWithoutStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
-	
+
 	/**
 	 * @see cz.softinel.retra.activity.dao.ActivityDao#load(cz.softinel.retra.activity.Activity)
 	 */

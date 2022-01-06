@@ -8,9 +8,6 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.util.Assert;
 
 import cz.softinel.retra.component.Component;
-import cz.softinel.retra.component.ComponentHelper;
-import cz.softinel.retra.project.Project;
-import cz.softinel.retra.project.ProjectHelper;
 
 public class HibernateComponentDao extends HibernateDaoSupport implements ComponentDao {
 
@@ -24,10 +21,10 @@ public class HibernateComponentDao extends HibernateDaoSupport implements Compon
 		Component component = (Component) getHibernateTemplate().get(Component.class, pk);
 		return component;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.component.dao.ComponentDao#insert(cz.softinel.retra.component.Component)
-	 */	
+	 */
 	public Component insert(Component component) {
 		getHibernateTemplate().save(component);
 		return component;
@@ -50,8 +47,8 @@ public class HibernateComponentDao extends HibernateDaoSupport implements Compon
 
 	/**
 	 * @see cz.softinel.retra.component.dao.ComponentDao#findAll()
-	 */	
-	public List<Component> selectAll() {		
+	 */
+	public List<Component> selectAll() {
 		@SuppressWarnings("unchecked")
 		List<Component> result = getHibernateTemplate().loadAll(Component.class);
 		return result;
@@ -62,15 +59,15 @@ public class HibernateComponentDao extends HibernateDaoSupport implements Compon
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Component> selectAllNotDeleted() {
-		Object[] states = new Object[] {Component.STATE_DELETED}; 
+		Object[] states = new Object[] { Component.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Component.selectAllWithoutStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
@@ -83,18 +80,18 @@ public class HibernateComponentDao extends HibernateDaoSupport implements Compon
 		Assert.notNull(component.getPk());
 		getHibernateTemplate().load(component, component.getPk());
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<Component> selectComponentsWithCode(String code) {	
+	public List<Component> selectComponentsWithCode(String code) {
 		Session session = getSession();
 		Query query = session.getNamedQuery("Component.selectComponentsWithCode");
 		query.setParameter("code", code);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
+
 }

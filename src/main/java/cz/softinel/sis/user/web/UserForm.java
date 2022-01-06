@@ -11,22 +11,20 @@ public class UserForm {
 	private ContactInfoForm contactInfo;
 
 	// Getters and setters ...
-	
+
 	public LoginForm getLogin() {
 		if (login == null) {
 			login = new LoginForm();
 		}
 		return login;
 	}
-	
+
 	public ContactInfoForm getContactInfo() {
 		if (contactInfo == null) {
 			contactInfo = new ContactInfoForm();
 		}
 		return contactInfo;
 	}
-
-
 
 	public String getPk() {
 		return pk;
@@ -35,6 +33,16 @@ public class UserForm {
 	public void setPk(String pk) {
 		this.pk = pk;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "UserForm [pk=" + pk
+				+ ", login="
+				+ (login != null ? login.toString() : "")
+				+  ", activity="
+				+ (contactInfo != null ? contactInfo.toString() : "")
+				+ ")";
+	}
+
 	
 }

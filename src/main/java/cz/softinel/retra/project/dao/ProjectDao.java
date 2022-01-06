@@ -3,7 +3,6 @@ package cz.softinel.retra.project.dao;
 import java.util.List;
 
 import cz.softinel.retra.project.Project;
-import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.uaf.filter.Filter;
 
 /**
@@ -15,13 +14,13 @@ import cz.softinel.uaf.filter.Filter;
 public interface ProjectDao {
 
 	/**
-	 * Returns project according to primary key. 
+	 * Returns project according to primary key.
 	 * 
 	 * @param pk primary key of project
 	 * @return
 	 */
 	public Project get(Long pk);
-	
+
 	/**
 	 * Insert Project
 	 * 
@@ -42,7 +41,7 @@ public interface ProjectDao {
 	 * @param project to delete
 	 */
 	public void delete(Project project);
-	
+
 	/**
 	 * Returns all projects
 	 * 
@@ -63,19 +62,19 @@ public interface ProjectDao {
 	 * @param project where load and where is pk set
 	 */
 	public void loadAndLoadLazy(Project project);
-	
+
 	/**
 	 * Returns all parent projects
 	 * 
 	 * @return all projects
 	 */
-	public List<Project> selectAllParentProjects();	
-	
+	public List<Project> selectAllParentProjects();
+
 	/**
 	 * @return projects with the given code
 	 */
 	public List<Project> selectProjectsWithCode(String code);
-	
+
 	/**
 	 * Returns project by filter.
 	 * 

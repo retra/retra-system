@@ -6,7 +6,6 @@ import cz.softinel.uaf.holidays.HolidaysFactory;
 
 public class HolidaysHelper {
 
-
 	public static boolean isPublicHoliday(Date date) {
 		HolidaysFactory holidaysFactory = HolidaysFactory.getInstance();
 		return holidaysFactory.isPublicHoliday(date);

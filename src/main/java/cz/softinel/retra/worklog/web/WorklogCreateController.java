@@ -16,7 +16,7 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 public class WorklogCreateController extends AbstractWorklogFormController {
 
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
-		WorklogForm worklogForm = (WorklogForm)errors.getTarget();
+		WorklogForm worklogForm = (WorklogForm) errors.getTarget();
 		prepareActivities(model, getShowHistoryData(requestContext));
 		prepareProjects(model, getShowHistoryData(requestContext));
 		prepareComponents(model, getShowHistoryData(requestContext));
@@ -27,9 +27,10 @@ public class WorklogCreateController extends AbstractWorklogFormController {
 		}
 		model.put("jiraIntegrationEnabled", this.isJiraIntegrationEnabled());
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
 		int action = getAction();
 
 		String view = getSuccessView();
@@ -43,29 +44,29 @@ public class WorklogCreateController extends AbstractWorklogFormController {
 			if (worklog.hasAnyIssueTrackingWorklog()) {
 				worklog.getCurrentIssueTrackingWorklog().setEmployee(employee);
 			}
-			
+
 			getWorklogLogic().create(worklog);
-			
-			//some errors encountered -> do not save and show form view
+
+			// some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), worklogForm);
 				prepareActivities(model, getShowHistoryData(requestContext));
 				prepareProjects(model, getShowHistoryData(requestContext));
 				prepareComponents(model, getShowHistoryData(requestContext));
 				prepareInvoicesForCreateOrEdit(model);
-				
+
 				return createModelAndView(model, getFormView());
 			}
-			
-			if (action == ACTION_SAVE_AND_ADD){
+
+			if (action == ACTION_SAVE_AND_ADD) {
 				view = getSaveAndAddView();
 				Map helpParameters = new HashMap();
 				helpParameters.put(WorklogHelper.HELP_COOKIE_PARAM_ADD_ALSO_FROM, Boolean.TRUE);
 				getCookieHelper().addToCookies(worklogForm, requestContext, helpParameters);
 			} else {
-				getCookieHelper().addToCookies(worklogForm, requestContext);	
+				getCookieHelper().addToCookies(worklogForm, requestContext);
 			}
-			
+
 			requestContext.addRedirectIgnoreInfo(new Message("worklog.created"));
 		}
 
@@ -73,9 +74,12 @@ public class WorklogCreateController extends AbstractWorklogFormController {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.CommonFormController#doBeforeCancelAction(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+	 * @see cz.softinel.uaf.spring.web.controller.CommonFormController#doBeforeCancelAction(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
-	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command, BindException errors) {
+	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command,
+			BindException errors) {
 		getCookieHelper().cleanCookies(requestContext);
 	}
 }

@@ -18,9 +18,9 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 public class InvoiceCreateController extends AbstractInvoiceFormController {
 
 	private InvoiceSeqLogic invoiceSeqLogic;
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setInvoiceSeqLogic(InvoiceSeqLogic invoiceSeqLogic) {
 		this.invoiceSeqLogic = invoiceSeqLogic;
 	}
@@ -29,15 +29,15 @@ public class InvoiceCreateController extends AbstractInvoiceFormController {
 		model.put("isCodeGenerated", getInvoiceLogic().isCodeGenerated());
 		prepareSequences(model);
 
-		InvoiceForm invoiceForm = (InvoiceForm)errors.getTarget();
+		InvoiceForm invoiceForm = (InvoiceForm) errors.getTarget();
 		if (errors.getErrorCount() <= 0) {
 			prepareInvoiceForm(invoiceForm, requestContext);
 		}
 		super.showForm(model, requestContext, errors);
-	}	
-	
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
+	}
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -50,15 +50,15 @@ public class InvoiceCreateController extends AbstractInvoiceFormController {
 
 			Employee employee = getSecurityLogic().getLoggedEmployee();
 			invoice.setEmployee(employee);
-			
-			try{
+
+			try {
 				Long sequencePk = LongConvertor.getLongFromString(form.getSequence());
 				getInvoiceLogic().create(invoice, sequencePk);
-			} catch(Exception le){
+			} catch (Exception le) {
 				requestContext.addError(new Message("invoice.create.invoice.exists"));
 			}
-			
-			//some errors encountered -> do not save and show form view
+
+			// some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), form);
 				model.put("isCodeGenerated", getInvoiceLogic().isCodeGenerated());
@@ -71,7 +71,7 @@ public class InvoiceCreateController extends AbstractInvoiceFormController {
 		}
 
 		return createModelAndView(view);
-	}	
+	}
 
 	private void prepareSequences(Model model) {
 		List<InvoiceSeq> sequences = invoiceSeqLogic.findAllActive();

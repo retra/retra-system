@@ -17,32 +17,33 @@ import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 
 /**
- * Common dispatch controller is main controller and it is parent of all controllers in application.
+ * Common dispatch controller is main controller and it is parent of all
+ * controllers in application.
  *
  * @version $Revision: 1.13 $ $Date: 2007-02-23 12:16:27 $
  * @author Radek Pinc, Petr Sígl
  */
 public abstract class CommonDispatchController extends MultiActionController {
-	
+
 	/** Method name - defined default action method */
 	private String method = "defaultAction";
-	
+
 	// Commonly used view names ...
 
 	/** Expected right result of controller action */
 	private String successView;
-	
+
 	/** Return to input view - some validation error? */
 	private String inputView;
-	
+
 	/** Expected error - for example: return to input view with error message */
 	private String errorView;
-	
-	/** Unexpected fatal error - typically general error screen */ 
+
+	/** Unexpected fatal error - typically general error screen */
 	private String failureView;
 
 	// Helper classes ...
-	
+
 	private class PrivateMethodNameResolver implements MethodNameResolver {
 		public String getHandlerMethodName(HttpServletRequest arg0) throws NoSuchRequestHandlingMethodException {
 			return method;
@@ -50,13 +51,13 @@ public abstract class CommonDispatchController extends MultiActionController {
 	}
 
 	// Constructors ...
-	
+
 	public CommonDispatchController() {
 		setMethodNameResolver(new PrivateMethodNameResolver());
 	}
-	
+
 	// Configuration setter methods ...
-	
+
 	public String getErrorView() {
 		return errorView;
 	}
@@ -100,37 +101,39 @@ public abstract class CommonDispatchController extends MultiActionController {
 	public Filter getFilter(Model model) {
 		return null;
 	}
-	
-	// Implementation ... 
-	
-	public ModelAndView defaultAction(HttpServletRequest request, HttpServletResponse response)	{
+
+	// Implementation ...
+
+	public ModelAndView defaultAction(HttpServletRequest request, HttpServletResponse response) {
 		return createModelAndView(getSuccessView());
-	}	
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		Class thisClass = this.getClass();
 		String methodName = getMethod();
 		Method method = null;
-		//type formats for using in jsp
+		// type formats for using in jsp
 		request.setAttribute(TypeFormats.ATTRIBUTE_NAME_TYPE_FORMATS, TypeFormats.getInstance());
 		try {
-			method = thisClass.getMethod(methodName, new Class[] {Model.class, RequestContext.class});
+			method = thisClass.getMethod(methodName, new Class[] { Model.class, RequestContext.class });
 		} catch (NoSuchMethodException e) {
 			// It is ok - expected method with parameters (HttpRequest, HttpResponse)
 		}
 
 		Model model = new Model();
 		Filter filter = getFilter(model);
-		
+
 		if (method != null) {
 			RequestContext requestContext = createRequestContext(request, response);
-			//fill filter from request parameters or session if saved, if want clean than clear it
+			// fill filter from request parameters or session if saved, if want clean than
+			// clear it
 			FilterHelper.cleanOrFillFilter(filter, request);
 			try {
-				ModelAndView result = (ModelAndView) method.invoke(this, new Object[] {model, requestContext});
-				//set attributes according to filter
+				ModelAndView result = (ModelAndView) method.invoke(this, new Object[] { model, requestContext });
+				// set attributes according to filter
 				FilterHelper.saveFilter(filter, request);
 				return result;
 			} catch (InvocationTargetException e) {
@@ -141,20 +144,21 @@ public abstract class CommonDispatchController extends MultiActionController {
 				}
 			}
 		} else {
-			//fill filter from request parameters or session if saved, if want clean than clear it
+			// fill filter from request parameters or session if saved, if want clean than
+			// clear it
 			FilterHelper.cleanOrFillFilter(filter, request);
 			ModelAndView result = super.handleRequestInternal(request, response);
-			//set attributes according to filter
+			// set attributes according to filter
 			FilterHelper.saveFilter(filter, request);
 			return result;
 		}
 	}
-	
+
 	/**
-	 * Creates new request context. 
-	 * Override this method to create a custom request context.
-	 * This method creates {@link HttpRequestContext}.
-	 * @param request current HTTP request
+	 * Creates new request context. Override this method to create a custom request
+	 * context. This method creates {@link HttpRequestContext}.
+	 * 
+	 * @param request  current HTTP request
 	 * @param response current HTTP response
 	 * @return new request context
 	 */
@@ -165,7 +169,7 @@ public abstract class CommonDispatchController extends MultiActionController {
 	public ModelAndView createModelAndView(String view) {
 		return new ModelAndView(view);
 	}
-	
+
 	public ModelAndView createModelAndView(Model model, String view) {
 		return new ModelAndView(view, model.getMap());
 	}

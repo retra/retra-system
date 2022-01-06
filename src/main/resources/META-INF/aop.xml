@@ -1,0 +1,44 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+
+    <!-- include "cz" package and org.springframework.jdbc.datasource.DataSourceUtils -->
+    <weaver options="-showWeaveInfo -verbose">
+        <include within="cz..*"/>
+        <!-- NEVER EVER define exclude !!! -->
+        <!-- exclude within="something"/ -->
+    </weaver>
+
+    <aspects>
+        <!-- aspect for logging -->
+        <aspect name="cz.softinel.sis.log.aspect.LogAspect" />
+
+        <concrete-aspect
+            name="retra.LogAspect"
+            extends="cz.softinel.sis.log.aspect.LogAspect"
+        >
+            <pointcut
+                name="controllerMethods"
+                expression="(
+                				execution(public * cz..*Controller.*(..))
+                            )"
+            />
+
+            <pointcut
+                name="logicMethods"
+                expression="(
+                				execution(public * cz..*Logic.*(..))
+                            )"
+            />
+
+            <pointcut
+                name="daoMethods"
+                expression="(
+                				execution(public * cz..*Dao.*(..))
+                            )"
+            />
+
+        </concrete-aspect>
+
+    </aspects>
+
+</aspectj>

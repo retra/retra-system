@@ -3,7 +3,7 @@ package cz.softinel.retra.core.utils;
 public final class TypeFormats {
 
 	public static final String ATTRIBUTE_NAME_TYPE_FORMATS = "TypeFormats";
-	
+
 	public static final String DATE_FORMAT = "dd.MM.yyyy";
 	public static final String DATE_FORMAT_DOW = "dd.MM.yyyy - EEE";
 	public static final String DATE_FORMAT_REGEXP = "^[0-9]{0,1}[0-9]{1}\\.[0-9]{0,1}[0-9]{1}\\.[0-9]{4}$";
@@ -17,11 +17,11 @@ public final class TypeFormats {
 	public static final String HOURS_FORMAT = "##0.00";
 
 	public static final String EMAIL_REGEXP = "^.{2,}@.{2,}\\.[a-zA-Z]{2,4}$";
-	
+
 	private static TypeFormats singleton = new TypeFormats();
-	
+
 	private TypeFormats() {
-		//private constructor
+		// private constructor
 	}
 
 	/**
@@ -46,7 +46,7 @@ public final class TypeFormats {
 	public String getDATE_FORMAT_DOW() {
 		return DATE_FORMAT_DOW;
 	}
-	
+
 	/**
 	 * @return the hOUR_FORMAT
 	 */

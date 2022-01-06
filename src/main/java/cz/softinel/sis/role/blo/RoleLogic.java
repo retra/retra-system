@@ -13,8 +13,8 @@ import cz.softinel.sis.role.Role;
 /**
  * @author Radek Pinc
  *
- * TODO To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
 public interface RoleLogic {
 
@@ -23,7 +23,9 @@ public interface RoleLogic {
 	public List<Role> findAll();
 
 	public void create(Role role);
+
 	public void store(Role role);
+
 	public void remove(Role role);
 
 }

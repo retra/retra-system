@@ -3,12 +3,13 @@ package cz.softinel.retra.core.code;
 import java.text.DecimalFormat;
 
 import org.junit.Test;
+
 import junit.framework.Assert;
 
 public class CodeGeneratorTest extends Assert {
 
 	private DecimalFormat formatter = new DecimalFormat("'2012V'0000");
-	
+
 	@Test
 	public void TestGenerateNewCodeStringOne() {
 		String code = CodeGenerator.generateNewCode("'2012V'0000", 9);
@@ -26,7 +27,7 @@ public class CodeGeneratorTest extends Assert {
 		String code = CodeGenerator.generateNewCode("'2012V'0000", 999);
 		Assert.assertEquals("2012V0999", code);
 	}
-	
+
 	@Test
 	public void TestGenerateNewCodeStringFour() {
 		String code = CodeGenerator.generateNewCode("'2012V'0000", 9999);
@@ -56,7 +57,7 @@ public class CodeGeneratorTest extends Assert {
 		String code = CodeGenerator.generateNewCode(formatter, 999);
 		Assert.assertEquals("2012V0999", code);
 	}
-	
+
 	@Test
 	public void TestGenerateNewCodeFormatterFour() {
 		String code = CodeGenerator.generateNewCode(formatter, 9999);
@@ -69,5 +70,4 @@ public class CodeGeneratorTest extends Assert {
 		Assert.assertEquals("2012V99999", code);
 	}
 
-	
 }

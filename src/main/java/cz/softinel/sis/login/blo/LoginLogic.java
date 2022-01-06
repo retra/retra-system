@@ -16,14 +16,17 @@ public interface LoginLogic {
 	public List<Login> findAll();
 
 	public Login create(Login login);
+
 	public void store(Login login);
+
 	public void remove(Login login);
 
 	public Login checkLogin(String name, String password);
+
 	public Login checkLogin(String permanentPassword);
 
 	public void logout(Login login);
-	
+
 	public void changePassword(Login login, String oldPassword, String newPassword);
 
 	public void createPermanentPassword(Login login);

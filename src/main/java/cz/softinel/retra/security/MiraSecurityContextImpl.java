@@ -6,7 +6,7 @@ import cz.softinel.sis.security.SecurityContextImpl;
 public class MiraSecurityContextImpl extends SecurityContextImpl implements MiraSecurityContext {
 
 	private Employee loggedEmployee;
-	
+
 	public Employee getLoggedEmployee() {
 		return loggedEmployee;
 	}
@@ -15,4 +15,11 @@ public class MiraSecurityContextImpl extends SecurityContextImpl implements Mira
 		loggedEmployee = employee;
 	}
 
+	@Override
+	public String toString() {
+		return super.toString() + "=>(MiraSecurityContextImpl: loggedEmployee="
+			+ (loggedEmployee != null ? loggedEmployee.toString() : "")
+			+ loggedEmployee + ")";
+	}
+	
 }

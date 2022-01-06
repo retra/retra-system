@@ -7,12 +7,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraWorklogsResult implements Serializable {
-	
+
 	private String expand;
 	private Integer startAt;
 	private Integer maxResults;
 	private Integer total;
-	
+
 	private List<JiraWorklog> worklogs;
 
 	public String getExpand() {
@@ -54,5 +54,5 @@ public class JiraWorklogsResult implements Serializable {
 	public void setWorklogs(List<JiraWorklog> worklogs) {
 		this.worklogs = worklogs;
 	}
-	
+
 }

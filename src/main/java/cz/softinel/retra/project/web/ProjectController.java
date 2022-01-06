@@ -22,26 +22,26 @@ import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public class ProjectController extends CommonDispatchController {
-	
+
 	private ProjectLogic projectLogic;
 	private ComponentLogic componentLogic;
 	private MiraSecurityLogic securityLogic;
 	private EmployeeLogic employeeLogic;
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
-	}	
-	
+	}
+
 	public void setComponentLogic(ComponentLogic componentLogic) {
 		this.componentLogic = componentLogic;
-	}	
-	
+	}
+
 	public void setSecurityLogic(MiraSecurityLogic securityLogic) {
 		this.securityLogic = securityLogic;
 	}
-	
+
 	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
 		this.employeeLogic = employeeLogic;
 	}
@@ -57,35 +57,34 @@ public class ProjectController extends CommonDispatchController {
 		}
 		return filter;
 	}
-	
-	public ModelAndView projectManagement(Model model, RequestContext requestContext)
-	{
+
+	public ModelAndView projectManagement(Model model, RequestContext requestContext) {
 		Filter filter = getFilter(model);
 		Integer state = FilterHelper.getFieldAsInteger(ProjectFilter.PROJECT_FILTER_STATE, filter);
-		
+
 		// state not set, so show active
 		if (state == null) {
 			state = Project.STATE_ACTIVE;
 			FilterHelper.setField(ProjectFilter.PROJECT_FILTER_STATE, state, filter);
 		}
-		
+
 		prepareEmployees(model);
 		prepareProjectStates(model);
 
 		List<Project> list = projectLogic.findByFilter(filter);
 		model.set("projects", list);
-		
+
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	/**
-	 * View given project. 
+	 * View given project.
 	 * 
 	 * @param model
 	 * @param requestContext
 	 * @return
 	 */
-	public ModelAndView projectView(Model model, RequestContext requestContext)	{
+	public ModelAndView projectView(Model model, RequestContext requestContext) {
 		String strPk = requestContext.getParameter("pk");
 		Long pk = LongConvertor.getLongFromString(strPk);
 		if (pk != null) {
@@ -96,7 +95,7 @@ public class ProjectController extends CommonDispatchController {
 		}
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	/**
 	 * Delete given project
 	 * 
@@ -125,7 +124,7 @@ public class ProjectController extends CommonDispatchController {
 		}
 		return createModelAndView(model, view);
 	}
-	
+
 	/**
 	 * Close given project
 	 * 
@@ -138,13 +137,13 @@ public class ProjectController extends CommonDispatchController {
 		Long projectPk = LongConvertor.getLongFromString(projectPkStr);
 		String view = getSuccessView();
 		if (projectPk != null) {
-			ProjectFilter projectFilter=new ProjectFilter();
-			projectFilter.setFieldValue(ProjectFilter.PROJECT_FILTER_PARENT,Long.toString(projectPk));
-			List<Project> projects=projectLogic.findByFilter(projectFilter);
-			for (Project p:projects) {
-				if (p.getState()==Project.STATE_ACTIVE) {
+			ProjectFilter projectFilter = new ProjectFilter();
+			projectFilter.setFieldValue(ProjectFilter.PROJECT_FILTER_PARENT, Long.toString(projectPk));
+			List<Project> projects = projectLogic.findByFilter(projectFilter);
+			for (Project p : projects) {
+				if (p.getState() == Project.STATE_ACTIVE) {
 					requestContext.addRedirectIgnoreError(new Message("Some projects under project is not closed."));
-					return createModelAndView(model,getErrorView());					
+					return createModelAndView(model, getErrorView());
 				}
 			}
 			Project project = projectLogic.get(projectPk);
@@ -161,8 +160,8 @@ public class ProjectController extends CommonDispatchController {
 			view = getErrorView();
 		}
 		return createModelAndView(model, view);
-	}	
-	
+	}
+
 	/**
 	 * Delete given project
 	 * 
@@ -176,12 +175,12 @@ public class ProjectController extends CommonDispatchController {
 		String view = getSuccessView();
 		if (projectPk != null) {
 			Project project = projectLogic.get(projectPk);
-			if (project.getParent()!=null) {
-				Project parentProject=projectLogic.get(project.getParent().getPk());
-				if (parentProject.getState()!=Project.STATE_ACTIVE) {
+			if (project.getParent() != null) {
+				Project parentProject = projectLogic.get(project.getParent().getPk());
+				if (parentProject.getState() != Project.STATE_ACTIVE) {
 					requestContext.addRedirectIgnoreError(new Message("Parent project is not open."));
-					return createModelAndView(model,getErrorView());					
-				}				
+					return createModelAndView(model, getErrorView());
+				}
 			}
 			project.setState(Project.STATE_ACTIVE);
 			projectLogic.store(project);
@@ -196,8 +195,8 @@ public class ProjectController extends CommonDispatchController {
 			view = getErrorView();
 		}
 		return createModelAndView(model, view);
-	}	
-	
+	}
+
 	/**
 	 * Delete given component
 	 * 
@@ -225,9 +224,9 @@ public class ProjectController extends CommonDispatchController {
 		} else {
 			view = getErrorView();
 		}
-		return new ModelAndView(view,"pk",projectPk);
+		return new ModelAndView(view, "pk", projectPk);
 	}
-	
+
 	/**
 	 * Prepare invoice states.
 	 * 

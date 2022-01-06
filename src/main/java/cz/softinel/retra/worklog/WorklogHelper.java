@@ -21,17 +21,17 @@ import cz.softinel.uaf.util.StringHelper;
  * @author Petr Sígl
  */
 public class WorklogHelper {
-	
+
 	public static final String HELP_COOKIE_PARAM_ADD_ALSO_FROM = "addAlsoFrom";
-	
+
 	private static final Worklog NO_PERMISSION_WORKLOG = new Worklog();
-	
+
 	public static void formToEntity(WorklogForm form, Worklog entity) {
 		if (form.getPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getPk());
 			entity.setPk(pk);
 		}
-		
+
 		Date from = DateConvertor.getDateFromDateStringHourString(form.getDate(), form.getWorkFrom());
 		entity.setWorkFrom(from);
 
@@ -39,7 +39,7 @@ public class WorklogHelper {
 		entity.setWorkTo(to);
 
 		entity.setDescription(form.getDescription());
-		
+
 		Activity activity = entity.getActivity();
 		if (activity == null) {
 			activity = new Activity();
@@ -47,7 +47,7 @@ public class WorklogHelper {
 		entity.setActivity(activity);
 		Long activityPk = LongConvertor.getLongFromString(form.getActivity());
 		activity.setPk(activityPk);
-		
+
 		Project project = entity.getProject();
 		if (project == null) {
 			project = new Project();
@@ -55,7 +55,7 @@ public class WorklogHelper {
 		entity.setProject(project);
 		Long projectPk = LongConvertor.getLongFromString(form.getProject());
 		project.setPk(projectPk);
-		
+
 		final Long componentPk = LongConvertor.getLongFromString(form.getComponent());
 		if (componentPk == null) {
 			entity.setComponent(null);
@@ -67,7 +67,7 @@ public class WorklogHelper {
 			entity.setComponent(component);
 			component.setPk(componentPk);
 		}
-		
+
 		final Long invoicePk = LongConvertor.getLongFromString(form.getInvoice());
 		if (invoicePk == null) {
 			entity.setInvoice(null);
@@ -79,25 +79,28 @@ public class WorklogHelper {
 			entity.setInvoice(invoice);
 			invoice.setPk(invoicePk);
 		}
-		
+
 		if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
 			JiraWorklog jiraWorklog = new JiraWorklog();
-			
+
 			jiraWorklog.setCreated(entity.getWorkFrom());
 			jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-			jiraWorklog.setState(JiraWorklog.CREATED); 
-			jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue()); // TODO Zoli, not exact
+			jiraWorklog.setState(JiraWorklog.CREATED);
+			jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue()); // TODO
+																												// Zoli,
+																												// not
+																												// exact
 
 			entity.addIssueTrackingWorklog(jiraWorklog);
-		} 
+		}
 	}
-	
+
 	public static void formToEntityUpdate(WorklogForm form, Worklog entity) {
 		if (form.getPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getPk());
 			entity.setPk(pk);
 		}
-		
+
 		Date from = DateConvertor.getDateFromDateStringHourString(form.getDate(), form.getWorkFrom());
 		entity.setWorkFrom(from);
 
@@ -105,7 +108,7 @@ public class WorklogHelper {
 		entity.setWorkTo(to);
 
 		entity.setDescription(form.getDescription());
-		
+
 		Activity activity = entity.getActivity();
 		if (activity == null) {
 			activity = new Activity();
@@ -113,7 +116,7 @@ public class WorklogHelper {
 		entity.setActivity(activity);
 		Long activityPk = LongConvertor.getLongFromString(form.getActivity());
 		activity.setPk(activityPk);
-		
+
 		Project project = entity.getProject();
 		if (project == null) {
 			project = new Project();
@@ -121,7 +124,7 @@ public class WorklogHelper {
 		entity.setProject(project);
 		Long projectPk = LongConvertor.getLongFromString(form.getProject());
 		project.setPk(projectPk);
-		
+
 		final Long componentPk = LongConvertor.getLongFromString(form.getComponent());
 		if (componentPk == null) {
 			entity.setComponent(null);
@@ -145,9 +148,10 @@ public class WorklogHelper {
 			entity.setInvoice(invoice);
 			invoice.setPk(invoicePk);
 		}
-		
+
 		if (StringHelper.isEmpty(form.getIssueTrackingReference()) && entity.hasAnyIssueTrackingWorklog()) {
-			//The reference was set empty, the JiraWorklog must be deleted. A job deletes it, the worklog must be null.
+			// The reference was set empty, the JiraWorklog must be deleted. A job deletes
+			// it, the worklog must be null.
 			JiraWorklog jiraWorklog = entity.getCurrentIssueTrackingWorklog();
 			jiraWorklog.setWorklog(null);
 		} else if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
@@ -158,42 +162,42 @@ public class WorklogHelper {
 				jiraWorklog.setCreated(entity.getWorkFrom());
 				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
 				if (jiraWorklog.getJiraIssue().equals(form.getIssueTrackingReference())) {
-					jiraWorklog.setState(JiraWorklog.UPDATED); 
+					jiraWorklog.setState(JiraWorklog.UPDATED);
 				} else {
-					jiraWorklog.setState(JiraWorklog.ISSUE_UPDATED); 
+					jiraWorklog.setState(JiraWorklog.ISSUE_UPDATED);
 				}
 				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-				
-			} else if(jiraWorklogs.size() == 0) {
+
+			} else if (jiraWorklogs.size() == 0) {
 				jiraWorklog = new JiraWorklog();
 				jiraWorklog.setCreated(entity.getWorkFrom());
 				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-				jiraWorklog.setState(JiraWorklog.CREATED); 
+				jiraWorklog.setState(JiraWorklog.CREATED);
 				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
 				entity.addIssueTrackingWorklog(jiraWorklog);
 			}
-		} 
+		}
 	}
 
 	public static void entityToForm(Worklog entity, WorklogForm form) {
 		String pk = LongConvertor.convertToStringFromLong(entity.getPk());
 		form.setPk(pk);
-		
+
 		String date = DateConvertor.convertToDateStringFromDate(entity.getWorkFrom());
 		form.setDate(date);
-		
+
 		String from = DateConvertor.convertToHourStringFromDate(entity.getWorkFrom());
 		form.setWorkFrom(from);
-		
+
 		String to = DateConvertor.convertToHourStringFromDate(entity.getWorkTo());
-		// HACK radek: AWIS-40 / Edit error when worklog end with 00:00 
+		// HACK radek: AWIS-40 / Edit error when worklog end with 00:00
 		if ("00:00".equals(to)) {
 			to = "24:00";
 		}
 		form.setWorkTo(to);
-		
+
 		form.setDescription(entity.getDescription());
-		
+
 		Activity activity = entity.getActivity();
 		if (activity != null) {
 			String activityPk = LongConvertor.convertToStringFromLong(entity.getActivity().getPk());
@@ -205,7 +209,7 @@ public class WorklogHelper {
 			String projectPk = LongConvertor.convertToStringFromLong(entity.getProject().getPk());
 			form.setProject(projectPk);
 		}
-		
+
 		Component component = entity.getComponent();
 		if (component != null) {
 			String componentPk = LongConvertor.convertToStringFromLong(entity.getComponent().getPk());
@@ -222,26 +226,26 @@ public class WorklogHelper {
 			form.setIssueTrackingReference(entity.getCurrentIssueTrackingWorklog().getJiraIssue());
 		}
 	}
-	
+
 	public static Worklog getNoPermissionWorklog() {
 		if (NO_PERMISSION_WORKLOG.getPk() == null) {
 			NO_PERMISSION_WORKLOG.setPk(-1L);
-			
+
 			NO_PERMISSION_WORKLOG.setDescription("You don't have permission for this action.");
 			NO_PERMISSION_WORKLOG.setDescriptionGui("You don't have permission for this action.");
 			NO_PERMISSION_WORKLOG.setWorkFrom(new Date(0));
 			NO_PERMISSION_WORKLOG.setWorkTo(new Date(0));
-			
+
 			Project project = new Project();
 			project.setCode("NONE");
 			project.setName("No project");
-						
+
 			NO_PERMISSION_WORKLOG.setProject(project);
-			
+
 			Activity activity = new Activity();
 			activity.setCode("NONE");
 			activity.setName("No activity");
-			
+
 			NO_PERMISSION_WORKLOG.setActivity(activity);
 		}
 		return NO_PERMISSION_WORKLOG;

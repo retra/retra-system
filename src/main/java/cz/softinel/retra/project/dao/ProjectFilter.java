@@ -12,7 +12,7 @@ public class ProjectFilter extends EntityFilter {
 	public static final String PROJECT_FILTER_STATE = "projectFilterState";
 	public static final String PROJECT_FILTER_EMPLOYEE = "projectFilterEmployee";
 	public static final String PROJECT_FILTER_PARENT = "projectFilterParent";
-	
+
 	private static List<String> fieldNames = new ArrayList<String>();
 
 	static {
@@ -22,7 +22,7 @@ public class ProjectFilter extends EntityFilter {
 		fieldNames.add(PROJECT_FILTER_EMPLOYEE);
 		fieldNames.add(PROJECT_FILTER_PARENT);
 	}
-	
+
 	public ProjectFilter() {
 		super(ProjectFilter.fieldNames);
 	}

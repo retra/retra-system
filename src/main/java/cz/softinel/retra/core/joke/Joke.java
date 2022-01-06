@@ -5,16 +5,16 @@ public class Joke {
 	private String html;
 	private String label;
 
-	public Joke(){
+	public Joke() {
 		this.html = null;
 		this.label = null;
 	}
-	
+
 	public Joke(String html, String label) {
 		this.html = html;
 		this.label = label;
 	}
-	
+
 	/**
 	 * @return the html
 	 */
@@ -43,4 +43,9 @@ public class Joke {
 		this.label = label;
 	}
 
+	@Override
+	public String toString() {
+		return "(Joke: label=" + label + ")";
+	}
+	
 }

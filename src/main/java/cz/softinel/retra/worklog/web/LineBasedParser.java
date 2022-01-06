@@ -13,11 +13,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.retra.activity.Activity;
-import cz.softinel.retra.project.Project;
 import cz.softinel.retra.worklog.Worklog;
 
 /**
@@ -29,7 +28,7 @@ public abstract class LineBasedParser implements ImportDataParser {
 
 	private final String encoding;
 
-	protected static Log logger = LogFactory.getLog(LineBasedParser.class);
+	protected static Logger logger = LoggerFactory.getLogger(LineBasedParser.class);
 
 	public LineBasedParser(final String encoding) {
 		this.encoding = encoding;
@@ -74,7 +73,8 @@ public abstract class LineBasedParser implements ImportDataParser {
 		return projectSet;
 	}
 
-	public List<Worklog> parseWorklogItems(final Map<String, ProjectInvoiceHolder> projectMapping, final Map<String, Activity> activityMapping) {
+	public List<Worklog> parseWorklogItems(final Map<String, ProjectInvoiceHolder> projectMapping,
+			final Map<String, Activity> activityMapping) {
 		final List<Worklog> worklogItems = new ArrayList<Worklog>();
 		doForEachLine(new LineProcessor() {
 			public void process(final String line) {
@@ -86,7 +86,7 @@ public abstract class LineBasedParser implements ImportDataParser {
 		});
 		return worklogItems;
 	}
-	
+
 	protected Reader getDataReader(final byte[] data) {
 		try {
 			return new InputStreamReader(new ByteArrayInputStream(data), encoding);
@@ -122,7 +122,7 @@ public abstract class LineBasedParser implements ImportDataParser {
 		numberOfLines = 0;
 		for (final String line : lines) {
 			try {
-				numberOfLines ++;
+				numberOfLines++;
 				lineProcessor.process(line);
 			} catch (Exception e) {
 				logger.warn("Error importing line. " + e.getMessage() + " Line: " + line);
@@ -134,17 +134,15 @@ public abstract class LineBasedParser implements ImportDataParser {
 	public int getParseErrors() {
 		return parseErrors;
 	}
-	
+
 	public int getNumberOfLines() {
 		return numberOfLines;
 	}
-	
-	
+
 	/**
 	 * Parses one line and extracts information about project.
 	 * 
-	 * @param line
-	 *            worklog item line
+	 * @param line worklog item line
 	 * @return item's project
 	 */
 	public abstract ExternalProject parseExternalProject(String line);
@@ -152,8 +150,7 @@ public abstract class LineBasedParser implements ImportDataParser {
 	/**
 	 * Parses one line and extracts information about activity.
 	 * 
-	 * @param line
-	 *            worklog item line
+	 * @param line worklog item line
 	 * @return item's activity
 	 */
 	public abstract ExternalActivity parseExternalActivity(String line);
@@ -161,21 +158,18 @@ public abstract class LineBasedParser implements ImportDataParser {
 	/**
 	 * Parses one line and creates whole worklog item.
 	 * 
-	 * @param line
-	 *            worklog item line
-	 * @param projectMapping
-	 *            mapping between imported projects and Mira projects
-	 * @param activityMapping
-	 *            mapping between imported activities and Mira activities
+	 * @param line            worklog item line
+	 * @param projectMapping  mapping between imported projects and Mira projects
+	 * @param activityMapping mapping between imported activities and Mira
+	 *                        activities
 	 * @return worklog item, <code>null</code> if item cannot be mapped
 	 */
-	public abstract Worklog parseWorklogItem(String line,
-			Map<String, ProjectInvoiceHolder> projectMapping,
+	public abstract Worklog parseWorklogItem(String line, Map<String, ProjectInvoiceHolder> projectMapping,
 			Map<String, Activity> activityMapping);
 
 	/**
-	 * Whether to skip first line of file or not. This is usually the case if
-	 * first line contains header (the name of fields).
+	 * Whether to skip first line of file or not. This is usually the case if first
+	 * line contains header (the name of fields).
 	 * 
 	 * @return
 	 */

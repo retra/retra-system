@@ -69,7 +69,7 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 			query.setParameter("onlyActive", onlyActive);
 			query.setParameter("onlyWorkLogging", onlyWorkLogging);
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
@@ -78,7 +78,7 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 	public List<Employee> findAllForGenerate() {
 		return (List<Employee>) getHibernateTemplate().findByNamedQuery("Employee.findAllForGenerateFetch");
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.employee.dao.EmployeeDao#load(cz.softinel.retra.employee.Employee)
 	 */

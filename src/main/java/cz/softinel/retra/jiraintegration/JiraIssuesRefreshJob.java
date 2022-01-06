@@ -3,8 +3,8 @@ package cz.softinel.retra.jiraintegration;
 import java.util.Calendar;
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.retra.worklog.blo.WorklogLogic;
 import cz.softinel.retra.worklog.dao.WorklogFilter;
@@ -12,11 +12,11 @@ import cz.softinel.uaf.filter.FilterHelper;
 
 public class JiraIssuesRefreshJob {
 
-	private Log logger = LogFactory.getLog(this.getClass());
-	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	private JiraConfig jiraConfig;
 	private WorklogLogic worklogLogic;
-	
+
 	public JiraConfig getJiraConfig() {
 		return jiraConfig;
 	}
@@ -36,21 +36,21 @@ public class JiraIssuesRefreshJob {
 	public void executeJobs() {
 		long start = System.currentTimeMillis();
 		logger.info("Start JiraIssuesRefreshJob: " + start);
-		if(jiraConfig.isEnabled()) {
+		if (jiraConfig.isEnabled()) {
 			if (jiraConfig.getJiraCache() != null) {
 				logger.info("Jira enabled and cache active");
 				jiraConfig.getJiraCache().clearCache();
-				
-				//all items 2 months ago
+
+				// all items 2 months ago
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(new Date());
 				cal.add(Calendar.MONTH, -2);
 				cal.set(Calendar.DATE, 1);
-				Date twoMonthAgo = cal.getTime();  
-				
-				WorklogFilter filter =  new WorklogFilter();
+				Date twoMonthAgo = cal.getTime();
+
+				WorklogFilter filter = new WorklogFilter();
 				FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_FROM, twoMonthAgo, filter);
-				
+
 				worklogLogic.findByFilter(filter);
 			}
 		}

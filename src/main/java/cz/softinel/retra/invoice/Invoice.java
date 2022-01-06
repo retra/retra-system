@@ -20,13 +20,13 @@ public class Invoice implements StateEntity {
 
 	private String code;
 	private String name;
-		
+
 	private Employee employee;
-	
+
 	private int state = Invoice.STATE_ACTIVE;
-	
-	//constants
-	public static Long DUMMY_INVOICE_PK = (long)-1;
+
+	// constants
+	public static Long DUMMY_INVOICE_PK = (long) -1;
 
 	// Business fields ...
 
@@ -51,7 +51,7 @@ public class Invoice implements StateEntity {
 	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
-	
+
 	/**
 	 * @return Returns the code.
 	 */
@@ -107,7 +107,7 @@ public class Invoice implements StateEntity {
 	public void setState(int state) {
 		this.state = state;
 	}
-	
+
 	/**
 	 * @return the employee
 	 */
@@ -121,9 +121,9 @@ public class Invoice implements StateEntity {
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
 	}
-	
+
 	// Object implementation ...
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -150,12 +150,12 @@ public class Invoice implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Invoice: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(Invoice: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
-	
+
 }

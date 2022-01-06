@@ -12,8 +12,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.sis.user.User;
 import cz.softinel.uaf.spring.web.controller.AbstractCookieHelper;
@@ -21,17 +21,20 @@ import cz.softinel.uaf.util.web.CookieHelper;
 
 public class SecurityWebFilter implements Filter {
 
-	private static Log logger = LogFactory.getLog(SecurityWebFilter.class);
+	private static Logger logger = LoggerFactory.getLogger(SecurityWebFilter.class);
 
 	// FIXME radek: This is really hack (how configure servlet/filter by spring)
 	public static WebSecurityLogic securityLogic;
-	
-	public void init(FilterConfig config) throws ServletException {}
 
-	public void destroy() {}
+	public void init(FilterConfig config) throws ServletException {
+	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest req =(HttpServletRequest) request;
+	public void destroy() {
+	}
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest req = (HttpServletRequest) request;
 		try {
 			boolean process = false;
 			logger.info("Processing secured request: " + req.getRequestURL());
@@ -43,7 +46,8 @@ public class SecurityWebFilter implements Filter {
 				if (securityLogic.isUnsecuredPage(req.getRequestURI())) {
 					process = true;
 				} else {
-					String permanentPassword = CookieHelper.getCookie(AbstractCookieHelper.RETRA_PERMANENT_COOKIE_NAME, req);
+					String permanentPassword = CookieHelper.getCookie(AbstractCookieHelper.RETRA_PERMANENT_COOKIE_NAME,
+							req);
 					if (permanentPassword != null) {
 						User user = securityLogic.login(permanentPassword);
 						if (user != null) {
@@ -60,7 +64,7 @@ public class SecurityWebFilter implements Filter {
 				// TODO radek: Keep original URL for redirect after successfully login
 				String originalUrl = req.getRequestURL().toString();
 				String separator = "?";
-				for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements(); ) {
+				for (Enumeration<String> e = request.getParameterNames(); e.hasMoreElements();) {
 					String name = e.nextElement();
 					originalUrl += separator + name + "=" + request.getParameter(name);
 					separator = "&";

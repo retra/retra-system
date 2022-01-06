@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.softinel.retra.core.blo.AbstractLogicBean;
 import cz.softinel.retra.icompany.Icompany;
 import cz.softinel.retra.icompany.dao.IcompanyDao;
-import cz.softinel.retra.core.blo.AbstractLogicBean;
 
 /**
  * Implementation of icompany logic
@@ -17,7 +17,7 @@ import cz.softinel.retra.core.blo.AbstractLogicBean;
 public class IcompanyLogicImpl extends AbstractLogicBean implements IcompanyLogic {
 
 	private IcompanyDao icompanyDao;
-	
+
 	/**
 	 * @return the icompanyDao
 	 */
@@ -35,7 +35,7 @@ public class IcompanyLogicImpl extends AbstractLogicBean implements IcompanyLogi
 	/**
 	 * @see cz.softinel.retra.icompany.blo.IcompanyLogic#findAllIcompanies()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Icompany> findAllIcompanies() {
 		return icompanyDao.selectAll();
 	}
@@ -43,7 +43,7 @@ public class IcompanyLogicImpl extends AbstractLogicBean implements IcompanyLogi
 	/**
 	 * @see cz.softinel.retra.icompany.blo.IcompanyLogic#findAllNotDeletedIcompanies()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Icompany> findAllNotDeletedIcompanies() {
 		return icompanyDao.selectAllNotDeleted();
 	}

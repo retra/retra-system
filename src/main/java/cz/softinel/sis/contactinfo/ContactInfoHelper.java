@@ -3,7 +3,6 @@ package cz.softinel.sis.contactinfo;
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.sis.contactinfo.web.ContactInfoForm;
 
-
 public class ContactInfoHelper {
 
 	public static String getDisplayName(ContactInfo contactInfo) {
@@ -15,7 +14,7 @@ public class ContactInfoHelper {
 		sb.append(contactInfo.getFirstName());
 		return sb.toString().trim();
 	}
-	
+
 	// TODO: Find more automatic solution!!!
 	// FIXME: This is work for skilled monkey!!!
 	public static void formToEntity(ContactInfoForm form, ContactInfo entity) {
@@ -61,6 +60,5 @@ public class ContactInfoHelper {
 		form.setFax(entity.getFax());
 		form.setJirauser(entity.getJirauser());
 	}
-	
-	
+
 }

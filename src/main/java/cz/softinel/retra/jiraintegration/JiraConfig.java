@@ -8,7 +8,7 @@ public class JiraConfig {
 	private String baseUrl;
 	private String issuePath;
 	private String restPath;
-	
+
 	private JiraCache jiraCache;
 
 	public JiraCache getJiraCache() {

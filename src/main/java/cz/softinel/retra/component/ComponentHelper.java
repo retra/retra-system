@@ -10,12 +10,11 @@ import cz.softinel.retra.project.Project;
  * @author Zoltan Vadasz
  */
 public class ComponentHelper {
-	
+
 	public static String getCodeAndName(Component component) {
 		if (component.getCode().length() == 0) {
 			return component.getName();
-		}
-		else {
+		} else {
 			StringBuffer sb = new StringBuffer();
 			sb.append("<!--");
 			sb.append(component.getProject().getPk());
@@ -34,7 +33,7 @@ public class ComponentHelper {
 		}
 		entity.setName(form.getName());
 		entity.setCode(form.getCode());
-		
+
 		if (form.getProjectPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getProjectPk());
 			Project project = new Project();
@@ -50,6 +49,6 @@ public class ComponentHelper {
 		form.setName(entity.getName());
 		form.setCode(entity.getCode());
 		form.setProjectPk(entity.getProject().getPk().toString());
-	}	
+	}
 
 }

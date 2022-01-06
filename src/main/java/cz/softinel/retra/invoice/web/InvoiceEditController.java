@@ -14,30 +14,31 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 public class InvoiceEditController extends AbstractInvoiceFormController {
 
 	private InvoiceLogic invoiceLogic;
-	
+
 	public void onBindOnNewForm(Model model, RequestContext requestContext, Object command) throws Exception {
 		InvoiceForm invoiceForm = (InvoiceForm) command;
-		
+
 		String invoicePkStr = requestContext.getParameter("pk");
 		Long invoicePk = LongConvertor.getLongFromString(invoicePkStr);
 
 		Invoice invoice = invoiceLogic.get(invoicePk);
 		InvoiceHelper.entityToForm(invoice, invoiceForm);
 	}
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setInvoiceLogic(InvoiceLogic invoiceLogic) {
 		this.invoiceLogic = invoiceLogic;
-	}	
-	
+	}
+
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		model.put("isCodeGenerated", invoiceLogic.isCodeGenerated());
 		super.showForm(model, requestContext, errors);
-	}	
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+	}
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -59,6 +60,6 @@ public class InvoiceEditController extends AbstractInvoiceFormController {
 			}
 		}
 		return createModelAndView(view);
-	}	
+	}
 
 }

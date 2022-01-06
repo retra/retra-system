@@ -2,9 +2,9 @@ package cz.softinel.retra.jiraintegration;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 public class JiraHelperTest extends Assert {
 
@@ -22,5 +22,4 @@ public class JiraHelperTest extends Assert {
 		Assert.assertEquals(1, codes.size());
 	}
 
-	
 }

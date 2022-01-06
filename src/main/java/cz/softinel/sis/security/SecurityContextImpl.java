@@ -5,11 +5,11 @@ import cz.softinel.sis.user.User;
 public abstract class SecurityContextImpl implements SecurityContext {
 
 	private User loggedUser;
-	
+
 	public boolean isUserLoggedIn() {
 		return loggedUser != null;
 	}
-	
+
 	public User getLoggedUser() {
 		return loggedUser;
 	}
@@ -22,5 +22,13 @@ public abstract class SecurityContextImpl implements SecurityContext {
 	public void logout() {
 		loggedUser = null;
 	}
+
+	@Override
+	public String toString() {
+		return "(SecurityContextImpl: loggedUser="
+		+ (loggedUser != null ? loggedUser.toString() : "")
+		+ ")";
+	}
+
 	
 }

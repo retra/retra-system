@@ -14,23 +14,24 @@ public interface StateEntity extends Serializable {
 	 * Deleted state
 	 */
 	public static final int STATE_DELETED = 0;
-	
+
 	/**
 	 * Active state
 	 */
 	public static final int STATE_ACTIVE = 1;
-	
+
 	/**
 	 * Active state
 	 */
 	public static final int STATE_CLOSED = 100;
-	
+
 	/**
 	 * This method is used for get actual state
+	 * 
 	 * @return
 	 */
 	public int getState();
-	
+
 	/**
 	 * This method is used for set actual state.
 	 * 

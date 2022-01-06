@@ -10,11 +10,11 @@ import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
 
 public class InvoiceEditValidator extends InvoiceValidator implements Validator {
-	
-	protected void validateCodeUniqness(Errors errors, String code){		
+
+	protected void validateCodeUniqness(Errors errors, String code) {
 		String pk = (String) errors.getFieldValue("pk");
 		Long pkLong = LongConvertor.getLongFromString(pk);
-		
+
 		Employee employee = getSecurityLogic().getLoggedEmployee();
 
 		List<Invoice> invoices = getInvoiceLogic().findInvoicesForEmployeeWithCode(employee.getPk(), code);
@@ -29,6 +29,6 @@ public class InvoiceEditValidator extends InvoiceValidator implements Validator 
 
 	@Override
 	protected void validateSequence(Errors errors) {
-		//do nothing sequence on edit is not allowed
+		// do nothing sequence on edit is not allowed
 	}
 }

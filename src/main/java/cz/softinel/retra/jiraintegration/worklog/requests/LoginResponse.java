@@ -5,6 +5,7 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
 
 /**
  * Response to the login attempt.
+ * 
  * @author andy
  * @see LoginRequest
  */

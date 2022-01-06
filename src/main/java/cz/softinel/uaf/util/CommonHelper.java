@@ -9,9 +9,9 @@ public class CommonHelper {
 			return o1.equals(o2);
 		}
 	}
-	
+
 	public static boolean isNotEquals(Object o1, Object o2) {
-		return ! isEquals(o1, o2);
+		return !isEquals(o1, o2);
 	}
-	
+
 }

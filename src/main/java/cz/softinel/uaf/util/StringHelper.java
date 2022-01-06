@@ -8,9 +8,9 @@ public class StringHelper {
 		}
 		return string.trim().length() == 0;
 	}
-	
+
 	public static boolean notEmpty(final String string) {
-		return ! isEmpty(string);
+		return !isEmpty(string);
 	}
-	
+
 }

@@ -7,14 +7,14 @@ import java.util.LinkedList;
  * @deprecated
  */
 public class GroupedList {
-	
+
 	private LinkedList<GroupedListItem> list;
 	private GroupedItem summary;
 
 	public GroupedList() {
 		this.list = new LinkedList<GroupedListItem>();
 	}
-	
+
 //	private LinkedHashMap<Object, GroupedItem> list = new LinkedHashMap<Object, GroupedItem>();
 //
 //	public boolean add(Object key, GroupedItem item) {
@@ -125,7 +125,7 @@ public class GroupedList {
 	public GroupedItem getSummary() {
 		return summary;
 	}
-	
+
 	public void setSummary(GroupedItem summary) {
 		this.summary = summary;
 	}
@@ -133,5 +133,5 @@ public class GroupedList {
 	public LinkedList<GroupedListItem> getList() {
 		return list;
 	}
-	
+
 }

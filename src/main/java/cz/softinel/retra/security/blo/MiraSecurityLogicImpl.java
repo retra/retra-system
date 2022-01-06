@@ -4,6 +4,7 @@ import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.employee.blo.EmployeeLogic;
 import cz.softinel.retra.security.MiraSecurityContext;
 import cz.softinel.retra.security.MiraSecurityContextImpl;
+import cz.softinel.sis.log.aspect.DoNotLogArgs;
 import cz.softinel.sis.security.SecurityContext;
 import cz.softinel.sis.security.web.SecurityWebFilter;
 import cz.softinel.sis.security.web.WebSecurityLogicImpl;
@@ -14,7 +15,7 @@ public class MiraSecurityLogicImpl extends WebSecurityLogicImpl implements MiraS
 	public MiraSecurityLogicImpl() {
 		SecurityWebFilter.securityLogic = this;
 	}
-	
+
 	private EmployeeLogic employeeLogic;
 
 	// Configuration methods ...
@@ -22,54 +23,57 @@ public class MiraSecurityLogicImpl extends WebSecurityLogicImpl implements MiraS
 	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
 		this.employeeLogic = employeeLogic;
 	}
-	
+
 	// TODO ...
-	
+
 	@Override
 	public SecurityContext newSecurityContext() {
 		return new MiraSecurityContextImpl();
 	}
-	
+
 	public MiraSecurityContext getMiraSecurityContext() {
-		if (((MiraSecurityContext)getSecurityContext()).getLoggedEmployee()==null) {
-			((MiraSecurityContext)getSecurityContext()).setLoggedEmployee(getEmployee(getSecurityContext().getLoggedUser()));
+		if (((MiraSecurityContext) getSecurityContext()).getLoggedEmployee() == null) {
+			((MiraSecurityContext) getSecurityContext())
+					.setLoggedEmployee(getEmployee(getSecurityContext().getLoggedUser()));
 		}
 		return (MiraSecurityContext) getSecurityContext();
 	}
 
-	private Employee getEmployee(User user){
-		if(user == null){
+	private Employee getEmployee(User user) {
+		if (user == null) {
 			return null;
 		}
 		Employee employee = new Employee();
 		employee.setPk(user.getPk());
 		employeeLogic.loadAndLoadLazy(employee);
 		return employee;
-	}	
-	
-	private User loadEmployee(User user){
-		if(user == null){
+	}
+
+	private User loadEmployee(User user) {
+		if (user == null) {
 			return null;
 		}
-		//TODO: Use get method instead load
+		// TODO: Use get method instead load
 		Employee employee = new Employee();
 		employee.setPk(user.getPk());
 		employeeLogic.loadAndLoadLazy(employee);
 		// TODO: It is really necessary?
 		employee.setUser(user);
-		
+
 		// TODO: Find better solution ... set employee is not good method ...
 		MiraSecurityContext securityContext = getMiraSecurityContext();
 		securityContext.setLoggedEmployee(employee);
-		
+
 		return user;
 	}
 
+	@DoNotLogArgs(argIndexes = {1})
 	public User login(String loginName, String loginPassword) {
 		User user = super.login(loginName, loginPassword);
 		return loadEmployee(user);
 	}
 
+	@DoNotLogArgs(argIndexes = {0})
 	public User login(String permanentPassword) {
 		User user = super.login(permanentPassword);
 		return loadEmployee(user);
@@ -78,10 +82,10 @@ public class MiraSecurityLogicImpl extends WebSecurityLogicImpl implements MiraS
 	public Employee getLoggedEmployee() {
 		return getMiraSecurityContext().getLoggedEmployee();
 	}
-	
+
 	public void reloadLoggedEmployee() {
 		Employee loggedEmployee = getLoggedEmployee();
 		employeeLogic.loadAndLoadLazy(loggedEmployee);
 	}
-	
+
 }

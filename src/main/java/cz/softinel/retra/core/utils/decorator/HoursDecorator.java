@@ -22,9 +22,10 @@ import cz.softinel.retra.core.utils.TypeFormats;
  * @author Pavel Mueller
  */
 public class HoursDecorator implements DisplaytagColumnDecorator {
-	
+
 	/**
-	 * @see org.displaytag.decorator.DisplaytagColumnDecorator#decorate(java.lang.Object, javax.servlet.jsp.PageContext, org.displaytag.properties.MediaTypeEnum)
+	 * @see org.displaytag.decorator.DisplaytagColumnDecorator#decorate(java.lang.Object,
+	 *      javax.servlet.jsp.PageContext, org.displaytag.properties.MediaTypeEnum)
 	 */
 	public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException {
 		if (columnValue instanceof Number) {

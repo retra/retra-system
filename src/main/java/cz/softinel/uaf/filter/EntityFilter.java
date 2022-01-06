@@ -42,14 +42,16 @@ public abstract class EntityFilter implements Filter {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.filter.Filter#setFieldValue(java.lang.String, java.lang.String)
+	 * @see cz.softinel.uaf.filter.Filter#setFieldValue(java.lang.String,
+	 *      java.lang.String)
 	 */
 	public void setFieldValue(String key, String value) {
 		fieldsMap.put(key, value);
 	}
 
 	/**
-	 * Prepare map according to list of fields. Map is better for putting and getting filter fields.
+	 * Prepare map according to list of fields. Map is better for putting and
+	 * getting filter fields.
 	 * 
 	 * @param fields
 	 */

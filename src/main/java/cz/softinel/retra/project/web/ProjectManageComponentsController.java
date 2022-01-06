@@ -20,16 +20,16 @@ public class ProjectManageComponentsController extends AbstractProjectFormContro
 		getProjectLogic().loadAndLoadLazy(project);
 		ProjectHelper.entityToForm(project, projectForm);
 	}
-	
+
 	// Configuration setter methods ..
-	
+
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
-	}	
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
+	}
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
 		return createModelAndView(getSuccessView());
-	}	
-	
+	}
 
 }

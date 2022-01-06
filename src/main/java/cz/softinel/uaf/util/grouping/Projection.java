@@ -11,20 +11,20 @@ public class Projection {
 	private GroupingMap groupingMap;
 	private GroupingKey projectionKey;
 	private int projectionDimension;
-	
+
 	public Projection(GroupingMap groupingMap, int projectionDimension) {
 		this.groupingMap = groupingMap;
 		this.projectionKey = new GroupingKey(groupingMap.getDimension());
 		this.projectionDimension = projectionDimension;
 	}
-	
+
 	public Projection(ProjectionListItem projectionListItem, int projectionDimension) {
 		this.groupingMap = projectionListItem.getProjection().groupingMap;
 		// TODO radek: implement it
 		this.projectionKey = new GroupingKey(projectionListItem.getGroupingKey());
 		this.projectionDimension = projectionDimension;
 	}
-	
+
 	private class ProjectionListItemComparator implements Comparator<ProjectionListItem> {
 		@SuppressWarnings("unchecked")
 		public int compare(ProjectionListItem o1, ProjectionListItem o2) {
@@ -42,10 +42,10 @@ public class Projection {
 			return kk1.compareTo(kk2);
 		}
 	}
-	
+
 	public ProjectionList getList() {
 		ProjectionList projectionList = new ProjectionList();
-		// Create key for projection mask 
+		// Create key for projection mask
 		GroupingKey keyMask = new GroupingKey(projectionKey);
 		keyMask.setKey(projectionDimension, "FAKE");
 		int mask = keyMask.getMask();
@@ -65,12 +65,12 @@ public class Projection {
 		projectionList.toArray(projectionListItems);
 		Arrays.sort(projectionListItems, new ProjectionListItemComparator());
 		projectionList.clear();
-		for (int i=0; i<projectionListItems.length; i++) {
+		for (int i = 0; i < projectionListItems.length; i++) {
 			projectionList.add(projectionListItems[i]);
 		}
 		return projectionList;
 	}
-	
+
 	public List<Object> getKeyList() {
 		ProjectionList projectionList = getList();
 		List<Object> keyList = new LinkedList<Object>();
@@ -79,17 +79,15 @@ public class Projection {
 		}
 		return keyList;
 	}
-	
-	
+
 	@Override
 	public String toString() {
 		return "Projection: " + getList();
 	}
-	
-	
+
 	/** @deprecated */
 	public GroupedItem getSummary() {
 		return this.groupingMap.get(this.projectionKey);
 	}
-	
+
 }

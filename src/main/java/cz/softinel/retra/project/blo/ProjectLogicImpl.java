@@ -9,9 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cz.softinel.retra.core.blo.AbstractLogicBean;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.dao.ProjectDao;
-import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.uaf.filter.Filter;
-
 
 /**
  * Implementation of project logic
@@ -22,7 +20,7 @@ import cz.softinel.uaf.filter.Filter;
 public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic {
 
 	private ProjectDao projectDao;
-	
+
 	/**
 	 * @return the projectDao
 	 */
@@ -40,7 +38,7 @@ public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic 
 	/**
 	 * @see cz.softinel.retra.project.blo.ProjectLogic#findAllProjects()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Project> findAllProjects() {
 		return projectDao.selectAll();
 	}
@@ -48,33 +46,33 @@ public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic 
 	/**
 	 * @see cz.softinel.retra.project.blo.ProjectLogic#findAllNotDeletedProjects()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Project> findAllNotDeletedProjects() {
 		return projectDao.selectAllNotDeleted();
 	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Project> findAllActiveProjects() {
 		return projectDao.selectByState(Project.STATE_ACTIVE);
 	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Project> findAllProjectsInWhichCouldDoWorkLog() {
-		List<Project> projects=projectDao.selectByState(Project.STATE_ACTIVE);
-		List<Project> onlyWhichCouldDoWorkLog=new ArrayList<Project>();
-		for (Project p:projects) {
+		List<Project> projects = projectDao.selectByState(Project.STATE_ACTIVE);
+		List<Project> onlyWhichCouldDoWorkLog = new ArrayList<Project>();
+		for (Project p : projects) {
 			if (Boolean.TRUE.equals(p.getWorkEnabled())) {
 				onlyWhichCouldDoWorkLog.add(p);
 			}
 		}
 		return onlyWhichCouldDoWorkLog;
-	}	
+	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Project> findByFilter(Filter filter) {
 		return projectDao.selectByFilter(filter);
 	}
-	
+
 	public Project create(Project project) {
 		// Business validation ...
 		// TODO: Duplicit name ...
@@ -94,12 +92,12 @@ public class ProjectLogicImpl extends AbstractLogicBean implements ProjectLogic 
 	public Project get(Long pk) {
 		return projectDao.get(pk);
 	}
-	
+
 	public void loadAndLoadLazy(Project project) {
 		projectDao.loadAndLoadLazy(project);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Project project) {
 		projectDao.update(project);
 	}

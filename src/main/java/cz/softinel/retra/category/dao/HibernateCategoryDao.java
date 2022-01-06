@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import cz.softinel.retra.category.Category;
 
 /**
- * This class is hibernate dependent implementation of CategoryDao  
+ * This class is hibernate dependent implementation of CategoryDao
  *
  * @version $Revision: 1.4 $ $Date: 2007-04-03 07:55:39 $
  * @author Petr Sígl
@@ -27,10 +27,10 @@ public class HibernateCategoryDao extends HibernateDaoSupport implements Categor
 		Category category = (Category) getHibernateTemplate().get(Category.class, pk);
 		return category;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.category.dao.CategoryDao#insert(cz.softinel.retra.category.Category)
-	 */	
+	 */
 	public Category insert(Category category) {
 		getHibernateTemplate().save(category);
 		return category;
@@ -47,10 +47,10 @@ public class HibernateCategoryDao extends HibernateDaoSupport implements Categor
 	 * @see cz.softinel.retra.category.dao.CategoryDao#delete(cz.softinel.retra.category.Category)
 	 */
 	public void delete(Category category) {
-		//TODO: is there some better way, to do delete - without load?
-		//must be at first loaded
+		// TODO: is there some better way, to do delete - without load?
+		// must be at first loaded
 		load(category);
-		//than deleted
+		// than deleted
 		getHibernateTemplate().delete(category);
 	}
 
@@ -69,20 +69,19 @@ public class HibernateCategoryDao extends HibernateDaoSupport implements Categor
 	@SuppressWarnings("unchecked")
 	public List<Category> selectAllNotDeleted() {
 
-		Object[] states = new Object[] {Category.STATE_DELETED}; 
+		Object[] states = new Object[] { Category.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Category.selectAllWithoutStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
-	
+
 	/**
 	 * @see cz.softinel.retra.category.dao.CategoryDao#load(cz.softinel.retra.category.Category)
 	 */

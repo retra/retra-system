@@ -20,74 +20,85 @@ import cz.softinel.sis.user.User;
 public class Employee implements Serializable {
 
 	private Long pk;
-	
+
 	private Boolean worklog;
 	private Boolean igenerate;
-	
+
 	private User user;
 	private Icompany icompany;
-	
+
 	private Set<Project> projects;
-	
+
 	// Business fields ...
-	
+
 	// Getter and Setters ...
-	
+
 	/**
 	 * @return Returns the pk.
 	 */
 	public Long getPk() {
 		return pk;
 	}
+
 	/**
 	 * @param pk The pk to set.
 	 */
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
+
 	public Boolean getWorklog() {
 		return worklog;
 	}
+
 	public void setWorklog(Boolean worklog) {
 		this.worklog = worklog;
 	}
+
 	public Boolean getIgenerate() {
 		return igenerate;
 	}
+
 	public void setIgenerate(Boolean igenerate) {
 		this.igenerate = igenerate;
 	}
+
 	public Icompany getIcompany() {
 		return icompany;
 	}
+
 	public void setIcompany(Icompany icompany) {
 		this.icompany = icompany;
 	}
+
 	/**
 	 * @return Returns the user.
 	 */
 	public User getUser() {
 		return user;
 	}
+
 	/**
 	 * @param user The user to set.
 	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	/**
 	 * @return Returns the projects of the user
 	 */
 	public Set<Project> getProjects() {
 		return projects;
 	}
+
 	/**
 	 * @param projects Projects of the user to set.
 	 */
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -97,7 +108,7 @@ public class Employee implements Serializable {
 		}
 		return this.pk.hashCode();
 	}
-	
+
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
@@ -114,13 +125,16 @@ public class Employee implements Serializable {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Employee: pk=" + pk + 
-				", name=" + (user != null && user.getContactInfo() != null ? user.getContactInfo().getFirstName() + " " + user.getContactInfo().getLastName() : "") + ")";
+		return "(Employee: pk=" + pk + ", name="
+				+ (user != null && user.getContactInfo() != null
+						? user.getContactInfo().getFirstName() + " " + user.getContactInfo().getLastName()
+						: "")
+				+ ")";
 	}
-	
+
 }

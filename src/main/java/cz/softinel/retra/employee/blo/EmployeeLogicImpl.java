@@ -18,15 +18,15 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 
 	private EmployeeDao employeeDao;
 	private EmployeeDao employeeJdbcDao;
-	
+
 	private UserLogic userLogic;
-	
+
 	// Configuration setters ...
-	
+
 	public void setEmployeeDao(EmployeeDao employeeDao) {
 		this.employeeDao = employeeDao;
 	}
-	
+
 	public void setEmployeeJdbcDao(EmployeeDao employeeJdbcDao) {
 		this.employeeJdbcDao = employeeJdbcDao;
 	}
@@ -36,9 +36,12 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 	}
 
 	// Logic implementation ...
-	
-	/** @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployees(boolean, boolean) */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	/**
+	 * @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployees(boolean,
+	 *      boolean)
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Employee> getAllEmployees(final boolean onlyActive, final boolean onlyWorkLogging) {
 		return employeeDao.findAll(onlyActive, onlyWorkLogging);
 	}
@@ -46,36 +49,39 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 	public List<Employee> getAllEmployeesForGeneratingInvoice() {
 		return employeeDao.findAllForGenerate();
 	}
-	
-	/** @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployeesNotFull(boolean, boolean) */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	/**
+	 * @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployeesNotFull(boolean,
+	 *      boolean)
+	 */
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Employee> getAllEmployeesNotFull(final boolean onlyActive, final boolean onlyWorkLogging) {
 		return employeeJdbcDao.findAll(onlyActive, onlyWorkLogging);
 	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void load(Employee employee) {
 		employeeDao.load(employee);
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void loadAndLoadLazy(Employee employee) {
 		employeeDao.loadAndLoadLazy(employee);
 	}
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Employee get(Long pk) {
 		Employee employee = employeeDao.get(pk);
 		return employee;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Employee getNotFull(Long pk) {
 		Employee employee = employeeJdbcDao.get(pk);
 		return employee;
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Employee create(Employee employee) {
 		// Business validation ...
 		// TODO: Duplicit name ...
@@ -85,8 +91,8 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 		employee.setPk(employee.getUser().getPk());
 		return employeeDao.insert(employee);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Employee employee) {
 		employeeDao.update(employee);
 	}

@@ -24,7 +24,6 @@ public abstract class ReadOnlyMap<K, V> implements Map<K, V> {
 		throw new UnsupportedOperationException("This imethod is not implementd.");
 	}
 
-
 	public boolean isEmpty() {
 		throw new UnsupportedOperationException("This imethod is not implementd.");
 	}

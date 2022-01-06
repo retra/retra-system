@@ -23,9 +23,10 @@ public class WorklogCookieHelper extends AbstractCookieHelper {
 	private static final String COOKIE_NAME_WORKLOG_ACTIVITY = "retra.worklogForm.activity";
 	private static final String COOKIE_NAME_WORKLOG_FROM = "retra.worklogForm.from";
 	private static final String COOKIE_NAME_WORKLOG_INVOICE = "retra.worklogForm.invoice";
-	
+
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@SuppressWarnings("unchecked")
 	public void addToCookies(Object commandForm, RequestContext requestContext) {
@@ -35,13 +36,14 @@ public class WorklogCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse, java.util.Map)
 	 */
 	public void addToCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		WorklogForm worklog = (WorklogForm) commandForm;
 		boolean addAlsoFrom = false;
-		if (helpParameters != null){
-			Boolean helpParam = (Boolean)helpParameters.get(WorklogHelper.HELP_COOKIE_PARAM_ADD_ALSO_FROM);
+		if (helpParameters != null) {
+			Boolean helpParam = (Boolean) helpParameters.get(WorklogHelper.HELP_COOKIE_PARAM_ADD_ALSO_FROM);
 			if (helpParam != null) {
 				addAlsoFrom = helpParam.booleanValue();
 			}
@@ -52,7 +54,7 @@ public class WorklogCookieHelper extends AbstractCookieHelper {
 		createAndAddCookie(COOKIE_NAME_WORKLOG_ACTIVITY, worklog.getActivity(), requestContext);
 		createAndAddCookie(COOKIE_NAME_WORKLOG_INVOICE, worklog.getInvoice(), requestContext);
 		if (addAlsoFrom) {
-			//from is for next worklog item to
+			// from is for next worklog item to
 			createAndAddCookie(COOKIE_NAME_WORKLOG_FROM, worklog.getWorkTo(), requestContext);
 		} else {
 			createAndAddCookie(COOKIE_NAME_WORKLOG_FROM, "", requestContext);
@@ -60,48 +62,50 @@ public class WorklogCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext) {
 		importFromCookies(commandForm, requestContext, null);
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest, java.util.Map)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		WorklogForm worklog = (WorklogForm) commandForm;
 		Cookie[] cookies = requestContext.getCookies();
-		if (cookies != null){
-			for (Cookie cookie: cookies){
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				String value = cookie.getValue();
-				if (COOKIE_NAME_WORKLOG_DATE.equals(name)){
+				if (COOKIE_NAME_WORKLOG_DATE.equals(name)) {
 					worklog.setDate(value);
 					continue;
 				}
-				if (COOKIE_NAME_WORKLOG_PROJECT.equals(name)){
+				if (COOKIE_NAME_WORKLOG_PROJECT.equals(name)) {
 					worklog.setProject(value);
 					continue;
 				}
-				if (COOKIE_NAME_WORKLOG_COMPONENT.equals(name)){
+				if (COOKIE_NAME_WORKLOG_COMPONENT.equals(name)) {
 					worklog.setComponent(value);
 					continue;
 				}
-				if (COOKIE_NAME_WORKLOG_ACTIVITY.equals(name)){
+				if (COOKIE_NAME_WORKLOG_ACTIVITY.equals(name)) {
 					worklog.setActivity(value);
 					continue;
 				}
-				if (COOKIE_NAME_WORKLOG_FROM.equals(name)){
+				if (COOKIE_NAME_WORKLOG_FROM.equals(name)) {
 					worklog.setWorkFrom(value);
 					continue;
 				}
-				if (COOKIE_NAME_WORKLOG_INVOICE.equals(name)){
+				if (COOKIE_NAME_WORKLOG_INVOICE.equals(name)) {
 					worklog.setInvoice(value);
 					continue;
 				}
 			}
-		}	
+		}
 	}
 
 	/**
@@ -112,7 +116,8 @@ public class WorklogCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#cleanCookies(javax.servlet.http.HttpServletResponse, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#cleanCookies(javax.servlet.http.HttpServletResponse,
+	 *      java.util.Map)
 	 */
 	public void cleanCookies(RequestContext requestContext, Map helpParameters) {
 		createAndAddCookie(COOKIE_NAME_WORKLOG_FROM, "", requestContext);

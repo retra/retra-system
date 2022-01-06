@@ -1,8 +1,6 @@
 package cz.softinel.retra.component.web;
 
-
 import org.springframework.validation.BindException;
-
 import org.springframework.web.servlet.ModelAndView;
 
 import cz.softinel.retra.component.Component;
@@ -20,17 +18,17 @@ public class ComponentCreateController extends FormController {
 
 	private ComponentLogic componentLogic;
 	private ProjectLogic projectLogic;
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setComponentLogic(ComponentLogic componentLogic) {
 		this.componentLogic = componentLogic;
-	}	
-	
+	}
+
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
-	}	
-	
+	}
+
 	public void onBindOnNewForm(Model model, RequestContext requestContext, Object command) throws Exception {
 		ComponentForm componentForm = (ComponentForm) command;
 		String projectPkStr = requestContext.getParameter("projectPk");
@@ -39,21 +37,22 @@ public class ComponentCreateController extends FormController {
 		Project project = projectLogic.get(projectPk);
 		component.setProject(project);
 		ComponentHelper.entityToForm(component, componentForm);
-		
+
 	}
-	
+
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
-	}	
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+	}
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		// Prepare form ...
 		final ComponentForm form = (ComponentForm) command;
 		final int action = getAction();
 		final String view = getSuccessView();
 		final String projectPk;
-		
+
 		if (action == ACTION_SAVE) {
 			// Prepare entities ...
 			Component component = new Component();
@@ -61,13 +60,13 @@ public class ComponentCreateController extends FormController {
 			ComponentHelper.formToEntity(form, component);
 
 			componentLogic.create(component);
-			
+
 			projectPk = component.getProject().getPk().toString();
-			
+
 			// Some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), form);
-				return new ModelAndView(view,"pk",projectPk);
+				return new ModelAndView(view, "pk", projectPk);
 			} else {
 				requestContext.addRedirectIgnoreInfo(new Message("projectManagement.createComponent.success"));
 			}
@@ -75,9 +74,9 @@ public class ComponentCreateController extends FormController {
 			// Cancel action ...
 			projectPk = form.getProjectPk();
 		}
-		
+
 		return new ModelAndView(view, "pk", projectPk);
-		
+
 	}
-	
+
 }

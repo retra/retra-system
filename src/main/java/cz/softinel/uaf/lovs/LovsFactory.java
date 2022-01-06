@@ -9,8 +9,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.core.io.Resource;
@@ -24,19 +24,19 @@ import cz.softinel.uaf.messages.Message;
  * @author Petr Sígl
  */
 public final class LovsFactory extends ApplicationObjectSupport {
-	//logger
-	private static Log logger = LogFactory.getLog(LovsFactory.class);
-	
-	//private lov files
+	// logger
+	private static Logger logger = LoggerFactory.getLogger(LovsFactory.class);
+
+	// private lov files
 	private List<String> lovFiles;
-	
-	//singleton of this class
+
+	// singleton of this class
 	private static LovsFactory lovsFactory = new LovsFactory();
-	
-	//private variables
+
+	// private variables
 	private Lovs lovs;
 	private Map<String, Lov> lovsInMap;
-	
+
 	/**
 	 * Private constructor for lovsFactory
 	 */
@@ -68,12 +68,12 @@ public final class LovsFactory extends ApplicationObjectSupport {
 	public static LovsFactory getInstance() {
 		return lovsFactory;
 	}
-	
+
 	/**
 	 * Return list of values according to code.
 	 *
 	 * @param code
-	 * @param context 
+	 * @param context
 	 * @return
 	 */
 	public Lov getLov(String code, ApplicationContext applicationContext) {
@@ -81,47 +81,48 @@ public final class LovsFactory extends ApplicationObjectSupport {
 			lovs = new Lovs();
 			loadListOfValues();
 		}
-		
+
 		Lov lov = lovsInMap.get(code);
 		if (lov == null || lov.getFields() != null) {
-			throw new RuntimeException("Missing LOV for code: " + code); 
+			throw new RuntimeException("Missing LOV for code: " + code);
 		}
 		// TODO: Check ... it is good solution?
-		// FIXME: siglp - I think this is not good way, because of calling everytime, when lov needed. I think
-		// better is to have only keys to resource bundles and where I need label (jsp, tag etc.) I can take it from resource bundle 
+		// FIXME: siglp - I think this is not good way, because of calling everytime,
+		// when lov needed. I think
+		// better is to have only keys to resource bundles and where I need label (jsp,
+		// tag etc.) I can take it from resource bundle
 		for (LovField lovField : lov.getFields()) {
 			Message message = new Message(lovField.getKey());
-			String label = applicationContext.getMessage(message.getValueOrKey(), message.getParameters(), message.getDefaultValue(), message.getLocale());
+			String label = applicationContext.getMessage(message.getValueOrKey(), message.getParameters(),
+					message.getDefaultValue(), message.getLocale());
 			lovField.setLabel(label);
 		}
-		
+
 		return lov;
-		
+
 	}
 
 	/**
 	 * Load all list of values.
 	 */
 	private void loadListOfValues() {
-		for (String fileName : lovFiles ) {
+		for (String fileName : lovFiles) {
 			Resource resource = getApplicationContext().getResource(fileName);
-			//try to load from xml
+			// try to load from xml
 			try {
 				JAXBContext jc = JAXBContext.newInstance("cz.softinel.uaf.lovs");
 				Unmarshaller u = jc.createUnmarshaller();
-				Lovs loadedLovs = (Lovs)u.unmarshal(resource.getFile());
+				Lovs loadedLovs = (Lovs) u.unmarshal(resource.getFile());
 				lovs.addLovs(loadedLovs.getLovs());
-			}
-			catch (JAXBException e) {
+			} catch (JAXBException e) {
 				logger.warn("Couldn't load list of values file: " + fileName + ". ", e);
-			}
-			catch (IOException e) {
+			} catch (IOException e) {
 				logger.warn("Couldn't load list of values file: " + fileName + ". ", e);
 			}
 		}
 		lovsInMap = createLovMap(lovs);
 	}
-	
+
 	/**
 	 * Create map of list of values, where key is lov-code and value is lov.
 	 * 
@@ -132,7 +133,7 @@ public final class LovsFactory extends ApplicationObjectSupport {
 		Map<String, Lov> map = null;
 		if (lovs != null) {
 			map = new HashMap<String, Lov>();
-			for (Lov lov: lovs.getLovs()) {
+			for (Lov lov : lovs.getLovs()) {
 				map.put(lov.getCode(), lov);
 			}
 		}

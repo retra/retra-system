@@ -9,8 +9,8 @@ import java.util.List;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.sun.jersey.api.client.Client;
@@ -24,13 +24,13 @@ import cz.softinel.uaf.ssl.SSLTool;
 
 public class JiraConnector implements InitializingBean {
 
-	protected Log logger = LogFactory.getLog(this.getClass());
-	
-	private SimpleDateFormat jiraDateFormat; 
-	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	private SimpleDateFormat jiraDateFormat;
+
 	private JiraConfig jiraConfig;
 	private Client client;
-	
+
 	public JiraConfig getJiraConfig() {
 		return jiraConfig;
 	}
@@ -44,25 +44,26 @@ public class JiraConnector implements InitializingBean {
 		config.getFeatures().put(JSONConfiguration.FEATURE_POJO_MAPPING, Boolean.TRUE);
 		client = Client.create(config);
 		client.addFilter(new HTTPBasicAuthFilter(jiraConfig.getUser(), jiraConfig.getPassword()));
-		
-		//siglp: hack
+
+		// siglp: hack
 		SSLTool.disableCertificateValidation();
-		
-		//date format
+
+		// date format
 		jiraDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 	}
-	
+
 	public List<JiraIssue> findIssuesForWorklog(final String loginName) {
-		String jql = "status NOT IN (Done, Closed) AND assignee =" + loginName + " OR (watcher = " + loginName + " AND labels in (STANDUP, CONSULT, ADMIN))";
+		String jql = "status NOT IN (Done, Closed) AND assignee =" + loginName + " OR (watcher = " + loginName
+				+ " AND labels in (STANDUP, CONSULT, ADMIN))";
 		List<JiraIssue> result = findIssues(jql);
 		return result;
 	}
 
 	public JiraIssue getJiraIssue(final String issueKey) {
 		try {
-			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "?fields=id,key,summary";
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey
+					+ "?fields=id,key,summary";
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
 					.get(ClientResponse.class);
 			if (response.getStatus() != 200) {
 				return null;
@@ -74,21 +75,17 @@ public class JiraConnector implements InitializingBean {
 			return null;
 		}
 	}
-	
-	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final Long worklogPk) {
+
+	public boolean addWorklog(final String issueKey, final Date started, final long duration, final String loginName,
+			final String comment, final Long worklogPk) {
 		try {
 			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
 			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, null, worklogPk);
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
-					.type(MediaType.APPLICATION_JSON_TYPE)		
-					.header("sudo", loginName)
-					.post(
-							ClientResponse.class,
-							data
-					);
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
+					.type(MediaType.APPLICATION_JSON_TYPE).header("sudo", loginName).post(ClientResponse.class, data);
 			if (response.getStatus() != 201) {
-				logger.error("Couldn't write worklog for user: " + loginName + ", response status code: " + response.getStatus());
+				logger.error("Couldn't write worklog for user: " + loginName + ", response status code: "
+						+ response.getStatus());
 				return false;
 			}
 			return true;
@@ -97,19 +94,15 @@ public class JiraConnector implements InitializingBean {
 			return false;
 		}
 	}
-	
-	public boolean updateWorklog(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id, final Long worklogPk) {
+
+	public boolean updateWorklog(final String issueKey, final Date started, final long duration, final String loginName,
+			final String comment, final String id, final Long worklogPk) {
 		try {
-			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/"
+					+ id;
 			final String data = getAddWorklogString(issueKey, started, duration, loginName, comment, id, worklogPk);
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
-					.type(MediaType.APPLICATION_JSON_TYPE)		
-					.header("sudo", loginName)
-					.put(
-							ClientResponse.class,
-							data
-					);
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
+					.type(MediaType.APPLICATION_JSON_TYPE).header("sudo", loginName).put(ClientResponse.class, data);
 			if (response.getStatus() != 200) {
 				return false;
 			}
@@ -122,12 +115,10 @@ public class JiraConnector implements InitializingBean {
 
 	public boolean deleteWorklog(final String issueKey, final String id) {
 		try {
-			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/" + id;
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
-					.delete(
-							ClientResponse.class
-					);
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog/"
+					+ id;
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
+					.delete(ClientResponse.class);
 			if (response.getStatus() != 204) {
 				return false;
 			}
@@ -137,35 +128,32 @@ public class JiraConnector implements InitializingBean {
 			return false;
 		}
 	}
-	
-	public String findWorklogId(final String issueKey, final Date started, final long duration, final String loginName, final String comment) {
+
+	public String findWorklogId(final String issueKey, final Date started, final long duration, final String loginName,
+			final String comment) {
 		try {
 			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "issue/" + issueKey + "/worklog";
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
 					.get(ClientResponse.class);
 			if (response.getStatus() != 200) {
 				return null;
 			}
 			final JiraWorklogsResult searchResult = response.getEntity(JiraWorklogsResult.class);
 			final List<JiraWorklog> worklogs = searchResult.getWorklogs();
-	
+
 			String result = null;
 			if (worklogs != null && !worklogs.isEmpty()) {
 				for (JiraWorklog jw : worklogs) {
 					try {
-						if (jw.getAuthor() != null && jw.getAuthor().getName() != null
-							&& jw.getStarted() != null
-							&& jw.getTimeSpentSeconds() != null) {
-							
+						if (jw.getAuthor() != null && jw.getAuthor().getName() != null && jw.getStarted() != null
+								&& jw.getTimeSpentSeconds() != null) {
+
 							Date startedDate = jiraDateFormat.parse(jw.getStarted());
 							long timeSpent = Long.parseLong(jw.getTimeSpentSeconds());
 							String author = jw.getAuthor().getName();
-							
-							if (startedDate.equals(started)
-								&& timeSpent == duration
-								&& author.equals(loginName)) {
-	
+
+							if (startedDate.equals(started) && timeSpent == duration && author.equals(loginName)) {
+
 								result = jw.getId();
 								break;
 							}
@@ -175,19 +163,19 @@ public class JiraConnector implements InitializingBean {
 					}
 				}
 			}
-			
+
 			return result;
 		} catch (Exception e) {
 			logger.error("Problem with Jira connect.", e);
 			return null;
 		}
 	}
-	
+
 	private List<JiraIssue> findIssues(final String query) {
 		try {
-			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath() + "search?fields=id,key,summary&maxResults=100&jql=" + urlEncode(query);
-			final ClientResponse response = client.resource(url)
-					.accept(MediaType.APPLICATION_JSON_TYPE)
+			final String url = jiraConfig.getBaseUrl() + jiraConfig.getRestPath()
+					+ "search?fields=id,key,summary&maxResults=100&jql=" + urlEncode(query);
+			final ClientResponse response = client.resource(url).accept(MediaType.APPLICATION_JSON_TYPE)
 					.get(ClientResponse.class);
 			if (response.getStatus() != 200) {
 				return null;
@@ -200,7 +188,7 @@ public class JiraConnector implements InitializingBean {
 			return null;
 		}
 	}
-	
+
 	private String urlEncode(final String string) {
 		try {
 			return URLEncoder.encode(string, "UTF-8");
@@ -208,7 +196,7 @@ public class JiraConnector implements InitializingBean {
 			return string;
 		}
 	}
-	
+
 	protected String buildJiraComment(final Long worklogPk, final String loginName, final String clearComment) {
 		final StringBuilder result = new StringBuilder();
 //		result.append(loginName);
@@ -222,9 +210,10 @@ public class JiraConnector implements InitializingBean {
 		result.append(clearComment);
 		return result.toString();
 	}
-	
-	private String getAddWorklogString(final String issueKey, final Date started, final long duration, final String loginName, final String comment, final String id, final Long worklogPk) {
-		String startedStr = jiraDateFormat.format(started); 
+
+	private String getAddWorklogString(final String issueKey, final Date started, final long duration,
+			final String loginName, final String comment, final String id, final Long worklogPk) {
+		String startedStr = jiraDateFormat.format(started);
 		String clearComment = clearComment(comment);
 		String jiraComment = buildJiraComment(worklogPk, loginName, clearComment);
 		StringBuilder sb = new StringBuilder();

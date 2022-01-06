@@ -34,7 +34,7 @@ public interface ScheduleLogic {
 	public List<Schedule> findByFilter(Filter filter);
 
 	public List<ScheduleWeekOverview> findWeekOverviews(Filter filter);
-	
+
 	/**
 	 * Creates schedule
 	 * 
@@ -78,9 +78,10 @@ public interface ScheduleLogic {
 	 * @param schedule
 	 */
 	public void copyDay(Employee employee, Date source, Date destinationFrom, Date destinationTo);
-	
+
 	/**
-	 * Create copy of schedule according to given date (take whole week) to destination
+	 * Create copy of schedule according to given date (take whole week) to
+	 * destination
 	 * 
 	 * @param schedule
 	 */

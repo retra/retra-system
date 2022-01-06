@@ -6,7 +6,7 @@ public class GroupedItem {
 	private float sum;
 	private float min;
 	private float max;
-	
+
 	public GroupedItem() {
 		count = 0;
 	}
@@ -27,7 +27,7 @@ public class GroupedItem {
 			max = Math.max(max, number);
 		}
 	}
-	
+
 	public void add(GroupedItem item) {
 		if (count == 0) {
 			count = item.count;
@@ -66,17 +66,17 @@ public class GroupedItem {
 		}
 		return null;
 	}
-	
+
 	public Float getAvarage() {
 		if (count > 0) {
 			return sum / count;
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "<"+count+","+sum+">";
+		return "<" + count + "," + sum + ">";
 	}
-	
+
 }

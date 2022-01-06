@@ -69,4 +69,11 @@ public class JiraWorklog implements Serializable {
 		this.author = author;
 	}
 
+	public String toString() {
+		return "(JiraWorklog: id=" + id + ", timeSpentSeconds=" + timeSpentSeconds + ", started=" + started
+				+ ", comment=" + comment + ", author="
+				+ (author != null ? author.getName() : "")
+				+ ")";
+	}
+	
 }

@@ -5,20 +5,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.util.StringUtils;
 
 /**
- * This is global class for messages. 
- * It contains infos, warnings, errors and method for adding this messages to it.
+ * This is global class for messages. It contains infos, warnings, errors and
+ * method for adding this messages to it.
  * 
  * @version $Revision: 1.4 $ $Date: 2007-02-23 12:16:27 $
  * @author Petr Sígl
  */
 public class Messages implements Serializable {
-	private Log logger = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	private static final long serialVersionUID = 5619002213069950694L;
 
@@ -157,7 +157,8 @@ public class Messages implements Serializable {
 	}
 
 	/**
-	 * This method add message into list and during adding it convert it - means get from resources, replace parameters etc.
+	 * This method add message into list and during adding it convert it - means get
+	 * from resources, replace parameters etc.
 	 * 
 	 * @param destination
 	 * @param message
@@ -168,7 +169,8 @@ public class Messages implements Serializable {
 			String text = null;
 			// try to get message from resource and replace parameters
 			try {
-				text = messageSource.getMessage(message.getValueOrKey(), message.getParameters(), message.getDefaultValue(), message.getLocale());
+				text = messageSource.getMessage(message.getValueOrKey(), message.getParameters(),
+						message.getDefaultValue(), message.getLocale());
 			}
 			// could not find it in resource, never mind
 			catch (Exception e) {
@@ -205,7 +207,7 @@ public class Messages implements Serializable {
 			addMessage(destination, message);
 		}
 	}
-	
+
 	public boolean hasErrors() {
 		return errors.size() > 0;
 	}
@@ -217,11 +219,11 @@ public class Messages implements Serializable {
 	public boolean hasInfos() {
 		return infos.size() > 0;
 	}
-	
+
 	public boolean hasWarningsOrErrors() {
 		return hasErrors() || hasWarnings();
 	}
-	
+
 	public boolean hasSomeMessage() {
 		return hasErrors() || hasWarnings() || hasInfos();
 	}

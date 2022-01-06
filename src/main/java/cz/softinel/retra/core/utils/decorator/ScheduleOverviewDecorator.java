@@ -13,17 +13,16 @@ import org.displaytag.properties.MediaTypeEnum;
 import cz.softinel.retra.schedule.Schedule;
 import cz.softinel.retra.type.Type;
 
-public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator{
-	
+public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator {
+
 	private DateFormat dateFormat;
 	private HourDecorator hourDecorator;
 
-	
 	public ScheduleOverviewDecorator() {
 		dateFormat = new SimpleDateFormat("d");
 		hourDecorator = new HourDecorator();
 	}
-	
+
 	public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException {
 		Object result = columnValue;
 		if (columnValue != null && columnValue instanceof Schedule) {
@@ -33,10 +32,10 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator{
 			if (date != null) {
 				dateStr = dateFormat.format(date);
 			}
-			String hourFrom = (String)hourDecorator.decorate(schedule.getWorkFrom(), pageContext, media);
-			String hourTo = (String)hourDecorator.decorate(schedule.getWorkTo(), pageContext, media);
+			String hourFrom = (String) hourDecorator.decorate(schedule.getWorkFrom(), pageContext, media);
+			String hourTo = (String) hourDecorator.decorate(schedule.getWorkTo(), pageContext, media);
 			String sign = "-";
-			if (hourFrom == null || hourTo == null){
+			if (hourFrom == null || hourTo == null) {
 				hourFrom = "";
 				hourTo = "";
 				sign = "";
@@ -51,7 +50,7 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator{
 				comment = "";
 			}
 			Long pk = schedule.getPk();
-			
+
 			if (media == MediaTypeEnum.HTML) {
 				StringBuffer sb = new StringBuffer("<div class=\"right\">");
 				sb.append(dateStr);
@@ -77,8 +76,7 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator{
 				sb.append("</div>");
 
 				result = sb.toString();
-			}
-			else {
+			} else {
 				StringBuffer sb = new StringBuffer("");
 				sb.append(dateStr);
 				sb.append(" \n");
@@ -95,10 +93,10 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator{
 
 				result = sb.toString();
 			}
-			
+
 		}
 
-		//not schedule return it as it comes
+		// not schedule return it as it comes
 		return result;
-	}	
+	}
 }

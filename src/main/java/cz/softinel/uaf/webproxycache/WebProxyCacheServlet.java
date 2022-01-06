@@ -14,12 +14,13 @@ import cz.softinel.uaf.util.StreamHelper;
 public class WebProxyCacheServlet extends HttpServlet {
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		String url = request.getParameter("url");
 		WebProxyCache webProxyCache = WebProxyCache.getInstance();
 		Content content = webProxyCache.getContent(url);
 		File file = content.getContent();
 		long length = StreamHelper.copy(new FileInputStream(file), response.getOutputStream());
-		response.setContentLength((int)length);
+		response.setContentLength((int) length);
 	}
 }

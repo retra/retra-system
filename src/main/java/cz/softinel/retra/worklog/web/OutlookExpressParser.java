@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.worklog.Worklog;
@@ -25,7 +26,7 @@ import cz.softinel.retra.worklog.Worklog;
  */
 public class OutlookExpressParser extends LineBasedParser {
 
-	private static Logger logger = Logger.getLogger(OutlookExpressParser.class);
+	private static Logger logger = LoggerFactory.getLogger(OutlookExpressParser.class);
 
 	private static final int MINIMUM_REQUIRED_NUMBER_OF_TOKENS = 5; // was 5,
 																	// 15, 22
@@ -127,7 +128,8 @@ public class OutlookExpressParser extends LineBasedParser {
 	private int categoryIndex;
 	private int timeFlagIndex;
 
-	public Worklog parseWorklogItem(String line, Map<String, ProjectInvoiceHolder> projectMapping, Map<String, Activity> activityMapping) {
+	public Worklog parseWorklogItem(String line, Map<String, ProjectInvoiceHolder> projectMapping,
+			Map<String, Activity> activityMapping) {
 		try {
 			String tokens[] = org.springframework.util.StringUtils.delimitedListToStringArray(line, FIELD_DELIMITER);
 			if (tokens.length != columnCount) {
@@ -145,7 +147,7 @@ public class OutlookExpressParser extends LineBasedParser {
 			Activity activity = findActivityInMap(activityMapping);
 			worklog.setActivity(activity);
 			if (project != null) {
-				if (project.getProject()==null) {
+				if (project.getProject() == null) {
 					return null;
 				}
 				worklog.setProject(project.getProject());
@@ -164,13 +166,15 @@ public class OutlookExpressParser extends LineBasedParser {
 		}
 	}
 
-	private ProjectInvoiceHolder findProjectInMap(final Map<String, ProjectInvoiceHolder> projectMap, final String category) {
+	private ProjectInvoiceHolder findProjectInMap(final Map<String, ProjectInvoiceHolder> projectMap,
+			final String category) {
 		ProjectInvoiceHolder project = projectMap.get(category);
 		if (project == null) {
 			project = projectMap.get(""); // Default project mapping
 		}
 		if (project == null) {
-			throw new IllegalArgumentException("Unable to find internal project that should be mapped to worklog items");
+			throw new IllegalArgumentException(
+					"Unable to find internal project that should be mapped to worklog items");
 		}
 		return project;
 	}
@@ -179,10 +183,12 @@ public class OutlookExpressParser extends LineBasedParser {
 		Activity activity = null;
 		Collection<Activity> activities = activityMap.values();
 		if (activities == null) {
-			throw new IllegalArgumentException("Unable to find internal activity that should be mapped to worklog items");
+			throw new IllegalArgumentException(
+					"Unable to find internal activity that should be mapped to worklog items");
 		}
 		if (activities.size() != 1) {
-			throw new IllegalArgumentException("Found more than one activity - unable to decide what to map to worklog items");
+			throw new IllegalArgumentException(
+					"Found more than one activity - unable to decide what to map to worklog items");
 		}
 		activity = activities.iterator().next();
 		return activity;

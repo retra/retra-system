@@ -14,15 +14,19 @@ public class ProjectInvoiceHolder {
 	public Project getProject() {
 		return project;
 	}
+
 	public void setProject(Project project) {
 		this.project = project;
 	}
+
 	public Invoice getInvoice() {
 		return invoice;
 	}
+
 	public void setInvoice(Invoice invoice) {
 		this.invoice = invoice;
 	}
+
 	Project project;
 	Invoice invoice;
 }

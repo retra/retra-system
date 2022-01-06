@@ -47,9 +47,9 @@ public class SystemController extends DispatchController {
 	private SystemNewsFactory systemNewsFactory;
 
 	private ActivityLogic activityLogic;
-	
+
 	// Configuration methods ...
-	
+
 	public void setCookieHelper(AbstractCookieHelper cookieHelper) {
 		this.cookieHelper = cookieHelper;
 	}
@@ -69,7 +69,7 @@ public class SystemController extends DispatchController {
 		model.put("news", news);
 		model.put("miraJokes", jokeGenerator.getJokesForDate(new Date()));
 		return createModelAndView(model, getSuccessView());
-	}	
+	}
 
 	public ModelAndView showDashboard(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
@@ -88,8 +88,8 @@ public class SystemController extends DispatchController {
 	public ModelAndView showNoPermission(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
 	}
-	
-	public ModelAndView doLogin(Model model, RequestContext requestContext)	{
+
+	public ModelAndView doLogin(Model model, RequestContext requestContext) {
 		// Prepare parameters ...
 		String loginName = requestContext.getParameter("loginName");
 		String password = requestContext.getParameter("password");
@@ -103,10 +103,11 @@ public class SystemController extends DispatchController {
 			if (requestContext.getParameter("permanentPassword") != null) {
 				Login login = securityLogic.getLoggedUser().getLogin();
 				securityLogic.createPermanentPassword(login);
-				cookieHelper.createAndAddCookie(AbstractCookieHelper.RETRA_PERMANENT_COOKIE_NAME, login.getPermanentPassword(), requestContext);
+				cookieHelper.createAndAddCookie(AbstractCookieHelper.RETRA_PERMANENT_COOKIE_NAME,
+						login.getPermanentPassword(), requestContext);
 			}
 			if (originalUrl != null && originalUrl.trim().length() > 0) {
-				return createModelAndView(model, "redirect:"+originalUrl);
+				return createModelAndView(model, "redirect:" + originalUrl);
 			} else {
 				return createModelAndView(model, getSuccessView());
 			}
@@ -123,7 +124,7 @@ public class SystemController extends DispatchController {
 		}
 	}
 
-	public ModelAndView showAbout(Model model, RequestContext requestContext)	{
+	public ModelAndView showAbout(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
 	}
 
@@ -143,11 +144,11 @@ public class SystemController extends DispatchController {
 	 * @return
 	 */
 	public ModelAndView doLogout(Model model, RequestContext requestContext) {
-		
+
 		// Process business logic ...
 		getSecurityLogic().logout();
-		
-		//hack to show message -> succesfully logged out
+
+		// hack to show message -> succesfully logged out
 		requestContext.addRedirectIgnoreInfo(new Message("succesfully.logged.out"));
 
 		return createModelAndView(getSuccessView());
@@ -155,15 +156,14 @@ public class SystemController extends DispatchController {
 
 	public ModelAndView setShowHistoryData(Model model, RequestContext requestContext) {
 		String showHistoryDataStr = requestContext.getParameter(MiraController.PARAM_NAME_SHOW_HISTORY_DATA);
-		String redirectUrl =  requestContext.getParameter(MiraController.PARAM_NAME_AFTER_SET_ACTION);
+		String redirectUrl = requestContext.getParameter(MiraController.PARAM_NAME_AFTER_SET_ACTION);
 		if (StringUtils.hasText(showHistoryDataStr)) {
 			Boolean showHistoryData = Boolean.valueOf(BooleanHelper.isChecked(showHistoryDataStr));
 			setShowHistoryData(showHistoryData, requestContext);
-		}
-		else {
+		} else {
 			setShowHistoryData(false, requestContext);
 		}
-		
+
 		if (StringUtils.hasText(redirectUrl)) {
 			String view = "redirect:" + redirectUrl;
 			return createModelAndView(model, view);
@@ -172,9 +172,9 @@ public class SystemController extends DispatchController {
 	}
 
 	public static String SKIN_KEY = "skinkey";
-	
+
 	public static String PROJECT_ACTIVITY_KEY = "retra.projectActivityRelation";
-	
+
 	public ModelAndView changeVisualConfiguration(Model model, RequestContext requestContext) {
 		Object vcForm = model.get("filledVCForm");
 		VisualConfigurationForm form = null;
@@ -192,7 +192,7 @@ public class SystemController extends DispatchController {
 		prepareProjects(model);
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	public ModelAndView changeVisualConfigurationStore(Model model, RequestContext requestContext) {
 		VisualConfigurationForm form = new VisualConfigurationForm();
 		form.setSkinName(requestContext.getParameter("skinName"));
@@ -209,7 +209,7 @@ public class SystemController extends DispatchController {
 		requestContext.getSessionContext().setAttribute(SKIN_KEY, skinName);
 		cookieHelper.createAndAddCookie(SKIN_KEY, skinName, requestContext);
 	}
-	
+
 	private String resolveSkin(RequestContext requestContext) {
 		// TODO radek: this is only fake implementation
 		String skin = (String) requestContext.getSessionContext().getAttribute(SKIN_KEY);
@@ -224,11 +224,11 @@ public class SystemController extends DispatchController {
 		return skin;
 	}
 
-	//TODO: fast horrible implementation
+	// TODO: fast horrible implementation
 	private void storeProjectActivityRelation(RequestContext requestContext, VisualConfigurationForm form) {
 		form.setDa(requestContext.getParameter("da"));
 		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "DA", form.getDa(), requestContext);
-		
+
 		form.setP0(requestContext.getParameter("p0"));
 		form.setA0(requestContext.getParameter("a0"));
 		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "P0", form.getP0(), requestContext);
@@ -279,89 +279,88 @@ public class SystemController extends DispatchController {
 		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "P9", form.getP9(), requestContext);
 		cookieHelper.createAndAddCookie(PROJECT_ACTIVITY_KEY + "A9", form.getA9(), requestContext);
 	}
-	
-	//TODO: fast horrible implementation
+
+	// TODO: fast horrible implementation
 	private void loadProjectActivityRelation(RequestContext requestContext, VisualConfigurationForm form) {
 		Cookie[] cookies = requestContext.getCookies();
 		for (Cookie cookie : cookies) {
-			if ((PROJECT_ACTIVITY_KEY+"DA").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "DA").equals(cookie.getName())) {
 				form.setDa(cookie.getValue());
 			}
-			
-			if ((PROJECT_ACTIVITY_KEY+"P0").equals(cookie.getName())) {
+
+			if ((PROJECT_ACTIVITY_KEY + "P0").equals(cookie.getName())) {
 				form.setP0(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A0").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A0").equals(cookie.getName())) {
 				form.setA0(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P1").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P1").equals(cookie.getName())) {
 				form.setP1(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A1").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A1").equals(cookie.getName())) {
 				form.setA1(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P2").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P2").equals(cookie.getName())) {
 				form.setP2(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A2").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A2").equals(cookie.getName())) {
 				form.setA2(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P3").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P3").equals(cookie.getName())) {
 				form.setP3(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A3").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A3").equals(cookie.getName())) {
 				form.setA3(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P4").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P4").equals(cookie.getName())) {
 				form.setP4(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A4").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A4").equals(cookie.getName())) {
 				form.setA4(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P5").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P5").equals(cookie.getName())) {
 				form.setP5(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A5").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A5").equals(cookie.getName())) {
 				form.setA5(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P6").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P6").equals(cookie.getName())) {
 				form.setP6(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A6").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A6").equals(cookie.getName())) {
 				form.setA6(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P7").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P7").equals(cookie.getName())) {
 				form.setP7(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A7").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A7").equals(cookie.getName())) {
 				form.setA7(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P8").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P8").equals(cookie.getName())) {
 				form.setP8(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A8").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A8").equals(cookie.getName())) {
 				form.setA8(cookie.getValue());
 			}
 
-			if ((PROJECT_ACTIVITY_KEY+"P9").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "P9").equals(cookie.getName())) {
 				form.setP9(cookie.getValue());
 			}
-			if ((PROJECT_ACTIVITY_KEY+"A9").equals(cookie.getName())) {
+			if ((PROJECT_ACTIVITY_KEY + "A9").equals(cookie.getName())) {
 				form.setA9(cookie.getValue());
 			}
 		}
 
 	}
-	
-	
+
 	private List<Skin> getAllSkins() {
 		// TODO radek: This is FAKE implementation ...
 		List<Skin> list = new LinkedList<Skin>();
@@ -379,13 +378,13 @@ public class SystemController extends DispatchController {
 
 		return list;
 	}
-	
+
 	private List getAllTimeSelectors() {
 		// TODO radek: This is FAKE implementation ...
 		List list = new LinkedList();
 		return list;
 	}
-	
+
 	private void prepareActivities(Model model) {
 		prepareActivities(model, false);
 	}
@@ -394,9 +393,8 @@ public class SystemController extends DispatchController {
 		List<Activity> activities = null;
 		if (showAll) {
 			activities = activityLogic.findAllActivities();
-		}
-		else {
-			activities = activityLogic.findAllNotDeletedActivities();			
+		} else {
+			activities = activityLogic.findAllNotDeletedActivities();
 		}
 
 		model.put("activities", activities);
@@ -409,11 +407,10 @@ public class SystemController extends DispatchController {
 	private void prepareProjects(Model model, boolean showAll) {
 		List<Project> projects = null;
 		if (showAll) {
-			//projects = projectLogic.findAllProjects();
+			// projects = projectLogic.findAllProjects();
 			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
-		}
-		else {
-			//projects = projectLogic.findAllNotDeletedProjects();	
+		} else {
+			// projects = projectLogic.findAllNotDeletedProjects();
 			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
 		}
 
@@ -421,9 +418,9 @@ public class SystemController extends DispatchController {
 	}
 
 	private List<Project> filterActiveProject(Set<Project> projects) {
-		List<Project> filtersList=new ArrayList<Project>();
-		for (Project p:projects) {
-			if (p.getState()==Project.STATE_ACTIVE) {
+		List<Project> filtersList = new ArrayList<Project>();
+		for (Project p : projects) {
+			if (p.getState() == Project.STATE_ACTIVE) {
 				filtersList.add(p);
 			}
 		}

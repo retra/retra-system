@@ -6,7 +6,7 @@ import cz.softinel.retra.security.blo.MiraSecurityLogic;
 import cz.softinel.uaf.spring.web.controller.CommonDispatchController;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
-public abstract class DispatchController extends CommonDispatchController implements MiraController{
+public abstract class DispatchController extends CommonDispatchController implements MiraController {
 
 	private MiraController miraController = new MiraControllerImpl();
 
@@ -33,7 +33,7 @@ public abstract class DispatchController extends CommonDispatchController implem
 	public void setSecurityLogic(MiraSecurityLogic securityLogic) {
 		miraController.setSecurityLogic(securityLogic);
 	}
-	
+
 	public void setShowHistoryData(boolean showHistoryData, RequestContext requestContext) {
 		miraController.setShowHistoryData(showHistoryData, requestContext);
 	}

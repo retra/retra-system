@@ -10,7 +10,7 @@ import javax.servlet.ServletContextListener;
  *
  */
 public class JavaVersionWorkaroundListener implements ServletContextListener {
-	
+
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		System.setProperty("java.version", "1.7.0_888");
@@ -19,10 +19,10 @@ public class JavaVersionWorkaroundListener implements ServletContextListener {
 			System.setProperty("retra.config.location", configLocation);
 		}
 	}
-	
+
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		
+
 	}
-	
+
 }

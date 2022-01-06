@@ -25,26 +25,28 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
  *
  */
 public abstract class AbstractWorklogFormController extends FormController {
-	
+
 	private WorklogLogic worklogLogic;
 	private ActivityLogic activityLogic;
 	private ProjectLogic projectLogic;
 	private ComponentLogic componentLogic;
 	private JiraWorklogLogic jiraWorklogLogic;
 	private InvoiceLogic invoiceLogic;
-	
+
 	private JiraLogic jiraLogic;
-	
+
 	/**
-	 * Use this as a switch for UI elements. If the JiraIntegration is not enabled, set this to false and
-	 * the Jira issue field will not be available.
+	 * Use this as a switch for UI elements. If the JiraIntegration is not enabled,
+	 * set this to false and the Jira issue field will not be available.
+	 * 
 	 * @author Erik Szalai
 	 */
 	@Deprecated
 	private boolean jiraIntegrationEnabled = false;
-	
+
 	/**
 	 * Get the integration switch
+	 * 
 	 * @see #jiraIntegrationEnabled
 	 */
 	public boolean isJiraIntegrationEnabled() {
@@ -53,13 +55,14 @@ public abstract class AbstractWorklogFormController extends FormController {
 
 	/**
 	 * Set the integration switch.
+	 * 
 	 * @param jiraIntegrationEnabled
 	 * @see #jiraIntegrationEnabled
 	 */
 	public void setJiraIntegrationEnabled(boolean jiraIntegrationEnabled) {
 		this.jiraIntegrationEnabled = jiraIntegrationEnabled;
 	}
-	
+
 	/**
 	 * @return
 	 */
@@ -123,7 +126,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
 	}
-	
+
 	/**
 	 * @return the componentLogic
 	 */
@@ -167,9 +170,8 @@ public abstract class AbstractWorklogFormController extends FormController {
 		List<Activity> activities = null;
 		if (showAll) {
 			activities = activityLogic.findAllActivities();
-		}
-		else {
-			activities = activityLogic.findAllNotDeletedActivities();			
+		} else {
+			activities = activityLogic.findAllNotDeletedActivities();
 		}
 
 		model.put("activities", activities);
@@ -182,17 +184,16 @@ public abstract class AbstractWorklogFormController extends FormController {
 	protected void prepareProjects(Model model, boolean showAll) {
 		List<Project> projects = null;
 		if (showAll) {
-			//projects = projectLogic.findAllProjects();
+			// projects = projectLogic.findAllProjects();
 			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
-		}
-		else {
-			//projects = projectLogic.findAllNotDeletedProjects();	
+		} else {
+			// projects = projectLogic.findAllNotDeletedProjects();
 			projects = filterActiveProject(getSecurityLogic().getLoggedEmployee().getProjects());
 		}
 
 		model.put("projects", projects);
 	}
-	
+
 	protected void prepareJiraIssues(Model model) {
 		String ldapLogin = getSecurityLogic().getLoggedUser().getLogin().getLdapLogin();
 		List<JiraIssue> issues = jiraLogic.findJiraIssuesForUser(ldapLogin);
@@ -203,17 +204,17 @@ public abstract class AbstractWorklogFormController extends FormController {
 		}
 		model.put("issues", issues);
 	}
-	
+
 	private List<Project> filterActiveProject(Set<Project> projects) {
-		List<Project> filtersList=new ArrayList<Project>();
-		for (Project p:projects) {
-			if (p.getState()==Project.STATE_ACTIVE) {
+		List<Project> filtersList = new ArrayList<Project>();
+		for (Project p : projects) {
+			if (p.getState() == Project.STATE_ACTIVE) {
 				filtersList.add(p);
 			}
 		}
 		return filtersList;
 	}
-	
+
 	protected void prepareComponents(Model model) {
 		prepareComponents(model, false);
 	}
@@ -222,18 +223,17 @@ public abstract class AbstractWorklogFormController extends FormController {
 		List<Component> components = null;
 		if (showAll) {
 			components = componentLogic.findAllComponents();
-		}
-		else {
-			components = componentLogic.findAllNotDeletedComponents();			
+		} else {
+			components = componentLogic.findAllNotDeletedComponents();
 		}
 
 		model.put("components", components);
 	}
 
 	protected void prepareInvoicesForCreateOrEdit(Model model) {
-		List<Invoice> invoices = invoiceLogic.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
+		List<Invoice> invoices = invoiceLogic
+				.findAllActiveInvoicesForEmployee(getSecurityLogic().getLoggedEmployee().getPk());
 		model.put("invoices", invoices);
 	}
-
 
 }

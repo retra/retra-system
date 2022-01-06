@@ -25,42 +25,42 @@ public class ContactInfoLogicImpl extends AbstractLogicBean implements ContactIn
 	private ContactInfoDao contactInfoDao;
 
 	// Configuration methods ...
-	
+
 	public void setContactInfoDao(ContactInfoDao contactInfoDao) {
 		this.contactInfoDao = contactInfoDao;
 	}
 
 	// Public business logic ...
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void create(ContactInfo contactInfo) {
 		validateForCreate(contactInfo);
 		contactInfoDao.insert(contactInfo);
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ContactInfo> findAll() {
 		return contactInfoDao.selectAll();
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ContactInfo get(Long pk) {
 		return contactInfoDao.get(pk);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(ContactInfo contactInfo) {
 		contactInfoDao.delete(contactInfo);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(ContactInfo contactInfo) {
 		validateForUpdate(contactInfo);
 		contactInfoDao.update(contactInfo);
 	}
-	
+
 	// Validation methods ...
-	
+
 	protected void validateForCreate(ContactInfo contactInfo) {
 		// TODO: Implement validations
 		validate(contactInfo);
@@ -70,10 +70,9 @@ public class ContactInfoLogicImpl extends AbstractLogicBean implements ContactIn
 		// TODO: Implement validations
 		validate(contactInfo);
 	}
-	
+
 	protected void validate(ContactInfo contactInfo) {
 		// TODO: Implement validations
 	}
-
 
 }

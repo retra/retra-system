@@ -6,12 +6,11 @@ import java.util.Map;
 import java.util.Set;
 
 import cz.softinel.retra.activity.Activity;
-import cz.softinel.retra.project.Project;
 import cz.softinel.retra.worklog.Worklog;
 
 /**
- * Parser for worklog import data. 
- * Parser expects line based worklog data format.
+ * Parser for worklog import data. Parser expects line based worklog data
+ * format.
  *
  * @author Pavel Mueller
  */
@@ -22,51 +21,58 @@ public interface ImportDataParser {
 	 * 
 	 * @param data imported data
 	 * @param data
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void init(byte[] data) throws IOException;
-	
+
 	/**
 	 * Parses one line and extracts information about project.
+	 * 
 	 * @return item's project
 	 */
 	public Set<ExternalProject> parseExternalProjects();
-	
+
 	/**
 	 * Parses one line and extracts information about activity.
+	 * 
 	 * @param line worklog item line
 	 * @return item's activity
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public Set<ExternalActivity> parseExternalActivitys();
 
 	/**
 	 * Parses one line and creates whole worklog item.
-	 * @param line worklog item line
-	 * @param projectMapping mapping between imported projects and Mira projects
-	 * @param activityMapping mapping between imported activities and Mira activities
+	 * 
+	 * @param line            worklog item line
+	 * @param projectMapping  mapping between imported projects and Mira projects
+	 * @param activityMapping mapping between imported activities and Mira
+	 *                        activities
 	 * @return worklog item, <code>null</code> if item cannot be mapped
 	 */
-	public List<Worklog> parseWorklogItems(Map<String,ProjectInvoiceHolder> projectMapping, Map<String, Activity> activityMapping);
-	
+	public List<Worklog> parseWorklogItems(Map<String, ProjectInvoiceHolder> projectMapping,
+			Map<String, Activity> activityMapping);
+
 	/**
-	 * Returns whether current parser is able to extract external projects from import file.
-	 * If not then user will have to choose one of projects instead of mapping projects to external projects.
+	 * Returns whether current parser is able to extract external projects from
+	 * import file. If not then user will have to choose one of projects instead of
+	 * mapping projects to external projects.
 	 * 
 	 * @return
 	 */
 	public boolean canExtractExternalProject();
-	
+
 	/**
-	 * Returns whether current parser implementation is able to extract external activities from import file.
-	 * If not then user will have to choose one of activities instead of mapping activities to external activities.
+	 * Returns whether current parser implementation is able to extract external
+	 * activities from import file. If not then user will have to choose one of
+	 * activities instead of mapping activities to external activities.
 	 * 
 	 * @return
 	 */
 	public boolean canExtractExternalActivity();
-	
+
 	public boolean canSpecifyImportRules();
-	
+
 	/**
 	 * Returns whether parser is able to remember selected values to cookies
 	 * (usually mapping preferences)
@@ -74,25 +80,25 @@ public interface ImportDataParser {
 	 * @return
 	 */
 	public boolean storesDataToCookies();
-	
+
 	/**
-	 * Returns a name of cookie in which project mappings should be stored
-	 * and read from
+	 * Returns a name of cookie in which project mappings should be stored and read
+	 * from
 	 * 
 	 * @return
 	 */
 	public String getProjectMappingCookieName();
-	
+
 	/**
-	 * Returns a name of cookie in which activity mappings should be stored
-	 * and read from
+	 * Returns a name of cookie in which activity mappings should be stored and read
+	 * from
 	 * 
 	 * @return
 	 */
 	public String getActivityMappingCookieName();
-	
+
 	public int getNumberOfLines();
-	
+
 	public int getParseErrors();
-	
+
 }

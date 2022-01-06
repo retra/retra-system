@@ -18,31 +18,31 @@ public class HibernateInvoiceSeqDao extends AbstractHibernateDao implements Invo
 		InvoiceSeq invoiceSeq = (InvoiceSeq) getHibernateTemplate().get(InvoiceSeq.class, pk);
 		return invoiceSeq;
 	}
-	
+
 	public InvoiceSeq getForNextNumber(Long pk) {
 		// check if invoice id is defined
 		Assert.notNull(pk);
 		InvoiceSeq invoiceSeq = (InvoiceSeq) getHibernateTemplate().get(InvoiceSeq.class, pk, LockMode.UPGRADE);
 		return invoiceSeq;
 	}
-	
+
 	public void update(InvoiceSeq invoiceSeq) {
 		getHibernateTemplate().update(invoiceSeq);
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<InvoiceSeq> selectAllActive() {
-		Object[] states = new Object[] {InvoiceSeq.STATE_ACTIVE}; 
+		Object[] states = new Object[] { InvoiceSeq.STATE_ACTIVE };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("InvoiceSeq.selectAllWithStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
+
 }

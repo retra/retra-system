@@ -10,27 +10,27 @@ import cz.softinel.retra.employee.Employee;
  */
 public interface EmployeeLogic {
 
-	/** 
-	 * Returns all employees 
+	/**
+	 * Returns all employees
 	 * 
 	 * @return
 	 */
 	List<Employee> getAllEmployees(final boolean onlyActive, final boolean onlyWorkLogging);
 
-	/** 
-	 * Returns all employees 
+	/**
+	 * Returns all employees
 	 * 
 	 * @return
 	 */
 	List<Employee> getAllEmployeesNotFull(final boolean onlyActive, final boolean onlyWorkLogging);
 
-	/** 
+	/**
 	 * Returns all employees for generating invoice
 	 * 
 	 * @return
 	 */
 	List<Employee> getAllEmployeesForGeneratingInvoice();
-	
+
 	/**
 	 * Load emlpoyee instance fields
 	 * 
@@ -44,7 +44,7 @@ public interface EmployeeLogic {
 	 * @param employee
 	 */
 	public void loadAndLoadLazy(Employee employee);
-	
+
 	/**
 	 * Get employee according to given pk.
 	 * 
@@ -60,7 +60,7 @@ public interface EmployeeLogic {
 	 * @return
 	 */
 	public Employee getNotFull(Long pk);
-	
+
 	/** Create new employee */
 	public Employee create(Employee employee);
 
@@ -70,5 +70,5 @@ public interface EmployeeLogic {
 	 * @param Employee
 	 */
 	void store(Employee employee);
-	
+
 }

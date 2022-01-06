@@ -11,18 +11,18 @@ import cz.softinel.retra.activity.Activity;
  * @author Petr Sígl
  */
 public interface ActivityLogic {
-	
+
 	/**
 	 * Find all activity items.
 	 * 
 	 * @return
 	 */
-	public List<Activity> findAllActivities();	
+	public List<Activity> findAllActivities();
 
 	/**
 	 * Find all activity items, which are not deleted.
 	 * 
 	 * @return
 	 */
-	public List<Activity> findAllNotDeletedActivities();	
+	public List<Activity> findAllNotDeletedActivities();
 }

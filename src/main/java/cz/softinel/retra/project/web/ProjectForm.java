@@ -15,11 +15,11 @@ public class ProjectForm {
 	// private List<Project> projects;
 	private String parentPk;
 	private String category;
-	
+
 	private Boolean addMe;
 	private Boolean workEnabled;
 	private String estimation;
-	
+
 	private Set<Employee> employees;
 	private Set<Component> components;
 
@@ -117,5 +117,13 @@ public class ProjectForm {
 	public void setEstimation(String estimation) {
 		this.estimation = estimation;
 	}
+
+	@Override
+	public String toString() {
+		return "(ProjectForm: pk=" + pk + ", name=" + name + ", code=" + code + ", parentPk=" + parentPk + ", category="
+				+ category + ", addMe=" + addMe + ", workEnabled=" + workEnabled + ", estimation=" + estimation + ")";
+	}
+
+	
 	
 }

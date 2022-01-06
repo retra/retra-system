@@ -11,7 +11,7 @@ class Content {
 		this.content = contentFile;
 		this.mimeType = null;
 	}
-	
+
 	public boolean isValid() {
 		// Check if file is valid;
 		return true;
@@ -24,5 +24,5 @@ class Content {
 	public String getMimeType() {
 		return mimeType;
 	}
-	
+
 }

@@ -24,38 +24,40 @@ import cz.softinel.uaf.messages.MessagesContext;
 public class HttpRequestContext extends RequestContext {
 
 	public static final String REQUEST_MESSAGES_KEY = "requestMessages";
-	
+
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private HttpSessionContext sessionContext = null;
 
 	private MessagesContext messagesContext = new DefaultMessagesContext();
-	
+
 	public HttpRequestContext(HttpServletRequest request, HttpServletResponse response) {
 		super("NOT_IMPLEMENTED");
 		this.request = request;
 		this.response = response;
-		
+
 		MessageSource messageSource = RequestContextUtils.getWebApplicationContext(request);
 		Messages messages = new Messages(messageSource);
 		messagesContext.setMessages(messages);
 
-		//add messages from session to request
+		// add messages from session to request
 		prepareSessionMessages();
-		
+
 		this.request.setAttribute(REQUEST_MESSAGES_KEY, messages);
 	}
-	
+
 	/**
 	 * Sets a custom messages context. Default is {@link DefaultMessagesContext}.
+	 * 
 	 * @param messagesContext the messagesContext to set
 	 */
 	public void setMessagesContext(MessagesContext messagesContext) {
 		this.messagesContext = messagesContext;
 	}
-	
+
 	/**
 	 * Returns a messages context.
+	 * 
 	 * @return the messagesContext
 	 */
 	public MessagesContext getMessagesContext() {
@@ -96,7 +98,7 @@ public class HttpRequestContext extends RequestContext {
 	public Messages getMessages() {
 		return messagesContext.getMessages();
 	}
-	
+
 	/**
 	 * @see cz.softinel.uaf.spring.web.controller.RequestContext#getCookies()
 	 */
@@ -121,9 +123,10 @@ public class HttpRequestContext extends RequestContext {
 	/**
 	 * @see cz.softinel.uaf.spring.web.controller.RequestContext#addRedirectIgnoreError(cz.softinel.uaf.messages.Message)
 	 */
-	public void addRedirectIgnoreError(Message redirectIgnoreError){
-		//if message has not set count to expire more than 0, must be set to 1 (to ignore redirect)
-		if (redirectIgnoreError.getCountToExpire() <= 0){
+	public void addRedirectIgnoreError(Message redirectIgnoreError) {
+		// if message has not set count to expire more than 0, must be set to 1 (to
+		// ignore redirect)
+		if (redirectIgnoreError.getCountToExpire() <= 0) {
 			redirectIgnoreError.setCountToExpire(1);
 		}
 		getSessionContext().addError(redirectIgnoreError);
@@ -140,11 +143,11 @@ public class HttpRequestContext extends RequestContext {
 	 * @see cz.softinel.uaf.spring.web.controller.RequestContext#addRedirectIgnoreErrors(java.util.List)
 	 */
 	public void addRedirectIgnoreErrors(List<Message> redirectIgnoreErrors) {
-		for (Message error: redirectIgnoreErrors){
+		for (Message error : redirectIgnoreErrors) {
 			addRedirectIgnoreError(error);
 		}
 	}
-	
+
 	/**
 	 * @see cz.softinel.uaf.spring.web.controller.Context#addInfo(cz.softinel.uaf.messages.Message)
 	 */
@@ -155,9 +158,10 @@ public class HttpRequestContext extends RequestContext {
 	/**
 	 * @see cz.softinel.uaf.spring.web.controller.RequestContext#addRedirectIgnoreInfo(cz.softinel.uaf.messages.Message)
 	 */
-	public void addRedirectIgnoreInfo(Message redirectIgnoreInfo){
-		//if message has not set count to expire more than 0, must be set to 1 (to ignore redirect)
-		if (redirectIgnoreInfo.getCountToExpire() <= 0){
+	public void addRedirectIgnoreInfo(Message redirectIgnoreInfo) {
+		// if message has not set count to expire more than 0, must be set to 1 (to
+		// ignore redirect)
+		if (redirectIgnoreInfo.getCountToExpire() <= 0) {
 			redirectIgnoreInfo.setCountToExpire(1);
 		}
 		getSessionContext().addInfo(redirectIgnoreInfo);
@@ -174,7 +178,7 @@ public class HttpRequestContext extends RequestContext {
 	 * @see cz.softinel.uaf.spring.web.controller.RequestContext#addRedirectIgnoreInfos(java.util.List)
 	 */
 	public void addRedirectIgnoreInfos(List<Message> redirectIgnoreInfos) {
-		for (Message info: redirectIgnoreInfos){
+		for (Message info : redirectIgnoreInfos) {
 			addRedirectIgnoreInfo(info);
 		}
 	}
@@ -186,20 +190,21 @@ public class HttpRequestContext extends RequestContext {
 		getMessages().addWarning(warning);
 	}
 
-	public void addRedirectIgnoreWarning(Message redirectIgnoreWarning){
-		//if message has not set count to expire more than 0, must be set to 1 (to ignore redirect)
-		if (redirectIgnoreWarning.getCountToExpire() <= 0){
+	public void addRedirectIgnoreWarning(Message redirectIgnoreWarning) {
+		// if message has not set count to expire more than 0, must be set to 1 (to
+		// ignore redirect)
+		if (redirectIgnoreWarning.getCountToExpire() <= 0) {
 			redirectIgnoreWarning.setCountToExpire(1);
 		}
 		getSessionContext().addWarning(redirectIgnoreWarning);
 	}
-	
+
 	public void addWarnings(List<Message> warnings) {
 		getMessages().addWarnings(warnings);
 	}
 
 	public void addRedirectIgnoreWarnings(List<Message> redirectIgnoreWarnings) {
-		for (Message warning: redirectIgnoreWarnings){
+		for (Message warning : redirectIgnoreWarnings) {
 			addRedirectIgnoreWarning(warning);
 		}
 	}
@@ -215,7 +220,7 @@ public class HttpRequestContext extends RequestContext {
 	public List<Message> getWarnings() {
 		return getMessages().getWarnings();
 	}
-	
+
 	public void addAllMessages(Messages addedMessages) {
 		getMessages().addAllMessages(addedMessages);
 	}
@@ -225,50 +230,50 @@ public class HttpRequestContext extends RequestContext {
 		addRedirectIgnoreWarnings(addedMessages.getWarnings());
 		addRedirectIgnoreInfos(addedMessages.getInfos());
 	}
-	
-	private void prepareSessionMessages(){
+
+	private void prepareSessionMessages() {
 		Messages sessionMessages = getSessionContext().getMessages();
-		
+
 		List<Message> errors = new ArrayList<Message>(sessionMessages.getErrors());
-		for (Message error : errors){
+		for (Message error : errors) {
 			int countToExpire = error.getCountToExpire();
-			if (countToExpire > 0){
+			if (countToExpire > 0) {
 				addError(error);
 				error.setCountToExpire(--countToExpire);
 			}
-			
-			if (countToExpire <= 0){
+
+			if (countToExpire <= 0) {
 				sessionMessages.removeError(error);
 			}
 		}
 
 		List<Message> warnings = new ArrayList<Message>(sessionMessages.getWarnings());
-		for (Message warning : warnings){
+		for (Message warning : warnings) {
 			addWarning(warning);
 			int countToExpire = warning.getCountToExpire();
-			if (countToExpire > 0){
+			if (countToExpire > 0) {
 				warning.setCountToExpire(--countToExpire);
 			}
-			
-			if (countToExpire <= 0){
+
+			if (countToExpire <= 0) {
 				sessionMessages.removeWarning(warning);
 			}
 		}
 
 		List<Message> infos = new ArrayList<Message>(sessionMessages.getInfos());
-		for (Message info : infos){
+		for (Message info : infos) {
 			addInfo(info);
 			int countToExpire = info.getCountToExpire();
-			if (countToExpire > 0){
+			if (countToExpire > 0) {
 				info.setCountToExpire(--countToExpire);
 			}
-			
-			if (countToExpire <= 0){
+
+			if (countToExpire <= 0) {
 				sessionMessages.removeInfo(info);
 			}
 		}
 	}
-	
+
 	/**
 	 * Convers all current request messages to redirect ignoring messages.
 	 */

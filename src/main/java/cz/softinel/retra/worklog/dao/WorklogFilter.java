@@ -21,7 +21,7 @@ public class WorklogFilter extends EntityFilter {
 	public static final String WORKLOG_FILTER_ON_INVOICE = "worklogFilterOnInvoice";
 	public static final String WORKLOG_FILTER_INVOICE_CODE = "worklogFilterInvoiceCode";
 	public static final String WORKLOG_FILTER_INVOICE_RELATION = "worklogFilterInvoiceRelation";
-	
+
 	private static List<String> fieldNames = new ArrayList<String>();
 
 	static {
@@ -40,7 +40,7 @@ public class WorklogFilter extends EntityFilter {
 		fieldNames.add(WORKLOG_FILTER_INVOICE_CODE);
 		fieldNames.add(WORKLOG_FILTER_INVOICE_RELATION);
 	}
-	
+
 	public WorklogFilter() {
 		super(WorklogFilter.fieldNames);
 	}

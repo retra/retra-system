@@ -12,28 +12,28 @@ import cz.softinel.uaf.filter.Filter;
  * @author Petr Sígl
  */
 public interface InvoiceLogic {
-	
+
 	/**
 	 * Returns true if code for invoice is generated from DB or not.
 	 * 
 	 * @return
 	 */
 	public boolean isCodeGenerated();
-	
+
 	/**
 	 * Find all invoice items.
 	 * 
 	 * @return
 	 */
-	public List<Invoice> findAllInvoices();	
+	public List<Invoice> findAllInvoices();
 
 	/**
 	 * Find all invoice items for employee.
 	 * 
 	 * @return
 	 */
-	public List<Invoice> findAllInvoicesForEmployee(Long employeePk);	
-	
+	public List<Invoice> findAllInvoicesForEmployee(Long employeePk);
+
 	/**
 	 * Find all invoice items for employee, which are not deleted.
 	 * 
@@ -47,7 +47,7 @@ public interface InvoiceLogic {
 	 * @return
 	 */
 	public List<Invoice> findAllActiveInvoicesForEmployee(Long employeePk);
-	
+
 	/**
 	 * Find all invoice items for employee, with code.
 	 * 
@@ -55,7 +55,7 @@ public interface InvoiceLogic {
 	 * @return
 	 */
 	public List<Invoice> findInvoicesForEmployeeWithCode(Long employeePk, String code);
-	
+
 	/**
 	 * Find invoices by filter.
 	 * 
@@ -63,7 +63,7 @@ public interface InvoiceLogic {
 	 * @return
 	 */
 	public List<Invoice> findByFilter(Filter filter);
-	
+
 	/**
 	 * Create invoice,
 	 * 
@@ -80,7 +80,7 @@ public interface InvoiceLogic {
 	 * @return
 	 */
 	public Invoice create(Invoice invoice, Long sequencePk);
-	
+
 	/**
 	 * Batch create invoices.
 	 * 
@@ -100,7 +100,7 @@ public interface InvoiceLogic {
 	 * @return
 	 */
 	public Invoice get(Long pk);
-	
+
 	/**
 	 * Stores given Invoice
 	 * 
@@ -121,12 +121,12 @@ public interface InvoiceLogic {
 	 * @param Invoice
 	 */
 	public void close(Invoice invoice);
-	
+
 	/**
 	 * Open given Invoice
 	 * 
 	 * @param Invoice
 	 */
 	public void open(Invoice invoice);
-	
+
 }

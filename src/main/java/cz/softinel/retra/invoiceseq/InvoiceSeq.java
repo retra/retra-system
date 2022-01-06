@@ -2,7 +2,6 @@ package cz.softinel.retra.invoiceseq;
 
 import cz.softinel.uaf.state.StateEntity;
 
-
 /**
  * This class represents invoice sequence.
  * 
@@ -17,13 +16,13 @@ public class InvoiceSeq implements StateEntity {
 	private String code;
 	private String name;
 	private String pattern;
-	
+
 	private int sequence;
-	
+
 	private int state;
 
 	private int step;
-	
+
 	// Business fields ...
 
 	public String getCodeAndName() {
@@ -132,12 +131,12 @@ public class InvoiceSeq implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(InvoiceSeq: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(InvoiceSeq: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
 
 }

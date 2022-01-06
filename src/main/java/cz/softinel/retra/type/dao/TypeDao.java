@@ -13,13 +13,13 @@ import cz.softinel.retra.type.Type;
 public interface TypeDao {
 
 	/**
-	 * Returns type according to primary key. 
+	 * Returns type according to primary key.
 	 * 
 	 * @param pk primary key of type
 	 * @return
 	 */
 	public Type get(Long pk);
-	
+
 	/**
 	 * Insert Type
 	 * 
@@ -40,14 +40,14 @@ public interface TypeDao {
 	 * @param type to delete
 	 */
 	public void delete(Type type);
-	
+
 	/**
 	 * Returns all types
 	 * 
 	 * @return all types
 	 */
 	public List<Type> selectAll();
-	
+
 	/**
 	 * Load informations about type (defined by pk)
 	 * 

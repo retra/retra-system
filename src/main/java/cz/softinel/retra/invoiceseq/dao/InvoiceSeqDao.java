@@ -12,33 +12,33 @@ import cz.softinel.retra.invoiceseq.InvoiceSeq;
 public interface InvoiceSeqDao {
 
 	/**
-	 * Returns invoice sequence according to primary key. 
+	 * Returns invoice sequence according to primary key.
 	 * 
 	 * @param pk primary key of invoice
 	 * @return
 	 */
 	public InvoiceSeq get(Long pk);
-	
+
 	/**
-	 * Returns invoice sequence according to primary key. 
+	 * Returns invoice sequence according to primary key.
 	 * 
 	 * @param pk primary key of invoice
 	 * @return
 	 */
 	public InvoiceSeq getForNextNumber(Long pk);
-	
+
 	/**
 	 * Update invoice
 	 * 
 	 * @param invoice to update
 	 */
 	public void update(InvoiceSeq invoice);
-	
+
 	/**
 	 * Returns all invoices which are active
 	 * 
 	 * @return all invoices
 	 */
 	public List<InvoiceSeq> selectAllActive();
-	
+
 }

@@ -12,20 +12,20 @@ import org.displaytag.properties.MediaTypeEnum;
 
 import cz.softinel.retra.core.utils.TypeFormats;
 
-public class DateDecorator implements DisplaytagColumnDecorator{
-	
+public class DateDecorator implements DisplaytagColumnDecorator {
+
 	private DateFormat dateFormat;
-	
+
 	public DateDecorator() {
 		dateFormat = new SimpleDateFormat(TypeFormats.DATE_FORMAT);
 	}
-	
+
 	public Object decorate(Object columnValue, PageContext pageContext, MediaTypeEnum media) throws DecoratorException {
 		if (columnValue instanceof Date) {
 			return dateFormat.format(columnValue);
 		}
 
-		//not date return it as it comes
+		// not date return it as it comes
 		return columnValue;
-	}	
+	}
 }

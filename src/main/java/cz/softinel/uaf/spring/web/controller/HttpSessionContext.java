@@ -12,16 +12,16 @@ import cz.softinel.uaf.messages.Message;
 import cz.softinel.uaf.messages.Messages;
 
 public class HttpSessionContext implements Context {
-	
+
 	public static final String SESSION_MESSAGES_KEY = "sessionMessages";
 
 	private final HttpSession session;
-	
+
 	Messages messages = null;
-	
+
 	public HttpSessionContext(HttpServletRequest request) {
 		this.session = request.getSession();
-		
+
 		messages = (Messages) session.getAttribute(SESSION_MESSAGES_KEY);
 		if (messages == null) {
 			MessageSource messageSource = RequestContextUtils.getWebApplicationContext(request);
@@ -29,7 +29,7 @@ public class HttpSessionContext implements Context {
 			session.setAttribute(SESSION_MESSAGES_KEY, messages);
 		}
 	}
-	
+
 	public String id() {
 		return session.getId();
 	}
@@ -41,11 +41,11 @@ public class HttpSessionContext implements Context {
 	public void setAttribute(String key, Object value) {
 		session.setAttribute(key, value);
 	}
-	
+
 	public Messages getMessages() {
 		return messages;
 	}
-	
+
 	public void addError(Message error) {
 		messages.addError(error);
 	}
@@ -81,7 +81,7 @@ public class HttpSessionContext implements Context {
 	public List<Message> getWarnings() {
 		return messages.getWarnings();
 	}
-	
+
 	public void addAllMessages(Messages addedMessages) {
 		messages.addAllMessages(addedMessages);
 	}

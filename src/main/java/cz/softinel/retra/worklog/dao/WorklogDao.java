@@ -15,13 +15,13 @@ import cz.softinel.uaf.filter.Filter;
 public interface WorklogDao {
 
 	/**
-	 * Returns worklog according to primary key. 
+	 * Returns worklog according to primary key.
 	 * 
 	 * @param pk primary key of worklog
 	 * @return
 	 */
 	public Worklog get(Long pk);
-	
+
 	/**
 	 * Insert Worklog
 	 * 
@@ -38,17 +38,18 @@ public interface WorklogDao {
 
 	/**
 	 * Updates the existing worklog
+	 * 
 	 * @param worklog to update
 	 */
 	public void merge(Worklog worklog);
-	
+
 	/**
 	 * Delete worklog
 	 * 
 	 * @param worklog to delete
 	 */
 	public void delete(Worklog worklog);
-	
+
 	/**
 	 * Returns all worklogs
 	 * 
@@ -69,14 +70,14 @@ public interface WorklogDao {
 	 * @return all worklogs
 	 */
 	public List<Worklog> selectForInvoice(Long pk);
-	
+
 	/**
 	 * Load informations about worklog (defined by pk)
 	 * 
 	 * @param worklog where load and where is pk set
 	 */
 	public void load(Worklog worklog);
-	
+
 	/**
 	 * Get worklog according to given pk.
 	 * 
@@ -86,8 +87,10 @@ public interface WorklogDao {
 	public void loadAndLoadLazy(Worklog worklog);
 
 	public List<Worklog> selectForEmployeeInPeriod(Filter filter);
+
 	public List<Worklog> selectForEmployeeInPeriodExclude(Filter filter);
+
 	public List<Worklog> selectByFilter(Filter filter);
-	
+
 	public List<WorklogViewOverview> selectWorklogOverviewByFilter(Filter filter);
 }

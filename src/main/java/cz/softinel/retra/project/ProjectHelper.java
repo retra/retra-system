@@ -9,7 +9,6 @@ import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.invoice.web.InvoiceStateSelectValue;
 import cz.softinel.retra.project.web.ProjectForm;
 
-
 public class ProjectHelper {
 
 	public final static List<InvoiceStateSelectValue> PROJECT_STATES = new ArrayList<InvoiceStateSelectValue>();
@@ -19,7 +18,7 @@ public class ProjectHelper {
 		PROJECT_STATES.add(new InvoiceStateSelectValue(Project.STATE_CLOSED));
 		PROJECT_STATES.add(new InvoiceStateSelectValue(Project.STATE_DELETED));
 	}
-	
+
 	public static String getCodeAndName(Project project) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(project.getCode());
@@ -27,7 +26,7 @@ public class ProjectHelper {
 		sb.append(project.getName());
 		return sb.toString().trim();
 	}
-	
+
 	public static void formToEntity(ProjectForm form, Project entity) {
 		if (form.getPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getPk());
@@ -35,7 +34,7 @@ public class ProjectHelper {
 		}
 		entity.setName(form.getName());
 		entity.setCode(form.getCode());
-		
+
 		final Long categoryPk = LongConvertor.getLongFromString(form.getCategory());
 		if (categoryPk == null) {
 			entity.setCategory(null);
@@ -47,7 +46,7 @@ public class ProjectHelper {
 			entity.setCategory(category);
 			category.setPk(categoryPk);
 		}
-		
+
 		entity.setEmployees(form.getEmployees());
 		entity.setComponents(form.getComponents());
 		if (form.getParentPk() != null) {
@@ -67,29 +66,29 @@ public class ProjectHelper {
 	}
 
 	public static void entityToForm(Project entity, ProjectForm form) {
-		
+
 		form.setPk(LongConvertor.convertToStringFromLong(entity.getPk()));
-		
+
 		form.setName(entity.getName());
 		form.setCode(entity.getCode());
-		
+
 		Category category = entity.getCategory();
 		if (category != null) {
 			String categoryPk = LongConvertor.convertToStringFromLong(entity.getCategory().getPk());
 			form.setCategory(categoryPk);
 		}
-		
+
 		if (entity.getParent() != null) {
 			form.setParentPk(entity.getParent().getPk().toString());
 		} else {
 			form.setParentPk(null);
 		}
-	
+
 		form.setEmployees(entity.getEmployees());
 		form.setComponents(entity.getComponents());
 
 		form.setWorkEnabled(entity.getWorkEnabled());
 		form.setEstimation(BigDecimalConvertor.convertToStringFromBigDecimal(entity.getEstimation()));
-	}	
-	
+	}
+
 }

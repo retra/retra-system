@@ -17,7 +17,8 @@ import cz.softinel.uaf.spring.web.controller.Context;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 /**
- * This is Helper class for filters. It helps to get and set fields value. Helps to put and get fields to request etc.
+ * This is Helper class for filters. It helps to get and set fields value. Helps
+ * to put and get fields to request etc.
  * 
  * @version $Revision: 1.5 $ $Date: 2007-01-29 11:39:04 $
  * @author Petr Sígl
@@ -33,10 +34,9 @@ public class FilterHelper {
 	 * @param request
 	 */
 	public static void cleanOrFillFilter(Filter filter, HttpServletRequest request) {
-		if (cleanFilter(request)){
+		if (cleanFilter(request)) {
 			FilterHelper.cleanSavedFilter(filter, request);
-		}
-		else {
+		} else {
 			FilterHelper.fillFilter(filter, request);
 		}
 	}
@@ -48,10 +48,9 @@ public class FilterHelper {
 	 * @param requestContext
 	 */
 	public static void cleanOrFillFilter(Filter filter, RequestContext requestContext) {
-		if (cleanFilter(requestContext)){
+		if (cleanFilter(requestContext)) {
 			FilterHelper.cleanSavedFilter(filter, requestContext);
-		}
-		else {
+		} else {
 			FilterHelper.fillFilter(filter, requestContext);
 		}
 	}
@@ -68,7 +67,7 @@ public class FilterHelper {
 			for (String key : filter.getAllFields()) {
 				String value = requestContext.getParameter(key);
 				if (value == null) {
-					value = (String)sessionContext.getAttribute(key);
+					value = (String) sessionContext.getAttribute(key);
 				}
 				filter.setFieldValue(key, value);
 			}
@@ -87,7 +86,7 @@ public class FilterHelper {
 			for (String key : filter.getAllFields()) {
 				String value = request.getParameter(key);
 				if (value == null) {
-					value = (String)session.getAttribute(key);
+					value = (String) session.getAttribute(key);
 				}
 				filter.setFieldValue(key, value);
 			}
@@ -95,7 +94,8 @@ public class FilterHelper {
 	}
 
 	/**
-	 * This method put all fields from filter to session (pointed by requestContext).
+	 * This method put all fields from filter to session (pointed by
+	 * requestContext).
 	 * 
 	 * @param filter
 	 * @param requestContext
@@ -110,7 +110,6 @@ public class FilterHelper {
 		}
 	}
 
-
 	/**
 	 * This method put all fields from filter to session.
 	 * 
@@ -118,7 +117,7 @@ public class FilterHelper {
 	 * @param request
 	 */
 	public static void saveFilter(Filter filter, HttpServletRequest request) {
-		if (filter != null && request != null  && request.getSession() != null) {
+		if (filter != null && request != null && request.getSession() != null) {
 			HttpSession session = request.getSession();
 			for (String key : filter.getAllFields()) {
 				String value = filter.getFieldValue(key);
@@ -133,7 +132,7 @@ public class FilterHelper {
 	 * @param filter
 	 * @param requestContext
 	 */
-	public static void cleanSavedFilter(Filter filter, RequestContext requestContext){
+	public static void cleanSavedFilter(Filter filter, RequestContext requestContext) {
 		if (filter != null && requestContext != null && requestContext.getSessionContext() != null) {
 			Context sessionContext = requestContext.getSessionContext();
 			for (String key : filter.getAllFields()) {
@@ -149,7 +148,7 @@ public class FilterHelper {
 	 * @param filter
 	 * @param request
 	 */
-	public static void cleanSavedFilter(Filter filter, HttpServletRequest request){
+	public static void cleanSavedFilter(Filter filter, HttpServletRequest request) {
 		if (filter != null && request != null && request.getSession() != null) {
 			HttpSession session = request.getSession();
 			for (String key : filter.getAllFields()) {
@@ -190,12 +189,11 @@ public class FilterHelper {
 		Long result = null;
 		try {
 			result = LongConvertor.convertToLongFromString(valueStr);
-		}
-		catch (ConvertException e) {
-			//TODO: add warning message
+		} catch (ConvertException e) {
+			// TODO: add warning message
 			result = null;
 		}
-		
+
 		return result;
 	}
 
@@ -211,12 +209,11 @@ public class FilterHelper {
 		Integer result = null;
 		try {
 			result = IntegerConvertor.convertToIntegerFromString(valueStr);
-		}
-		catch (ConvertException e) {
-			//TODO: add warning message
+		} catch (ConvertException e) {
+			// TODO: add warning message
 			result = null;
 		}
-		
+
 		return result;
 	}
 
@@ -236,13 +233,14 @@ public class FilterHelper {
 	 * 
 	 * @param key
 	 * @param filter
-	 * @param endOfDay this parameter means, that if hours and minutes are not defined define it as end of day.
+	 * @param endOfDay this parameter means, that if hours and minutes are not
+	 *                 defined define it as end of day.
 	 * @return
 	 */
 	public static Date getFieldAsDate(String key, Filter filter, boolean endOfDay) {
 		String valueStr = filter.getFieldValue(key);
 		Date result = null;
-		//continuosly try to get date, one by one for patterns
+		// continuosly try to get date, one by one for patterns
 		result = DateConvertor.getDateFromFullDateString(valueStr);
 
 		if (result == null) {
@@ -252,14 +250,14 @@ public class FilterHelper {
 			result = DateConvertor.getDateFromDateHourMinuteString(valueStr);
 		}
 		if (result == null) {
-			//last chance to get date
+			// last chance to get date
 			try {
 				result = DateConvertor.convertToDateFromDateString(valueStr);
 				if (result != null && endOfDay) {
 					result = DateHelper.getEndOfDay(result);
 				}
 			} catch (ConvertException e) {
-				//TODO: add warning message
+				// TODO: add warning message
 				result = null;
 			}
 		}
@@ -286,9 +284,8 @@ public class FilterHelper {
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(year, month, 1, 0, 0, 0);
 			result = DateHelper.getStartOfMonth(calendar.getTime());
-		}
-		catch (ConvertException e) {
-			//TODO: add warning message
+		} catch (ConvertException e) {
+			// TODO: add warning message
 			result = null;
 		}
 
@@ -314,9 +311,8 @@ public class FilterHelper {
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(year, month, 1, 0, 0, 0);
 			result = DateHelper.getEndOfMonth(calendar.getTime());
-		}
-		catch (ConvertException e) {
-			//TODO: add warning message
+		} catch (ConvertException e) {
+			// TODO: add warning message
 			result = null;
 		}
 
@@ -340,20 +336,19 @@ public class FilterHelper {
 
 		try {
 			result = Boolean.valueOf(valueStr);
-		}
-		catch (Exception e) {
-			//TODO: add warning message
+		} catch (Exception e) {
+			// TODO: add warning message
 			result = null;
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value long value
+	 * @param value  long value
 	 * @param filter
 	 */
 	public static void setField(String key, String value, Filter filter) {
@@ -364,7 +359,7 @@ public class FilterHelper {
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value long value
+	 * @param value  long value
 	 * @param filter
 	 */
 	public static void setField(String key, Long value, Filter filter) {
@@ -376,7 +371,7 @@ public class FilterHelper {
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value long value
+	 * @param value  long value
 	 * @param filter
 	 */
 	public static void setField(String key, Integer value, Filter filter) {
@@ -388,7 +383,7 @@ public class FilterHelper {
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value date value
+	 * @param value  date value
 	 * @param filter
 	 */
 	public static void setField(String key, Date value, Filter filter) {
@@ -399,7 +394,7 @@ public class FilterHelper {
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value date value
+	 * @param value    date value
 	 * @param justDate if put just date (without time)
 	 * @param filter
 	 */
@@ -407,8 +402,7 @@ public class FilterHelper {
 		String valueStr = null;
 		if (justDate) {
 			valueStr = DateConvertor.convertToDateStringFromDate(value);
-		}
-		else {
+		} else {
 			valueStr = DateConvertor.convertToFullDateStringFromDate(value);
 		}
 		filter.setFieldValue(key, valueStr);
@@ -418,7 +412,7 @@ public class FilterHelper {
 	 * Set field filter value
 	 * 
 	 * @param key
-	 * @param value long value
+	 * @param value  long value
 	 * @param filter
 	 */
 	public static void setField(String key, Boolean value, Filter filter) {
@@ -428,7 +422,7 @@ public class FilterHelper {
 		}
 		filter.setFieldValue(key, valueStr);
 	}
-	
+
 	/**
 	 * Help method which return if filter should be cleared or not.
 	 * 
@@ -441,10 +435,10 @@ public class FilterHelper {
 		if (!StringUtils.hasText(cleanFilterStr)) {
 			cleanFilterStr = request.getParameter(FilterHelper.CLEAN_FILTER_PARAMETER);
 		}
-		if (StringUtils.hasText(cleanFilterStr)){
+		if (StringUtils.hasText(cleanFilterStr)) {
 			result = Boolean.valueOf(cleanFilterStr);
 		}
-		
+
 		return result;
 	}
 
@@ -460,10 +454,10 @@ public class FilterHelper {
 		if (!StringUtils.hasText(cleanFilterStr)) {
 			cleanFilterStr = requestContext.getParameter(FilterHelper.CLEAN_FILTER_PARAMETER);
 		}
-		if (StringUtils.hasText(cleanFilterStr)){
+		if (StringUtils.hasText(cleanFilterStr)) {
 			result = Boolean.valueOf(cleanFilterStr);
 		}
-		
+
 		return result;
 	}
 }

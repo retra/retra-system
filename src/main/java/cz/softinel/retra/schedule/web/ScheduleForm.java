@@ -143,4 +143,13 @@ public class ScheduleForm {
 	public void setCopyDestinationTo(String copyDestinationTo) {
 		this.copyDestinationTo = copyDestinationTo;
 	}
+
+	@Override
+	public String toString() {
+		return "(ScheduleForm: pk=" + pk + ", date=" + date + ", workFrom=" + workFrom + ", workTo=" + workTo
+				+ ", comment=" + comment + ", type=" + type + ", copyType=" + copyType + ", copyDestinationFrom="
+				+ copyDestinationFrom + ", copyDestinationTo=" + copyDestinationTo + ")";
+	}
+	
+	
 }

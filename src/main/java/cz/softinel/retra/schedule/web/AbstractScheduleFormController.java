@@ -10,10 +10,10 @@ import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public abstract class AbstractScheduleFormController extends FormController {
-	
+
 	private ScheduleLogic scheduleLogic;
 	private TypeLogic typeLogic;
-	
+
 	/**
 	 * @return the scheduleLogic
 	 */
@@ -41,7 +41,7 @@ public abstract class AbstractScheduleFormController extends FormController {
 	public void setTypeLogic(TypeLogic typeLogic) {
 		this.typeLogic = typeLogic;
 	}
-	
+
 	protected void prepareScheduleForm(ScheduleForm scheduleForm, RequestContext requestContext) {
 		getCookieHelper().importFromCookies(scheduleForm, requestContext);
 	}

@@ -3,7 +3,8 @@ package cz.softinel.uaf.messages;
 import java.util.List;
 
 /**
- * Convenient base base support class which provides methods for accessing messages object.
+ * Convenient base base support class which provides methods for accessing
+ * messages object.
  * 
  * Set a custom {@link MessagesContext} if you need an implementation other than
  * based on a thread local variable.
@@ -12,19 +13,21 @@ import java.util.List;
  * @author Pavel Mueller
  */
 public abstract class MessagesSupport {
-	
+
 	private MessagesContext messagesContext = new DefaultMessagesContext();
 
 	/**
 	 * Sets a custom messages context. Default is {@link DefaultMessagesContext}.
+	 * 
 	 * @param messagesContext the messagesContext to set
 	 */
 	public void setMessagesContext(MessagesContext messagesContext) {
 		this.messagesContext = messagesContext;
 	}
-	
+
 	/**
 	 * Returns a messages context.
+	 * 
 	 * @return the messagesContext
 	 */
 	public MessagesContext getMessagesContext() {
@@ -70,7 +73,7 @@ public abstract class MessagesSupport {
 	public List<Message> getWarnings() {
 		return getMessages().getWarnings();
 	}
-	
+
 	public void addAllMessages(Messages addedMessages) {
 		getMessages().addAllMessages(addedMessages);
 	}

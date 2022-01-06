@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>cz.retra</groupId>
@@ -15,13 +16,21 @@
 		<pmd.targetJdk>${java.version}</pmd.targetJdk>
 
 		<project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-		
+
 		<maven-compiler-plugin.version> 2.5.1 </maven-compiler-plugin.version>
-		<maven-jar-plugin.version>      2.4   </maven-jar-plugin.version>
-		<maven-war-plugin.version>		  2.3         </maven-war-plugin.version>
+		<maven-jar-plugin.version> 2.4   </maven-jar-plugin.version>
+		<maven-war-plugin.version> 2.3         </maven-war-plugin.version>
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.14</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring</artifactId> 
 			<version>2.0.2</version> </dependency> <dependency> <groupId>org.springframework</groupId> 
 			<artifactId>spring-mock</artifactId> <version>2.0.2</version> </dependency> -->
@@ -67,7 +76,7 @@
 			<groupId>net.sf.opencsv</groupId>
 			<artifactId>opencsv</artifactId>
 			<version>2.0</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
@@ -123,11 +132,6 @@
 			<groupId>org.opensymphony.quartz</groupId>
 			<artifactId>quartz-all</artifactId>
 			<version>1.6.1</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.14</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.transaction</groupId>
@@ -186,6 +190,18 @@
 			<artifactId>jersey-json</artifactId>
 			<version>1.17</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.32</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<finalName>retra</finalName>
@@ -203,7 +219,8 @@
 					</configuration>
 				</plugin>
 
-				<!-- ~~~~ jar/ejb/war/ear: add Implementation-* & Maven-Version to manifest ~~~~ -->
+				<!-- ~~~~ jar/ejb/war/ear: add Implementation-* & Maven-Version to manifest 
+					~~~~ -->
 				<plugin>
 					<artifactId>maven-jar-plugin</artifactId>
 					<version>${maven-jar-plugin.version}</version>

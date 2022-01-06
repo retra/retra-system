@@ -18,7 +18,7 @@ import cz.softinel.retra.core.blo.AbstractLogicBean;
 public class ActivityLogicImpl extends AbstractLogicBean implements ActivityLogic {
 
 	private ActivityDao activityDao;
-	
+
 	/**
 	 * @return the activityDao
 	 */
@@ -36,7 +36,7 @@ public class ActivityLogicImpl extends AbstractLogicBean implements ActivityLogi
 	/**
 	 * @see cz.softinel.retra.activity.blo.ActivityLogic#findAllActivities()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Activity> findAllActivities() {
 		return activityDao.selectAll();
 	}
@@ -44,7 +44,7 @@ public class ActivityLogicImpl extends AbstractLogicBean implements ActivityLogi
 	/**
 	 * @see cz.softinel.retra.activity.blo.ActivityLogic#findAllNotDeletedActivities()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Activity> findAllNotDeletedActivities() {
 		return activityDao.selectAllNotDeleted();
 	}

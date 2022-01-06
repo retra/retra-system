@@ -13,18 +13,18 @@ public abstract class RoleHelper {
 	 * @param user
 	 */
 	public static final void prepareUserPermissions(User user) {
-		
+
 		if (user != null && user.getRoles() != null && !user.getRoles().isEmpty()) {
 
-			//TODO: FUJ: static mapping, not i DB :-(
+			// TODO: FUJ: static mapping, not i DB :-(
 			for (Role role : user.getRoles()) {
 				if (PERM_GROUP_WORKLOG_ADMIN.equals(role.getId())) {
 					user.addPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
 				}
 			}
-			
+
 		}
-		
+
 	}
-	
+
 }

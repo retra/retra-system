@@ -12,14 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version $Revision: 1.1 $ $Date: 2007-01-31 18:41:31 $
  * @author Petr Sígl
  */
-@XmlRootElement(name="news")
+@XmlRootElement(name = "news")
 public class SystemNews {
 	private List<SystemNewsItem> news = new ArrayList<SystemNewsItem>();
 
 	/**
 	 * @return the lovs
 	 */
-	@XmlElement(name="item")
+	@XmlElement(name = "item")
 	public List<SystemNewsItem> getNews() {
 		return news;
 	}

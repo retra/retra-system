@@ -12,14 +12,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version $Revision: 1.1 $ $Date: 2007-01-29 07:11:43 $
  * @author Petr Sígl
  */
-@XmlRootElement(name="lovs")
+@XmlRootElement(name = "lovs")
 public class Lovs {
 	private List<Lov> lovs = new ArrayList<Lov>();
 
 	/**
 	 * @return the lovs
 	 */
-	@XmlElement(name="lov")
+	@XmlElement(name = "lov")
 	public List<Lov> getLovs() {
 		return lovs;
 	}
@@ -30,11 +30,11 @@ public class Lovs {
 	public void setLovs(List<Lov> lovs) {
 		this.lovs = lovs;
 	}
-	
+
 	public void addLov(Lov lov) {
 		lovs.add(lov);
 	}
-	
+
 	public void addLovs(List<Lov> lovs) {
 		this.lovs.addAll(lovs);
 	}

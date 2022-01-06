@@ -4,6 +4,7 @@ import cz.softinel.retra.jiraintegration.worklog.JiraRemoteWorklog;
 
 /**
  * Request to update a worklog in the remote Jira.
+ * 
  * @author Erik Szalai
  */
 @Deprecated
@@ -13,10 +14,11 @@ public class WorklogUpdateRequest {
 	 */
 	private String loginToken;
 	/**
-	 * The worklog item in the remote system, presented locally. It must have a remote ID!
+	 * The worklog item in the remote system, presented locally. It must have a
+	 * remote ID!
 	 */
 	private JiraRemoteWorklog jiraRemoteWorklog;
-	
+
 	/**
 	 * @return
 	 * @see #loginToken
@@ -24,6 +26,7 @@ public class WorklogUpdateRequest {
 	public String getLoginToken() {
 		return loginToken;
 	}
+
 	/**
 	 * @param loginToken
 	 * @see #loginToken
@@ -31,6 +34,7 @@ public class WorklogUpdateRequest {
 	public void setLoginToken(String loginToken) {
 		this.loginToken = loginToken;
 	}
+
 	/**
 	 * @return
 	 * @see #jiraRemoteWorklog
@@ -38,6 +42,7 @@ public class WorklogUpdateRequest {
 	public JiraRemoteWorklog getJiraRemoteWorklog() {
 		return jiraRemoteWorklog;
 	}
+
 	/**
 	 * @param jiraRemoteWorklog
 	 * @see #jiraRemoteWorklog

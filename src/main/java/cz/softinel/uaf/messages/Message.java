@@ -130,11 +130,13 @@ public class Message implements Serializable {
 	/**
 	 * Constructor
 	 * 
-	 * @param valueOrKey key of message all value if not defined in properties and do not have default message
-	 * @param parameters parameters of message
-	 * @param defaultValue default value of message
-	 * @param locale locale of message
-	 * @param countToExpire number how much times it should be shown if until it expires
+	 * @param valueOrKey    key of message all value if not defined in properties
+	 *                      and do not have default message
+	 * @param parameters    parameters of message
+	 * @param defaultValue  default value of message
+	 * @param locale        locale of message
+	 * @param countToExpire number how much times it should be shown if until it
+	 *                      expires
 	 */
 	public Message(String valueOrKey, Object[] parameters, String defaultValue, Locale locale, int countToExpire) {
 		this.valueOrKey = valueOrKey;

@@ -12,7 +12,9 @@ import cz.softinel.sis.user.User;
 public interface UserLogic {
 
 	public User create(User user);
+
 	public void store(User user);
+
 	public void remove(User user);
 
 	public List<User> findAll();

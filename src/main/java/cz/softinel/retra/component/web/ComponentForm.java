@@ -1,5 +1,9 @@
 package cz.softinel.retra.component.web;
 
+/**
+ * @author petr
+ *
+ */
 public class ComponentForm {
 
 	private String pk;
@@ -7,7 +11,7 @@ public class ComponentForm {
 	private String name;
 	private String code;
 	private String projectPk;
-	
+
 	public String getCode() {
 		return code;
 	}
@@ -40,5 +44,9 @@ public class ComponentForm {
 		this.projectPk = projectPk;
 	}
 
+	@Override
+	public String toString() {
+		return "(ComponentForm: pk=" + pk + ", name=" + name + ", code=" + code + ", projectPk=" + projectPk + ")";
+	}
 	
 }

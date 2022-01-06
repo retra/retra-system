@@ -11,7 +11,6 @@ import java.util.List;
 import cz.softinel.sis.user.User;
 import cz.softinel.uaf.orm.hibernate.AbstractHibernateDao;
 
-
 /**
  * @author Radek Pinc
  *

@@ -22,9 +22,10 @@ public class ScheduleCookieHelper extends AbstractCookieHelper {
 	private static final String COOKIE_NAME_SCHEDULE_TYPE = "mira.scheduleForm.type";
 	private static final String COOKIE_NAME_SCHEDULE_FROM = "mira.scheduleForm.from";
 	private static final String COOKIE_NAME_SCHEDULE_TO = "mira.scheduleForm.to";
-	
+
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse)
 	 */
 	@SuppressWarnings("unchecked")
 	public void addToCookies(Object commandForm, RequestContext requestContext) {
@@ -32,11 +33,12 @@ public class ScheduleCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object, javax.servlet.http.HttpServletResponse, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#addToCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletResponse, java.util.Map)
 	 */
 	public void addToCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		ScheduleForm schedule = (ScheduleForm) commandForm;
-		//add one day
+		// add one day
 		String date = schedule.getDate();
 		Date datePlus = DateConvertor.getDateFromDateString(date);
 		Calendar calendar = Calendar.getInstance();
@@ -51,39 +53,41 @@ public class ScheduleCookieHelper extends AbstractCookieHelper {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext) {
 		importFromCookies(commandForm, requestContext, null);
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object, javax.servlet.http.HttpServletRequest, java.util.Map)
+	 * @see cz.softinel.uaf.spring.web.controller.AbstractCookieHelper#importFromCookies(java.lang.Object,
+	 *      javax.servlet.http.HttpServletRequest, java.util.Map)
 	 */
 	public void importFromCookies(Object commandForm, RequestContext requestContext, Map helpParameters) {
 		ScheduleForm schedule = (ScheduleForm) commandForm;
 		Cookie[] cookies = requestContext.getCookies();
-		if (cookies != null){
-			for (Cookie cookie: cookies){
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
 				String name = cookie.getName();
 				String value = cookie.getValue();
-				if (COOKIE_NAME_SCHEDULE_DATE.equals(name)){
+				if (COOKIE_NAME_SCHEDULE_DATE.equals(name)) {
 					schedule.setDate(value);
 					continue;
 				}
-				if (COOKIE_NAME_SCHEDULE_TYPE.equals(name)){
+				if (COOKIE_NAME_SCHEDULE_TYPE.equals(name)) {
 					schedule.setType(value);
 					continue;
 				}
-				if (COOKIE_NAME_SCHEDULE_FROM.equals(name)){
+				if (COOKIE_NAME_SCHEDULE_FROM.equals(name)) {
 					schedule.setWorkFrom(value);
 					continue;
 				}
-				if (COOKIE_NAME_SCHEDULE_TO.equals(name)){
+				if (COOKIE_NAME_SCHEDULE_TO.equals(name)) {
 					schedule.setWorkTo(value);
 					continue;
 				}
 			}
-		}	
+		}
 	}
 }

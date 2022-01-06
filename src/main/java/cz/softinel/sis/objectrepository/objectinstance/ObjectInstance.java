@@ -8,7 +8,7 @@ public class ObjectInstance {
 	private Long pk;
 
 	private String id;
-	
+
 	private ObjectClass objectClass;
 
 	// Business fields ...
@@ -38,10 +38,9 @@ public class ObjectInstance {
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
-	
-	
+
 	// Object implementation ...
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -68,12 +67,12 @@ public class ObjectInstance {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(ObjectInstance: pk=" + pk + ", id=" + id +")";
+		return "(ObjectInstance: pk=" + pk + ", id=" + id + ")";
 	}
 
 }

@@ -3,7 +3,8 @@ package cz.softinel.retra.worklog.web;
 /**
  * Project as represented in a worklog being imported.
  * 
- * <p>Project ID or name can be generated if missing
+ * <p>
+ * Project ID or name can be generated if missing
  *
  * @version $Revision: 1.2 $ $Date: 2007-11-25 22:51:59 $
  * @author Pavel Mueller
@@ -14,16 +15,16 @@ public class ExternalProject {
 
 	/** External project ID */
 	private final String id;
-	
+
 	/** External project name */
 	private final String name;
-	
+
 	/** Internal project ID */
 	private Long projectId;
-	
+
 	/** Internal invoice ID */
 	private Long invoiceId;
-	
+
 	public Long getInvoiceId() {
 		return invoiceId;
 	}
@@ -34,7 +35,8 @@ public class ExternalProject {
 
 	/**
 	 * Constructs project
-	 * @param id project id
+	 * 
+	 * @param id   project id
 	 * @param name project name
 	 */
 	public ExternalProject(final String id, final String name) {
@@ -44,13 +46,16 @@ public class ExternalProject {
 
 	/**
 	 * Returns project id.
+	 * 
 	 * @return the id
 	 */
 	public String getId() {
 		return id;
 	}
+
 	/**
 	 * Returns project name
+	 * 
 	 * @return the name
 	 */
 	public String getName() {
@@ -59,20 +64,22 @@ public class ExternalProject {
 
 	/**
 	 * Returns Mira project id mapped to this imported project
+	 * 
 	 * @return the projectId
 	 */
 	public Long getProjectId() {
 		return projectId;
 	}
-	
+
 	/**
 	 * Sets Mira project id mapped to this imported project
+	 * 
 	 * @param projectId the projectId to set
 	 */
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -80,7 +87,7 @@ public class ExternalProject {
 	public int hashCode() {
 		return id.hashCode();
 	}
-	
+
 	/**
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */

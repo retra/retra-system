@@ -19,33 +19,33 @@ import cz.softinel.uaf.messages.Message;
 public class InvoiceSeqLogicImpl extends AbstractLogicBean implements InvoiceSeqLogic {
 
 	private InvoiceSeqDao invoiceSeqDao;
-	
+
 	public void setInvoiceSeqDao(InvoiceSeqDao invoiceSeqDao) {
 		this.invoiceSeqDao = invoiceSeqDao;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<InvoiceSeq> findAllActive() {
 		return invoiceSeqDao.selectAllActive();
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public String getNextCodeForSequence(Long pk) {
 		String result = getNextCodeForSequenceImpl(pk, false);
 		return result;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public String getNextCodeForSequenceIgnoreStep(Long pk) {
 		String result = getNextCodeForSequenceImpl(pk, true);
 		return result;
 	}
-	
+
 	private String getNextCodeForSequenceImpl(Long pk, boolean ignoreStep) {
 		String result = null;
-		
+
 		InvoiceSeq invoiceSeq = invoiceSeqDao.getForNextNumber(pk);
-		//no sequence or sequence not active
+		// no sequence or sequence not active
 		if (invoiceSeq == null || InvoiceSeq.STATE_ACTIVE != invoiceSeq.getState()) {
 			addError(new Message("invoice.error.create.bad.sequence"));
 			return null;
@@ -55,13 +55,13 @@ public class InvoiceSeqLogicImpl extends AbstractLogicBean implements InvoiceSeq
 		if (!ignoreStep) {
 			step = invoiceSeq.getStep();
 		}
-		//generate code
+		// generate code
 		String pattern = invoiceSeq.getPattern();
 		int newSeq = invoiceSeq.getSequence() + step;
 		result = CodeGenerator.generateNewCode(pattern, newSeq);
-		//update sequence
+		// update sequence
 		invoiceSeq.setSequence(newSeq);
-		
+
 		return result;
 	}
 

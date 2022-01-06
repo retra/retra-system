@@ -8,8 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,13 +19,14 @@ import cz.softinel.retra.core.utils.TypeFormats;
 import cz.softinel.uaf.messages.Message;
 
 /**
- * Common form controller is main controller for forms and it is parent of all controllers in application.
+ * Common form controller is main controller for forms and it is parent of all
+ * controllers in application.
  * 
  * @version $Revision: 1.7 $ $Date: 2007-11-28 23:05:12 $
  * @author Petr Sígl
  */
 public class CommonFormController extends SimpleFormController {
-	private Log logger = LogFactory.getLog(getClass());
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	// button names
 	public static final String BUTTON_SAVE = "save";
@@ -158,14 +159,16 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * This method is override of srping method. It prepares request context and model. Than returns super method.
+	 * This method is override of srping method. It prepares request context and
+	 * model. Than returns super method.
 	 * 
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#handleRequestInternal(javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse)
+	 *      javax.servlet.http.HttpServletResponse)
 	 * 
 	 */
 	@Override
-	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
 		// prepare model and requestContext
 		model = new Model();
 		requestContext = createRequestContext(request, response);
@@ -177,10 +180,10 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * Creates new request context. 
-	 * Override this method to create a custom request context.
-	 * This method creates {@link HttpRequestContext}.
-	 * @param request current HTTP request
+	 * Creates new request context. Override this method to create a custom request
+	 * context. This method creates {@link HttpRequestContext}.
+	 * 
+	 * @param request  current HTTP request
 	 * @param response current HTTP response
 	 * @return new request context
 	 */
@@ -189,16 +192,19 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * This is override of spring method. It checks which submit button was pressed and according to it set action. If button is cancel button, than call method
-	 * do before cancel and returns cancel view (of course do not validation). If button was back button, than only returns back view. In other casses calls
+	 * This is override of spring method. It checks which submit button was pressed
+	 * and according to it set action. If button is cancel button, than call method
+	 * do before cancel and returns cancel view (of course do not validation). If
+	 * button was back button, than only returns back view. In other casses calls
 	 * super.
 	 * 
 	 * @see org.springframework.web.servlet.mvc.SimpleFormController#processFormSubmission(javax.servlet.http.HttpServletRequest,
-	 * javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
 	@Override
-	protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
+	protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response,
+			Object command, BindException errors) throws Exception {
 		String cancel = request.getParameter(BUTTON_CANCEL);
 		String back = request.getParameter(BUTTON_BACK);
 		String save = request.getParameter(BUTTON_SAVE);
@@ -225,10 +231,12 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * This method is override of spring method. It just try to find method with parameters Model, RequestContext and Object and this method try to invoke. It
+	 * This method is override of spring method. It just try to find method with
+	 * parameters Model, RequestContext and Object and this method try to invoke. It
 	 * is used to prepare data (entity - form) into edit form.
 	 * 
-	 * @see org.springframework.web.servlet.mvc.AbstractFormController#onBindOnNewForm(javax.servlet.http.HttpServletRequest, java.lang.Object)
+	 * @see org.springframework.web.servlet.mvc.AbstractFormController#onBindOnNewForm(javax.servlet.http.HttpServletRequest,
+	 *      java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -238,7 +246,8 @@ public class CommonFormController extends SimpleFormController {
 		Method method = null;
 		// try to find method with params Model, RequestContext and Object
 		try {
-			method = thisClass.getMethod("onBindOnNewForm", new Class[] { Model.class, RequestContext.class, Object.class });
+			method = thisClass.getMethod("onBindOnNewForm",
+					new Class[] { Model.class, RequestContext.class, Object.class });
 		} catch (NoSuchMethodException e) {
 			// method not found - never mind, call super
 			logger.error("Couldn't find method for on bind new form.");
@@ -266,16 +275,20 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * This method is override of spring method. It try find method with parameters Model, RequestContext, BindException and Map. This method is invoked and
-	 * than is run super method. It also binds spring errors into our messages. It is used for prepare data (as list into select boxes for example) which are
-	 * used in form view.
+	 * This method is override of spring method. It try find method with parameters
+	 * Model, RequestContext, BindException and Map. This method is invoked and than
+	 * is run super method. It also binds spring errors into our messages. It is
+	 * used for prepare data (as list into select boxes for example) which are used
+	 * in form view.
 	 * 
-	 * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * org.springframework.validation.BindException, java.util.Map)
+	 * @see org.springframework.web.servlet.mvc.SimpleFormController#showForm(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse,
+	 *      org.springframework.validation.BindException, java.util.Map)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors, Map controlModel) throws Exception {
+	protected ModelAndView showForm(HttpServletRequest request, HttpServletResponse response, BindException errors,
+			Map controlModel) throws Exception {
 		// actual class
 		Class thisClass = this.getClass();
 		Method method = null;
@@ -283,7 +296,8 @@ public class CommonFormController extends SimpleFormController {
 		putBindErrorsToMessages(errors, requestContext);
 		// try to find method with params Model, RequestContext and BindException
 		try {
-			method = thisClass.getMethod("showForm", new Class[] { Model.class, RequestContext.class, BindException.class });
+			method = thisClass.getMethod("showForm",
+					new Class[] { Model.class, RequestContext.class, BindException.class });
 		} catch (NoSuchMethodException e) {
 			// method not found - never mind, call super
 			logger.error("Couldn't find method for show form.");
@@ -315,23 +329,29 @@ public class CommonFormController extends SimpleFormController {
 	}
 
 	/**
-	 * This method is override of spring method. It try to find method with parameters Model, RequestContext Object, BindException and invoke it. It also binds
-	 * spring errors into our messages. This method is used to serve action after submiting form.
+	 * This method is override of spring method. It try to find method with
+	 * parameters Model, RequestContext Object, BindException and invoke it. It also
+	 * binds spring errors into our messages. This method is used to serve action
+	 * after submiting form.
 	 * 
-	 * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-	 * java.lang.Object, org.springframework.validation.BindException)
+	 * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command,
+			BindException errors) throws Exception {
 		// actual class
 		Class thisClass = this.getClass();
 		Method method = null;
 		// bind errors from spring to our messages
 		putBindErrorsToMessages(errors, requestContext);
-		// try to find method with params Model, RequestContext, Object and BindException
+		// try to find method with params Model, RequestContext, Object and
+		// BindException
 		try {
-			method = thisClass.getMethod("onSubmit", new Class[] { Model.class, RequestContext.class, Object.class, BindException.class });
+			method = thisClass.getMethod("onSubmit",
+					new Class[] { Model.class, RequestContext.class, Object.class, BindException.class });
 		} catch (NoSuchMethodException e) {
 			// method not found - never mind, call super
 			logger.error("Couldn't find method for on submit.");
@@ -378,7 +398,8 @@ public class CommonFormController extends SimpleFormController {
 	 * @param command
 	 * @param errors
 	 */
-	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command, BindException errors) {
+	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command,
+			BindException errors) {
 		return;
 	}
 
@@ -405,5 +426,5 @@ public class CommonFormController extends SimpleFormController {
 	 */
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 	}
-	
+
 }

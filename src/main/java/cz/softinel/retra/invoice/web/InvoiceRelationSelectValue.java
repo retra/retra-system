@@ -3,7 +3,7 @@ package cz.softinel.retra.invoice.web;
 public class InvoiceRelationSelectValue {
 
 	private String code;
-	
+
 	public InvoiceRelationSelectValue(String code) {
 		this.code = code;
 	}
@@ -15,5 +15,5 @@ public class InvoiceRelationSelectValue {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
+
 }

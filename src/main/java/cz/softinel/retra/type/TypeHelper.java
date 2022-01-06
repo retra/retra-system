@@ -1,6 +1,5 @@
 package cz.softinel.retra.type;
 
-
 /**
  * Helpr methods for type
  *
@@ -17,30 +16,31 @@ public class TypeHelper {
 		return sb.toString().trim();
 	}
 
-	public static String getCssClass(Type type){
-		//TODO: maybe can be cssClass define in Type, than it could return only getType().getCssClass().
+	public static String getCssClass(Type type) {
+		// TODO: maybe can be cssClass define in Type, than it could return only
+		// getType().getCssClass().
 		String result = "scheduleDefault";
-		if (type != null)	{
+		if (type != null) {
 			String code = type.getCode();
 
-			//holidays
-			if ("HOL".equals(code)){
+			// holidays
+			if ("HOL".equals(code)) {
 				result = "scheduleHolidays";
 			}
-			//internal project
-			else if ("IPRJ".equals(code)){
+			// internal project
+			else if ("IPRJ".equals(code)) {
 				result = "scheduleInternal";
 			}
-			//bodyshop
-			else if ("BSHP".equals(code)){
+			// bodyshop
+			else if ("BSHP".equals(code)) {
 				result = "scheduleBodyshop";
 			}
-			//bussiness trip
-			else if ("BTRP".equals(code)){
+			// bussiness trip
+			else if ("BTRP".equals(code)) {
 				result = "scheduleTrip";
 			}
 		}
 		return result;
 	}
-	
+
 }

@@ -23,7 +23,6 @@ import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.messages.Message;
 
-
 /**
  * Implementation of worklog logic
  * 
@@ -37,7 +36,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	private MiraSecurityLogic securityLogic;
 
 	private JiraLogic jiraLogic;
-	
+
 	/**
 	 * @param worklogDao the worklogDao to set
 	 */
@@ -67,7 +66,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findAllWorklogs()
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public List<Worklog> findAllWorklogs() {
 		List<Worklog> result = new ArrayList<Worklog>();
 		if (hasAdminWorklogPermission()) {
@@ -76,46 +75,44 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findAllWorklogsForEmployee(java.lang.Long)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Worklog> findAllWorklogsForEmployee(Long pk) {
 		List<Worklog> result = new ArrayList<Worklog>();
-		
-		if (hasAdminWorklogPermission()
-				|| isGivenEmpLoggedEmployee(pk)) {
+
+		if (hasAdminWorklogPermission() || isGivenEmpLoggedEmployee(pk)) {
 
 			result = worklogDao.selectForEmployee(pk);
-			updateDescriptionGui(result);		
-			
+			updateDescriptionGui(result);
+
 		}
 		return result;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Worklog> findAllWorklogsForInvoice(Long pk) {
 		List<Worklog> result = new ArrayList<Worklog>();
 		Invoice invoice = invoiceDao.get(pk);
 		if (invoice != null) {
-			if (hasAdminWorklogPermission()
-					|| isGivenEmpLoggedEmployee(invoice.getEmployee().getPk())) {
+			if (hasAdminWorklogPermission() || isGivenEmpLoggedEmployee(invoice.getEmployee().getPk())) {
 				result = worklogDao.selectForInvoice(pk);
 				updateDescriptionGui(result);
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#create(cz.softinel.retra.worklog.Worklog)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Worklog create(Worklog worklog) {
-		//business validation
-		if (!hasValidTerm(worklog)){
+		// business validation
+		if (!hasValidTerm(worklog)) {
 			addError(new Message("worklog.has.invalid.terms"));
 			return null;
 		}
@@ -128,17 +125,18 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 
 		return worklogCreate(worklog);
 	}
-	
+
 	/**
-	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#create(java.util.List, com.mysql.jdbc.Messages)
+	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#create(java.util.List,
+	 *      com.mysql.jdbc.Messages)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int create(List<Worklog> worklogItems) {
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
-		
+
 		int counter = 0;
 		for (Worklog worklog : worklogItems) {
-			if (!hasValidTerm(worklog)){
+			if (!hasValidTerm(worklog)) {
 				addError(new Message("worklog.has.invalid.terms"));
 				continue;
 			}
@@ -160,24 +158,24 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	 */
 	private Worklog worklogCreate(Worklog worklog) {
 		Worklog result = worklogDao.insert(worklog);
-		
+
 		if (isJiraEnabled()) {
 			jiraLogic.addJiraWorklog(worklog);
 			updateDescriptionGui(result);
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#remove(cz.softinel.retra.worklog.Worklog)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Worklog worklog) {
-		//check if deleting just own worklog
+		// check if deleting just own worklog
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 		worklogDao.load(worklog);
-		if (!hasOwnWorklogPermission(worklog)){
+		if (!hasOwnWorklogPermission(worklog)) {
 			addError(new Message("worklog.error.delete.not.own"));
 			return;
 		}
@@ -195,31 +193,29 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#remove(cz.softinel.retra.worklog.Worklog)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Long pk) {
 		Worklog worklog = new Worklog();
 		worklog.setPk(pk);
 		remove(worklog);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#get(java.lang.Long)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Worklog get(Long pk) {
 		Worklog worklog = worklogDao.get(pk);
-		if (hasAdminWorklogPermission()
-			|| hasOwnWorklogPermission(worklog)) {
+		if (hasAdminWorklogPermission() || hasOwnWorklogPermission(worklog)) {
 			updateDescriptionGui(worklog);
 			return worklog;
 		}
 		throw new NoPermissionException();
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public void loadAndLoadLazy(Worklog worklog) {
-		if (hasAdminWorklogPermission()
-				|| hasOwnWorklogPermission(worklog)) {
+		if (hasAdminWorklogPermission() || hasOwnWorklogPermission(worklog)) {
 			if (worklog.getEmployee() == null) {
 				loadAndLoadLazyImpl(worklog);
 			}
@@ -230,9 +226,10 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	}
 
 	/**
-	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#store(cz.softinel.retra.worklog.Worklog, cz.softinel.uaf.messages.Messages)
+	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#store(cz.softinel.retra.worklog.Worklog,
+	 *      cz.softinel.uaf.messages.Messages)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Worklog worklog) {
 		storeImpl(worklog, true);
 	}
@@ -241,25 +238,25 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	public void storeFromInvoice(Worklog worklog) {
 		storeImpl(worklog, false);
 	}
-	
+
 	private void storeImpl(Worklog worklog, boolean updateJira) {
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 
-		//business validation
-		if (!hasValidTerm(worklog)){
+		// business validation
+		if (!hasValidTerm(worklog)) {
 			addError(new Message("worklog.has.invalid.terms"));
 			return;
 		}
-		
+
 		if (!hasValidInvoice(worklog, actualEmployeePk)) {
 			addError(new Message("worklog.has.invalid.invoice"));
 			return;
 		}
-		
+
 //		this.jiraWorklogDao.update(worklog.getCurrentIssueTrackingWorklog());
-		//check if do not try to update not own worklog
+		// check if do not try to update not own worklog
 		Worklog worklogInDB = worklogDao.get(worklog.getPk());
-		if(!hasOwnWorklogPermission(worklogInDB)){
+		if (!hasOwnWorklogPermission(worklogInDB)) {
 			addError(new Message("worklog.error.update.not.own"));
 			return;
 		}
@@ -270,45 +267,46 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		}
 
 		worklogDao.merge(worklog);
-	//		worklogDao.update(worklog); //Does not work with two worklogs in the session.
+		// worklogDao.update(worklog); //Does not work with two worklogs in the session.
 	}
 
 	/**
-	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findByFilter(cz.softinel.uaf.filter.Filter, cz.softinel.uaf.messages.Messages)
+	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findByFilter(cz.softinel.uaf.filter.Filter,
+	 *      cz.softinel.uaf.messages.Messages)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Worklog> findByFilter(Filter filter) {
 		List<Worklog> result = worklogDao.selectByFilter(filter);
-		updateDescriptionGui(result);		
+		updateDescriptionGui(result);
 		return result;
 	}
 
 	/**
-	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findWorklogOverviewByFilter(cz.softinel.uaf.filter.Filter, cz.softinel.uaf.messages.Messages)
+	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findWorklogOverviewByFilter(cz.softinel.uaf.filter.Filter,
+	 *      cz.softinel.uaf.messages.Messages)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<WorklogViewOverview> findWorklogOverviewByFilter(Filter filter) {
 		return worklogDao.selectWorklogOverviewByFilter(filter);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void unpairWorklogWithInvoice(Worklog worklog, Invoice invoice) {
 		Assert.notNull(worklog);
 		Assert.notNull(invoice);
 		Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 
-		if (hasOwnWorklogPermission(worklog)
-			&& actualEmployeePk.equals(invoice.getEmployee().getPk())
-			&& worklog.getInvoice().getPk().equals(invoice.getPk())) {
+		if (hasOwnWorklogPermission(worklog) && actualEmployeePk.equals(invoice.getEmployee().getPk())
+				&& worklog.getInvoice().getPk().equals(invoice.getPk())) {
 			worklog.setInvoice(null);
 			storeFromInvoice(worklog);
 		} else {
 			addError(new Message("invoice.worklog.unpair.error"));
 		}
-		
+
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void pairWorklogWithInvoice(Worklog worklog, Invoice invoice) {
 		Assert.notNull(worklog);
 		Assert.notNull(invoice);
@@ -320,14 +318,14 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		}
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public int pairWorklogWithInvoice(Long invoicePk, Long... worklogsPk) {
 		int counter = 0;
 
 		if (worklogsPk != null && worklogsPk.length > 0) {
 			Long actualEmployeePk = securityLogic.getLoggedEmployee().getPk();
 			Invoice invoice = invoiceDao.get(invoicePk);
-			//for all try store
+			// for all try store
 			for (Long wpk : worklogsPk) {
 				Worklog worklog = worklogDao.get(wpk);
 				boolean ok = pairWorklogWithInvoice(worklog, invoice, actualEmployeePk);
@@ -339,10 +337,9 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 
 		return counter;
 	}
-	
+
 	private boolean pairWorklogWithInvoice(Worklog worklog, Invoice invoice, Long actualEmployeePk) {
-		if (hasOwnWorklogPermission(worklog)
-			&& actualEmployeePk.equals(invoice.getEmployee().getPk())) {
+		if (hasOwnWorklogPermission(worklog) && actualEmployeePk.equals(invoice.getEmployee().getPk())) {
 			worklog.setInvoice(invoice);
 			storeFromInvoice(worklog);
 			return true;
@@ -357,30 +354,29 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_EMPLOYEE, worklog.getEmployee().getPk(), filter);
 		FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_FROM, worklog.getWorkFrom(), filter);
 		FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_TO, worklog.getWorkTo(), filter);
-		
+
 		List<Worklog> list = worklogDao.selectForEmployeeInPeriodExclude(filter);
-		//no match found - it is ok
+		// no match found - it is ok
 		if (list.size() == 0) {
 			result = true;
-		}
-		else if (list.size() == 1) {
+		} else if (list.size() == 1) {
 			result = false;
-			//take this only one item and compare ids
+			// take this only one item and compare ids
 			Worklog existingWorklog = list.iterator().next();
-			//it is the same object - just update it
-			if (existingWorklog.getPk().equals(worklog.getPk())){
+			// it is the same object - just update it
+			if (existingWorklog.getPk().equals(worklog.getPk())) {
 				result = true;
 			}
-			//it is new object or updated to another object period
+			// it is new object or updated to another object period
 			else {
 				result = false;
 			}
 		}
-		//more than one existing conflict period
+		// more than one existing conflict period
 		else {
 			result = false;
 		}
-		
+
 		return result;
 	}
 
@@ -394,10 +390,10 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 				if (!originalWorklog.getInvoice().getEmployee().getPk().equals(loggedEmployeePk)) {
 					return false;
 				}
-				
+
 				return originalWorklog.getInvoice().getState() == Invoice.STATE_ACTIVE;
 			}
-		// new
+			// new
 		} else {
 			if (worklog.getInvoice() == null || worklog.getInvoice().getPk() == null) {
 				return true;
@@ -406,16 +402,16 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 				if (!worklog.getInvoice().getEmployee().getPk().equals(loggedEmployeePk)) {
 					return false;
 				}
-				
+
 				return worklog.getInvoice().getState() == Invoice.STATE_ACTIVE;
 			}
 		}
 	}
-	
+
 	private boolean isJiraEnabled() {
 		return jiraLogic.isJiraEnabled();
 	}
-	
+
 	private void updateDescriptionGui(List<Worklog> worklogs) {
 		if (isJiraEnabled() && worklogs != null && !worklogs.isEmpty()) {
 			for (Worklog worklog : worklogs) {
@@ -429,7 +425,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			updateDescriptionGuiImpl(worklog);
 		}
 	}
-	
+
 	private void updateDescriptionGuiImpl(Worklog worklog) {
 		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic));
 	}
@@ -437,14 +433,14 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	private boolean isGivenEmpLoggedEmployee(Long givenPk) {
 		Long loggedEmployeePk = securityLogic.getLoggedEmployee().getPk();
 
-		//not logged employee
+		// not logged employee
 		if (!loggedEmployeePk.equals(givenPk)) {
 			return false;
 		}
 
 		return true;
 	}
-	
+
 	private boolean hasOwnWorklogPermission(final Worklog worklog) {
 		if (worklog == null) {
 			return false;
@@ -455,23 +451,23 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		}
 
 		Long worklogEmployeePk = worklog.getEmployee().getPk();
-			
-		//not owned worklog
+
+		// not owned worklog
 		if (!isGivenEmpLoggedEmployee(worklogEmployeePk)) {
-			return false;					
+			return false;
 		}
-		
+
 		return true;
 	}
 
 	private boolean hasAdminWorklogPermission() {
-		//check permission
+		// check permission
 		boolean hasWorklogAdminPermission = securityLogic.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-		//do not have admin worklog permission
+		// do not have admin worklog permission
 		if (!hasWorklogAdminPermission) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
@@ -479,6 +475,4 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		worklogDao.loadAndLoadLazy(worklog);
 	}
 
-	
 }
-

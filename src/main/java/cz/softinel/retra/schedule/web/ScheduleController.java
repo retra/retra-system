@@ -17,7 +17,6 @@ import cz.softinel.retra.schedule.dao.ScheduleFilter;
 import cz.softinel.retra.spring.web.DispatchController;
 import cz.softinel.retra.type.Type;
 import cz.softinel.retra.type.blo.TypeLogic;
-import cz.softinel.retra.worklog.dao.WorklogFilter;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
 import cz.softinel.uaf.lovs.Lov;
@@ -87,7 +86,7 @@ public class ScheduleController extends DispatchController {
 			filter = new ScheduleFilter();
 			model.set(ScheduleFilter.class.toString(), filter);
 		}
-		return filter;		
+		return filter;
 	}
 
 	/**

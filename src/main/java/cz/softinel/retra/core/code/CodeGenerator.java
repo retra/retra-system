@@ -20,5 +20,5 @@ public abstract class CodeGenerator {
 		String output = formatter.format(number);
 		return output;
 	}
-	
+
 }

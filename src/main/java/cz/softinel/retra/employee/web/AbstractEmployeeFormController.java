@@ -9,10 +9,10 @@ import cz.softinel.retra.spring.web.FormController;
 import cz.softinel.uaf.spring.web.controller.Model;
 
 public abstract class AbstractEmployeeFormController extends FormController {
-	
+
 	private IcompanyLogic icompanyLogic;
 	private EmployeeLogic employeeLogic;
-	
+
 	/**
 	 * @return the icompanyLogic
 	 */
@@ -44,13 +44,13 @@ public abstract class AbstractEmployeeFormController extends FormController {
 	protected void prepareIcompanies(Model model) {
 		prepareIcompanies(model, false);
 	}
-	
+
 	protected void prepareIcompanies(Model model, boolean showAll) {
 		List<Icompany> icompanies = null;
 		if (showAll) {
 			icompanies = icompanyLogic.findAllIcompanies();
 		} else {
-			icompanies = icompanyLogic.findAllNotDeletedIcompanies();			
+			icompanies = icompanyLogic.findAllNotDeletedIcompanies();
 		}
 		prepareIcompanies(model, icompanies);
 	}

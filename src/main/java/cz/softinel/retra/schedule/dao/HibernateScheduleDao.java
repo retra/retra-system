@@ -39,7 +39,7 @@ public class HibernateScheduleDao extends AbstractHibernateDao implements Schedu
 	public void update(Schedule schedule) {
 		getHibernateTemplate().update(schedule);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.schedule.dao.ScheduleDao#merge(cz.softinel.retra.schedule.Schedule)
 	 */
@@ -110,28 +110,30 @@ public class HibernateScheduleDao extends AbstractHibernateDao implements Schedu
 		query.setLong("employeePk", employeePk);
 		query.setTimestamp("dateBegin", dateBegin);
 		query.setTimestamp("dateEnd", dateEnd);
-		
-		try{
+
+		try {
 			return query.list();
-		}finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<Schedule> filterSchedules(Filter filter){
+	private List<Schedule> filterSchedules(Filter filter) {
 		Long employeePk = FilterHelper.getFieldAsLong(ScheduleFilter.SCHEDULE_FILTER_EMPLOYEE, filter);
 		Long typePk = FilterHelper.getFieldAsLong(ScheduleFilter.SCHEDULE_FILTER_TYPE, filter);
 		Date from = FilterHelper.getFieldAsDate(ScheduleFilter.SCHEDULE_FILTER_FROM, filter);
 		if (from == null) {
-			from = FilterHelper.getFieldAsFirstDayDate(ScheduleFilter.SCHEDULE_FILTER_YEAR, ScheduleFilter.SCHEDULE_FILTER_MONTH, filter);
+			from = FilterHelper.getFieldAsFirstDayDate(ScheduleFilter.SCHEDULE_FILTER_YEAR,
+					ScheduleFilter.SCHEDULE_FILTER_MONTH, filter);
 		}
 		Date to = FilterHelper.getFieldAsDate(ScheduleFilter.SCHEDULE_FILTER_TO, filter, true);
 		if (to == null) {
-			to = FilterHelper.getFieldAsLastDayDate(ScheduleFilter.SCHEDULE_FILTER_YEAR, ScheduleFilter.SCHEDULE_FILTER_MONTH, filter);
+			to = FilterHelper.getFieldAsLastDayDate(ScheduleFilter.SCHEDULE_FILTER_YEAR,
+					ScheduleFilter.SCHEDULE_FILTER_MONTH, filter);
 		}
-		Integer state = FilterHelper.getFieldAsInteger(ScheduleFilter.SCHEDULE_FILTER_STATE, filter);  
-		
+		Integer state = FilterHelper.getFieldAsInteger(ScheduleFilter.SCHEDULE_FILTER_STATE, filter);
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");
 		sb.append(" schedule ");
@@ -152,8 +154,7 @@ public class HibernateScheduleDao extends AbstractHibernateDao implements Schedu
 			sb.append("  or (schedule.workTo>=:dateFrom and schedule.workTo<=:dateTo) ");
 			sb.append("  or (schedule.workFrom<=:dateFrom and schedule.workTo>=:dateTo) ");
 			sb.append(" ) ");
-		}
-		else {
+		} else {
 			if (from != null) {
 				sb.append(" and	( ");
 				sb.append("  schedule.workFrom>=:dateFrom or schedule.workTo>=:dateFrom ");
@@ -171,7 +172,7 @@ public class HibernateScheduleDao extends AbstractHibernateDao implements Schedu
 		sb.append("order by ");
 		sb.append(" schedule.workFrom,");
 		sb.append(" schedule.type");
-				
+
 		Session session = getSession();
 		Query query = session.createQuery(sb.toString());
 		if (employeePk != null) {
@@ -189,9 +190,9 @@ public class HibernateScheduleDao extends AbstractHibernateDao implements Schedu
 		if (state != null) {
 			query.setInteger("state", state);
 		}
-		try{
+		try {
 			return query.list();
-		}finally{
+		} finally {
 			releaseSession(session);
 		}
 	}

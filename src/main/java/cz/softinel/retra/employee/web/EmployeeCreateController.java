@@ -5,8 +5,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.employee.EmployeeHelper;
-import cz.softinel.retra.employee.blo.EmployeeLogic;
-import cz.softinel.retra.spring.web.FormController;
 import cz.softinel.sis.contactinfo.ContactInfo;
 import cz.softinel.sis.login.Login;
 import cz.softinel.sis.login.LoginHelper;
@@ -23,8 +21,9 @@ public class EmployeeCreateController extends AbstractEmployeeFormController {
 		super.showForm(model, requestContext, errors);
 		prepareIcompanies(model);
 	}
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -38,16 +37,17 @@ public class EmployeeCreateController extends AbstractEmployeeFormController {
 			// Map form into entities ...
 			EmployeeHelper.formToEntity(form, employee);
 			// Hash password for create ..
-			employee.getUser().getLogin().setPassword(LoginHelper.hashPassword(employee.getUser().getLogin().getPassword()));
+			employee.getUser().getLogin()
+					.setPassword(LoginHelper.hashPassword(employee.getUser().getLogin().getPassword()));
 
 			// Process business logic ...
-			try{
+			try {
 				getEmployeeLogic().create(employee);
-			} catch(Exception e){
+			} catch (Exception e) {
 				requestContext.addError(new Message("employeeManagement.create.username.exists"));
 			}
-			
-			//some errors encountered -> do not save and show form view
+
+			// some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), form);
 				return createModelAndView(model, getFormView());
@@ -60,9 +60,12 @@ public class EmployeeCreateController extends AbstractEmployeeFormController {
 	}
 
 	/**
-	 * @see cz.softinel.uaf.spring.web.controller.CommonFormController#doBeforeCancelAction(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.Object, org.springframework.validation.BindException)
+	 * @see cz.softinel.uaf.spring.web.controller.CommonFormController#doBeforeCancelAction(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
+	 *      org.springframework.validation.BindException)
 	 */
-	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command, BindException errors) {
+	protected void doBeforeCancelAction(Model model, RequestContext requestContext, Object command,
+			BindException errors) {
 //		getCookieHelper().cleanCookies(requestContext);
 	}
 }

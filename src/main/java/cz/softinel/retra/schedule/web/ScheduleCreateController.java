@@ -13,15 +13,16 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 public class ScheduleCreateController extends AbstractScheduleFormController {
 
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
-		ScheduleForm scheduleForm = (ScheduleForm)errors.getTarget();
+		ScheduleForm scheduleForm = (ScheduleForm) errors.getTarget();
 		prepareTypes(model);
 		if (errors.getErrorCount() <= 0) {
 			prepareScheduleForm(scheduleForm, requestContext);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
 		int action = getAction();
 
 		String view = getSuccessView();
@@ -30,24 +31,24 @@ public class ScheduleCreateController extends AbstractScheduleFormController {
 			Schedule schedule = new Schedule();
 			ScheduleHelper.formToEntity(scheduleForm, schedule);
 
-			//get current employee
+			// get current employee
 			Employee employee = getSecurityLogic().getLoggedEmployee();
-	
+
 			schedule.setEmployee(employee);
 			getScheduleLogic().create(schedule);
-			
-			//some errors encountered -> do not save and show form view
+
+			// some errors encountered -> do not save and show form view
 			if (requestContext.getErrors().size() > 0) {
 				model.put(getCommandName(), scheduleForm);
 				prepareTypes(model);
 				return createModelAndView(model, getFormView());
 			}
-			
-			if (action == ACTION_SAVE_AND_ADD){
+
+			if (action == ACTION_SAVE_AND_ADD) {
 				view = getSaveAndAddView();
 				getCookieHelper().addToCookies(scheduleForm, requestContext);
 			} else {
-				getCookieHelper().addToCookies(scheduleForm, requestContext);	
+				getCookieHelper().addToCookies(scheduleForm, requestContext);
 			}
 
 			requestContext.addRedirectIgnoreInfo(new Message("schedule.created"));

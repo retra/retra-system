@@ -19,7 +19,7 @@ public class WorklogViewOverview implements Serializable {
 	private Activity activity;
 	private Project project;
 	private Component component;
-	
+
 	/**
 	 * @return the activity
 	 */
@@ -89,7 +89,7 @@ public class WorklogViewOverview implements Serializable {
 	public void setProject(Project project) {
 		this.project = project;
 	}
-	
+
 	/**
 	 * @return the component
 	 */
@@ -103,6 +103,5 @@ public class WorklogViewOverview implements Serializable {
 	public void setComponent(Component component) {
 		this.component = component;
 	}
-	
-	
+
 }

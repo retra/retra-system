@@ -9,9 +9,15 @@ public class Permission implements Serializable {
 	public Permission(final String code) {
 		this.code = code;
 	}
-	
+
 	public String getCode() {
 		return code;
 	}
+
+	@Override
+	public String toString() {
+		return "(Permission: code=" + code + ")";
+	}
+
 	
 }

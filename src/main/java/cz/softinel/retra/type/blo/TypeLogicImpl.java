@@ -18,7 +18,7 @@ import cz.softinel.retra.type.dao.TypeDao;
 public class TypeLogicImpl extends AbstractLogicBean implements TypeLogic {
 
 	private TypeDao typeDao;
-	
+
 	/**
 	 * @return the typeDao
 	 */
@@ -36,7 +36,7 @@ public class TypeLogicImpl extends AbstractLogicBean implements TypeLogic {
 	/**
 	 * @see cz.softinel.retra.type.blo.TypeLogic#findAllTypes()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Type> findAllTypes() {
 		return typeDao.selectAll();
 	}

@@ -24,21 +24,21 @@ import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public class InvoiceController extends DispatchController {
-	
+
 	private InvoiceLogic invoiceLogic;
 	private WorklogLogic worklogLogic;
 	private EmployeeLogic employeeLogic;
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setInvoiceLogic(InvoiceLogic invoiceLogic) {
 		this.invoiceLogic = invoiceLogic;
-	}	
+	}
 
 	public void setWorklogLogic(WorklogLogic worklogLogic) {
 		this.worklogLogic = worklogLogic;
 	}
-	
+
 	public void setEmployeeLogic(EmployeeLogic employeeLogic) {
 		this.employeeLogic = employeeLogic;
 	}
@@ -53,7 +53,6 @@ public class InvoiceController extends DispatchController {
 		return filter;
 	}
 
-	
 	// Action methods ...
 
 	/**
@@ -64,7 +63,7 @@ public class InvoiceController extends DispatchController {
 	 * @return
 	 */
 	public ModelAndView invoiceList(Model model, RequestContext requestContext) {
-		//reset batch result
+		// reset batch result
 		requestContext.getSessionContext().setAttribute("invoiceBatchResult", null);
 
 		Filter filter = getFilter(model);
@@ -82,13 +81,13 @@ public class InvoiceController extends DispatchController {
 			state = Invoice.STATE_ACTIVE;
 			FilterHelper.setField(InvoiceFilter.INVOICE_FILTER_STATE, state, filter);
 		}
-		
+
 		prepareEmployees(model);
 		prepareInvoiceStates(model);
 
 		List<Invoice> list = invoiceLogic.findByFilter(filter);
 		model.set("invoices", list);
-		
+
 		return createModelAndView(model, getSuccessView());
 	}
 
@@ -103,37 +102,36 @@ public class InvoiceController extends DispatchController {
 	public ModelAndView invoiceBatchResult(Model model, RequestContext requestContext) {
 		List<Invoice> list = (List<Invoice>) requestContext.getSessionContext().getAttribute("invoiceBatchResult");
 		if (list != null) {
-			model.set("invoices", list);			
+			model.set("invoices", list);
 			return createModelAndView(model, getSuccessView());
 		}
 
 		return createModelAndView(model, getFailureView());
 	}
 
-	
 	/**
-	 * View given invoice. 
+	 * View given invoice.
 	 * 
 	 * @param model
 	 * @param requestContext
 	 * @return
 	 */
-	public ModelAndView invoiceView(Model model, RequestContext requestContext)	{
+	public ModelAndView invoiceView(Model model, RequestContext requestContext) {
 		String strPk = requestContext.getParameter("pk");
 		Long pk = LongConvertor.getLongFromString(strPk);
 		if (pk != null) {
 			Invoice invoice = invoiceLogic.get(pk);
 			model.put("invoice", invoice);
-			
-			boolean hasWorklogAdminPermission = getSecurityLogic().hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
-			
+
+			boolean hasWorklogAdminPermission = getSecurityLogic()
+					.hasPermission(PermissionHelper.PERMISSION_VIEW_ALL_WORKLOGS);
+
 			List<Worklog> worklogs = new ArrayList<Worklog>();
 
-			//can see worklog items
-			if (hasWorklogAdminPermission ||
-				getSecurityLogic().getLoggedEmployee().getPk().equals(invoice.getEmployee().getPk())
-				) {
-				worklogs = prepareWorklogItems(pk);				
+			// can see worklog items
+			if (hasWorklogAdminPermission
+					|| getSecurityLogic().getLoggedEmployee().getPk().equals(invoice.getEmployee().getPk())) {
+				worklogs = prepareWorklogItems(pk);
 			} else {
 				worklogs.add(WorklogHelper.getNoPermissionWorklog());
 			}
@@ -141,7 +139,7 @@ public class InvoiceController extends DispatchController {
 		}
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	/**
 	 * Delete given invoice
 	 * 
@@ -157,7 +155,7 @@ public class InvoiceController extends DispatchController {
 			Invoice invoice = invoiceLogic.get(invoicePk);
 			invoiceLogic.remove(invoice);
 			if (requestContext.getErrors().size() > 0) {
-					view = getErrorView();
+				view = getErrorView();
 			} else {
 				requestContext.addRedirectIgnoreInfo(new Message("invoice.delete.success"));
 			}
@@ -199,11 +197,10 @@ public class InvoiceController extends DispatchController {
 		} else {
 			view = getErrorView() + "&pk=" + invoicePkStr;
 		}
-		
+
 		return createModelAndView(model, view);
 	}
 
-	
 	/**
 	 * Close given invoice
 	 * 

@@ -181,14 +181,22 @@ public class Schedule implements StateEntity {
 		this.employee = employee;
 	}
 
-	//bussiness and gui methods
+	public String toString() {
+		return "(Schedule: pk=" + pk + ", workFrom=" + workFrom + ", workTo=" + workTo + ", state=" + state
+				+ ", comment=" + comment + ", type=" + type + ", employee="
+				+ (employee != null ? employee.getPk() : "")
+				+ ")";
+	}
 	
+	// bussiness and gui methods
+
 	/**
-	 * This method returns cssClass (for gui) 
+	 * This method returns cssClass (for gui)
+	 * 
 	 * @return the css class
 	 */
-	//TODO: maybe better move somewhere else, but question is where
-	public String getCssClass(){
+	// TODO: maybe better move somewhere else, but question is where
+	public String getCssClass() {
 		return ScheduleHelper.getCssClass(this);
 	}
 

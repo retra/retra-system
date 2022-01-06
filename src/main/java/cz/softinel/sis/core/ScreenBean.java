@@ -29,23 +29,23 @@ public class ScreenBean implements Controller {
 	private static final String DEFAULT_SKIN_NAME = "skin02";
 
 	private static final String MAIN_MENU = "mainMenu";
-	
+
 	private static final String SUB_MENU = "subMenu";
 
 	private String defaultSkin = DEFAULT_SKIN_NAME;
 	private String primaryLinks = null;
 
 	private String template;
-	
+
 	private final Map<String, String> parameters = new HashMap<String, String>();
-		
+
 	/**
 	 * @return Returns the template.
 	 */
 	public String getTemplate() {
 		return template;
 	}
-	
+
 	/**
 	 * @param template The template to set.
 	 */
@@ -55,26 +55,27 @@ public class ScreenBean implements Controller {
 
 	/**
 	 * Sets the mainMenu.
+	 * 
 	 * @param mainMenu The mainMenu to set.
 	 */
 	public void setMainMenu(String mainMenu) {
 		Assert.hasText(mainMenu, "Main menu must be set.");
 		parameters.put(MAIN_MENU, mainMenu);
 	}
-	
+
 	/**
 	 * Sets the subMenu.
+	 * 
 	 * @param subMenu The subMenu to set.
 	 */
 	public void setSubMenu(String subMenu) {
 		if (StringUtils.hasText(subMenu)) {
 			parameters.put(SUB_MENU, subMenu);
-		}
-		else {
+		} else {
 			parameters.remove(SUB_MENU);
 		}
 	}
-	
+
 	public String getDefaultSkin() {
 		return defaultSkin;
 	}
@@ -82,7 +83,7 @@ public class ScreenBean implements Controller {
 	public void setDefaultSkin(String defaultSkin) {
 		this.defaultSkin = defaultSkin;
 	}
-	
+
 	public String getPrimaryLinks() {
 		return primaryLinks;
 	}
@@ -97,23 +98,27 @@ public class ScreenBean implements Controller {
 	public Map getParameters() {
 		return parameters;
 	}
-	
+
 	/**
 	 * @param parameters The parameters to set.
 	 */
 	public void setParameters(Map<String, String> params) {
 		this.parameters.putAll(params);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.springframework.web.servlet.mvc.Controller#handleRequest(javax.servlet.
+	 * http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
 	 */
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response){
+	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) {
 		request.setAttribute("skinName", resolveSkin(request));
 		request.setAttribute("primaryLinks", getPrimaryLinks());
 		return new ModelAndView(getTemplate(), getParameters());
 	}
-	
+
 	private String resolveSkin(HttpServletRequest request) {
 		// TODO radek: this is only fake implementation
 		String skin = (String) request.getSession().getAttribute(SystemController.SKIN_KEY);

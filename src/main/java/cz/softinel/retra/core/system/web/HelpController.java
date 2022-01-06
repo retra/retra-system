@@ -21,7 +21,7 @@ public class HelpController extends DispatchController {
 	public ModelAndView helpCopySchedule(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
 	}
-	
+
 	public ModelAndView helpImportWorklog(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
 	}

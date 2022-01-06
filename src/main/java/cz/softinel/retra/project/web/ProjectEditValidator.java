@@ -8,10 +8,9 @@ import org.springframework.validation.Validator;
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.project.Project;
 
-
 public class ProjectEditValidator extends ProjectValidator implements Validator {
-	
-	protected void validateCodeUniqness(Errors errors, String code){		
+
+	protected void validateCodeUniqness(Errors errors, String code) {
 		String pk = (String) errors.getFieldValue("pk");
 		Long pkLong = LongConvertor.getLongFromString(pk);
 

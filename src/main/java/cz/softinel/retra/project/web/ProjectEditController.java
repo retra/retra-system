@@ -22,49 +22,48 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public class ProjectEditController extends AbstractProjectFormController {
 
-	private ComponentLogic	componentLogic;
-	private Set<Component> 	components = null;
-	
+	private ComponentLogic componentLogic;
+	private Set<Component> components = null;
+
 	public void onBindOnNewForm(Model model, RequestContext requestContext, Object command) throws Exception {
 		ProjectForm projectForm = (ProjectForm) command;
-		
+
 		String projectPkStr = requestContext.getParameter("pk");
 		Long projectPk = LongConvertor.getLongFromString(projectPkStr);
 		/*
-		if (projectPk != null){
-			Project project = getProjectLogic().get(projectPk);
-			ProjectHelper.entityToForm(project, projectForm);
-		}
-		*/
+		 * if (projectPk != null){ Project project = getProjectLogic().get(projectPk);
+		 * ProjectHelper.entityToForm(project, projectForm); }
+		 */
 		Project project = new Project();
 		project.setPk(projectPk);
 		getProjectLogic().loadAndLoadLazy(project);
 		components = project.getComponents();
 		ProjectHelper.entityToForm(project, projectForm);
 	}
-	
+
 	// Configuration setter methods ..
-	
+
 	public void setComponentLogic(ComponentLogic componentLogic) {
 		this.componentLogic = componentLogic;
 	}
-	
+
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
 		prepareProjects(model);
 		prepareCategories(model);
 		prepareAllEmployees(model);
 	}
-	
+
 	protected void prepareAllEmployees(Model model) {
 		List<Employee> employees = null;
 		employees = getEmployeeLogic().getAllEmployeesNotFull(false, false);
-		//put employees into the model
+		// put employees into the model
 		model.put("employees", employees);
 	}
-	
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -77,8 +76,8 @@ public class ProjectEditController extends AbstractProjectFormController {
 			// Map form into entities ...
 			ProjectHelper.formToEntity(form, project);
 			// Add the same employees to the parent project, too
-			if ( (project.getEmployees() != null) && (project.getParent() != null) ){
-				Project parentProject =new Project();
+			if ((project.getEmployees() != null) && (project.getParent() != null)) {
+				Project parentProject = new Project();
 				parentProject.setPk(project.getParent().getPk());
 				getProjectLogic().loadAndLoadLazy(parentProject);
 				if (parentProject.getEmployees() != null) {
@@ -100,29 +99,29 @@ public class ProjectEditController extends AbstractProjectFormController {
 			}
 		}
 		return createModelAndView(view);
-	}	
-	
+	}
+
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-		
-		 binder.registerCustomEditor(Set.class, "employees", new CustomCollectionEditor(Set.class) {
-	           protected Object convertElement(Object element) {
-	               if (element != null) {
-	                   Long id = new Long((String)element);
-	                   Employee employee = getEmployeeLogic().get(id);
-	                   return employee;
-	               }
-	               return null;
-	           }
-	       });
+
+		binder.registerCustomEditor(Set.class, "employees", new CustomCollectionEditor(Set.class) {
+			protected Object convertElement(Object element) {
+				if (element != null) {
+					Long id = new Long((String) element);
+					Employee employee = getEmployeeLogic().get(id);
+					return employee;
+				}
+				return null;
+			}
+		});
 		binder.registerCustomEditor(Set.class, "components", new CustomCollectionEditor(Set.class) {
-	           protected Object convertElement(Object element) {
-	               if (element != null) {
-	                   Long id = new Long((String)element);
-	                   Component component = componentLogic.get(id);
-	                   return component;
-	               }
-	               return null;
-	           }
-	       });
-	   }
+			protected Object convertElement(Object element) {
+				if (element != null) {
+					Long id = new Long((String) element);
+					Component component = componentLogic.get(id);
+					return component;
+				}
+				return null;
+			}
+		});
+	}
 }

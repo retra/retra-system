@@ -34,7 +34,7 @@ public abstract class WizardFormController extends AbstractWizardFormController 
 	public void setSecurityLogic(MiraSecurityLogic securityLogic) {
 		miraController.setSecurityLogic(securityLogic);
 	}
-	
+
 	public void setShowHistoryData(boolean showHistoryData, RequestContext requestContext) {
 		miraController.setShowHistoryData(showHistoryData, requestContext);
 	}

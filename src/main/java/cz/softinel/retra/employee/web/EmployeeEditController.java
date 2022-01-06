@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.employee.EmployeeHelper;
-import cz.softinel.retra.employee.blo.EmployeeLogic;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.blo.ProjectLogic;
 import cz.softinel.sis.contactinfo.blo.ContactInfoLogic;
@@ -27,12 +26,12 @@ import cz.softinel.uaf.spring.web.controller.RequestContext;
  * @author Zoltan Vadasz
  */
 public class EmployeeEditController extends AbstractEmployeeFormController {
-	
+
 	private ContactInfoLogic contactInfoLogic;
 	private ProjectLogic projectLogic;
 
 	// Configuration setter methods ..
-	
+
 	public void setContactInfoLogic(ContactInfoLogic contactInfoLogic) {
 		this.contactInfoLogic = contactInfoLogic;
 	}
@@ -40,41 +39,42 @@ public class EmployeeEditController extends AbstractEmployeeFormController {
 	public void setProjectLogic(ProjectLogic projectLogic) {
 		this.projectLogic = projectLogic;
 	}
-	
+
 	// Action methods ...
 
 	public void onBindOnNewForm(Model model, RequestContext requestContext, Object command) throws Exception {
 		// Read input parameters ...
 		String pkString = requestContext.getParameter("pk");
 		// Load data ...
-		Employee employee = new Employee(); 
+		Employee employee = new Employee();
 		employee.setPk(Long.valueOf(pkString));
 		getEmployeeLogic().loadAndLoadLazy(employee);
 		EmployeeForm form = (EmployeeForm) command;
 		EmployeeHelper.entityToForm(employee, form);
 	}
-	
+
 	public void showForm(Model model, RequestContext requestContext, BindException errors) throws Exception {
 		super.showForm(model, requestContext, errors);
 		prepareProjects(model);
 		prepareIcompanies(model);
-	}	
-	
+	}
+
 	protected void prepareProjects(Model model) {
 		List<Project> projects = null;
-		projects = projectLogic.findAllNotDeletedProjects();	
+		projects = projectLogic.findAllNotDeletedProjects();
 		model.put("projects", projects);
-	}	
+	}
 
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
 			// Prepare form ...
 			EmployeeForm form = (EmployeeForm) command;
 			// Prepare entities ...
-			Employee employee = new Employee(); 
+			Employee employee = new Employee();
 			employee.setPk(Long.valueOf(Long.valueOf(form.getPk())));
 			getEmployeeLogic().loadAndLoadLazy(employee);
 			// Map form into entities ...
@@ -104,17 +104,17 @@ public class EmployeeEditController extends AbstractEmployeeFormController {
 		}
 		return createModelAndView(view);
 	}
-	
+
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-	       binder.registerCustomEditor(Set.class, "projects", new CustomCollectionEditor(Set.class) {
-	           protected Object convertElement(Object element) {
-	               if (element != null) {
-	                   Long id = new Long((String)element);
-	                   Project project = projectLogic.get(id);
-	                   return project;
-	               }
-	               return null;
-	           }
-	       });
-	   }
+		binder.registerCustomEditor(Set.class, "projects", new CustomCollectionEditor(Set.class) {
+			protected Object convertElement(Object element) {
+				if (element != null) {
+					Long id = new Long((String) element);
+					Project project = projectLogic.get(id);
+					return project;
+				}
+				return null;
+			}
+		});
+	}
 }

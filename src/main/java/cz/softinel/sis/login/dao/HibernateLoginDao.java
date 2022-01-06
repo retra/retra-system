@@ -25,24 +25,25 @@ public class HibernateLoginDao extends AbstractHibernateDao implements LoginDao 
 	}
 
 	public Login getByName(String name) {
-		if(!StringUtils.hasText(name)){
+		if (!StringUtils.hasText(name)) {
 			return null;
 		}
 		List list = getHibernateTemplate().findByNamedQueryAndNamedParam("Login.getByName", "name", name);
 		return (Login) getExactlyOne(list);
 	}
-	
+
 	public Login getByLdapLogin(String ldapLogin) {
-		if(!StringUtils.hasText(ldapLogin)){
+		if (!StringUtils.hasText(ldapLogin)) {
 			return null;
 		}
-		List list = getHibernateTemplate().findByNamedQueryAndNamedParam("Login.getByLdapLogin", "ldapLogin", ldapLogin);
+		List list = getHibernateTemplate().findByNamedQueryAndNamedParam("Login.getByLdapLogin", "ldapLogin",
+				ldapLogin);
 		return (Login) getExactlyOne(list);
 	}
 
-
 	public Login getByPermanentPassword(String permanentPassword) {
-		List list = getHibernateTemplate().findByNamedQueryAndNamedParam("Login.getByPermanentPassword", "permanentPassword", permanentPassword);
+		List list = getHibernateTemplate().findByNamedQueryAndNamedParam("Login.getByPermanentPassword",
+				"permanentPassword", permanentPassword);
 		return (Login) getExactlyOne(list);
 	}
 
@@ -78,7 +79,7 @@ public class HibernateLoginDao extends AbstractHibernateDao implements LoginDao 
 	}
 
 	public boolean usernameExists(String username) {
-		if(!StringUtils.hasText(username)){
+		if (!StringUtils.hasText(username)) {
 			return false;
 		}
 		List users = getHibernateTemplate().findByNamedQueryAndNamedParam("checkUsernameExists", "username", username);
@@ -86,10 +87,11 @@ public class HibernateLoginDao extends AbstractHibernateDao implements LoginDao 
 	}
 
 	public boolean ldapLoginExists(String ldapLogin) {
-		if(!StringUtils.hasText(ldapLogin)){
+		if (!StringUtils.hasText(ldapLogin)) {
 			return false;
 		}
-		List users = getHibernateTemplate().findByNamedQueryAndNamedParam("checkLdapLoginExists", "ldapLogin", ldapLogin);
+		List users = getHibernateTemplate().findByNamedQueryAndNamedParam("checkLdapLoginExists", "ldapLogin",
+				ldapLogin);
 		return users != null && !users.isEmpty();
 	}
 

@@ -7,7 +7,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.springframework.util.Assert;
 
-import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.uaf.filter.Filter;
 import cz.softinel.uaf.filter.FilterHelper;
@@ -25,10 +24,10 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Invoice invoice = (Invoice) getHibernateTemplate().get(Invoice.class, pk);
 		return invoice;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.invoice.dao.InvoiceDao#insert(cz.softinel.retra.invoice.Invoice)
-	 */	
+	 */
 	public Invoice insert(Invoice invoice) {
 		getHibernateTemplate().save(invoice);
 		return invoice;
@@ -43,8 +42,8 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 
 	/**
 	 * @see cz.softinel.retra.invoice.dao.InvoiceDao#findAll()
-	 */	
-	public List<Invoice> selectAll() {		
+	 */
+	public List<Invoice> selectAll() {
 		@SuppressWarnings("unchecked")
 		List<Invoice> result = getHibernateTemplate().loadAll(Invoice.class);
 		return result;
@@ -55,65 +54,65 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Session session = getSession();
 		Query query = session.getNamedQuery("Invoice.selectAllForEmployee");
 		query.setParameter("employeePk", employeePk);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Invoice> selectAllForEmployeeActive(Long employeePk) {
-		Object[] states = new Object[] {Invoice.STATE_ACTIVE}; 
+		Object[] states = new Object[] { Invoice.STATE_ACTIVE };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Invoice.selectAllForEmployeeInStates");
 		query.setParameterList("states", states);
 		query.setParameter("employeePk", employeePk);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<Invoice> selectAllForEmployeeNotDeleted(Long employeePk) {
-		Object[] states = new Object[] {Invoice.STATE_DELETED}; 
+		Object[] states = new Object[] { Invoice.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Invoice.selectAllForEmployeeWithoutStates");
 		query.setParameterList("states", states);
 		query.setParameter("employeePk", employeePk);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Invoice> selectInvoicesForEmployeeWithCode(Long employeePk,	String code) {
+	public List<Invoice> selectInvoicesForEmployeeWithCode(Long employeePk, String code) {
 		Session session = getSession();
 		Query query = session.getNamedQuery("Invoice.selectInvoiceForEmployeeWithCode");
 		query.setParameter("employeePk", employeePk);
 		query.setParameter("code", code);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
+
 	public List<Invoice> selectByFilter(Filter filter) {
 		Assert.notNull(filter);
 		return filterInvoices(filter);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.invoice.dao.InvoiceDao#load(cz.softinel.retra.invoice.Invoice)
 	 */
@@ -123,17 +122,16 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Assert.notNull(invoice.getPk());
 		getHibernateTemplate().load(invoice, invoice.getPk());
 	}
-	
+
 	public void loadAndLoadLazy(Invoice invoice) {
 		Session session = getSession();
-		session.load(invoice,invoice.getPk());
+		session.load(invoice, invoice.getPk());
 		if (invoice.getEmployee() != null) {
 			invoice.getEmployee().getUser().getContactInfo().getDisplayName();
 		}
 		releaseSession(session);
 	}
-	
-	
+
 	@SuppressWarnings("unchecked")
 	private List<Invoice> filterInvoices(Filter filter) {
 		Long employeePk = FilterHelper.getFieldAsLong(InvoiceFilter.INVOICE_FILTER_EMPLOYEE, filter);
@@ -141,9 +139,9 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Date orderDateTo = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_ORDER_DATE_TO, filter);
 		Date finishDateFrom = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_FINISH_DATE_FROM, filter);
 		Date finishDateTo = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_FINISH_DATE_TO, filter);
-		Integer state = FilterHelper.getFieldAsInteger(InvoiceFilter.INVOICE_FILTER_STATE, filter); 
+		Integer state = FilterHelper.getFieldAsInteger(InvoiceFilter.INVOICE_FILTER_STATE, filter);
 		String code = getLikeValue(FilterHelper.getFieldAsString(InvoiceFilter.INVOICE_FILTER_CODE, filter));
-		
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");
 		sb.append(" invoice ");
@@ -177,7 +175,7 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		if (code != null) {
 			sb.append(" and invoice.code like :code ");
 		}
-		
+
 		sb.append(" order by ");
 		sb.append(" invoice.code desc,");
 		sb.append(" invoice.orderDate,");
@@ -215,5 +213,4 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		}
 	}
 
-	
 }

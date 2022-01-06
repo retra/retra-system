@@ -1,19 +1,21 @@
 package cz.softinel.retra.jiraintegration.worklog.requests;
+
 /**
  * Logout attempt.
+ * 
  * @author zoli
  */
 @Deprecated
 public class LogoutRequest {
 
 	private String loginToken;
-	
+
 	public String getLoginToken() {
 		return loginToken;
 	}
-	
+
 	public void setLoginToken(String loginToken) {
 		this.loginToken = loginToken;
 	}
-	
+
 }

@@ -7,7 +7,7 @@ public class BooleanHelper {
 		if (strValue != null && ("on".equalsIgnoreCase(strValue))) {
 			result = true;
 		}
-		
+
 		return result;
 	}
 }

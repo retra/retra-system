@@ -42,7 +42,7 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 	public void update(Worklog worklog) {
 		getHibernateTemplate().update(worklog);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.dao.WorklogDao#merge(cz.softinel.retra.worklog.Worklog)
 	 */
@@ -72,17 +72,19 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 	public List<Worklog> selectForEmployee(Long pk) {
 		Assert.notNull(pk);
 		@SuppressWarnings("unchecked")
-		List<Worklog> result = getHibernateTemplate().findByNamedQueryAndNamedParam("Worklog.selectForEmployee", "pk", pk);
+		List<Worklog> result = getHibernateTemplate().findByNamedQueryAndNamedParam("Worklog.selectForEmployee", "pk",
+				pk);
 		return result;
 	}
 
 	public List<Worklog> selectForInvoice(Long pk) {
 		Assert.notNull(pk);
 		@SuppressWarnings("unchecked")
-		List<Worklog> result = getHibernateTemplate().findByNamedQueryAndNamedParam("Worklog.selectForInvoice", "pk", pk);
+		List<Worklog> result = getHibernateTemplate().findByNamedQueryAndNamedParam("Worklog.selectForInvoice", "pk",
+				pk);
 		return result;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.worklog.dao.WorklogDao#load(cz.softinel.retra.worklog.Worklog)
 	 */
@@ -101,7 +103,7 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 		}
 		releaseSession(session);
 	}
-	
+
 	public List<Worklog> selectByFilter(Filter filter) {
 		Assert.notNull(filter);
 		return filterWorklogs(filter);
@@ -165,9 +167,11 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 			to = FilterHelper.getFieldAsDate(WorklogFilter.WORKLOG_FILTER_DATE, filter, true);
 		}
 		Boolean onInvoice = FilterHelper.getFieldAsBoolean(WorklogFilter.WORKLOG_FILTER_ON_INVOICE, filter);
-		String invoiceCode = getLikeValue(FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_INVOICE_CODE, filter));
-		String invoiceRelation = getLikeValue(FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_INVOICE_RELATION, filter));
-		
+		String invoiceCode = getLikeValue(
+				FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_INVOICE_CODE, filter));
+		String invoiceRelation = getLikeValue(
+				FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_INVOICE_RELATION, filter));
+
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");
 		sb.append(" worklog ");
@@ -181,7 +185,7 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 		sb.append(" left join fetch worklog.employee.user.login ");
 		sb.append(" left join fetch worklog.employee.user.contactInfo ");
 		sb.append(" left join fetch worklog.employee.user.personalRole ");
-		
+
 		sb.append("where 1=1 ");
 		if (employeePk != null) {
 			sb.append(" and worklog.employee.pk=:employeePk ");
@@ -218,7 +222,7 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 				sb.append(" and (worklog.invoice is null or worklog.invoice.state = " + Invoice.STATE_ACTIVE + ") ");
 			}
 		}
-		
+
 		sb.append(" order by ");
 		sb.append(" worklog.workFrom,");
 		sb.append(" worklog.project,");
@@ -247,7 +251,7 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 		if (invoiceCode != null) {
 			query.setString("invoiceCode", invoiceCode);
 		}
-		
+
 		try {
 			return query.list();
 		} finally {
@@ -258,8 +262,10 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 	@SuppressWarnings("unchecked")
 	private List<WorklogViewOverview> getQueryWorklogOverview(Filter filter) {
 		Long employeePk = FilterHelper.getFieldAsLong(WorklogFilter.WORKLOG_FILTER_EMPLOYEE, filter);
-		Date from = FilterHelper.getFieldAsFirstDayDate(WorklogFilter.WORKLOG_FILTER_YEAR, WorklogFilter.WORKLOG_FILTER_MONTH, filter);
-		Date to = FilterHelper.getFieldAsLastDayDate(WorklogFilter.WORKLOG_FILTER_YEAR, WorklogFilter.WORKLOG_FILTER_MONTH, filter);
+		Date from = FilterHelper.getFieldAsFirstDayDate(WorklogFilter.WORKLOG_FILTER_YEAR,
+				WorklogFilter.WORKLOG_FILTER_MONTH, filter);
+		Date to = FilterHelper.getFieldAsLastDayDate(WorklogFilter.WORKLOG_FILTER_YEAR,
+				WorklogFilter.WORKLOG_FILTER_MONTH, filter);
 
 		StringBuffer sb = new StringBuffer();
 		sb.append("select ");

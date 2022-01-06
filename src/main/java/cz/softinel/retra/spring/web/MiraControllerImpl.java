@@ -12,7 +12,7 @@ public class MiraControllerImpl implements MiraController {
 	private MiraSecurityLogic securityLogic;
 	private boolean requireLogin;
 	private String loginPageAction;
-	
+
 	public String getLoginPageAction() {
 		return loginPageAction;
 	}
@@ -20,19 +20,19 @@ public class MiraControllerImpl implements MiraController {
 	public void setLoginPageAction(String loginPageAction) {
 		this.loginPageAction = loginPageAction;
 	}
-	
+
 	public boolean isRequireLogin() {
 		return requireLogin;
 	}
-	
+
 	public void setRequireLogin(boolean requireLogin) {
 		this.requireLogin = requireLogin;
 	}
-	
+
 	public MiraSecurityLogic getSecurityLogic() {
 		return securityLogic;
 	}
-	
+
 	public void setSecurityLogic(MiraSecurityLogic securityLogic) {
 		this.securityLogic = securityLogic;
 	}
@@ -42,7 +42,7 @@ public class MiraControllerImpl implements MiraController {
 		Boolean showHistoryDataBool = Boolean.valueOf(showHistoryData);
 		sessionContext.setAttribute(MiraController.PARAM_NAME_SHOW_HISTORY_DATA, showHistoryDataBool);
 	}
-	
+
 	public boolean getShowHistoryData(RequestContext requestContext) {
 		Context sessionContext = requestContext.getSessionContext();
 		Object showHistoryDataObj = sessionContext.getAttribute(MiraController.PARAM_NAME_SHOW_HISTORY_DATA);
@@ -51,7 +51,7 @@ public class MiraControllerImpl implements MiraController {
 			Boolean showHistoryData = (Boolean) showHistoryDataObj;
 			result = showHistoryData.booleanValue();
 		}
-		
+
 		return result;
 	}
 
@@ -60,7 +60,7 @@ public class MiraControllerImpl implements MiraController {
 		Boolean showHistoryDataBool = Boolean.valueOf(showHistoryData);
 		session.setAttribute(MiraController.PARAM_NAME_SHOW_HISTORY_DATA, showHistoryDataBool);
 	}
-	
+
 	public boolean getShowHistoryData(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		Object showHistoryDataObj = session.getAttribute(MiraController.PARAM_NAME_SHOW_HISTORY_DATA);
@@ -69,7 +69,7 @@ public class MiraControllerImpl implements MiraController {
 			Boolean showHistoryData = (Boolean) showHistoryDataObj;
 			result = showHistoryData.booleanValue();
 		}
-		
+
 		return result;
 	}
 

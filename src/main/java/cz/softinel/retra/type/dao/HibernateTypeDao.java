@@ -18,10 +18,10 @@ public class HibernateTypeDao extends HibernateDaoSupport implements TypeDao {
 
 		return (Type) getHibernateTemplate().get(Type.class, pk);
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.type.dao.TypeDao#insert(cz.softinel.retra.type.Type)
-	 */	
+	 */
 	public Type insert(Type type) {
 		getHibernateTemplate().save(type);
 		return type;
@@ -38,10 +38,10 @@ public class HibernateTypeDao extends HibernateDaoSupport implements TypeDao {
 	 * @see cz.softinel.retra.type.dao.TypeDao#delete(cz.softinel.retra.type.Type)
 	 */
 	public void delete(Type type) {
-		//TODO: is there some better way, to do delete - without load?
-		//must be at first loaded
+		// TODO: is there some better way, to do delete - without load?
+		// must be at first loaded
 		load(type);
-		//than deleted
+		// than deleted
 		getHibernateTemplate().delete(type);
 	}
 
@@ -53,7 +53,7 @@ public class HibernateTypeDao extends HibernateDaoSupport implements TypeDao {
 		List<Type> result = getHibernateTemplate().loadAll(Type.class);
 		return result;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.type.dao.TypeDao#load(cz.softinel.retra.type.Type)
 	 */

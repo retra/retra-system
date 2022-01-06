@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @version $Revision: 1.1 $ $Date: 2007-01-31 07:37:39 $
  * @author Petr Sígl
  */
-@XmlRootElement(name="holidays")
+@XmlRootElement(name = "holidays")
 public class Holidays {
 
 	private List<Item> items;
@@ -36,7 +36,7 @@ public class Holidays {
 	/**
 	 * @return the items
 	 */
-	@XmlElement(name="item")
+	@XmlElement(name = "item")
 	public List<Item> getItems() {
 		return items;
 	}

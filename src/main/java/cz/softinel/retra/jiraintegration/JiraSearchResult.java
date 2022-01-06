@@ -7,12 +7,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class JiraSearchResult implements Serializable {
-	
+
 	private String expand;
 	private Integer startAt;
 	private Integer maxResults;
 	private Integer total;
-	
+
 	private List<JiraIssue> issues;
 
 	public String getExpand() {
@@ -54,5 +54,5 @@ public class JiraSearchResult implements Serializable {
 	public void setIssues(List<JiraIssue> issues) {
 		this.issues = issues;
 	}
-	
+
 }

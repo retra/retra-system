@@ -9,15 +9,16 @@ public class ProjectionListItem {
 	private Object key;
 	private GroupedItem value;
 	private Object keyInfo;
-	
-	public ProjectionListItem(Projection projection, GroupingKey groupingKey, Object key, Object keyInfo, GroupedItem value) {
+
+	public ProjectionListItem(Projection projection, GroupingKey groupingKey, Object key, Object keyInfo,
+			GroupedItem value) {
 		this.projection = projection;
 		this.groupingKey = groupingKey;
 		this.key = key;
 		this.keyInfo = keyInfo;
 		this.value = value;
 	}
-	
+
 	public Projection getProjection() {
 		return projection;
 	}
@@ -29,7 +30,7 @@ public class ProjectionListItem {
 	public Object getKey() {
 		return key;
 	}
-	
+
 	public GroupedItem getValue() {
 		return value;
 	}
@@ -45,7 +46,7 @@ public class ProjectionListItem {
 	private class ProjectionAccessMap extends ReadOnlyMap {
 		@Override
 		public Object get(Object key) {
-			return getProjection(Integer.valueOf(""+key).intValue());
+			return getProjection(Integer.valueOf("" + key).intValue());
 		}
 	}
 
@@ -53,7 +54,7 @@ public class ProjectionListItem {
 	public ReadOnlyMap getProjectionFor() {
 		return new ProjectionAccessMap();
 	}
-	
+
 	public Projection getProjection(int dimension) {
 		return new Projection(this, dimension);
 	}

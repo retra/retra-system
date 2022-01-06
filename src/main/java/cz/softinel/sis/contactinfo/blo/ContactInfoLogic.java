@@ -21,8 +21,9 @@ public interface ContactInfoLogic {
 	public List<ContactInfo> findAll();
 
 	public void create(ContactInfo contactInfo);
-	public void store(ContactInfo contactInfo);
-	public void remove(ContactInfo contactInfo);
 
+	public void store(ContactInfo contactInfo);
+
+	public void remove(ContactInfo contactInfo);
 
 }

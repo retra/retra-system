@@ -2,7 +2,8 @@ package cz.softinel.retra.jiraintegration.soap;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.oxm.AbstractMarshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.soap.client.SoapFaultClientException;
@@ -24,22 +25,24 @@ import cz.softinel.uaf.util.StringHelper;
 
 /**
  * Implementation of the SOAP client interface.
+ * 
  * @author Erik Szalai
  * @see JiraSoapClient
  * @see JiraSoapClientMarshaller
  */
 @Deprecated
 public class JiraSoapClientImpl implements JiraSoapClient {
-	
+
 	private JiraWorklogLogic jiraWorklogLogic;
 	private String jiraMasterPassword;
 	private boolean useLdapLogin;
 	private WebServiceTemplate webService;
-	
-	static Logger logger = Logger.getLogger(JiraSoapClientImpl.class);
-	
+
+	static Logger logger = LoggerFactory.getLogger(JiraSoapClientImpl.class);
+
 	/**
 	 * Set the JiraWorklog logic manager.
+	 * 
 	 * @param jiraWorklogLogic
 	 */
 	public void setJiraWorklogLogic(JiraWorklogLogic jiraWorklogLogic) {
@@ -48,6 +51,7 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 
 	/**
 	 * Set the master password. This needs revision.
+	 * 
 	 * @param jiraMasterPassword
 	 */
 	public void setJiraMasterPassword(String jiraMasterPassword) {
@@ -55,8 +59,9 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 	}
 
 	/**
-	 * Set this to true, if during the Jira integration login process the Ldap login of the User shall be used
-	 * instead of the normal login.
+	 * Set this to true, if during the Jira integration login process the Ldap login
+	 * of the User shall be used instead of the normal login.
+	 * 
 	 * @param useLdapLogin
 	 */
 	public void setUseLdapLogin(boolean useLdapLogin) {
@@ -65,8 +70,10 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 
 	/**
 	 * Use this constructor to ensure a Jira SOAP service url is always given.
+	 * 
 	 * @param jiraSoapService
-	 * @param marshaller The marshaller, which will marshall XML <-> Object. Use {@link JiraSoapClientMarshaller}
+	 * @param marshaller      The marshaller, which will marshall XML <-> Object.
+	 *                        Use {@link JiraSoapClientMarshaller}
 	 * @see JiraSoapClientMarshaller
 	 */
 	public JiraSoapClientImpl(String jiraSoapService, AbstractMarshaller marshaller) {
@@ -77,7 +84,9 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		webService.setDefaultUri(jiraSoapService);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cz.softinel.retra.jiraintegration.soap.JiraSoapClient#exportInserted()
 	 */
 	public void exportInserted() {
@@ -85,7 +94,7 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 			List<JiraWorklog> jiraWorklogs = jiraWorklogLogic.findAllNotAdded();
 			for (JiraWorklog jira : jiraWorklogs) {
 				JiraRemoteWorklog jiraRemoteWorklog = JiraWorklogHelper.createRemoteWorklogFromJiraWorklog(jira);
-				
+
 				String username = null;
 				if (useLdapLogin) {
 					username = jira.getEmployee().getUser().getLogin().getLdapLogin();
@@ -94,8 +103,9 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 				}
 				String sessionToken = login(username, jiraMasterPassword);
 				if (sessionToken != null) {
-					if(issueExists(sessionToken, jira.getJiraIssue())) {
-						String success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(), jiraRemoteWorklog);
+					if (issueExists(sessionToken, jira.getJiraIssue())) {
+						String success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(),
+								jiraRemoteWorklog);
 						jira.setRemoteId(Long.parseLong(success));
 						jira.setState(JiraWorklog.EXPORTED);
 						jiraWorklogLogic.update(jira);
@@ -106,22 +116,25 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 					logout(sessionToken);
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Exception happened while executing Jira insert: ", e);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cz.softinel.retra.jiraintegration.soap.JiraSoapClient#exportUpdated()
 	 */
 	public void exportUpdated() {
 		try {
 			List<JiraWorklog> jiraWorklogs = jiraWorklogLogic.findAllNotAddedUpdated();
 			logger.debug("Found JiraWorklogs: " + jiraWorklogs.size());
-			for(JiraWorklog jira : jiraWorklogs) {
-				logger.debug("Working with " + jira.getJiraIssue() + " and the Retra worklog related is: " + jira.getWorklog().getDescription());
+			for (JiraWorklog jira : jiraWorklogs) {
+				logger.debug("Working with " + jira.getJiraIssue() + " and the Retra worklog related is: "
+						+ jira.getWorklog().getDescription());
 				JiraRemoteWorklog jiraRemoteWorklog = JiraWorklogHelper.createRemoteWorklogFromJiraWorklog(jira);
-				
+
 				String username = null;
 				if (useLdapLogin) {
 					username = jira.getEmployee().getUser().getLogin().getLdapLogin();
@@ -130,15 +143,16 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 				}
 				String sessionToken = login(username, jiraMasterPassword);
 				if (sessionToken != null) {
-					if(!issueExists(sessionToken, jira.getJiraIssue())) {
+					if (!issueExists(sessionToken, jira.getJiraIssue())) {
 						logger.warn("The issue does not exist: " + jira.getJiraIssue());
 					}
-					if(jira.getRemoteId() != null) {
+					if (jira.getRemoteId() != null) {
 						updateWorklogAndAutoAdjustRemainingEstimate(sessionToken, jiraRemoteWorklog);
 						jira.setState(JiraWorklog.EXPORTED);
 						jiraWorklogLogic.update(jira);
 					} else {
-						String success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(), jiraRemoteWorklog);
+						String success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(),
+								jiraRemoteWorklog);
 						logger.debug("Sucess: " + success);
 						jira.setRemoteId(Long.valueOf(success));
 						jira.setState(JiraWorklog.EXPORTED);
@@ -147,20 +161,24 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 					logout(sessionToken);
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Exception happened while executing Jira update: " + e);
 		}
 	}
-	
-	/* (non-Javadoc)
-	 * @see cz.softinel.retra.jiraintegration.soap.JiraSoapClient#exportWithIssueUpdated()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * cz.softinel.retra.jiraintegration.soap.JiraSoapClient#exportWithIssueUpdated(
+	 * )
 	 */
 	public void exportWithIssueUpdated() {
 		try {
 			List<JiraWorklog> jiraWorklogs = jiraWorklogLogic.findAllWithIssueUpdated();
-			for(JiraWorklog jira : jiraWorklogs) {
+			for (JiraWorklog jira : jiraWorklogs) {
 				JiraRemoteWorklog jiraRemoteWorklog = JiraWorklogHelper.createRemoteWorklogFromJiraWorklog(jira);
-				
+
 				String username = null;
 				if (useLdapLogin) {
 					username = jira.getEmployee().getUser().getLogin().getLdapLogin();
@@ -170,19 +188,20 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 				String sessionToken = login(username, jiraMasterPassword);
 				if (sessionToken != null) {
 					String success = "";
-					if(!issueExists(sessionToken, jira.getJiraIssue())) {
+					if (!issueExists(sessionToken, jira.getJiraIssue())) {
 						logger.warn("The issue does not exist: " + jira.getJiraIssue());
-						if(jira.getRemoteId() != null) {
+						if (jira.getRemoteId() != null) {
 							deleteWorklogAndAutoAdjustRemainingEstimate(sessionToken, jiraRemoteWorklog.getId());
 							jira.setRemoteId(null);
 						}
 						jira.setState(JiraWorklog.EXPORTED_FOR_NONEXISTENT);
 						jiraWorklogLogic.update(jira);
 					} else {
-						if(jira.getRemoteId() != null) {
+						if (jira.getRemoteId() != null) {
 							deleteWorklogAndAutoAdjustRemainingEstimate(sessionToken, jiraRemoteWorklog.getId());
 						}
-						success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(), jiraRemoteWorklog);
+						success = addWorklogAndAutoAdjustRemainingEstimate(sessionToken, jira.getJiraIssue(),
+								jiraRemoteWorklog);
 						jira.setRemoteId(Long.valueOf(success));
 						jira.setState(JiraWorklog.EXPORTED);
 						jiraWorklogLogic.update(jira);
@@ -190,19 +209,21 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 					logout(sessionToken);
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Exception happened while executing Jira issue update: " + e);
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see cz.softinel.retra.jiraintegration.soap.JiraSoapClient#exportDeleted()
 	 */
 	public void exportDeleted() {
 //		List<JiraWorklog> jiraWorklogs = jiraWorklogLogic.findAllJiraWorklogs();
 		try {
 			List<JiraWorklog> jiraWorklogs = jiraWorklogLogic.findAllToBeDeleted();
-			for(JiraWorklog jira : jiraWorklogs) {
+			for (JiraWorklog jira : jiraWorklogs) {
 				if (jira.getWorklog() == null) {
 					String username = null;
 					if (useLdapLogin) {
@@ -212,21 +233,23 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 					}
 					String sessionToken = login(username, jiraMasterPassword);
 					if (sessionToken != null) {
-						if(jira.getRemoteId() != null) {
-							deleteWorklogAndAutoAdjustRemainingEstimate(sessionToken, String.valueOf(jira.getRemoteId()));
+						if (jira.getRemoteId() != null) {
+							deleteWorklogAndAutoAdjustRemainingEstimate(sessionToken,
+									String.valueOf(jira.getRemoteId()));
 							jiraWorklogLogic.delete(jira);
 						}
 					}
 					logout(sessionToken);
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			logger.error("Exception happened while executing Jira issue update: " + e);
 		}
 	}
-	
+
 	/**
-	 * Log in into Jira with the given username and password.
+	 * Logger in into Jira with the given username and password.
+	 * 
 	 * @param username
 	 * @param password
 	 * @return A "session string" which identificates the logged in user.
@@ -236,17 +259,18 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		request.setUsername(username);
 		request.setPassword(password);
 		LoginResponse response;
-		try{
+		try {
 			response = (LoginResponse) webService.marshalSendAndReceive(request);
-		} catch(SoapFaultClientException sf) {
+		} catch (SoapFaultClientException sf) {
 			logger.error(sf.getFaultStringOrReason() + " Username: " + username + " Password: " + password);
 			return null;
 		}
 		return response.getToken();
 	}
-	
+
 	/**
 	 * Required logout from Jira.
+	 * 
 	 * @param loginToken
 	 * @return
 	 */
@@ -256,30 +280,33 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		LogoutResponse response = (LogoutResponse) webService.marshalSendAndReceive(request);
 		return response.getSuccess();
 	}
-	
+
 	/**
 	 * Adds a worklog to the given issue in Jira.
+	 * 
 	 * @param loginToken
 	 * @param issue
 	 * @param jiraRemoteWorklog
 	 * @return
 	 */
-	public String addWorklogAndAutoAdjustRemainingEstimate(String loginToken, String issue, JiraRemoteWorklog jiraRemoteWorklog) {
+	public String addWorklogAndAutoAdjustRemainingEstimate(String loginToken, String issue,
+			JiraRemoteWorklog jiraRemoteWorklog) {
 		WorklogAddRequest request = new WorklogAddRequest();
 		request.setLoginToken(loginToken);
 		request.setJiraIssue(issue);
 		request.setJiraRemoteWorklog(jiraRemoteWorklog);
 		try {
-			WorklogAddResponse response = (WorklogAddResponse) webService.marshalSendAndReceive(request); 
+			WorklogAddResponse response = (WorklogAddResponse) webService.marshalSendAndReceive(request);
 			return response.getSuccess();
 		} catch (SoapFaultClientException sf) {
 			logger.error(sf.getFaultStringOrReason() + " issue: " + issue);
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Finds a worklog in jira and updates it by the given data.
+	 * 
 	 * @param loginToken
 	 * @param issue
 	 * @param jiraRemoteWorklog
@@ -290,16 +317,17 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		request.setLoginToken(loginToken);
 		request.setJiraRemoteWorklog(jiraRemoteWorklog);
 		try {
-			webService.marshalSendAndReceive(request); 
+			webService.marshalSendAndReceive(request);
 		} catch (SoapFaultClientException e) {
 			logger.error(e.getFaultStringOrReason() + " worklog: " + jiraRemoteWorklog);
 			return null;
 		}
 		return "success";
 	}
-	
+
 	/**
 	 * Deletes the given worklog from Jira.
+	 * 
 	 * @param loginToken
 	 * @param worklogId
 	 * @return
@@ -308,17 +336,18 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		DeleteWorklogRequest request = new DeleteWorklogRequest();
 		request.setLoginToken(loginToken);
 		request.setIssueId(worklogId);
-		try{
+		try {
 			webService.marshalSendAndReceive(request);
-		} catch(SoapFaultClientException sf){
+		} catch (SoapFaultClientException sf) {
 			logger.error(sf.getFaultStringOrReason() + " WorklogId: " + worklogId);
 			return null;
 		}
 		return "success";
 	}
-	
+
 	/**
 	 * Checks if the issue exists in Jira.
+	 * 
 	 * @param loginToken
 	 * @param issue
 	 * @return
@@ -327,9 +356,9 @@ public class JiraSoapClientImpl implements JiraSoapClient {
 		GetIssueRequest req = new GetIssueRequest();
 		req.setToken(loginToken);
 		req.setIssue(issue);
-		try{
+		try {
 			webService.marshalSendAndReceive(req);
-		} catch(SoapFaultClientException sf){
+		} catch (SoapFaultClientException sf) {
 			logger.error(sf.getFaultStringOrReason() + " Issue: " + issue);
 			return false;
 		}

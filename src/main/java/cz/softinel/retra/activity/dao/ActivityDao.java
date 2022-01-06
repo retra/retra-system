@@ -13,13 +13,13 @@ import cz.softinel.retra.activity.Activity;
 public interface ActivityDao {
 
 	/**
-	 * Returns activity according to primary key. 
+	 * Returns activity according to primary key.
 	 * 
 	 * @param pk primary key of activity
 	 * @return
 	 */
 	public Activity get(Long pk);
-	
+
 	/**
 	 * Insert Activity
 	 * 
@@ -40,7 +40,7 @@ public interface ActivityDao {
 	 * @param activity to delete
 	 */
 	public void delete(Activity activity);
-	
+
 	/**
 	 * Returns all activities
 	 * 

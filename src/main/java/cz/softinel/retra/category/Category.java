@@ -2,7 +2,6 @@ package cz.softinel.retra.category;
 
 import cz.softinel.uaf.state.StateEntity;
 
-
 /**
  * This class represents project category.
  * 
@@ -20,9 +19,9 @@ public class Category implements StateEntity {
 
 	private int state = Category.STATE_ACTIVE;
 
-	//constants
-	public static Long DUMMY_CATEGORY_PK = (long)-1;
-	
+	// constants
+	public static Long DUMMY_CATEGORY_PK = (long) -1;
+
 	// Business fields ...
 
 	public String getCodeAndName() {
@@ -101,7 +100,6 @@ public class Category implements StateEntity {
 		this.state = state;
 	}
 
-
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -128,12 +126,12 @@ public class Category implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Category: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(Category: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
 
 }

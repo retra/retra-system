@@ -25,13 +25,13 @@ public class SelectOptionTag extends VisualComponentTag {
 		if (parent instanceof SelectTag) {
 			SelectTag selectTag = (SelectTag) parent;
 			selectTag.getStaticValues().put(value, label);
- 		} else {
+		} else {
 			throw new IllegalStateException("SelectOptionTag is not used under SelectTag");
 		}
 	}
 
 	// Getters and setters ...
-	
+
 	public String getLabel() {
 		return label;
 	}
@@ -64,5 +64,4 @@ public class SelectOptionTag extends VisualComponentTag {
 	protected void beforeTag() {
 	}
 
-	
 }

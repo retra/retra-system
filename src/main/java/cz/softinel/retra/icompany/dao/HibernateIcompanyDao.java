@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import cz.softinel.retra.icompany.Icompany;
 
 /**
- * This class is hibernate dependent implementation of IcompanyDao  
+ * This class is hibernate dependent implementation of IcompanyDao
  *
  * @author Petr Sígl
  */
@@ -26,10 +26,10 @@ public class HibernateIcompanyDao extends HibernateDaoSupport implements Icompan
 		Icompany icompany = (Icompany) getHibernateTemplate().get(Icompany.class, pk);
 		return icompany;
 	}
-	
+
 	/**
 	 * @see cz.softinel.retra.icompany.dao.IcompanyDao#insert(cz.softinel.retra.icompany.Icompany)
-	 */	
+	 */
 	public Icompany insert(Icompany icompany) {
 		getHibernateTemplate().save(icompany);
 		return icompany;
@@ -46,10 +46,10 @@ public class HibernateIcompanyDao extends HibernateDaoSupport implements Icompan
 	 * @see cz.softinel.retra.icompany.dao.IcompanyDao#delete(cz.softinel.retra.icompany.Icompany)
 	 */
 	public void delete(Icompany icompany) {
-		//TODO: is there some better way, to do delete - without load?
-		//must be at first loaded
+		// TODO: is there some better way, to do delete - without load?
+		// must be at first loaded
 		load(icompany);
-		//than deleted
+		// than deleted
 		getHibernateTemplate().delete(icompany);
 	}
 
@@ -68,20 +68,19 @@ public class HibernateIcompanyDao extends HibernateDaoSupport implements Icompan
 	@SuppressWarnings("unchecked")
 	public List<Icompany> selectAllNotDeleted() {
 
-		Object[] states = new Object[] {Icompany.STATE_DELETED}; 
+		Object[] states = new Object[] { Icompany.STATE_DELETED };
 
 		Session session = getSession();
 		Query query = session.getNamedQuery("Icompany.selectAllWithoutStates");
 		query.setParameterList("states", states);
-		
+
 		try {
 			return query.list();
-		} finally{
+		} finally {
 			releaseSession(session);
 		}
 	}
-	
-	
+
 	/**
 	 * @see cz.softinel.retra.icompany.dao.IcompanyDao#load(cz.softinel.retra.icompany.Icompany)
 	 */

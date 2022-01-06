@@ -69,7 +69,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#findAllSchedules()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Schedule> findAllSchedules() {
 		return scheduleDao.selectAll();
 	}
@@ -77,7 +77,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#findAllSchedulesForEmployee(java.lang.Long)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Schedule> findAllSchedulesForEmployee(Long pk) {
 		return scheduleDao.selectAllForEmployee(pk);
 	}
@@ -85,7 +85,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#create(cz.softinel.retra.schedule.Schedule)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Schedule create(Schedule schedule) {
 		return create(schedule, true);
 	}
@@ -93,7 +93,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#remove(cz.softinel.retra.schedule.Schedule)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Schedule schedule) {
 		// check if deleting just own schedule
 		Long actualEmployeePk = getSecurityLogic().getLoggedEmployee().getPk();
@@ -108,7 +108,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#remove(cz.softinel.retra.schedule.Schedule)
 	 */
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Long pk) {
 		Schedule schedule = new Schedule();
 		schedule.setPk(pk);
@@ -118,12 +118,12 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 	/**
 	 * @see cz.softinel.retra.schedule.blo.ScheduleLogic#get(java.lang.Long)
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Schedule get(Long pk) {
 		return scheduleDao.get(pk);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Schedule schedule) {
 		// bussines validation
 		if (!hasValidTerm(schedule)) {
@@ -144,13 +144,13 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 		scheduleDao.merge(schedule);
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Schedule> findByFilter(Filter filter) {
 		return scheduleDao.selectByFilter(filter);
 	}
 
-	//FIXME: make this method easier (separate into more smallets)
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	// FIXME: make this method easier (separate into more smallets)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<ScheduleWeekOverview> findWeekOverviews(Filter filter) {
 		Integer month = FilterHelper.getFieldAsInteger(ScheduleFilter.SCHEDULE_FILTER_MONTH, filter);
 		Integer year = FilterHelper.getFieldAsInteger(ScheduleFilter.SCHEDULE_FILTER_YEAR, filter);
@@ -161,113 +161,190 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 		calendar.add(Calendar.DAY_OF_MONTH, -1);
 		int firstDay = 1;
 		int lastDay = calendar.get(Calendar.DAY_OF_MONTH);
-		
+
 		List<Schedule> list = scheduleDao.selectByFilter(filter);
 		List<ScheduleWeekOverview> overViews = new ArrayList<ScheduleWeekOverview>();
 		ScheduleWeekOverview scheduleWeekOverview = new ScheduleWeekOverview();
 		overViews.add(scheduleWeekOverview);
 		Iterator it = list.iterator();
-		
-		
-		for (int i = 1; i <= (countEmptyDaysToGenerate(dayOfWeek)); i++){
+
+		for (int i = 1; i <= (countEmptyDaysToGenerate(dayOfWeek)); i++) {
 			Schedule newSchedule = new Schedule();
-			switch (i){
-				case 1: scheduleWeekOverview.setMonday(newSchedule); break;
-				case 2: scheduleWeekOverview.setTuesday(newSchedule); break;
-				case 3: scheduleWeekOverview.setWednesday(newSchedule); break;
-				case 4: scheduleWeekOverview.setThursday(newSchedule); break;
-				case 5: scheduleWeekOverview.setFriday(newSchedule); break;
-				case 6: scheduleWeekOverview.setSaturday(newSchedule); break;
-				case 7: scheduleWeekOverview.setSunday(newSchedule);scheduleWeekOverview=new ScheduleWeekOverview(); overViews.add(scheduleWeekOverview); break;
+			switch (i) {
+			case 1:
+				scheduleWeekOverview.setMonday(newSchedule);
+				break;
+			case 2:
+				scheduleWeekOverview.setTuesday(newSchedule);
+				break;
+			case 3:
+				scheduleWeekOverview.setWednesday(newSchedule);
+				break;
+			case 4:
+				scheduleWeekOverview.setThursday(newSchedule);
+				break;
+			case 5:
+				scheduleWeekOverview.setFriday(newSchedule);
+				break;
+			case 6:
+				scheduleWeekOverview.setSaturday(newSchedule);
+				break;
+			case 7:
+				scheduleWeekOverview.setSunday(newSchedule);
+				scheduleWeekOverview = new ScheduleWeekOverview();
+				overViews.add(scheduleWeekOverview);
+				break;
 			}
 		}
-		
-		for (int i = firstDay; i <= lastDay; i++){
+
+		for (int i = firstDay; i <= lastDay; i++) {
 			Schedule schedule = null;
-			if (it.hasNext()){
-				schedule = (Schedule)it.next();
+			if (it.hasNext()) {
+				schedule = (Schedule) it.next();
 				calendar.setTime(schedule.getWorkFrom());
 				dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 				int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-				if (dayOfMonth != i){
+				if (dayOfMonth != i) {
 					int j = i;
-					for (j = i; j<=dayOfMonth; j++){
+					for (j = i; j <= dayOfMonth; j++) {
 						Schedule newSchedule = new Schedule();
 						Calendar helpCal = Calendar.getInstance();
 						helpCal.set(year, month, j, 0, 0, 0);
 						newSchedule.setWorkFrom(helpCal.getTime());
 						int helpDayOfWeek = helpCal.get(Calendar.DAY_OF_WEEK);
-						switch (helpDayOfWeek){
-							case Calendar.MONDAY: scheduleWeekOverview.setMonday(newSchedule); break;
-							case Calendar.TUESDAY: scheduleWeekOverview.setTuesday(newSchedule); break;
-							case Calendar.WEDNESDAY: scheduleWeekOverview.setWednesday(newSchedule); break;
-							case Calendar.THURSDAY: scheduleWeekOverview.setThursday(newSchedule); break;
-							case Calendar.FRIDAY: scheduleWeekOverview.setFriday(newSchedule); break;
-							case Calendar.SATURDAY: scheduleWeekOverview.setSaturday(newSchedule); break;
-							case Calendar.SUNDAY: scheduleWeekOverview.setSunday(newSchedule);scheduleWeekOverview=new ScheduleWeekOverview(); overViews.add(scheduleWeekOverview); break;
+						switch (helpDayOfWeek) {
+						case Calendar.MONDAY:
+							scheduleWeekOverview.setMonday(newSchedule);
+							break;
+						case Calendar.TUESDAY:
+							scheduleWeekOverview.setTuesday(newSchedule);
+							break;
+						case Calendar.WEDNESDAY:
+							scheduleWeekOverview.setWednesday(newSchedule);
+							break;
+						case Calendar.THURSDAY:
+							scheduleWeekOverview.setThursday(newSchedule);
+							break;
+						case Calendar.FRIDAY:
+							scheduleWeekOverview.setFriday(newSchedule);
+							break;
+						case Calendar.SATURDAY:
+							scheduleWeekOverview.setSaturday(newSchedule);
+							break;
+						case Calendar.SUNDAY:
+							scheduleWeekOverview.setSunday(newSchedule);
+							scheduleWeekOverview = new ScheduleWeekOverview();
+							overViews.add(scheduleWeekOverview);
+							break;
 						}
 					}
-					i=j-1;
+					i = j - 1;
 				}
-				switch (dayOfWeek){
-					case Calendar.MONDAY: scheduleWeekOverview.setMonday(schedule); break;
-					case Calendar.TUESDAY: scheduleWeekOverview.setTuesday(schedule); break;
-					case Calendar.WEDNESDAY: scheduleWeekOverview.setWednesday(schedule); break;
-					case Calendar.THURSDAY: scheduleWeekOverview.setThursday(schedule); break;
-					case Calendar.FRIDAY: scheduleWeekOverview.setFriday(schedule); break;
-					case Calendar.SATURDAY: scheduleWeekOverview.setSaturday(schedule); break;
-					case Calendar.SUNDAY: scheduleWeekOverview.setSunday(schedule);scheduleWeekOverview=new ScheduleWeekOverview(); overViews.add(scheduleWeekOverview); break;
+				switch (dayOfWeek) {
+				case Calendar.MONDAY:
+					scheduleWeekOverview.setMonday(schedule);
+					break;
+				case Calendar.TUESDAY:
+					scheduleWeekOverview.setTuesday(schedule);
+					break;
+				case Calendar.WEDNESDAY:
+					scheduleWeekOverview.setWednesday(schedule);
+					break;
+				case Calendar.THURSDAY:
+					scheduleWeekOverview.setThursday(schedule);
+					break;
+				case Calendar.FRIDAY:
+					scheduleWeekOverview.setFriday(schedule);
+					break;
+				case Calendar.SATURDAY:
+					scheduleWeekOverview.setSaturday(schedule);
+					break;
+				case Calendar.SUNDAY:
+					scheduleWeekOverview.setSunday(schedule);
+					scheduleWeekOverview = new ScheduleWeekOverview();
+					overViews.add(scheduleWeekOverview);
+					break;
 				}
-			}
-			else {
+			} else {
 				Schedule newSchedule = new Schedule();
 				Calendar helpCal = Calendar.getInstance();
 				helpCal.set(year, month, i, 0, 0, 0);
 				newSchedule.setWorkFrom(helpCal.getTime());
 				int helpDayOfWeek = helpCal.get(Calendar.DAY_OF_WEEK);
-				switch (helpDayOfWeek){
-					case Calendar.MONDAY: scheduleWeekOverview.setMonday(newSchedule); break;
-					case Calendar.TUESDAY: scheduleWeekOverview.setTuesday(newSchedule); break;
-					case Calendar.WEDNESDAY: scheduleWeekOverview.setWednesday(newSchedule); break;
-					case Calendar.THURSDAY: scheduleWeekOverview.setThursday(newSchedule); break;
-					case Calendar.FRIDAY: scheduleWeekOverview.setFriday(newSchedule); break;
-					case Calendar.SATURDAY: scheduleWeekOverview.setSaturday(newSchedule); break;
-					case Calendar.SUNDAY: scheduleWeekOverview.setSunday(newSchedule);scheduleWeekOverview=new ScheduleWeekOverview(); overViews.add(scheduleWeekOverview); break;
+				switch (helpDayOfWeek) {
+				case Calendar.MONDAY:
+					scheduleWeekOverview.setMonday(newSchedule);
+					break;
+				case Calendar.TUESDAY:
+					scheduleWeekOverview.setTuesday(newSchedule);
+					break;
+				case Calendar.WEDNESDAY:
+					scheduleWeekOverview.setWednesday(newSchedule);
+					break;
+				case Calendar.THURSDAY:
+					scheduleWeekOverview.setThursday(newSchedule);
+					break;
+				case Calendar.FRIDAY:
+					scheduleWeekOverview.setFriday(newSchedule);
+					break;
+				case Calendar.SATURDAY:
+					scheduleWeekOverview.setSaturday(newSchedule);
+					break;
+				case Calendar.SUNDAY:
+					scheduleWeekOverview.setSunday(newSchedule);
+					scheduleWeekOverview = new ScheduleWeekOverview();
+					overViews.add(scheduleWeekOverview);
+					break;
 				}
 				dayOfWeek = helpDayOfWeek;
 			}
 		}
 
-		for (int i = 6; i > (countEmptyDaysToGenerate(dayOfWeek)); i--){
+		for (int i = 6; i > (countEmptyDaysToGenerate(dayOfWeek)); i--) {
 			Schedule newSchedule = new Schedule();
-			switch (i){
-				case 0: scheduleWeekOverview.setMonday(newSchedule); break;
-				case 1: scheduleWeekOverview.setTuesday(newSchedule); break;
-				case 2: scheduleWeekOverview.setWednesday(newSchedule); break;
-				case 3: scheduleWeekOverview.setThursday(newSchedule); break;
-				case 4: scheduleWeekOverview.setFriday(newSchedule); break;
-				case 5: scheduleWeekOverview.setSaturday(newSchedule); break;
-				case 6: scheduleWeekOverview.setSunday(newSchedule); break;
+			switch (i) {
+			case 0:
+				scheduleWeekOverview.setMonday(newSchedule);
+				break;
+			case 1:
+				scheduleWeekOverview.setTuesday(newSchedule);
+				break;
+			case 2:
+				scheduleWeekOverview.setWednesday(newSchedule);
+				break;
+			case 3:
+				scheduleWeekOverview.setThursday(newSchedule);
+				break;
+			case 4:
+				scheduleWeekOverview.setFriday(newSchedule);
+				break;
+			case 5:
+				scheduleWeekOverview.setSaturday(newSchedule);
+				break;
+			case 6:
+				scheduleWeekOverview.setSunday(newSchedule);
+				break;
 			}
 		}
 
 		return overViews;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void copyDay(Employee employee, Date source, Date destinationFrom, Date destinationTo) {
 		Assert.notNull(employee);
 		Assert.notNull(source);
 		Assert.notNull(destinationFrom);
 		Assert.notNull(destinationTo);
-		
-		//bussiness validation
-		//this is check for existing terms of destination period, must be here, because valid each term is too slow
+
+		// bussiness validation
+		// this is check for existing terms of destination period, must be here, because
+		// valid each term is too slow
 		if (!couldCopy(employee, destinationFrom, destinationTo)) {
 			addError(new Message("schedule.copy.impossible.existing"));
 			return;
 		}
-		
+
 		Date currentCopyDate = destinationFrom;
 
 		Schedule copyFrom = findForEmployeeForDate(employee, source);
@@ -299,53 +376,54 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 		}
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void copyWeek(Employee employee, Date source, Date destinationFrom, Date destinationTo) {
 		Assert.notNull(employee);
 		Assert.notNull(source);
 		Assert.notNull(destinationFrom);
 		Assert.notNull(destinationTo);
 
-		//bussiness validation
-		//this is check for existing terms of destination period, must be here, because valid each term is too slow
+		// bussiness validation
+		// this is check for existing terms of destination period, must be here, because
+		// valid each term is too slow
 		if (!couldCopy(employee, destinationFrom, destinationTo)) {
 			addError(new Message("schedule.copy.impossible.existing"));
 			return;
 		}
 
 		Date currentCopyDate = destinationFrom;
-		
+
 		Map<Integer, Schedule> copyFromWeek = new HashMap<Integer, Schedule>();
-		
-		//prepare copy froms
+
+		// prepare copy froms
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(source);
-		for (int i=0; i<7; i++){
+		for (int i = 0; i < 7; i++) {
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 			Date date = calendar.getTime();
 			Schedule copyFrom = findForEmployeeForDate(employee, date);
 			copyFromWeek.put(dayOfWeek, copyFrom);
-			
-			if (copyFrom == null && (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)){
-				addWarning(new Message("schedule.copy.source.not.found."+dayOfWeek));
+
+			if (copyFrom == null && (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY)) {
+				addWarning(new Message("schedule.copy.source.not.found." + dayOfWeek));
 			}
-			if (copyFrom == null && (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)){
+			if (copyFrom == null && (dayOfWeek == Calendar.SATURDAY || dayOfWeek == Calendar.SUNDAY)) {
 				addInfo(new Message("schedule.copy.source.not.found." + dayOfWeek));
 			}
-			
+
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
-		
-		//copy
+
+		// copy
 		int createdCount = 0;
 		int errorCount = 0;
 		// while have copy to somewhere
 		while (currentCopyDate.compareTo(destinationTo) <= 0) {
 			calendar.setTime(currentCopyDate);
 			int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-			
+
 			Schedule copyFrom = copyFromWeek.get(dayOfWeek);
-			
+
 			// do not copy if haven't source in map
 			if (copyFrom != null) {
 				createCopyOfSchedule(copyFrom, employee, currentCopyDate);
@@ -359,7 +437,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 			currentCopyDate = calendar.getTime();
 		}
-		addInfo(new Message("schedule.items.copied", new Object[] {createdCount}));
+		addInfo(new Message("schedule.items.copied", new Object[] { createdCount }));
 	}
 
 	private Schedule findForEmployeeForDate(Employee employee, Date date) {
@@ -427,7 +505,7 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 		Date date = destinationFrom;
 		date = DateHelper.getStartOfDay(date);
 		FilterHelper.setField(ScheduleFilter.SCHEDULE_FILTER_FROM, date, filter);
-		//TODO: move to helper
+		// TODO: move to helper
 		date = destinationTo;
 		date = DateHelper.getEndOfDay(date);
 		FilterHelper.setField(ScheduleFilter.SCHEDULE_FILTER_TO, date, filter);
@@ -467,8 +545,8 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 
 		return result;
 	}
-	
-	private void createCopyOfSchedule(Schedule sourceSchedule, Employee employee, Date copyDate){
+
+	private void createCopyOfSchedule(Schedule sourceSchedule, Employee employee, Date copyDate) {
 		Schedule schedule = new Schedule();
 		schedule.setEmployee(employee);
 		schedule.setLevel(sourceSchedule.getLevel());
@@ -483,33 +561,47 @@ public class ScheduleLogicImpl extends AbstractLogicBean implements ScheduleLogi
 		// prepared -> create - without check, it is too slow - check all above
 		create(schedule, false);
 	}
-	
-	private Schedule create(Schedule schedule, boolean checkTerms){
+
+	private Schedule create(Schedule schedule, boolean checkTerms) {
 		// bussines validation
 		if (checkTerms && !hasValidTerm(schedule)) {
 			Object[] parameters = new Object[] { DateConvertor.convertToDateStringFromDate(schedule.getWorkFrom()) };
 			addError(new Message("schedule.has.invalid.terms", parameters));
 			return null;
 		}
-		// TODO: hardcoded level (todo, maybe not), state (holidays not approve automatic)
+		// TODO: hardcoded level (todo, maybe not), state (holidays not approve
+		// automatic)
 		schedule.setLevel(ScheduleHelper.LEVEL_DETAIL_PLAN);
 		schedule.setState(ScheduleHelper.STATE_APPROVED);
 		schedule.setCreatedOn(new Date());
 		return scheduleDao.insert(schedule);
 	}
 
-	private int countEmptyDaysToGenerate(int dayOfWeek){
-		int  result = 0;
-		switch(dayOfWeek) {
-			case Calendar.MONDAY: result=0; break;
-			case Calendar.TUESDAY: result=1; break;
-			case Calendar.WEDNESDAY: result=2; break;
-			case Calendar.THURSDAY: result=3; break;
-			case Calendar.FRIDAY: result=4; break;
-			case Calendar.SATURDAY: result=5; break;
-			case Calendar.SUNDAY: result=6; break;
+	private int countEmptyDaysToGenerate(int dayOfWeek) {
+		int result = 0;
+		switch (dayOfWeek) {
+		case Calendar.MONDAY:
+			result = 0;
+			break;
+		case Calendar.TUESDAY:
+			result = 1;
+			break;
+		case Calendar.WEDNESDAY:
+			result = 2;
+			break;
+		case Calendar.THURSDAY:
+			result = 3;
+			break;
+		case Calendar.FRIDAY:
+			result = 4;
+			break;
+		case Calendar.SATURDAY:
+			result = 5;
+			break;
+		case Calendar.SUNDAY:
+			result = 6;
+			break;
 		}
 		return result;
 	}
 }
-

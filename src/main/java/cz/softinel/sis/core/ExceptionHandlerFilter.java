@@ -12,7 +12,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.util.NestedServletException;
 
 import cz.softinel.sis.security.NoPermissionException;
@@ -26,18 +27,18 @@ import cz.softinel.sis.security.NoPermissionException;
 public class ExceptionHandlerFilter implements Filter {
 
 	private static Random rnd = new Random();
-	private static Logger logger = Logger.getLogger(ExceptionHandlerFilter.class);
+	private static Logger logger = LoggerFactory.getLogger(ExceptionHandlerFilter.class);
 	private static DecimalFormat df = new DecimalFormat("0000000000000000000");
-	
-	
+
 	public void destroy() {
 	}
 
 	public void init(FilterConfig arg0) throws ServletException {
 	}
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		try	{
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		try {
 			chain.doFilter(request, response);
 		} catch (NestedServletException e) {
 			if (e.getRootCause() instanceof NoPermissionException) {
@@ -46,7 +47,7 @@ public class ExceptionHandlerFilter implements Filter {
 				String url = "NoPermission.do";
 				httpResponse.sendRedirect(url);
 			} else {
-				//same as in catch (Throwable e)
+				// same as in catch (Throwable e)
 				Long id = Math.abs(rnd.nextLong());
 				String errorCode = "ERRID-" + df.format(id);
 				logger.error("Error - " + errorCode, e);
@@ -54,8 +55,7 @@ public class ExceptionHandlerFilter implements Filter {
 				String url = "Error.do?errId=" + errorCode;
 				httpResponse.sendRedirect(url);
 			}
-		}
-		catch (Throwable e) {
+		} catch (Throwable e) {
 			Long id = Math.abs(rnd.nextLong());
 			String errorCode = "ERRID-" + df.format(id);
 			logger.error("Error - " + errorCode, e);
@@ -64,5 +64,5 @@ public class ExceptionHandlerFilter implements Filter {
 			httpResponse.sendRedirect(url);
 		}
 	}
-	
+
 }

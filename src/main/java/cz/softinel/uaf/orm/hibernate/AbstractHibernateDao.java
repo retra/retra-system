@@ -10,7 +10,7 @@ public abstract class AbstractHibernateDao extends HibernateDaoSupport {
 	/** Returns exactly one entity from list */
 	// TODO: Refactor ... use common util helper method
 	public Object getExactlyOne(List list) {
-		
+
 		if (list == null || list.isEmpty()) {
 			return null;
 		}
@@ -21,17 +21,17 @@ public abstract class AbstractHibernateDao extends HibernateDaoSupport {
 		}
 	}
 
-	//	private HibernateLister hibernateLister;
+	// private HibernateLister hibernateLister;
 
 	public String getLikeValue(String value) {
-		
+
 		String result = null;
 
 		if (value != null && !value.equals("null") && StringUtils.hasLength(value)) {
 			result = value.replaceAll("\\*", "%");
 			result = result.replaceAll("\\?", "_");
 		}
-		
+
 		return result;
 	}
 }

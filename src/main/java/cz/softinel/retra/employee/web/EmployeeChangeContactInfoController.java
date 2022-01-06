@@ -13,11 +13,11 @@ import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public class EmployeeChangeContactInfoController extends FormController {
-	
+
 	private ContactInfoLogic contactInfoLogic;
 
 	// Configuration setter methods ..
-	
+
 	public void setContactInfoLogic(ContactInfoLogic contactInfoLogic) {
 		this.contactInfoLogic = contactInfoLogic;
 	}
@@ -31,8 +31,9 @@ public class EmployeeChangeContactInfoController extends FormController {
 	}
 
 	@SuppressWarnings("unchecked")
-	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors) throws Exception {
-		
+	public ModelAndView onSubmit(Model model, RequestContext requestContext, Object command, BindException errors)
+			throws Exception {
+
 		int action = getAction();
 		String view = getSuccessView();
 		if (action == ACTION_SAVE) {
@@ -58,6 +59,5 @@ public class EmployeeChangeContactInfoController extends FormController {
 
 		return createModelAndView(view);
 	}
-	
 
 }

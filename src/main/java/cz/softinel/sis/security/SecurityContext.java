@@ -19,8 +19,8 @@ public interface SecurityContext extends Serializable {
 
 	/** Login inser into security context */
 	public void login(User user);
-	
+
 	/** Logout user */
 	public void logout();
-	
+
 }

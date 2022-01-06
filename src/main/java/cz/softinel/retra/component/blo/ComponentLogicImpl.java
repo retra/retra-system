@@ -17,7 +17,7 @@ import cz.softinel.retra.core.blo.AbstractLogicBean;
 public class ComponentLogicImpl extends AbstractLogicBean implements ComponentLogic {
 
 	private ComponentDao componentDao;
-	
+
 	/**
 	 * @return the componentDao
 	 */
@@ -35,7 +35,7 @@ public class ComponentLogicImpl extends AbstractLogicBean implements ComponentLo
 	/**
 	 * @see cz.softinel.retra.component.blo.ComponentLogic#findAllComponents()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Component> findAllComponents() {
 		return componentDao.selectAll();
 	}
@@ -43,7 +43,7 @@ public class ComponentLogicImpl extends AbstractLogicBean implements ComponentLo
 	/**
 	 * @see cz.softinel.retra.component.blo.ComponentLogic#findAllNotDeletedComponents()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Component> findAllNotDeletedComponents() {
 		return componentDao.selectAllNotDeleted();
 	}
@@ -60,7 +60,7 @@ public class ComponentLogicImpl extends AbstractLogicBean implements ComponentLo
 		return componentDao.get(pk);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Component component) {
 		componentDao.update(component);
 	}

@@ -50,7 +50,7 @@ public class SelectTag extends VisualComponentTag {
 			generateTree();
 		}
 	}
-	
+
 	protected void generateStaticValues() {
 		for (Map.Entry<String, String> entry : staticValues.entrySet()) {
 			generateOption(entry.getKey(), entry.getValue(), -1);
@@ -66,9 +66,11 @@ public class SelectTag extends VisualComponentTag {
 
 	private static class ValueObjectComparator implements Comparator<Object> {
 		private final String orderBy;
+
 		public ValueObjectComparator(String orderBy) {
 			this.orderBy = orderBy;
 		}
+
 		public int compare(Object o1, Object o2) {
 			if (o1 == null) {
 				if (o2 == null) {
@@ -81,8 +83,8 @@ public class SelectTag extends VisualComponentTag {
 					return 1;
 				} else {
 					try {
-						Comparable<String> v1 = BeanUtils.getProperty(o1, orderBy); 
-						String v2 = BeanUtils.getProperty(o2, orderBy); 
+						Comparable<String> v1 = BeanUtils.getProperty(o1, orderBy);
+						String v2 = BeanUtils.getProperty(o2, orderBy);
 						return v1.compareTo(v2);
 					} catch (IllegalAccessException e) {
 						throw new RuntimeException("Exception while getting property: " + e.getMessage(), e);
@@ -95,13 +97,13 @@ public class SelectTag extends VisualComponentTag {
 			}
 		}
 	}
-	
+
 	private void orderList(List<Object> list) {
 		if (orderBy != null) {
 			Collections.sort(list, new ValueObjectComparator(orderBy));
 		}
 	}
-	
+
 	private void generateTreeLevel(int level, Object parentValue) {
 		try {
 			if (valueObjects == null) {
@@ -158,12 +160,12 @@ public class SelectTag extends VisualComponentTag {
 	}
 
 	private void generateSelectBegin() {
-		output.append("\n	<select name='"+name+"'");
+		output.append("\n	<select name='" + name + "'");
 		if (onchange != null) {
-			output.append(" onchange='"+onchange+"'");
+			output.append(" onchange='" + onchange + "'");
 		}
 		if (id != null) {
-			output.append(" id='"+id+"'");
+			output.append(" id='" + id + "'");
 		}
 		output.append(">");
 	}
@@ -172,7 +174,8 @@ public class SelectTag extends VisualComponentTag {
 		output.append("\n	</select>");
 	}
 
-	private void generateOption(Object o, int level) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+	private void generateOption(Object o, int level)
+			throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		String label = BeanUtils.getProperty(o, this.labelProperty);
 		String value = BeanUtils.getProperty(o, this.valueProperty);
 		generateOption(value, label, level);
@@ -187,15 +190,16 @@ public class SelectTag extends VisualComponentTag {
 		String prefix = "";
 		if (level >= 0) {
 			prefix = "&nbsp;+&nbsp;";
-			for (int i=0; i<level; i++) {
+			for (int i = 0; i < level; i++) {
 				prefix = "&nbsp;&nbsp;&nbsp;&nbsp;" + prefix;
 			}
 		}
-		output.append("\n		<option value='"+value+"'"+selectedAttribute+">"+prefix+label+"</option>");
+		output.append(
+				"\n		<option value='" + value + "'" + selectedAttribute + ">" + prefix + label + "</option>");
 	}
 
 	// Setters ...
-	
+
 	public void setHierarchyKey(String hierarchyKey) {
 		this.parentProperty = hierarchyKey;
 	}
@@ -267,5 +271,5 @@ public class SelectTag extends VisualComponentTag {
 	@Override
 	protected void beforeTag() {
 	}
-	
+
 }

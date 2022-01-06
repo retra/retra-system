@@ -4,10 +4,10 @@ public class AbstractInvoiceForm {
 
 	private String orderDate;
 	private String finishDate;
-	
+
 	private String name;
 	private String code;
-	
+
 	private String sequence;
 
 	public String getOrderDate() {
@@ -48,6 +48,12 @@ public class AbstractInvoiceForm {
 
 	public void setSequence(String sequence) {
 		this.sequence = sequence;
+	}
+
+	@Override
+	public String toString() {
+		return "(AbstractInvoiceForm [orderDate=" + orderDate + ", finishDate=" + finishDate + ", name=" + name
+				+ ", code=" + code + ", sequence=" + sequence + ")";
 	}
 	
 }

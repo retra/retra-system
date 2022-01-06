@@ -8,8 +8,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.core.io.Resource;
 
@@ -22,7 +22,7 @@ import org.springframework.core.io.Resource;
 //FIXME: refactor this class - package, it is HOTFIXED
 public final class SystemNewsFactory extends ApplicationObjectSupport {
 	// logger
-	private static Log logger = LogFactory.getLog(SystemNewsFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(SystemNewsFactory.class);
 
 	// private systemNews file
 	private String systemNewsFile;
@@ -51,14 +51,14 @@ public final class SystemNewsFactory extends ApplicationObjectSupport {
 		this.systemNewsFile = systemNewsFile;
 	}
 
-	public List getSystemNews(){
+	public List getSystemNews() {
 		if (systemNews == null) {
 			loadSystemNews();
 		}
-		
+
 		return Collections.unmodifiableList(systemNews.getNews());
 	}
-	
+
 	/**
 	 * Load all systemNews
 	 */

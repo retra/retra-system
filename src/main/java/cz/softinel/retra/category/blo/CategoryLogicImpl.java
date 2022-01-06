@@ -18,7 +18,7 @@ import cz.softinel.retra.core.blo.AbstractLogicBean;
 public class CategoryLogicImpl extends AbstractLogicBean implements CategoryLogic {
 
 	private CategoryDao categoryDao;
-	
+
 	/**
 	 * @return the categoryDao
 	 */
@@ -36,7 +36,7 @@ public class CategoryLogicImpl extends AbstractLogicBean implements CategoryLogi
 	/**
 	 * @see cz.softinel.retra.category.blo.CategoryLogic#findAllCategories()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> findAllCategories() {
 		return categoryDao.selectAll();
 	}
@@ -44,7 +44,7 @@ public class CategoryLogicImpl extends AbstractLogicBean implements CategoryLogi
 	/**
 	 * @see cz.softinel.retra.category.blo.CategoryLogic#findAllNotDeletedCategories()
 	 */
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Category> findAllNotDeletedCategories() {
 		return categoryDao.selectAllNotDeleted();
 	}

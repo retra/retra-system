@@ -7,10 +7,9 @@ import org.springframework.validation.Validator;
 import cz.softinel.retra.core.utils.convertor.BigDecimalConvertor;
 import cz.softinel.retra.project.blo.ProjectLogic;
 
-
 public abstract class ProjectValidator implements Validator {
-	
-	private ProjectLogic projectLogic;	
+
+	private ProjectLogic projectLogic;
 
 	public boolean supports(Class clazz) {
 		return clazz.equals(ProjectForm.class);
@@ -21,9 +20,9 @@ public abstract class ProjectValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "code", "projectManagement.error.require.code");
 		String code = (String) errors.getFieldValue("code");
 		if (!(code == null || code.length() == 0)) {
-			validateCodeUniqness(errors,code);
+			validateCodeUniqness(errors, code);
 		}
-		
+
 		String estimation = (String) errors.getFieldValue("estimation");
 		if (!(estimation == null || estimation.length() == 0)) {
 			if (BigDecimalConvertor.getBigDecimalFromString(estimation) == null) {
@@ -31,7 +30,7 @@ public abstract class ProjectValidator implements Validator {
 			}
 		}
 	}
-	
+
 	protected abstract void validateCodeUniqness(Errors errors, String code);
 
 	public ProjectLogic getProjectLogic() {

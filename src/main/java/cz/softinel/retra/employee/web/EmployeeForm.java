@@ -2,15 +2,15 @@ package cz.softinel.retra.employee.web;
 
 import java.util.Set;
 
-import cz.softinel.sis.user.web.UserForm;
 import cz.softinel.retra.project.Project;
+import cz.softinel.sis.user.web.UserForm;
 
 public class EmployeeForm {
 
 	private String pk;
-	
+
 	private Boolean igenerate;
-	private String icompany; 
+	private String icompany;
 
 	UserForm user;
 	Set<Project> projects;
@@ -56,4 +56,14 @@ public class EmployeeForm {
 	public void setProjects(Set<Project> projects) {
 		this.projects = projects;
 	}
+
+	@Override
+	public String toString() {
+		return "(EmployeeForm: pk=" + pk + ", igenerate=" + igenerate + ", icompany=" + icompany
+				+ ", user=" + user
+				+ (user != null ? user.toString() : "")
+				+ ")";
+	}
+
+
 }

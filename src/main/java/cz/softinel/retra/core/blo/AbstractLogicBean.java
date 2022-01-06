@@ -1,7 +1,7 @@
 package cz.softinel.retra.core.blo;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.softinel.uaf.messages.MessagesSupport;
 
@@ -12,6 +12,5 @@ import cz.softinel.uaf.messages.MessagesSupport;
  * @author Pavel Mueller
  */
 public abstract class AbstractLogicBean extends MessagesSupport {
-	protected Log logger = LogFactory.getLog(this.getClass());
-
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 }

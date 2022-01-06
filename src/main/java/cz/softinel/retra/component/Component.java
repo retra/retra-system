@@ -11,20 +11,20 @@ import cz.softinel.uaf.state.StateEntity;
 public class Component implements StateEntity {
 
 	// attributes
-	
+
 	private Long pk;
 	private Project project;
 	private String code;
 	private String name;
-	
+
 	private int state = Component.STATE_ACTIVE;
-	
+
 	// Business fields ...
 
 	public String getCodeAndName() {
 		return ComponentHelper.getCodeAndName(this);
 	}
-	
+
 	/**
 	 * @return the state
 	 */
@@ -121,12 +121,12 @@ public class Component implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
 		return "(Component: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
-	
+
 }

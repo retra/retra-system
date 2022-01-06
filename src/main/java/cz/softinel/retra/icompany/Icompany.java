@@ -2,7 +2,6 @@ package cz.softinel.retra.icompany;
 
 import cz.softinel.uaf.state.StateEntity;
 
-
 /**
  * This class represents invoice company.
  * 
@@ -18,9 +17,9 @@ public class Icompany implements StateEntity {
 
 	private int state = Icompany.STATE_ACTIVE;
 
-	//constants
-	public static Long DUMMY_CATEGORY_PK = (long)-1;
-	
+	// constants
+	public static Long DUMMY_CATEGORY_PK = (long) -1;
+
 	// Business fields ...
 
 	public String getCodeAndName() {
@@ -85,7 +84,6 @@ public class Icompany implements StateEntity {
 		this.state = state;
 	}
 
-
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -112,12 +110,12 @@ public class Icompany implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Icompany: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(Icompany: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
 
 }

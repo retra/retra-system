@@ -5,9 +5,9 @@ import cz.softinel.retra.spring.web.FormController;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
 public abstract class AbstractInvoiceFormController extends FormController {
-	
+
 	private InvoiceLogic invoiceLogic;
-	
+
 	/**
 	 * @return the invoiceLogic
 	 */
@@ -21,7 +21,7 @@ public abstract class AbstractInvoiceFormController extends FormController {
 	public void setInvoiceLogic(InvoiceLogic invoiceLogic) {
 		this.invoiceLogic = invoiceLogic;
 	}
-	
+
 	protected void prepareInvoiceForm(InvoiceForm invoiceForm, RequestContext requestContext) {
 		getCookieHelper().importFromCookies(invoiceForm, requestContext);
 	}

@@ -9,16 +9,16 @@ import cz.softinel.retra.worklog.Worklog;
 public interface JiraLogic {
 
 	public boolean isJiraEnabled();
-	
+
 	public JiraConfig getJiraConfig();
-	
+
 	public List<JiraIssue> findJiraIssuesForUser(String ldapLogin);
-	
+
 	public JiraIssue getJiraIssue(String code);
-	
+
 	public void addJiraWorklog(Worklog worklog);
-	
+
 	public void updateJiraWorklog(Worklog oldWorklog, Worklog newWorklog);
-	
+
 	public void deleteJiraWorklog(Worklog oldWorklog);
 }

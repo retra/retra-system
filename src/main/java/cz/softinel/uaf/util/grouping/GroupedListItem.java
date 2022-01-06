@@ -10,13 +10,16 @@ package cz.softinel.uaf.util.grouping;
 public class GroupedListItem {
 	private Object key;
 	private GroupedItem value;
+
 	public GroupedListItem(Object key, GroupedItem value) {
 		this.key = key;
 		this.value = value;
 	}
+
 	public Object getKey() {
 		return key;
 	}
+
 	public GroupedItem getValue() {
 		return value;
 	}

@@ -111,11 +111,11 @@ public class DateHelper {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		calendar.add(Calendar.DAY_OF_MONTH, 2);
-		calendar.add(Calendar.MILLISECOND, -1);		
+		calendar.add(Calendar.MILLISECOND, -1);
 		date = calendar.getTime();
 		return date;
 	}
-	
+
 	public static Date getTodayDateEndOfDay(Date date) {
 		calendar.setTime(date);
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -123,7 +123,7 @@ public class DateHelper {
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		calendar.add(Calendar.DAY_OF_MONTH, 1);
-		calendar.add(Calendar.MILLISECOND, -1);		
+		calendar.add(Calendar.MILLISECOND, -1);
 		date = calendar.getTime();
 		return date;
 	}
@@ -150,28 +150,30 @@ public class DateHelper {
 	public static String getCurrentWeek() {
 		return getWeekCode(new Date());
 	}
-	
+
 	public static Date getFirstDayOfWeek(String weekNumber) {
 		String[] parts = weekNumber.split("/");
 		int year = Integer.valueOf(parts[0]);
 		int week = Integer.valueOf(parts[1]);
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.WEEK_OF_YEAR, week);
-		calendar.set(Calendar.DAY_OF_WEEK, 2); // The day-of-week is an integer value where 1 is Sunday, 2 is Monday, ..., and 7 is Saturday
+		calendar.set(Calendar.DAY_OF_WEEK, 2); // The day-of-week is an integer value where 1 is Sunday, 2 is Monday,
+												// ..., and 7 is Saturday
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
 		return calendar.getTime();
 	}
-	
+
 	public static Date getFirstDayOfNextWeek(String weekNumber) {
 		String[] parts = weekNumber.split("/");
 		int year = Integer.valueOf(parts[0]);
 		int week = Integer.valueOf(parts[1]);
 		calendar.set(Calendar.YEAR, year);
 		calendar.set(Calendar.WEEK_OF_YEAR, week);
-		calendar.set(Calendar.DAY_OF_WEEK, 2); // The day-of-week is an integer value where 1 is Sunday, 2 is Monday, ..., and 7 is Saturday
+		calendar.set(Calendar.DAY_OF_WEEK, 2); // The day-of-week is an integer value where 1 is Sunday, 2 is Monday,
+												// ..., and 7 is Saturday
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -179,12 +181,19 @@ public class DateHelper {
 		calendar.add(Calendar.WEEK_OF_YEAR, 1);
 		return calendar.getTime();
 	}
-	
+
 	public static class Week {
 		private final String code;
 		private final String label;
-		public String getCode() {return code; }
-		public String getLabel() {return label; }
+
+		public String getCode() {
+			return code;
+		}
+
+		public String getLabel() {
+			return label;
+		}
+
 		public Week(String code, String label) {
 			this.code = code;
 			this.label = label;
@@ -195,7 +204,7 @@ public class DateHelper {
 		LinkedList<Week> list = new LinkedList<Week>();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(new Date());
-		for (int i=0; i<length; i++) {
+		for (int i = 0; i < length; i++) {
 			String weekCode = getWeekCode(cal.getTime());
 			String weekLabel = getWeekLabel(cal.getTime());
 			list.addFirst(new Week(weekCode, weekLabel));
@@ -203,7 +212,7 @@ public class DateHelper {
 		}
 		return list;
 	}
-	
+
 	public static Date add(Date date, int field, int amount) {
 		calendar.setTime(date);
 		calendar.add(field, amount);

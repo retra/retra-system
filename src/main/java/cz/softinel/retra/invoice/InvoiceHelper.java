@@ -15,10 +15,10 @@ public class InvoiceHelper {
 	public static final String INVOICE_RELATION_DO_NOT_CARE = "doNotCare";
 	public static final String INVOICE_RELATION_NOT_CLOSED = "notClosed";
 	public static final String INVOICE_RELATION_CLOSED = "closed";
-	
+
 	public final static List<InvoiceRelationSelectValue> INVOICE_RELATIONS = new ArrayList<InvoiceRelationSelectValue>();
 	public final static List<InvoiceStateSelectValue> INVOICE_STATES = new ArrayList<InvoiceStateSelectValue>();
-	
+
 	static {
 		INVOICE_RELATIONS.add(new InvoiceRelationSelectValue(INVOICE_RELATION_DO_NOT_CARE));
 		INVOICE_RELATIONS.add(new InvoiceRelationSelectValue(INVOICE_RELATION_NOT_CLOSED));
@@ -28,7 +28,7 @@ public class InvoiceHelper {
 		INVOICE_STATES.add(new InvoiceStateSelectValue(Invoice.STATE_CLOSED));
 		INVOICE_STATES.add(new InvoiceStateSelectValue(Invoice.STATE_DELETED));
 	}
-	
+
 	public static String getCodeAndName(Invoice invoice) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(invoice.getCode());
@@ -36,7 +36,7 @@ public class InvoiceHelper {
 		sb.append(invoice.getName());
 		return sb.toString().trim();
 	}
-	
+
 	public static void formToEntity(InvoiceForm form, Invoice entity, boolean isCodeGenerated) {
 		if (form.getPk() != null) {
 			Long pk = LongConvertor.getLongFromString(form.getPk());
@@ -48,16 +48,16 @@ public class InvoiceHelper {
 
 		Date finishDate = DateConvertor.getDateFromDateString(form.getFinishDate());
 		entity.setFinishDate(finishDate);
-		
+
 		entity.setName(form.getName());
-		
+
 		if (!isCodeGenerated) {
 			entity.setCode(form.getCode());
 		}
 	}
 
 	public static void entityToForm(Invoice entity, InvoiceForm form) {
-		
+
 		form.setPk(LongConvertor.convertToStringFromLong(entity.getPk()));
 
 		String orderDate = DateConvertor.convertToDateStringFromDate(entity.getOrderDate());
@@ -65,9 +65,9 @@ public class InvoiceHelper {
 
 		String finishDate = DateConvertor.convertToDateStringFromDate(entity.getFinishDate());
 		form.setFinishDate(finishDate);
-		
+
 		form.setName(entity.getName());
 		form.setCode(entity.getCode());
-	}	
-	
+	}
+
 }

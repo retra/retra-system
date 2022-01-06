@@ -7,7 +7,7 @@ public class ObjectClass {
 	private Long pk;
 
 	private String id;
-	
+
 	// Business fields ...
 
 	// Getter and Setters ...
@@ -27,10 +27,9 @@ public class ObjectClass {
 	public void setPk(Long pk) {
 		this.pk = pk;
 	}
-	
-	
+
 	// Object implementation ...
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -57,12 +56,12 @@ public class ObjectClass {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(ObjectClass: pk=" + pk + ", id=" + id +")";
+		return "(ObjectClass: pk=" + pk + ", id=" + id + ")";
 	}
 
 }

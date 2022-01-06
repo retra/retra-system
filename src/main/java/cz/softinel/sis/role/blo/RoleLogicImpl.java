@@ -19,42 +19,42 @@ public class RoleLogicImpl extends AbstractLogicBean implements RoleLogic {
 	private RoleDao roleDao;
 
 	// Configuration methods ...
-	
+
 	public void setRoleDao(RoleDao roleDao) {
 		this.roleDao = roleDao;
 	}
 
 	// Public business logic ...
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Role get(Long pk) {
 		return roleDao.get(pk);
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Role> findAll() {
 		return roleDao.selectAll();
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void create(Role role) {
 		validateForCreate(role);
 		roleDao.insert(role);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Role contactInfo) {
 		validateForUpdate(contactInfo);
 		roleDao.update(contactInfo);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Role contactInfo) {
 		roleDao.delete(contactInfo);
 	}
 
 	// Validation methods ...
-	
+
 	protected void validateForCreate(Role role) {
 		// TODO: Implement validations
 		validate(role);
@@ -64,7 +64,7 @@ public class RoleLogicImpl extends AbstractLogicBean implements RoleLogic {
 		// TODO: Implement validations
 		validate(role);
 	}
-	
+
 	protected void validate(Role role) {
 		// TODO: Implement validations
 	}

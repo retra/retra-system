@@ -10,8 +10,8 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ApplicationObjectSupport;
 import org.springframework.core.io.Resource;
 
@@ -23,14 +23,14 @@ import org.springframework.core.io.Resource;
  */
 public final class HolidaysFactory extends ApplicationObjectSupport {
 	// logger
-	private static Log logger = LogFactory.getLog(HolidaysFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(HolidaysFactory.class);
 
 	// pattern
 	private final static String datePattern = "d.M.";
 	private final static String validPattern = "d.M.yyyy";
 	private DateFormat dateFormat = new SimpleDateFormat(datePattern);
 	private DateFormat validFormat = new SimpleDateFormat(validPattern);
-	
+
 	// private holidays file
 	private String holidaysFile;
 
@@ -83,13 +83,13 @@ public final class HolidaysFactory extends ApplicationObjectSupport {
 		}
 
 		String dateStr = dateFormat.format(date);
-		
+
 		if (holidays == null) {
 			loadHolidays();
 		}
 
 		for (Item item : holidays.getItems()) {
-			for (Term term: item.getTerms()) {
+			for (Term term : item.getTerms()) {
 				String findDate = term.getDate();
 				if (findDate.equals(dateStr)) {
 					try {
@@ -98,8 +98,7 @@ public final class HolidaysFactory extends ApplicationObjectSupport {
 						if (date.after(validFrom) && date.before(validTo)) {
 							return true;
 						}
-					}
-					catch (ParseException e) {
+					} catch (ParseException e) {
 						return false;
 					}
 				}

@@ -50,7 +50,7 @@ public class Item {
 	/**
 	 * @return the terms
 	 */
-	@XmlElement(name="term")
+	@XmlElement(name = "term")
 	public List<Term> getTerms() {
 		return terms;
 	}

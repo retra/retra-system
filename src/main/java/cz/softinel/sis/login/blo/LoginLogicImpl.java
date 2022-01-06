@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import cz.softinel.retra.core.blo.AbstractLogicBean;
+import cz.softinel.sis.log.aspect.DoNotLogArgs;
 import cz.softinel.sis.login.Login;
 import cz.softinel.sis.login.LoginException;
 import cz.softinel.sis.login.LoginHelper;
@@ -26,10 +27,9 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 	private LdapUserDetailsService ldapUserDetailsService;
 	private boolean useLdapAuth = false;
 	private boolean useLdapOnly = false;
-	
-	
+
 	// Configuration methods ...
-	
+
 	public void setLdapUserDetailsService(LdapUserDetailsService ldapUserDetailsService) {
 		this.ldapUserDetailsService = ldapUserDetailsService;
 	}
@@ -56,7 +56,8 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 
 	// Public business logic ...
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	@DoNotLogArgs(argIndexes = {1})
 	public Login checkLogin(String name, String password) {
 		if (!StringUtils.hasLength(password) || !StringUtils.hasLength(name)) {
 			return null;
@@ -65,18 +66,18 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 
 		Login login = null;
 
-		//try normal login
+		// try normal login
 		if (!useLdapOnly) {
 			login = loginDao.getByName(name);
 
 			if (login != null) {
 				if (!hashedPassword.equals(login.getPassword())) {
-					login = null;					
+					login = null;
 				}
 			}
 		}
 
-		//try LDAP
+		// try LDAP
 		if (login == null && useLdapAuth) {
 			login = loginDao.getByLdapLogin(name);
 			boolean auth = ldapUserDetailsService.authenticateUser(name, password);
@@ -88,74 +89,76 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 		}
 
 		if (login != null) {
-			//prepare roles and permissions (must be here because of lazy loading)
+			// prepare roles and permissions (must be here because of lazy loading)
 			RoleHelper.prepareUserPermissions(login.getUser());
 		}
-		
-		//return login
+
+		// return login
 		return login;
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	@DoNotLogArgs(argIndexes = {0})
 	public Login checkLogin(String permanentPassword) {
 		if (permanentPassword == null) {
 			return null;
 		}
 
 		Login login = loginDao.getByPermanentPassword(permanentPassword);
-		
+
 		if (login != null) {
-			//prepare roles and permissions (must be here because of lazy loading)
+			// prepare roles and permissions (must be here because of lazy loading)
 			RoleHelper.prepareUserPermissions(login.getUser());
 		}
 
 		return login;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public Login create(Login login) {
 		validateForCreate(login);
 		return loginDao.insert(login);
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Login> findAll() {
 		return loginDao.selectAll();
 	}
 
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Login get(Long pk) {
 		return loginDao.get(pk);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(Login login) {
 		loginDao.delete(login);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(Login login) {
 		validateForUpdate(login);
 		loginDao.update(login);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void logout(Login login) {
 		loginDao.load(login);
 		login.setPermanentPassword(null);
 		loginDao.update(login);
 	}
-	
-	@Transactional(propagation=Propagation.REQUIRED)
+
+	@Transactional(propagation = Propagation.REQUIRED)
+	@DoNotLogArgs(argIndexes = {1,2})
 	public void changePassword(Login login, String oldPassword, String newPassword) {
-		if(!LoginHelper.isPasswordSecure(newPassword)){
+		if (!LoginHelper.isPasswordSecure(newPassword)) {
 			addError(new Message("employeeManagement.create.password.not.secure"));
 			return;
 		}
 		loginDao.load(login);
 		oldPassword = LoginHelper.hashPassword(oldPassword);
 		newPassword = LoginHelper.hashPassword(newPassword);
-		if (! login.getPassword().equals(oldPassword)) {
+		if (!login.getPassword().equals(oldPassword)) {
 			addError(new Message("employeeManagement.changePassword.error.badPassword"));
 			return;
 		}
@@ -163,7 +166,7 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 		loginDao.update(login);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void createPermanentPassword(Login login) {
 		loginDao.load(login);
 		login.setPermanentPassword(LoginHelper.generatePermanentPassword(login));
@@ -171,23 +174,23 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 	}
 
 	// Validation methods ...
-	
+
 	protected void validateForCreate(Login login) {
 		validate(login);
-		if(loginDao.usernameExists(login.getName())){
+		if (loginDao.usernameExists(login.getName())) {
 			throw new LoginException("Username is already taken");
 		}
 	}
 
 	protected void validateForUpdate(Login login) {
 		validate(login);
-		if(loginDao.usernameExists(login.getName())){
+		if (loginDao.usernameExists(login.getName())) {
 			throw new LoginException("Username is already taken");
 		}
 	}
-	
+
 	protected void validate(Login login) {
-		if(!LoginHelper.isPasswordSecure(login.getPassword())){
+		if (!LoginHelper.isPasswordSecure(login.getPassword())) {
 			throw new LoginException("Password is not secure enough");
 		}
 	}

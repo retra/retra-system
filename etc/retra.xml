@@ -8,7 +8,7 @@
 		username="retra"
 		password="retra"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://localhost/retra?allowMultiQueries=true&amp;useUnicode=true&amp;characterEncoding=utf8" /-->
+		url="jdbc:mysql://localhost/retra?allowMultiQueries=true&amp;amp;useUnicode=true&amp;amp;characterEncoding=utf8" /-->
 
 	<Resource name="RetraDS"
 	      scope="Shareable"

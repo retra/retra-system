@@ -30,7 +30,7 @@ public class UserLogicImpl extends AbstractLogicBean implements UserLogic {
 	private RoleLogic roleLogic;
 
 	// Configuration methods ...
-	
+
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
@@ -48,13 +48,13 @@ public class UserLogicImpl extends AbstractLogicBean implements UserLogic {
 	}
 
 	// Public business logic ...
-	
-	@Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<User> findAll() {
 		return userDao.selectAll();
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public User create(User user) {
 		// Create contact info ...
 		ContactInfo contactInfo = user.getContactInfo();
@@ -76,12 +76,12 @@ public class UserLogicImpl extends AbstractLogicBean implements UserLogic {
 		return user;
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void store(User user) {
 		userDao.update(user);
 	}
 
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void remove(User user) {
 		userDao.delete(user);
 	}

@@ -3,12 +3,14 @@ package cz.softinel.retra.jiraintegration.worklog.requests;
 import cz.softinel.retra.jiraintegration.worklog.JiraRemoteWorklog;
 
 /**
- * Add a worklog to the given issue. This request is the object for the marshaller. 
+ * Add a worklog to the given issue. This request is the object for the
+ * marshaller.
+ * 
  * @author Erik Szalai
  */
 @Deprecated
 public class WorklogAddRequest {
-	
+
 	/**
 	 * The token after the login.
 	 */
@@ -37,7 +39,7 @@ public class WorklogAddRequest {
 	public void setJiraRemoteWorklog(JiraRemoteWorklog jiraRemoteWorklog) {
 		this.jiraRemoteWorklog = jiraRemoteWorklog;
 	}
-	
+
 	/**
 	 * @return
 	 * @see #loginToken
@@ -45,7 +47,7 @@ public class WorklogAddRequest {
 	public String getLoginToken() {
 		return loginToken;
 	}
-	
+
 	/**
 	 * @param loginToken
 	 * @see #loginToken
@@ -69,5 +71,5 @@ public class WorklogAddRequest {
 	public void setJiraIssue(String jiraIssue) {
 		this.jiraIssue = jiraIssue;
 	}
-	
+
 }

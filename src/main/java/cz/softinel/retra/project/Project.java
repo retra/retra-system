@@ -26,14 +26,14 @@ public class Project implements StateEntity {
 	private BigDecimal estimation;
 
 	private Category category;
-	
+
 	private Set<Employee> employees;
 	private Set<Component> components;
 
 	private int state = Project.STATE_ACTIVE;
-	
-	//constants
-	public static Long DUMMY_PROJECT_PK = (long)-1;
+
+	// constants
+	public static Long DUMMY_PROJECT_PK = (long) -1;
 
 	// Business fields ...
 
@@ -167,8 +167,8 @@ public class Project implements StateEntity {
 	 */
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
-	}	
-	
+	}
+
 	/**
 	 * @return the Set of components belong to this project
 	 */
@@ -182,10 +182,9 @@ public class Project implements StateEntity {
 	public void setComponents(Set<Component> components) {
 		this.components = components;
 	}
-	
-	
+
 	// Object implementation ...
-	
+
 	/**
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -212,12 +211,12 @@ public class Project implements StateEntity {
 		}
 		return this.pk.equals(that.pk);
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	public String toString() {
-		return "(Project: pk=" + pk + ", code=" + code + ", name="+ name+")";
+		return "(Project: pk=" + pk + ", code=" + code + ", name=" + name + ")";
 	}
-	
+
 }

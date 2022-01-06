@@ -1,12 +1,11 @@
 package cz.softinel.retra.jiraintegration;
 
-import org.apache.log4j.Logger;
-
 import cz.softinel.retra.jiraintegration.soap.JiraSoapClient;
 
 /**
- * Class for grouping the jira integration job methods. This class' {@link #executeJobs()} method is run from
- * a cron job or similar timing tool.
+ * Class for grouping the jira integration job methods. This class'
+ * {@link #executeJobs()} method is run from a cron job or similar timing tool.
+ * 
  * @author Erik Szalai
  */
 @Deprecated
@@ -16,7 +15,7 @@ public class JiraIntegrationJobs {
 	 * The boolean to check if Jira integration is enabled.
 	 */
 	private boolean jiraIntegrationAllowed = false;
-	
+
 	/**
 	 * @see #jiraIntegrationAllowed
 	 */
@@ -39,7 +38,7 @@ public class JiraIntegrationJobs {
 	 * Executes the jobs defined by the {@link JiraSoapClient}.
 	 */
 	public void executeJobs() {
-		if(jiraIntegrationAllowed) {
+		if (jiraIntegrationAllowed) {
 			jiraSoapClient.exportInserted();
 			jiraSoapClient.exportUpdated();
 			jiraSoapClient.exportWithIssueUpdated();

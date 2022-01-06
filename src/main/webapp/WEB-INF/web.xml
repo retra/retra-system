@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 
 <!-- Web application deployment descriptor. -->
-<web-app xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	version="2.4">
 
@@ -11,18 +12,6 @@
 	<!-- Java version workaround 1.7.0_888 -->
 	<listener>
 		<listener-class>cz.softinel.retra.core.JavaVersionWorkaroundListener</listener-class>
-	</listener>
-
-	<!-- - Configures Log4J for this web app. - As this context specifies a 
-		context-param "log4jConfigLocation", its file path - is used to load the 
-		Log4J configuration, including periodic refresh checks. - - Would fall back 
-		to default Log4J initialization (non-refreshing) if no special - context-params 
-		are given. - - Exports a "web app root key", i.e. a system property that 
-		specifies the root - directory of this web app, for usage in log file paths. 
-		- This web app specifies "mira.root" (see mira.properties file). -->
-	<!-- Leave the listener commented-out if using JBoss -->
-	<listener>
-		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
 
 	<!-- Starts Spring application context. -->
@@ -48,19 +37,6 @@
 		<param-value>retra.root</param-value>
 	</context-param>
 
-	<!-- Location of the Log4J config file, for initialization and refresh checks. 
-		Applied by Log4jConfigListener. -->
-	<context-param>
-		<param-name>log4jConfigLocation</param-name>
-		<param-value>${retra.config.location}retra.properties</param-value>
-	</context-param>
-
-	<!-- Allows changes in Log4J configuration on the fly. Remove in production -->
-	<context-param>
-		<param-name>log4jRefreshInterval</param-name>
-		<param-value>1000</param-value>
-	</context-param>
-
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.locale</param-name>
 		<param-value>cs_CZ</param-value>
@@ -79,7 +55,6 @@
 			<param-value>true</param-value>
 		</init-param>
 	</filter>
-
 
 	<!-- use encofing filter to all requests -->
 	<filter-mapping>

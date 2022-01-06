@@ -11,9 +11,9 @@ public abstract class JiraHelper {
 
 	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z][A-Z0-9]{0,9}\\-[1-9]{1}[0-9]{0,9}";
 	public static final String SW_CODE_PREFIX = "SW-";
-	
+
 	private static final Pattern JIRA_ISSUE_CODE_PATTERN = Pattern.compile(JIRA_ISSUE_CODE_REGEXP);
-	
+
 	private JiraHelper() {
 	}
 
@@ -25,11 +25,11 @@ public abstract class JiraHelper {
 			while (m.find()) {
 				String code = m.group(0);
 				if (!code.startsWith(SW_CODE_PREFIX)) {
-					result.add(m.group(0));					
+					result.add(m.group(0));
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -39,16 +39,16 @@ public abstract class JiraHelper {
 
 	public static String getLinkableText(final String text, String linkText, final JiraLogic jiraLogic) {
 		String result = null;
-		
+
 		if (jiraLogic != null && jiraLogic.getJiraConfig() != null) {
 			StringBuilder urlsb = new StringBuilder("<a href=\"");
 			urlsb.append(jiraLogic.getJiraConfig().getBaseUrl());
 			urlsb.append(jiraLogic.getJiraConfig().getIssuePath());
 			urlsb.append("%s\" title=\"%s\" target=\"_blank\">");
 			if (linkText != null) {
-				urlsb.append(linkText);	
+				urlsb.append(linkText);
 			} else {
-				urlsb.append("%s");				
+				urlsb.append("%s");
 			}
 			urlsb.append("</a>");
 
@@ -71,10 +71,8 @@ public abstract class JiraHelper {
 		} else {
 			result = text;
 		}
-		
+
 		return result;
 	}
-
-
 
 }

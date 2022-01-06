@@ -15,7 +15,7 @@ public class DefaultMessagesContext implements MessagesContext {
 	public Messages getMessages() {
 		return MessagesHolder.getMessages();
 	}
-	
+
 	/**
 	 * @see cz.softinel.uaf.messages.MessagesContext#setMessages(cz.softinel.uaf.messages.Messages)
 	 */
