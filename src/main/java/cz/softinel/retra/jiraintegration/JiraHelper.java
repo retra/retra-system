@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 
 public abstract class JiraHelper {
@@ -60,10 +62,11 @@ public abstract class JiraHelper {
 					JiraIssue issue = jiraLogic.getJiraIssue(code);
 					String title = code;
 					if (issue != null) {
-						title = code + " - " + issue.getSummary();
+						String summary = getSafeJiraText(issue.getSummary());
+						title = code + " - " + summary;
+						String replacement = String.format(url, code, title, code);
+						result = result.replaceAll(code, replacement);
 					}
-					String replacement = String.format(url, code, title, code);
-					result = result.replaceAll(code, replacement);
 				}
 			} else {
 				result = text;
@@ -75,4 +78,12 @@ public abstract class JiraHelper {
 		return result;
 	}
 
+	public static String getSafeJiraText(final String text) {
+		String safeText = "";
+		if (text != null) {
+			safeText = StringEscapeUtils.escapeHtml(text);
+			safeText = safeText.replace("$", "&dollar;").replace("{", "&lcub;").replace("}", "&rcub;");
+		}
+		return safeText;
+	}
 }

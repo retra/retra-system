@@ -16,10 +16,10 @@
 		<display:setProperty name="export.pdf.filename" value="invoices.pdf" />
 		<display:setProperty name="export.rtf.filename" value="invoices.rtf" />
 
-		<display:column property="employee.icompany.codeAndName" titleKey="entity.employee.icompany" sortable="true" />		
-		<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10"/> 
-		<display:column property="employee.user.contactInfo.displayName" titleKey="entity.invoice.employee"/>
-		<display:column property="name" titleKey="entity.invoice.name" sortable="true" />
+		<display:column property="employee.icompany.codeAndName" titleKey="entity.employee.icompany" sortable="true" escapeXml="true" />		
+		<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10" escapeXml="true" /> 
+		<display:column property="employee.user.contactInfo.displayName" titleKey="entity.invoice.employee" escapeXml="true" />
+		<display:column property="name" titleKey="entity.invoice.name" sortable="true" escapeXml="true" />
 		
 	</display:table>
 

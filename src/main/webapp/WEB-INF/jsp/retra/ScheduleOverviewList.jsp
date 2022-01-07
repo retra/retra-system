@@ -11,12 +11,12 @@
 		<tr>
 			<th><fmt:message key="schedule.month" /></th>
 			<td>
-				<vc:select name="scheduleFilterMonth" valueObjects="${months}" selected="${scheduleFilterMonth}"
+				<vc:select name="scheduleFilterMonth" valueObjects="${months}" selected="${fn:escapeXml(scheduleFilterMonth)}"
 				valueProperty="value" labelProperty="label" orderBy="label" tabindex="1" />
 			</td>
 			<th><fmt:message key="schedule.employee" /></th>
 			<td>
-				<vc:select name="scheduleFilterEmployee" valueObjects="${employees}" selected="${scheduleFilterEmployee}" 
+				<vc:select name="scheduleFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(scheduleFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="2" /> 
 			</td>
@@ -25,7 +25,7 @@
 		<tr>
 			<th><fmt:message key="schedule.year" /></th>
 			<td>
-				<vc:select name="scheduleFilterYear" valueObjects="${years}" selected="${scheduleFilterYear}"
+				<vc:select name="scheduleFilterYear" valueObjects="${years}" selected="${fn:escapeXml(scheduleFilterYear)}"
 				valueProperty="value" labelProperty="label" orderBy="label" tabindex="3" />
 			</td>
 			<td colspan="2"></td>
@@ -44,7 +44,7 @@
 	<display:setProperty name="export.rtf.filename" value="${employee.user.contactInfo.displayName}-schedule.rtf" />
 
 	<!-- header -->
-	<display:caption>${employee.user.contactInfo.displayName} - <fmt:message key="month.${scheduleFilterMonth}"/> ${scheduleFilterYear}</display:caption>
+	<display:caption>${fn:escapeXml(employee.user.contactInfo.displayName)} - <fmt:message key="month.${fn:escapeXml(scheduleFilterMonth)}"/> ${fn:escapeXml(scheduleFilterYear)}</display:caption>
 	
 	<!-- data columns -->
 	<display:column property="monday" titleKey="day.2" decorator="cz.softinel.retra.core.utils.decorator.ScheduleOverviewDecorator" class="day ${scheduleOverview.monday.cssClass}" headerClass="day" media="html" />
@@ -69,7 +69,7 @@
 	<table class="invisibleInPrint" width="100%">
 		<tr>
 			<td class="center scheduleDefault"><fmt:message key="schedule.default" /></td>
-			<c:forEach items="${types}" var="type"><td class="center ${type.cssClass}">${type.name}</td></c:forEach>
+			<c:forEach items="${types}" var="type"><td class="center ${type.cssClass}">${fn:escapeXml(type.name)}</td></c:forEach>
 			<td class="center scheduleWeekend"><fmt:message key="schedule.weekend.holidays" /></td>
 		</tr>
 	</table>

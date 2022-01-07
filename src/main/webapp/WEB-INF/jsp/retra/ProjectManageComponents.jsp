@@ -6,25 +6,25 @@
 
 <form action="${requestURI}" method="post" >
 		<spring:bind path="projectForm.pk">
-				<input type="hidden" name="${status.expression}" value="${status.value}" />
+				<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 		</spring:bind>
 		
 		<table class="formTable">
 		<tr>
 			<th><fmt:message key="entity.project.code" /></th>
-			<td>${projectForm.code}</td>
+			<td>${fn:escapeXml(projectForm.code)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.project.name" /></th>
-			<td>${projectForm.name}</td>
+			<td>${fn:escapeXml(projectForm.name)}</td>
 		</tr>
 		
 	</table>
 	
 	<display:table name="${projectForm.components}" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="component"
 		sort="list">
-		<display:column property="code" titleKey="entity.component.code" sortable="true" />
-		<display:column property="name" titleKey="entity.component.name" sortable="true" />
+		<display:column property="code" titleKey="entity.component.code" sortable="true" escapeXml="true" />
+		<display:column property="name" titleKey="entity.component.name" sortable="true" escapeXml="true" />
 		
 		<display:column url="/ComponentEdit.do?fkprm=true" paramId="pk" paramProperty="pk" media="html" class="action"  headerClass="action" 
 			titleKey="action.edit">

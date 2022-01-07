@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.displaytag.decorator.DisplaytagColumnDecorator;
 import org.displaytag.exception.DecoratorException;
 import org.displaytag.properties.MediaTypeEnum;
@@ -43,9 +44,9 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator {
 			Type type = schedule.getType();
 			String typeName = "";
 			if (type != null) {
-				typeName = type.getName();
+				typeName = StringEscapeUtils.escapeHtml(type.getName());
 			}
-			String comment = schedule.getComment();
+			String comment = StringEscapeUtils.escapeHtml(schedule.getComment());
 			if (comment == null) {
 				comment = "";
 			}
@@ -94,6 +95,10 @@ public class ScheduleOverviewDecorator implements DisplaytagColumnDecorator {
 				result = sb.toString();
 			}
 
+		}
+
+		if (columnValue instanceof String) {
+			result = StringEscapeUtils.escapeHtml(columnValue.toString());
 		}
 
 		// not schedule return it as it comes

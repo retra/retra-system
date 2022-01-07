@@ -7,15 +7,15 @@
 <table class="formTable">
 	<tr>
 		<th><fmt:message key="entity.invoice.code" /></th>
-		<td>${invoice.code}</td>
+		<td>${fn:escapeXml(invoice.code)}</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.employee" /></th>
-		<td>${invoice.employee.user.contactInfo.displayName}</td>
+		<td>${fn:escapeXml(invoice.employee.user.contactInfo.displayName)}</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.name" /></th>
-		<td>${invoice.name}</td>
+		<td>${fn:escapeXml(invoice.name)}</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.state" /></th>
@@ -36,27 +36,27 @@
 
 		<display:column titleKey="worklog.project" media="html" >
 			<!-- this is hack for sorting -->
-			<span class="invisible">${worklog.project.code}</span>
-			<span title="${worklog.project.name}">${worklog.project.code}</span>
+			<span class="invisible">${fn:escapeXml(worklog.project.code)}</span>
+			<span title="${fn:escapeXml(worklog.project.name)}">${fn:escapeXml(worklog.project.code)}</span>
 		</display:column>
-		<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf"/>
+		<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf" escapeXml="true" />
 
 		<display:column titleKey="worklog.component" media="html">
 			<!-- this is hack for sorting -->
-			<span class="invisible">${worklog.component.code}</span>
-			<acronym title="${worklog.component.name}">${worklog.component.code}</acronym>
+			<span class="invisible">${fn:escapeXml(worklog.component.code)}</span>
+			<acronym title="${fn:escapeXml(worklog.component.name)}">${fn:escapeXml(worklog.component.code)}</acronym>
 		</display:column>
-		<display:column property="component.code" titleKey="worklog.component" media="csv excel xml pdf rtf"/>
+		<display:column property="component.code" titleKey="worklog.component" media="csv excel xml pdf rtf" escapeXml="true" />
 			
 		<display:column titleKey="worklog.activity" media="html">
 			<!-- this is hack for sorting -->
-			<span class="invisible">${worklog.activity.code}</span>
-			<span title="${worklog.activity.name}">${worklog.activity.code}</span>
+			<span class="invisible">${fn:escapeXml(worklog.activity.code)}</span>
+			<span title="${fn:escapeXml(worklog.activity.name)}">${fn:escapeXml(worklog.activity.code)}</span>
 		</display:column>
-		<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf"/>
+		<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf" escapeXml="true" />
 
 		<display:column property="descriptionGui" titleKey="worklog.description" media="html"/>	
-		<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf"/>
+		<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf" escapeXml="true" />
 
 		<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 		<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>

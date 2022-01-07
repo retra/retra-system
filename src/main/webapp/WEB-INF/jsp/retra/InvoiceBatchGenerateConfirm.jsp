@@ -7,19 +7,19 @@
 <table class="formTable">
 	<tr>
 		<th><fmt:message key="entity.invoice.sequence" /></th>
-		<td>${invoiceSeq.codeAndName}</td>
+		<td>${fn:escapeXml(invoiceSeq.codeAndName)}</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.orderDate" /></th>
-		<td>${form.orderDate}</td>
+		<td>${fn:escapeXml(form.orderDate)}</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.finishDate" /></th>
-		<td>${form.finishDate}	</td>
+		<td>${fn:escapeXml(form.finishDate)}	</td>
 	</tr>
 	<tr>
 		<th><fmt:message key="entity.invoice.name" /></th>
-		<td>${form.name}</td>
+		<td>${fn:escapeXml(form.name)}</td>
 	</tr>
 </table>
 
@@ -34,12 +34,12 @@
 		<!-- data columns -->
 		<display:column titleKey="entity.employee.icompany" media="html" >
 			<!-- this is hack for sorting -->
-			<span class="invisible">${employee.icompany.code}</span>
-			<span title="${employee.icompany.codeAndName}">${employee.icompany.codeAndName}</span>
+			<span class="invisible">${fn:escapeXml(employee.icompany.code)}</span>
+			<span title="${fn:escapeXml(employee.icompany.codeAndName)}">${fn:escapeXml(employee.icompany.codeAndName)}</span>
 		</display:column>
-		<display:column property="employee.icompany" titleKey="entity.employee.icompany" media="csv excel xml pdf rtf"/>
+		<display:column property="employee.icompany" titleKey="entity.employee.icompany" media="csv excel xml pdf rtf" escapeXml="true"/>
 
-		<display:column property="user.contactInfo.displayName" titleKey="entity.contactInfo.displayName" sortable="true" 	/>
+		<display:column property="user.contactInfo.displayName" titleKey="entity.contactInfo.displayName" sortable="true" escapeXml="true"/>
 
 	</display:table>
 	

@@ -7,11 +7,11 @@
 <form action="${requestURI}" method="post" >
 
 	<spring:bind path="componentForm.pk">
-		<input type="hidden" name="${status.expression}" value="${status.value}" />
+		<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 	</spring:bind>
 
 	<spring:bind path="componentForm.projectPk">
-				<input type="hidden" name="${status.expression}" value="${status.value}" />
+				<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 	</spring:bind>
  
 	<table class="formTable">
@@ -19,7 +19,7 @@
 			<spring:bind path="componentForm.code">
 				<th><fmt:message key="entity.component.code" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" maxlength="30"/>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" maxlength="30"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -30,7 +30,7 @@
 			<spring:bind path="componentForm.name">
 				<th><fmt:message key="entity.component.name" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" maxlength="250"/>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" maxlength="250"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

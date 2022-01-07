@@ -14,7 +14,7 @@
 		<tr>
 			<th><fmt:message key="entity.invoice.orderDateFrom" /></th>
 			<td>
-				<input type="text" name="invoiceFilterOrderDateFrom" value="${invoiceFilterOrderDateFrom}" tabindex="1" id="invoiceFilterOrderDateFromId"/><%--
+				<input type="text" name="invoiceFilterOrderDateFrom" value="${fn:escapeXml(invoiceFilterOrderDateFrom)}" tabindex="1" id="invoiceFilterOrderDateFromId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterOrderDateFromImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -24,7 +24,7 @@
 			</td>
 			<th><fmt:message key="entity.invoice.employee" /></th>
 			<td>
-				<vc:select name="invoiceFilterEmployee" valueObjects="${employees}" selected="${invoiceFilterEmployee}" 
+				<vc:select name="invoiceFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(invoiceFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="2">
 					<vc:select-option value="-1">--- <fmt:message key="invoice.allEmployees" /> ---</vc:select-option>
@@ -37,7 +37,7 @@
 		<tr>
 			<th><fmt:message key="entity.invoice.orderDateTo" /></th>
 			<td>
-				<input type="text" name="invoiceFilterOrderDateTo" value="${invoiceFilterOrderDateTo}" tabindex="1" id="invoiceFilterOrderDateToId"/><%--
+				<input type="text" name="invoiceFilterOrderDateTo" value="${fn:escapeXml(invoiceFilterOrderDateTo)}" tabindex="1" id="invoiceFilterOrderDateToId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterOrderDateToImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -65,7 +65,7 @@
 		<tr>
 			<th><fmt:message key="entity.invoice.finishDateFrom" /></th>
 			<td>
-				<input type="text" name="invoiceFilterFinishDateFrom" value="${invoiceFilterFinishDateFrom}" tabindex="1" id="invoiceFilterFinishDateFromId"/><%--
+				<input type="text" name="invoiceFilterFinishDateFrom" value="${fn:escapeXml(invoiceFilterFinishDateFrom)}" tabindex="1" id="invoiceFilterFinishDateFromId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterFinishDateFromImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -75,13 +75,13 @@
 			</td>
 			<th><fmt:message key="entity.invoice.code" /></th>
 			<td>
-				<input type="text" name="invoiceFilterCode" value="${invoiceFilterCode}" maxlength="30"/>
+				<input type="text" name="invoiceFilterCode" value="${fn:escapeXml(invoiceFilterCode)}" maxlength="30"/>
 			</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.invoice.finishDateTo" /></th>
 			<td>
-				<input type="text" name="invoiceFilterFinishDateTo" value="${invoiceFilterFinishDateTo}" tabindex="1" id="invoiceFilterFinishDateToId"/><%--
+				<input type="text" name="invoiceFilterFinishDateTo" value="${fn:escapeXml(invoiceFilterFinishDateTo)}" tabindex="1" id="invoiceFilterFinishDateToId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterFinishDateToImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -107,13 +107,13 @@
 	<display:setProperty name="export.rtf.filename" value="${employee.user.contactInfo.displayName}-invoice.rtf" />
 	
 	<!-- data columns -->
-	<display:column property="orderDate" titleKey="entity.invoice.orderDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
+	<display:column property="orderDate" titleKey="entity.invoice.orderDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator"/>
 	<display:column property="finishDate" titleKey="entity.invoice.finishDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
 
-	<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10"/> 
-	<display:column property="name" titleKey="entity.invoice.name" sortable="true" />
-	<display:column property="employee.user.contactInfo.displayName" titleKey="entity.invoice.employee"/>
-	<display:column property="employee.user.login.ldapLogin" titleKey="entity.invoice.employee.ldaplogin" media="csv excel xml pdf rtf" />
+	<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10" escapeXml="true" /> 
+	<display:column property="name" titleKey="entity.invoice.name" sortable="true" escapeXml="true" />
+	<display:column property="employee.user.contactInfo.displayName" titleKey="entity.invoice.employee" escapeXml="true" />
+	<display:column property="employee.user.login.ldapLogin" titleKey="entity.invoice.employee.ldaplogin" media="csv excel xml pdf rtf" escapeXml="true"/>
 	
 	<display:column property="state" titleKey="entity.invoice.state" media="html" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" maxLength="5" class="center"/>
 	<display:column titleKey="entity.invoice.state" media="csv excel xml pdf rtf">

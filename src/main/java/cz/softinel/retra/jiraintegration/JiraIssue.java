@@ -84,6 +84,12 @@ public class JiraIssue implements Serializable, Comparable<JiraIssue> {
 		this.self = self;
 	}
 
+	public void setSummary(String summary) {
+		if (fields != null) {
+			this.fields.setSummary(summary); 
+		}
+	}
+
 	public String getSummary() {
 		return fields == null ? null : fields.summary;
 	}

@@ -7,7 +7,7 @@
 	<form action="LoginAction.do?fkprm=true&originalUrl=${originalUrl}" method="post">
 		<p>Username</p>
 		<p>
-			<input type="text" name="loginName" value="${loginName}" />
+			<input type="text" name="loginName" value="${fn:escapeXml(loginName)}" />
 		</p>
 		<p>Password</p>
 		<p>

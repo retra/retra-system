@@ -9,26 +9,26 @@
 	<table class="formTable">
 		<tr>
 			<th><fmt:message key="entity.project.parent.code" /></th>
-			<td>${project.parent.code}</td>
+			<td>${fn:escapeXml(project.parent.code)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.project.code" /></th>
-			<td>${project.code}</td>
+			<td>${fn:escapeXml(project.code)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.project.name" /></th>
-			<td>${project.name}</td>
+			<td>${fn:escapeXml(project.name)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.project.category" /></th>
 			<td>
-				<c:if test="${project.category != null}" >${project.category.code} - ${project.category.name}</c:if>
+				<c:if test="${project.category != null}" >${fn:escapeXml(project.category.code)} - ${fn:escapeXml(project.category.name)}</c:if>
 				<c:if test="${project.category == null}" >-</c:if>
 			</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.project.estimation" /></th>
-			<td>${project.estimation}</td>
+			<td>${fn:escapeXml(project.estimation)}</td>
 		</tr>		
 		<tr>
 			<th><fmt:message key="entity.project.workEnabled" /></th>
@@ -52,7 +52,7 @@
 	
 	<display:table name="project.employees" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="employee"
 		sort="list">
-		<display:column property="user.contactInfo.displayName" titleKey="entity.contactInfo.displayName" sortable="true"/>
+		<display:column property="user.contactInfo.displayName" titleKey="entity.contactInfo.displayName" sortable="true" escapeXml="true" />
 	</display:table>	
 	
 	<table class="formTable">

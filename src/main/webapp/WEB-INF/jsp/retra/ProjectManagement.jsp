@@ -13,11 +13,11 @@
 		<tr>
 			<th><fmt:message key="entity.project.code" /></th>
 			<td>
-				<input type="text" name="projectFilterCode" value="${projectFilterCode}" maxlength="30"/>
+				<input type="text" name="projectFilterCode" value="${fn:escapeXml(projectFilterCode)}" maxlength="30"/>
 			</td>
 			<th><fmt:message key="entity.project.employee" /></th>
 			<td>
-				<vc:select name="projectFilterEmployee" valueObjects="${employees}" selected="${projectFilterEmployee}" 
+				<vc:select name="projectFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(projectFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="2">
 					<vc:select-option value="-1">--- <fmt:message key="project.allEmployees" /> ---</vc:select-option>
@@ -27,7 +27,7 @@
 		<tr>
 			<th><fmt:message key="entity.project.name" /></th>
 			<td>
-				<input type="text" name="projectFilterName" value="${projectFilterName}" maxlength="255"/>
+				<input type="text" name="projectFilterName" value="${fn:escapeXml(projectFilterName)}" maxlength="255"/>
 			</td>
 			<th><fmt:message key="entity.project.state" /></th>
 			<td>
@@ -55,11 +55,11 @@
 
 <display:table name="projects" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="project" sort="list">
 
-	<display:column property="parent.code" titleKey="entity.project.parent.code" sortable="true" maxLength="10"/>
-	<display:column property="code" titleKey="entity.project.code" sortable="true" maxLength="10"/> 
-	<display:column property="name" titleKey="entity.project.name" sortable="true" />
-	<display:column property="estimation" titleKey="entity.project.estimation" sortable="true" />
-	<display:column property="category.code" titleKey="entity.project.category" sortable="true" />
+	<display:column property="parent.code" titleKey="entity.project.parent.code" sortable="true" maxLength="10" escapeXml="true" />
+	<display:column property="code" titleKey="entity.project.code" sortable="true" maxLength="10" escapeXml="true" /> 
+	<display:column property="name" titleKey="entity.project.name" sortable="true"  escapeXml="true"/>
+	<display:column property="estimation" titleKey="entity.project.estimation" sortable="true" escapeXml="true" />
+	<display:column property="category.code" titleKey="entity.project.category" sortable="true" escapeXml="true" />
 	
 	<display:column property="state" titleKey="entity.project.state" media="html" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" maxLength="5" class="center"/>
 	<display:column titleKey="entity.project.state" media="csv excel xml pdf rtf">

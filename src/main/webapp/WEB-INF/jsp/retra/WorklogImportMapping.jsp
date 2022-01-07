@@ -18,14 +18,14 @@
 	<c:when test="${ not empty form.externalProjects}">
 		<c:forEach var="externalProject" items="${form.externalProjects}" varStatus="status">
 			<tr>
-				<th>${externalProject.name}</th>
+				<th>${fn:escapeXml(externalProject.name)}</th>
 				<td>
-					<vc:select name="externalProjects[${status.index}].projectId" valueObjects="${projects}" selected="${externalProject.projectId}" 
+					<vc:select name="externalProjects[${status.index}].projectId" valueObjects="${projects}" selected="${fn:escapeXml(externalProject.projectId)}" 
 							valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 						<vc:select-option value="-1"><fmt:message key="worklog.pleaseSpecify" /></vc:select-option>
 					</vc:select>
 				<c:if test="${showInvoices}">
-					<vc:select name="externalProjects[${status.index}].invoiceId" valueObjects="${invoices}" selected="${externalProject.invoiceId}" 
+					<vc:select name="externalProjects[${status.index}].invoiceId" valueObjects="${invoices}" selected="${fn:escapeXml(externalProject.invoiceId)}" 
 							valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 						<vc:select-option value="-1">&nbsp;</vc:select-option>
 					</vc:select>
@@ -55,9 +55,9 @@
 	<c:when test="${ not empty form.externalActivities}">
 		<c:forEach var="externalActivity" items="${form.externalActivities}" varStatus="status">
 			<tr>
-				<th>${externalActivity.name}</th>
+				<th>${fn:escapeXml(externalActivity.name)}</th>
 				<td>
-					<vc:select name="externalActivities[${status.index}].activityId" valueObjects="${activities}" selected="${externalActivity.activityId}" 
+					<vc:select name="externalActivities[${status.index}].activityId" valueObjects="${activities}" selected="${fn:escapeXml(externalActivity.activityId)}"
 							valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 						<vc:select-option value="-1"><fmt:message key="worklog.pleaseSpecify" /></vc:select-option>
 					</vc:select>

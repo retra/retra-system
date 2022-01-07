@@ -14,7 +14,7 @@
 		<tr>
 			<th><fmt:message key="worklog.date" /></th>
 			<td>
-				<input type="text" name="worklogFilterDate" value="${worklogFilterDate}" tabindex="1" id="worklogFilterDateId"/><%--
+				<input type="text" name="worklogFilterDate" value="${fn:escapeXml(worklogFilterDate)}" tabindex="1" id="worklogFilterDateId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterDateImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -24,7 +24,7 @@
 			</td>
 			<th><fmt:message key="worklog.employee" /></th>
 			<td>
-				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${worklogFilterEmployee}" 
+				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(worklogFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="3" /> 
 			</td>
@@ -49,7 +49,7 @@
 </div>
 
 <table id="worklog" class="listTable">
-	<caption>Daily worklog for ${employee.user.contactInfo.displayName}, ${worklogFilterDate} (<fmt:message key="day.${dayOfWeek}"/>&nbsp;-&nbsp;<span class="${dayOfWeekCss}" title="<fmt:message key="${dayOfWeekTitle}"/>">&nbsp;&nbsp;&nbsp;</span>)</caption>
+	<caption>Daily worklog for ${fn:escapeXml(employee.user.contactInfo.displayName)}, ${fn:escapeXml(worklogFilterDate)} (<fmt:message key="day.${dayOfWeek}"/>&nbsp;-&nbsp;<span class="${dayOfWeekCss}" title="<fmt:message key="${dayOfWeekTitle}"/>">&nbsp;&nbsp;&nbsp;</span>)</caption>
 	<thead>
 		<tr>
 			<th><fmt:message key="worklog.date"/></th>
@@ -100,10 +100,10 @@
 				<td><fmt:formatDate value="${worklog.workFrom}" pattern="${TypeFormats.HOUR_FORMAT}"/></td>
 				<td><fmt:formatDate value="${worklog.workTo}" pattern="${TypeFormats.HOUR_FORMAT}"/></td>
 				<td>${worklog.descriptionGui}</td>
-				<td><acronym title="${worklog.project.name}">${worklog.project.code}</acronym></td>
-				<td><acronym title="${worklog.component.name}">${worklog.component.code}</acronym></td>
-				<td><acronym title="${worklog.activity.name}">${worklog.activity.code}</acronym></td>
-				<td class="nowrap"><acronym title="${worklog.invoice.name}">${worklog.invoice.code}</acronym><c:if test="${worklog.invoice != null}">&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="absmiddle"/></c:if></td>
+				<td><acronym title="${fn:escapeXml(worklog.project.name)}">${fn:escapeXml(worklog.project.code)}</acronym></td>
+				<td><acronym title="${fn:escapeXml(worklog.component.name)}">${fn:escapeXml(worklog.component.code)}</acronym></td>
+				<td><acronym title="${fn:escapeXml(worklog.activity.name)}">${fn:escapeXml(worklog.activity.code)}</acronym></td>
+				<td class="nowrap"><acronym title="${fn:escapeXml(worklog.invoice.name)}">${fn:escapeXml(worklog.invoice.code)}</acronym><c:if test="${worklog.invoice != null}">&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="absmiddle"/></c:if></td>
 				<td><fmt:formatNumber value="${worklog.hours}" maxFractionDigits="2" minFractionDigits="2"/></td>
 				<td class="actions">
 					[ 
@@ -124,7 +124,7 @@
 				<tr class="even"><td colspan="10">
 					<c:choose>
 						<c:when test="${securityContext.loggedEmployee.pk == employee.pk}">
-							<a href="WorklogDailyCreate.do?fkprm=true&setDate=${worklogFilterDate}">Insert new worklog item</a>
+							<a href="WorklogDailyCreate.do?fkprm=true&setDate=${fn:escapeXml(worklogFilterDate)}">Insert new worklog item</a>
 						</c:when>
 						<c:otherwise>
 							Nothing found to display.
@@ -176,7 +176,7 @@
 	</tr>
 	<c:forEach items="${projectProjectionList}" var="project">
 		<tr class="odd">
-			<th>${project.key.code}</th>
+			<th>${fn:escapeXml(project.key.code)}</th>
 			<c:forEach items="${activityProjectionList}" var="activity">
 				<td style='text-align:right;'>
 					<fmt:formatNumber value="${grouppedWorklog.map[project.key][activity.key].sum}" maxFractionDigits="2" minFractionDigits="2" />

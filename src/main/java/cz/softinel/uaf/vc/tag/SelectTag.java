@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.poi.util.StringUtil;
 
 import cz.softinel.uaf.util.CommonHelper;
 
@@ -85,7 +87,15 @@ public class SelectTag extends VisualComponentTag {
 					try {
 						Comparable<String> v1 = BeanUtils.getProperty(o1, orderBy);
 						String v2 = BeanUtils.getProperty(o2, orderBy);
-						return v1.compareTo(v2);
+						if (v1 != null && v2 != null) {
+							return v1.compareTo(v2);							
+						} else {
+							if (v2 == null) {
+								return 0;
+							} else {
+								return -1;
+							}
+						}
 					} catch (IllegalAccessException e) {
 						throw new RuntimeException("Exception while getting property: " + e.getMessage(), e);
 					} catch (InvocationTargetException e) {
@@ -194,8 +204,11 @@ public class SelectTag extends VisualComponentTag {
 				prefix = "&nbsp;&nbsp;&nbsp;&nbsp;" + prefix;
 			}
 		}
+		String escapedValue = StringEscapeUtils.escapeHtml(value);
+		String escapedLabel = StringEscapeUtils.escapeHtml(label);
+		
 		output.append(
-				"\n		<option value='" + value + "'" + selectedAttribute + ">" + prefix + label + "</option>");
+				"\n		<option value='" + escapedValue + "'" + selectedAttribute + ">" + prefix + escapedLabel + "</option>");
 	}
 
 	// Setters ...

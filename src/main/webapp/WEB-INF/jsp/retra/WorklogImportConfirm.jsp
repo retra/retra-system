@@ -13,10 +13,10 @@
 		
 		<!-- data columns -->
 		<display:column property="workFrom" titleKey="worklog.date" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
-		<display:column property="project.code" titleKey="worklog.project" />
-		<display:column property="activity.code" titleKey="worklog.activity" />
-		<display:column property="invoice.name" titleKey="workLog.invoice"/>
-		<display:column property="description" titleKey="worklog.description"/>
+		<display:column property="project.code" titleKey="worklog.project" escapeXml="true" />
+		<display:column property="activity.code" titleKey="worklog.activity" escapeXml="true" />
+		<display:column property="invoice.name" titleKey="workLog.invoice" escapeXml="true" />
+		<display:column property="description" titleKey="worklog.description" escapeXml="true" />
 		<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 		<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 		<display:column property="hours" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>

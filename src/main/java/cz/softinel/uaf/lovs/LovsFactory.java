@@ -83,7 +83,7 @@ public final class LovsFactory extends ApplicationObjectSupport {
 		}
 
 		Lov lov = lovsInMap.get(code);
-		if (lov == null || lov.getFields() != null) {
+		if (lov == null || lov.getFields() == null) {
 			throw new RuntimeException("Missing LOV for code: " + code);
 		}
 		// TODO: Check ... it is good solution?

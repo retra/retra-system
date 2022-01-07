@@ -419,9 +419,11 @@ public class SystemController extends DispatchController {
 
 	private List<Project> filterActiveProject(Set<Project> projects) {
 		List<Project> filtersList = new ArrayList<Project>();
-		for (Project p : projects) {
-			if (p.getState() == Project.STATE_ACTIVE) {
-				filtersList.add(p);
+		if (projects != null && !projects.isEmpty()) {
+			for (Project p : projects) {
+				if (p.getState() == Project.STATE_ACTIVE) {
+					filtersList.add(p);
+				}
 			}
 		}
 		return filtersList;

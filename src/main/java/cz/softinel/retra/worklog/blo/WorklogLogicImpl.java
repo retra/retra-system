@@ -3,6 +3,7 @@ package cz.softinel.retra.worklog.blo;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -427,7 +428,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	}
 
 	private void updateDescriptionGuiImpl(Worklog worklog) {
-		worklog.setDescriptionGui(JiraHelper.getLinkableText(worklog.getDescription(), jiraLogic));
+		worklog.setDescriptionGui(JiraHelper.getLinkableText(StringEscapeUtils.escapeHtml(worklog.getDescription()), jiraLogic));
 	}
 
 	private boolean isGivenEmpLoggedEmployee(Long givenPk) {

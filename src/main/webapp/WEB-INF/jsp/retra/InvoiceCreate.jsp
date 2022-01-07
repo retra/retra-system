@@ -11,7 +11,7 @@
 			<spring:bind path="invoiceForm.sequence">
 				<th><fmt:message key="entity.invoice.sequence" /></th>
 				<td>
-					<vc:select name="${status.expression}" valueObjects="${sequences}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${sequences}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
 						<vc:select-option value="">--- <fmt:message key="invoice.sequence.please.define" /> ---</vc:select-option>
 					</vc:select> 
@@ -25,7 +25,7 @@
 			<spring:bind path="invoiceForm.code">
 				<th><fmt:message key="entity.invoice.code" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" maxlength="30"/>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" maxlength="30"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -37,7 +37,7 @@
 			<spring:bind path="invoiceForm.orderDate">
 				<th><fmt:message key="entity.invoice.orderDate" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="invoiceOrderDateId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="invoiceOrderDateId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceOrderDateImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -54,7 +54,7 @@
 			<spring:bind path="invoiceForm.finishDate">
 				<th><fmt:message key="entity.invoice.finishDate" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="invoiceFinishDateId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="invoiceFinishDateId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFinishDateImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -71,7 +71,7 @@
 			<spring:bind path="invoiceForm.name">
 				<th><fmt:message key="entity.invoice.name" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" maxlength="250" size="75"/>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" maxlength="250" size="75"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

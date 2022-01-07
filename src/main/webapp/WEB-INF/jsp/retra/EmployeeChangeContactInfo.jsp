@@ -10,7 +10,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.firstName">
 				<th><fmt:message key="entity.contactInfo.firstName" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -21,7 +21,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.lastName">
 				<th><fmt:message key="entity.contactInfo.lastName" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -32,7 +32,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.email">
 				<th><fmt:message key="entity.contactInfo.email" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -43,7 +43,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.web">
 				<th><fmt:message key="entity.contactInfo.web" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -54,7 +54,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.phone1">
 				<th><fmt:message key="entity.contactInfo.phone1" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -65,7 +65,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.phone2">
 				<th><fmt:message key="entity.contactInfo.phone2" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -76,7 +76,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.fax">
 				<th><fmt:message key="entity.contactInfo.fax" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

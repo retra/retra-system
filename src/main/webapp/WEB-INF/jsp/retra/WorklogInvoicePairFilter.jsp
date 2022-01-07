@@ -24,14 +24,14 @@
 				<th><fmt:message key="worklog.invoice" /></th>
 				<td>
 					<c:if test="${empty invoices}">
-					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
 							<vc:select-option value="">--- <fmt:message key="invoice.please.define" /> ---</vc:select-option>
 					</vc:select>
 					</c:if>
 
 					<c:if test="${!empty invoices}">
-					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" />
 					</c:if>
 					<c:forEach items="${status.errorMessages}">
@@ -49,7 +49,7 @@
 			<spring:bind path="form.dateFrom">
 				<th><fmt:message key="worklog.workFrom" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="worklogDateFromId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="worklogDateFromId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogDateFromImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -66,7 +66,7 @@
 			<spring:bind path="form.dateTo">
 				<th><fmt:message key="worklog.workTo" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="worklogDateToId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="worklogDateToId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogDateToImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -83,7 +83,7 @@
 			<spring:bind path="form.project">
 				<th><fmt:message key="worklog.project" /></th>
 				<td>
-					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 						<vc:select-option value="">--- <fmt:message key="worklog.allProjects" /> ---</vc:select-option>
 					</vc:select> 
@@ -97,7 +97,7 @@
 			<spring:bind path="form.activity">
 				<th><fmt:message key="worklog.activity" /></th>
 				<td>
-					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${fn:escapeXml(status.value)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 						<vc:select-option value="">--- <fmt:message key="worklog.allActivities" /> ---</vc:select-option>
 					</vc:select>

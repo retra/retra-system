@@ -6,48 +6,48 @@
 	<table class="formTable">
 		<tr>
 			<th><fmt:message key="entity.contactInfo.displayName" /></th>
-			<td>${employee.user.contactInfo.displayName}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.displayName)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.firstName" /></th>
-			<td>${employee.user.contactInfo.firstName}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.firstName)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.lastName" /></th>
-			<td>${employee.user.contactInfo.lastName}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.lastName)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.email" /></th>
-			<td>${employee.user.contactInfo.email}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.email)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.web" /></th>
-			<td>${employee.user.contactInfo.web}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.web)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.phone1" /></th>
-			<td>${employee.user.contactInfo.phone1}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.phone1)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.phone2" /></th>
-			<td>${employee.user.contactInfo.phone2}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.phone2)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.contactInfo.fax" /></th>
-			<td>${employee.user.contactInfo.fax}</td>
+			<td>${fn:escapeXml(employee.user.contactInfo.fax)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.login.name" /></th>
-			<td>${employee.user.login.name}</td>
+			<td>${fn:escapeXml(employee.user.login.name)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.login.ldapLogin" /></th>
-			<td>${employee.user.login.ldapLogin}</td>
+			<td>${fn:escapeXml(employee.user.login.ldapLogin)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.employee.icompany" /></th>
 			<td>
-				<c:if test="${employee.icompany != null}" >${employee.icompany.codeAndName}</c:if>
+				<c:if test="${employee.icompany != null}" >${fn:escapeXml(employee.icompany.codeAndName)}</c:if>
 				<c:if test="${employee.icompany == null}" >-</c:if>
 			</td>
 		</tr>
@@ -65,7 +65,7 @@
 	<br><center><b>Projects</b></center>
 	
 	<display:table name="employee.projects" requestURI="${requestURI}" defaultsort="1" pagesize="${defaultPageSize}" id="project" sort="list">
-		<display:column property="name" titleKey="entity.project.name" sortable="true"/>
+		<display:column property="name" titleKey="entity.project.name" sortable="true" escapeXml="true"/>
 	</display:table>
 	
 	<table class="formTable">

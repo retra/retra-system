@@ -11,7 +11,7 @@
 				<th><fmt:message key="entity.login.name" /></th>
 				<td>
 					${status.value}
-					<input type="hidden" name="${status.expression}" value="${status.value}" />
+					<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 				</td>
 			</spring:bind>
 		</tr>
@@ -20,7 +20,7 @@
 				<th><fmt:message key="entity.login.ldapLogin" /></th>
 				<td>
 					${status.value}
-					<input type="hidden" name="${status.expression}" value="${status.value}" />
+					<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 				</td>
 			</spring:bind>
 		</tr>
@@ -28,7 +28,7 @@
 			<spring:bind path="employeeForm.user.login.passwordOriginal">
 				<th><fmt:message key="entity.login.password.original" /></th>
 				<td>
-					<input type="password" name="${status.expression}" value="${status.value}" />
+					<input type="password" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -39,7 +39,7 @@
 			<spring:bind path="employeeForm.user.login.password">
 				<th><fmt:message key="entity.login.password.new" /></th>
 				<td>
-					<input type="password" name="${status.expression}" value="${status.value}" />
+					<input type="password" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -50,7 +50,7 @@
 			<spring:bind path="employeeForm.user.login.passwordConfirmation">
 				<th><fmt:message key="entity.login.password.confirmation" /></th>
 				<td>
-					<input type="password" name="${status.expression}" value="${status.value}" />
+					<input type="password" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

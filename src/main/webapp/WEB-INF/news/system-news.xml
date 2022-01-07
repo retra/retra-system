@@ -1,6 +1,17 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="xx.yy.2022"
+		  title="Build 2.11.0"
+		  body="Fix of these issues:&lt;br />
+		  &lt;a href='https://jira/browse/RETRA-55' target='_blank'>RETRA-55&lt;/a> - Retra logovani - zlepsit, prechod na log4j2.&lt;br />
+		  &lt;a href='https://jira/browse/RETRA-56' target='_blank'>RETRA-56&lt;/a> - Retra je nachylna na XSS.&lt;br />
+		  &lt;a href='https://jira/browse/RETRA-41' target='_blank'>RETRA-41&lt;/a> - Specialni znaky v nazvu projektu.&lt;br />
+		  &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-48&lt;/a> - Chyba při renderování textu worklogu.&lt;br />
+		  "
+		  author="Retra Team"
+	/>
+
 	<item date="27.6.2019"
 		  title="Build 2.10.0"
 		  body="Fix &lt;a href='https://jira/browse/RETRA-44' target='_blank'>RETRA-44&lt;/a> - Rozsireni exportu Timesheetu a Invoice o sloupec username."
@@ -26,7 +37,7 @@
 		  body="Bugfixing of jokes generator."
 		  author="Retra Team"
 	/>
-
+<!--
 	<item date="22.5.2018"
 		  title="Build 2.6.0"
 		  body="Small refactoring of permissions and bugfix."
@@ -80,7 +91,7 @@
 		  body="New integration with JIRA implemented (worklogs) and some bugfix."
 		  author="Retra Team"
 	/>
-	<!-- item date="2.2.2015"
+	<item date="2.2.2015"
 		  title="Build 2.0.0"
 		  body="Invoice batch generating, filtering projects and employees for assign and some bugfix."
 		  author="Retra Team"

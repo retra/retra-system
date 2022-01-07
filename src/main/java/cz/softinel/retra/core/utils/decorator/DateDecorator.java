@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.displaytag.decorator.DisplaytagColumnDecorator;
 import org.displaytag.exception.DecoratorException;
 import org.displaytag.properties.MediaTypeEnum;
@@ -25,6 +26,10 @@ public class DateDecorator implements DisplaytagColumnDecorator {
 			return dateFormat.format(columnValue);
 		}
 
+		if (columnValue instanceof String) {
+			return StringEscapeUtils.escapeHtml(columnValue.toString());
+		}
+		
 		// not date return it as it comes
 		return columnValue;
 	}

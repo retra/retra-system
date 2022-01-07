@@ -10,7 +10,7 @@
 			<spring:bind path="scheduleForm.date">
 				<th><fmt:message key="schedule.date" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleDateId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleDateId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleDateImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -27,7 +27,7 @@
 			<spring:bind path="scheduleForm.type">
 				<th><fmt:message key="schedule.type" /></th>
 				<td>
-					<vc:select name="${status.expression}" valueObjects="${types}" selected="${status.value}"
+					<vc:select name="${status.expression}" valueObjects="${types}" selected="${fn:escapeXml(status.value)}"
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
@@ -39,7 +39,7 @@
 			<spring:bind path="scheduleForm.workFrom">
 				<th><fmt:message key="schedule.workFrom" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleWorkFromId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleWorkFromId"/><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="scheduleWorkFromImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -56,7 +56,7 @@
 			<spring:bind path="scheduleForm.workTo">
 				<th><fmt:message key="schedule.workTo" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleWorkToId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleWorkToId"/><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="scheduleWorkToImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -73,7 +73,7 @@
 			<spring:bind path="scheduleForm.comment">
 				<th><fmt:message key="schedule.comment" /></th>
 				<td>
-					<textarea name="${status.expression}" cols="40" rows="5" >${status.value}</textarea>
+					<textarea name="${status.expression}" cols="40" rows="5" >${fn:escapeXml(status.value)}</textarea>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

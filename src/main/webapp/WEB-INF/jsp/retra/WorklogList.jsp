@@ -14,7 +14,7 @@
 		<tr>
 			<th><fmt:message key="worklog.workFrom" /></th>
 			<td>
-				<input type="text" name="worklogFilterFrom" value="${worklogFilterFrom}" tabindex="1" id="worklogFilterWorkFromId"/><%--
+				<input type="text" name="worklogFilterFrom" value="${fn:escapeXml(worklogFilterFrom)}" tabindex="1" id="worklogFilterWorkFromId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterWorkFromImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -24,7 +24,7 @@
 			</td>
 			<th><fmt:message key="worklog.employee" /></th>
 			<td>
-				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${worklogFilterEmployee}" 
+				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(worklogFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="3" /> 
 			</td>
@@ -32,7 +32,7 @@
 		<tr>
 			<th><fmt:message key="worklog.workTo" /></th>
 			<td>
-				<input type="text" name="worklogFilterTo" value="${worklogFilterTo}" tabindex="2" id="worklogFilterWorkToId"/><%--
+				<input type="text" name="worklogFilterTo" value="${fn:escapeXml(worklogFilterTo)}" tabindex="2" id="worklogFilterWorkToId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterWorkToImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -42,7 +42,7 @@
 			</td>
 			<th><fmt:message key="worklog.project" /></th>
 			<td>
-				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${worklogFilterProject}" 
+				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${fn:escapeXml(worklogFilterProject)}" 
 				valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk"
 				tabindex="4">
 					<vc:select-option value="">--- <fmt:message key="worklog.allProjects" /> ---</vc:select-option>
@@ -54,7 +54,7 @@
 			<td colspan="2"></td>
 			<th><fmt:message key="worklog.activity" /></th>
 			<td>
-				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${worklogFilterActivity}" 
+				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${fn:escapeXml(worklogFilterActivity)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 					<vc:select-option value="">--- <fmt:message key="worklog.allActivities" /> ---</vc:select-option>
 				</vc:select> <!-- tabindex="5" -->
@@ -79,27 +79,27 @@
 	<display:setProperty name="export.pdf.filename" value="${employee.user.contactInfo.displayName}-worklog.pdf" />
 	<display:setProperty name="export.rtf.filename" value="${employee.user.contactInfo.displayName}-worklog.rtf" />
 	
-	<display:caption>${employee.user.contactInfo.displayName}</display:caption>
+	<display:caption>${fn:escapeXml(employee.user.contactInfo.displayName)}</display:caption>
 	
 	<!-- data columns -->
 	<display:column property="workFrom" titleKey="worklog.date" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
 
 	<display:column titleKey="worklog.project" sortable="true" media="html" >
 		<!-- this is hack for sorting -->
-		<span class="invisible">${worklog.project.code}</span>
-		<span title="${worklog.project.name}">${worklog.project.code}</span>
+		<span class="invisible">${fn:escapeXml(worklog.project.code)}</span>
+		<span title="${fn:escapeXml(worklog.project.name)}">${fn:escapeXml(worklog.project.code)}</span>
 	</display:column>
-	<display:column property="project.code" titleKey="worklog.project" sortable="true" media="csv excel xml pdf rtf"/>
+	<display:column property="project.code" titleKey="worklog.project" sortable="true" media="csv excel xml pdf rtf" escapeXml="true"/>
 
 	<display:column titleKey="worklog.activity" sortable="true" media="html">
 		<!-- this is hack for sorting -->
-		<span class="invisible">${worklog.activity.code}</span>
-		<span title="${worklog.activity.name}">${worklog.activity.code}</span>
+		<span class="invisible">${fn:escapeXml(worklog.activity.code)}</span>
+		<span title="${fn:escapeXml(worklog.activity.name)}">${fn:escapeXml(worklog.activity.code)}</span>
 	</display:column>
-	<display:column property="activity.code" titleKey="worklog.activity" sortable="true" media="csv excel xml pdf rtf"/>
+	<display:column property="activity.code" titleKey="worklog.activity" sortable="true" media="csv excel xml pdf rtf" escapeXml="true" />
 
 	<display:column property="descriptionGui" titleKey="worklog.description" media="html" sortable="true"/>	
-	<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf"/>
+	<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf" escapeXml="true"/>
 	
 	<display:column property="workFrom" titleKey="worklog.workFrom" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="workTo" titleKey="worklog.workTo" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>

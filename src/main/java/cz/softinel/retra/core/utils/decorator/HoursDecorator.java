@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.PageContext;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.displaytag.decorator.DisplaytagColumnDecorator;
 import org.displaytag.exception.DecoratorException;
 import org.displaytag.properties.MediaTypeEnum;
@@ -35,6 +36,10 @@ public class HoursDecorator implements DisplaytagColumnDecorator {
 			dfs.setDecimalSeparator('.');
 			NumberFormat formatter = new DecimalFormat(TypeFormats.HOURS_FORMAT, dfs);
 			return formatter.format(columnValue);
+		}
+
+		if (columnValue instanceof String) {
+			return StringEscapeUtils.escapeHtml(columnValue.toString());
 		}
 
 		// not number return it as it comes

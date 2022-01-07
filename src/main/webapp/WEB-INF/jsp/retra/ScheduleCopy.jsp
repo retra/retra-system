@@ -6,7 +6,7 @@
 
 <form action="${requestURI}" method="post" >
 	<spring:bind path="scheduleForm.pk">
-		<td><input type="hidden" name="${status.expression}" value="${status.value}" /></td>
+		<td><input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" /></td>
 	</spring:bind>
 	
 	<table class="formTable">
@@ -14,7 +14,7 @@
 			<spring:bind path="scheduleForm.date">
 				<th><fmt:message key="schedule.copyFrom" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleCopyFromId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleCopyFromId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleCopyFromImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -31,7 +31,7 @@
 			<spring:bind path="scheduleForm.copyDestinationFrom">
 				<th><fmt:message key="scheduleForm.copyDestinationFrom" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleCopyDestinationFromId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleCopyDestinationFromId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleCopyDestinationFromImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -48,7 +48,7 @@
 			<spring:bind path="scheduleForm.copyDestinationTo">
 				<th><fmt:message key="scheduleForm.copyDestinationTo" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${status.value}" id="scheduleCopyDestinationToId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="scheduleCopyDestinationToId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleCopyDestinationToImgId"/>
 					<script type="text/javascript">
 					<!--

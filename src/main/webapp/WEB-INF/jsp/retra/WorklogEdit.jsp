@@ -11,7 +11,7 @@
 
 <form action="${requestURI}" method="post" >
 	<spring:bind path="worklogForm.pk">
-		<td><input type="hidden" name="${status.expression}" value="${status.value}" /></td>
+		<td><input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" /></td>
 	</spring:bind>
 	
 	<table class="formTable">
@@ -19,7 +19,7 @@
 			<spring:bind path="worklogForm.date">
 				<th><fmt:message key="worklog.date" /></th>
 				<td colspan="2">
-					<input type="text" name="${status.expression}" value="${status.value}"  id="worklogDateId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}"  id="worklogDateId"/><%--
 				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogDateImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -36,7 +36,7 @@
 			<spring:bind path="worklogForm.project">
 				<th><fmt:message key="worklog.project" /></th>
 				<td colspan="2">
-					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${projects}" selected="${fn:escapeXml(status.value)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" onchange="worklogProjectChange()" id="worklogProjectId" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
@@ -48,7 +48,7 @@
 			<spring:bind path="worklogForm.component">
 				<th><fmt:message key="worklog.component" /></th>
 				<td colspan="2">
-					<vc:select name="${status.expression}" valueObjects="${components}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${components}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 					>
 						<vc:select-option value=""><fmt:message key="worklog.component.unassigned" /></vc:select-option>
@@ -63,7 +63,7 @@
 			<spring:bind path="worklogForm.activity">
 				<th><fmt:message key="worklog.activity" /></th>
 				<td colspan="2">
-					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${activities}" selected="${fn:escapeXml(status.value)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk" id="worklogActivityId" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
@@ -75,7 +75,7 @@
 			<spring:bind path="worklogForm.invoice">
 				<th><fmt:message key="worklog.invoice" /></th>
 				<td colspan="2">
-					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${status.value}" 
+					<vc:select name="${status.expression}" valueObjects="${invoices}" selected="${fn:escapeXml(status.value)}" 
 						valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 					>
 						<vc:select-option value=""><fmt:message key="worklog.invoice.unassigned" /></vc:select-option>
@@ -90,7 +90,7 @@
 			<spring:bind path="worklogForm.workFrom">
 				<th><fmt:message key="worklog.workFrom" /></th>
 				<td colspan="2">
-					<input type="text" name="${status.expression}" value="${status.value}" id="worklogWorkFromId"/><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="worklogWorkFromId"/><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="worklogWorkFromImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -107,7 +107,7 @@
 			<spring:bind path="worklogForm.workTo">
 				<th><fmt:message key="worklog.workTo" /></th>
 				<td colspan="2">
-					<input type="text" name="${status.expression}" value="${status.value}" id="worklogWorkToId" /><%--
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="worklogWorkToId" /><%--
 				--%><img src="${imgRoot}/hoursIco.gif" alt="<fmt:message key='hours.label' />" title="<fmt:message key='hours.label' />" align="top" id="worklogWorkToImgId"/>
 					<script type="text/javascript">
 					<!--
@@ -124,7 +124,7 @@
 			<spring:bind path="worklogForm.description">
 				<th><fmt:message key="worklog.description" /></th>
 				<td width="300">
-					<textarea id="descriptionId" name="${status.expression}" cols="40" rows="7" onkeypress="return imposeMaxLength(event, this, 249);">${status.value}</textarea>
+					<textarea id="descriptionId" name="${status.expression}" cols="40" rows="7" onkeypress="return imposeMaxLength(event, this, 249);">${fn:escapeXml(status.value)}</textarea>
 					<script language="javascript" type="text/javascript">
 					<!--
 					function imposeMaxLength(Event, Object, MaxLen)
@@ -154,7 +154,7 @@
 			<spring:bind path="worklogForm.issueTrackingReference">
 				<td><fmt:message key="worklog.jiraIssue" /></td>
 				<td colspan="2">
-					<input type="text" name="${status.expression}" value="${status.value}" id="jiraissue" maxlength="50"/>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="jiraissue" maxlength="50"/>
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>

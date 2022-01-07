@@ -12,23 +12,23 @@
 		</tr>
 		<tr>
 			<th><fmt:message key="worklog.project" /></th>
-			<td>${worklog.project.code} - ${worklog.project.name}</td>
+			<td>${fn:escapeXml(worklog.project.code)} - ${fn:escapeXml(worklog.project.name)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="worklog.component" /></th>
 			<td>
-				<c:if test="${worklog.component != null}" >${worklog.component.code} - ${worklog.component.name}</c:if>
+				<c:if test="${worklog.component != null}" >${fn:escapeXml(worklog.component.code)} - ${fn:escapeXml(worklog.component.name)}</c:if>
 				<c:if test="${worklog.component == null}" >-</c:if>
 			</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="worklog.activity" /></th>
-			<td>${worklog.activity.code} - ${worklog.activity.name}</td>
+			<td>${fn:escapeXml(worklog.activity.code)} - ${fn:escapeXml(worklog.activity.name)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="worklog.invoice" /></th>
 			<td>
-				<c:if test="${worklog.onInvoice}" >${worklog.invoice.code} (${worklog.invoice.name})&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="absmiddle" /></c:if>
+				<c:if test="${worklog.onInvoice}" >${fn:escapeXml(worklog.invoice.code)} (${fn:escapeXml(worklog.invoice.name)})&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="absmiddle" /></c:if>
 				<c:if test="${!worklog.onInvoice}" >-</c:if>
 			</td>
 		</tr>

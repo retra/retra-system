@@ -13,7 +13,7 @@
 			<td></td>
 			<th><fmt:message key="worklog.employee" /></th>
 			<td>
-				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${worklogFilterEmployee}" 
+				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(worklogFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="3" /> 
 			</td>
@@ -22,7 +22,7 @@
 		<tr>
 			<th><fmt:message key="worklog.date" /></th>
 			<td>
-				<input type="text" name="worklogFilterDate" value="${worklogFilterDate}" tabindex="1" id="worklogFilterDateId"/><%--
+				<input type="text" name="worklogFilterDate" value="${fn:escapeXml(worklogFilterDate)}" tabindex="1" id="worklogFilterDateId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterDateImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -32,7 +32,7 @@
 			</td>
 			<th><fmt:message key="worklog.project" /></th>
 			<td>
-				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${worklogFilterProject}" 
+				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${fn:escapeXml(worklogFilterProject)}" 
 				valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk"
 				tabindex="4">
 					<vc:select-option value="">--- <fmt:message key="worklog.allProjects" /> ---</vc:select-option>
@@ -43,7 +43,7 @@
 			<td colspan="2"></td>
 			<th><fmt:message key="worklog.activity" /></th>
 			<td>
-				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${worklogFilterActivity}" 
+				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${fn:escapeXml(worklogFilterActivity)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName" parentProperty="parent.pk">
 					<vc:select-option value="">--- <fmt:message key="worklog.allActivities" /> ---</vc:select-option>
 				</vc:select> <!-- tabindex="5" -->
@@ -73,20 +73,20 @@
 
 	<display:column titleKey="worklog.project" media="html" >
 		<!-- this is hack for sorting -->
-		<span class="invisible">${worklog.project.code}</span>
-		<span title="${worklog.project.name}">${worklog.project.code}</span>
+		<span class="invisible">${fn:escapeXml(worklog.project.code)}</span>
+		<span title="${fn:escapeXml(worklog.project.name)}">${fn:escapeXml(worklog.project.code)}</span>
 	</display:column>
-	<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf"/>
+	<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf" escapeXml="true" />
 
 	<display:column titleKey="worklog.activity" media="html">
 		<!-- this is hack for sorting -->
-		<span class="invisible">${worklog.activity.code}</span>
-		<span title="${worklog.activity.name}">${worklog.activity.code}</span>
+		<span class="invisible">${fn:escapeXml(worklog.activity.code)}</span>
+		<span title="${fn:escapeXml(worklog.activity.name)}">${fn:escapeXml(worklog.activity.code)}</span>
 	</display:column>
-	<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf"/>
+	<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf" escapeXml="true" />
 
-	<display:column property="descriptionGui" titleKey="worklog.description" media="html"/>	
-	<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf"/>
+	<display:column property="descriptionGui" titleKey="worklog.description" media="html" escapeXml="true" />	
+	<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf" escapeXml="true "/>
 
 	<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 	<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>

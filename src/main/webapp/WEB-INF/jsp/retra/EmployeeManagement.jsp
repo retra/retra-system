@@ -9,7 +9,7 @@
 	sort="list">
 
 	<display:column property="user.contactInfo.displayName" titleKey="entity.contactInfo.displayName" sortable="true" 
-		comparator="${nameComparator}"/>
+		comparator="${nameComparator}" escapeXml="true" />
 	<display:column property="user.contactInfo.email" titleKey="entity.contactInfo.email" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.EmailDecorator"/>
 
 	<display:column property="user.state" titleKey="entity.user.state" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.StateDecorator" />

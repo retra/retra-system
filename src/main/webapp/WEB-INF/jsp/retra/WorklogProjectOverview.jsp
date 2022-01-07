@@ -14,7 +14,7 @@
 		<tr>
 			<th><fmt:message key="worklog.workFrom" /></th>
 			<td>
-				<input type="text" name="worklogFilterFrom" value="${worklogFilterFrom}" tabindex="1" id="worklogFilterWorkFromId"/><%--
+				<input type="text" name="worklogFilterFrom" value="${fn:escapeXml(worklogFilterFrom)}" tabindex="1" id="worklogFilterWorkFromId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterWorkFromImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -24,7 +24,7 @@
 			</td>
 			<th><fmt:message key="worklog.project" /></th>
 			<td>
-				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${worklogFilterProject}" 
+				<vc:select name="worklogFilterProject" valueObjects="${projects}" selected="${fn:escapeXml(worklogFilterProject)}" 
 				valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 				tabindex="4">
 					<vc:select-option value="">--- <fmt:message key="worklog.allProjects" /> ---</vc:select-option>
@@ -35,7 +35,7 @@
 		<tr>
 			<th><fmt:message key="worklog.workTo" /></th>
 			<td>
-				<input type="text" name="worklogFilterTo" value="${worklogFilterTo}" tabindex="2" id="worklogFilterWorkToId"/><%--
+				<input type="text" name="worklogFilterTo" value="${fn:escapeXml(worklogFilterTo)}" tabindex="2" id="worklogFilterWorkToId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="worklogFilterWorkToImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -45,7 +45,7 @@
 			</td>
 			<th><fmt:message key="worklog.activity" /></th>
 			<td>
-				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${worklogFilterActivity}" 
+				<vc:select name="worklogFilterActivity" valueObjects="${activities}" selected="${fn:escapeXml(worklogFilterActivity)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
 					<vc:select-option value="">--- <fmt:message key="worklog.allActivities" /> ---</vc:select-option>
 				</vc:select> <!-- tabindex="5" -->
@@ -54,7 +54,7 @@
 		<tr>			
 			<th><fmt:message key="worklog.invoice.code" /></th>
 			<td>
-				<input type="text" name="worklogFilterInvoiceCode" value="${worklogFilterInvoiceCode}" maxlength="30"/>
+				<input type="text" name="worklogFilterInvoiceCode" value="${fn:escapeXml(worklogFilterInvoiceCode)}" maxlength="30"/>
 			</td>
 			<th></th>
 			<td></td>
@@ -66,10 +66,10 @@
 					<c:forEach items="${invoiceRelations}" var="relation">
 						<c:choose>
 							<c:when test="${relation.code == worklogFilterInvoiceRelation}">
-								<option value="${relation.code}" selected="selected"><fmt:message key="invoice.relation.${relation.code}" /></option>
+								<option value="${fn:escapeXml(relation.code)}" selected="selected"><fmt:message key="invoice.relation.${relation.code}" /></option>
 							</c:when>
 							<c:otherwise>
-								<option value="${relation.code}"><fmt:message key="invoice.relation.${relation.code}" /></option>
+								<option value="${fn:escapeXml(relation.code)}"><fmt:message key="invoice.relation.${relation.code}" /></option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>				
@@ -89,8 +89,8 @@
 	<div class="tabbertab">
 		<h2>Employee</h2>
 		<display:table id="worklogByEmployeeId" name="worklogByEmployee.list" requestURI="${requestURI}" export="true">
-			<display:column property="key" titleKey="worklog.employee" />
-			<display:column property="keyInfo" titleKey="worklog.employee.ldaplogin" media="csv excel xml pdf rtf"/>			
+			<display:column property="key" titleKey="worklog.employee" escapeXml="true"/>
+			<display:column property="keyInfo" titleKey="worklog.employee.ldaplogin" media="csv excel xml pdf rtf" escapeXml="true" />			
 			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}"/>
 			<display:footer media="html">
 				<tr>
@@ -104,7 +104,7 @@
 	<div class="tabbertab">
 		<h2>Activity</h2>
 		<display:table id="worklogByAcrivityId" name="worklogByAcrivity.list" requestURI="${requestURI}" export="true">
-			<display:column property="key" titleKey="worklog.activity" />
+			<display:column property="key" titleKey="worklog.activity" escapeXml="true" />
 			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
@@ -118,7 +118,7 @@
 	<div class="tabbertab">
 		<h2>Project</h2>
 		<display:table id="worklogByProjectId" name="worklogByProject.list" requestURI="${requestURI}" export="true">
-			<display:column property="key" titleKey="worklog.project" />
+			<display:column property="key" titleKey="worklog.project" escapeXml="true" />
 			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
@@ -136,14 +136,14 @@
 			<tr>
 				<th>&nbsp;</th>
 				<c:forEach items="${worklogGrouppedAcrivity.list}" var="activity">
-					<th>${activity.key}</th>
+					<th>${fn:escapeXml(activity.key)}</th>
 				</c:forEach>
 				<th>Total</th>
 			</tr>
 		</thead>
 			<c:forEach items="${worklogByEmployee.list}" var="employee">
 				<tr class="odd">
-					<th>${employee.key}</th>
+					<th>${fn:escapeXml(employee.key)}</th>
 					<c:forEach items="${worklogGrouppedAcrivity.list}" var="activity">
 						<td style='text-align:right;'>
 							<fmt:formatNumber value="${worklogGroupped.map[employee.key][activity.key][false].sum}" maxFractionDigits="2" minFractionDigits="2" />
@@ -185,14 +185,14 @@
 			<tr>
 				<th>&nbsp;</th>
 				<c:forEach items="${projectProjectionList}" var="project">
-					<th>${project.key}</th>
+					<th>${fn:escapeXml(project.key)}</th>
 				</c:forEach>
 				<th><fmt:message key="worklog.total"/></th>
 			</tr>
 		</thead>
 			<c:forEach items="${employeeProjectionList}" var="employee">
 				<tr class="odd">
-					<th>${employee.key}</th>
+					<th>${fn:escapeXml(employee.key)}</th>
 					<c:forEach items="${projectProjectionList}" var="project">
 						<td style='text-align:right;'>
 							<fmt:formatNumber value="${worklogGroupped.map[employee.key][false][project.key].sum}" pattern="#,##0.0#" />
@@ -218,14 +218,14 @@
 			<tr>
 				<th>&nbsp;</th>
 				<c:forEach items="${activityProjectionList}" var="activity">
-					<th>${activity.key}</th>
+					<th>${fn:escapeXml(activity.key)}</th>
 				</c:forEach>
 				<th><fmt:message key="worklog.total"/></th>
 			</tr>
 		</thead>
 			<c:forEach items="${projectProjectionList}" var="project">
 				<tr class="odd">
-					<th>${project.key}</th>
+					<th>${fn:escapeXml(project.key)}</th>
 					<c:forEach items="${activityProjectionList}" var="activity">
 						<td style='text-align:right;'>
 							<fmt:formatNumber value="${worklogGroupped.map[false][activity.key][project.key].sum}" maxFractionDigits="2" minFractionDigits="2" />
@@ -262,37 +262,37 @@
 		
 			<display:column titleKey="worklog.project" media="html" >
 				<!-- this is hack for sorting -->
-				<span class="invisible">${worklog.project.code}</span>
-				<acronym title="${worklog.project.name}">${worklog.project.code}</acronym>
+				<span class="invisible">${fn:escapeXml(worklog.project.code)}</span>
+				<acronym title="${fn:escapeXml(worklog.project.name)}">${fn:escapeXml(worklog.project.code)}</acronym>
 			</display:column>
-			<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf"/>
+			<display:column property="project.code" titleKey="worklog.project" media="csv excel xml pdf rtf" escapeXml="true" />
 
 			<display:column titleKey="worklog.component" media="html">
 				<!-- this is hack for sorting -->
-				<span class="invisible">${worklog.component.code}</span>
-				<acronym title="${worklog.component.name}">${worklog.component.code}</acronym>
+				<span class="invisible">${fn:escapeXml(worklog.component.code)}</span>
+				<acronym title="${fn:escapeXml(worklog.component.name)}">${fn:escapeXml(worklog.component.code)}</acronym>
 			</display:column>
-			<display:column property="component.code" titleKey="worklog.component" media="csv excel xml rtf"/>
+			<display:column property="component.code" titleKey="worklog.component" media="csv excel xml rtf" escapeXml="true" />
 		
 			<display:column titleKey="worklog.activity" media="html">
 				<!-- this is hack for sorting -->
-				<span class="invisible">${worklog.activity.code}</span>
-				<acronym title="${worklog.activity.name}">${worklog.activity.code}</acronym>
+				<span class="invisible">${fn:escapeXml(worklog.activity.code)}</span>
+				<acronym title="${fn:escapeXml(worklog.activity.name)}">${fn:escapeXml(worklog.activity.code)}</acronym>
 			</display:column>
-			<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf"/>
+			<display:column property="activity.code" titleKey="worklog.activity" media="csv excel xml pdf rtf" escapeXml="true" />
 		
 			<display:column titleKey="worklog.invoice" media="html" class="nowrap">
 				<c:if test="${worklog.invoice != null}">
-					<span class="invisible">${worklog.invoice.code}</span>
-					<acronym title="${worklog.invoice.name}">${worklog.invoice.code}</acronym>&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="middle"/>
+					<span class="invisible">${fn:escapeXml(worklog.invoice.code)}</span>
+					<acronym title="${fn:escapeXml(worklog.invoice.name)}">${fn:escapeXml(worklog.invoice.code)}</acronym>&nbsp;-&nbsp;<img src="${imgRoot}/<fmt:message key='invoice.state.img.${worklog.invoice.state}' />" alt="<fmt:message key='invoice.state.${worklog.invoice.state}' />" title="<fmt:message key='invoice.state.${worklog.invoice.state}' />" align="middle"/>
 				</c:if>
 			</display:column>
-			<display:column property="invoice.code" titleKey="worklog.invoice" media="csv excel xml rtf"/>
+			<display:column property="invoice.code" titleKey="worklog.invoice" media="csv excel xml rtf" escapeXml="true" />
 		
-			<display:column property="employee.user.contactInfo.displayName" titleKey="worklog.employee"/>
+			<display:column property="employee.user.contactInfo.displayName" titleKey="worklog.employee" escapeXml="true" />
 		
 			<display:column property="descriptionGui" titleKey="worklog.description" media="html"/>	
-			<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf"/>
+			<display:column property="description" titleKey="worklog.description" media="csv excel xml pdf rtf" escapeXml="true" />
 
 			<display:column property="workFrom" titleKey="worklog.workFrom" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>
 			<display:column property="workTo" titleKey="worklog.workTo" decorator="cz.softinel.retra.core.utils.decorator.HourDecorator"/>

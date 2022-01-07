@@ -11,12 +11,12 @@
 		<tr>
 			<th><fmt:message key="worklog.month" /></th>
 			<td>
-				<vc:select name="worklogFilterMonth" valueObjects="${months}" selected="${worklogFilterMonth}"
+				<vc:select name="worklogFilterMonth" valueObjects="${months}" selected="${fn:escapeXml(worklogFilterMonth)}"
 				valueProperty="value" labelProperty="label" orderBy="label" tabindex="1" />
 			</td>
 			<th><fmt:message key="worklog.employee" /></th>
 			<td>
-				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${worklogFilterEmployee}" 
+				<vc:select name="worklogFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(worklogFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="2" /> 
 			</td>
@@ -25,7 +25,7 @@
 		<tr>
 			<th><fmt:message key="worklog.year" /></th>
 			<td>
-				<vc:select name="worklogFilterYear" valueObjects="${years}" selected="${worklogFilterYear}"
+				<vc:select name="worklogFilterYear" valueObjects="${years}" selected="${fn:escapeXml(worklogFilterYear)}"
 				valueProperty="value" labelProperty="label" orderBy="label" tabindex="3" />
 			</td>
 			<td colspan="2"></td>
@@ -44,17 +44,17 @@
 	<display:setProperty name="export.rtf.filename" value="${employee.user.contactInfo.displayName}-worklog.rtf" />
 
 	<!-- header -->
-	<display:caption>${employee.user.contactInfo.displayName} - <fmt:message key="month.${worklogFilterMonth}"/> ${worklogFilterYear}</display:caption>
+	<display:caption>${fn:escapeXml(employee.user.contactInfo.displayName)} - <fmt:message key="month.${worklogFilterMonth}"/> ${fn:escapeXml(worklogFilterYear)}</display:caption>
 	
 	<!-- data columns -->
 	<display:column property="date" titleKey="worklog.date" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" group="1" class="printBold" />
 
 	<display:column titleKey="worklog.project">
-		${worklog.project.code} - ${worklog.project.name}
+		${fn:escapeXml(worklog.project.codefn:escapeXml)} - ${fn:escapeXml(worklog.project.name)}
 	</display:column>
 
 	<display:column titleKey="worklog.activity">
-		${worklog.activity.code} - ${worklog.activity.name}
+		${fn:escapeXml(worklog.activity.code)} - ${fn:escapeXml(worklog.activity.name)}
 	</display:column>
 
 	<display:column property="hours" titleKey="worklog.hours" total="true" format="{0,number,0.00}"/>

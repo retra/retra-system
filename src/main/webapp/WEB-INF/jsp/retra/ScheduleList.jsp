@@ -11,7 +11,7 @@
 		<tr>
 			<th><fmt:message key="schedule.workFrom" /></th>
 			<td>
-				<input type="text" name="scheduleFilterFrom" value="${scheduleFilterFrom}" tabindex="1" id="scheduleFilterWorkFromId"/><%--
+				<input type="text" name="scheduleFilterFrom" value="${fn:escapeXml(scheduleFilterFrom)}" tabindex="1" id="scheduleFilterWorkFromId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleFilterWorkFromImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -21,7 +21,7 @@
 			</td>
 			<th><fmt:message key="schedule.employee" /></th>
 			<td>
-				<vc:select name="scheduleFilterEmployee" valueObjects="${employees}" selected="${scheduleFilterEmployee}" 
+				<vc:select name="scheduleFilterEmployee" valueObjects="${employees}" selected="${fn:escapeXml(scheduleFilterEmployee)}" 
 				valueProperty="pk" labelProperty="user.contactInfo.displayName" orderBy="user.contactInfo.displayName"
 				tabindex="3" /> 
 			</td>
@@ -30,7 +30,7 @@
 		<tr>
 			<th><fmt:message key="schedule.workTo" /></th>
 			<td>
-				<input type="text" name="scheduleFilterTo" value="${scheduleFilterTo}" tabindex="2" id="scheduleFilterWorkToId"/><%--
+				<input type="text" name="scheduleFilterTo" value="${fn:escapeXml(scheduleFilterTo)}" tabindex="2" id="scheduleFilterWorkToId"/><%--
 			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="scheduleFilterWorkToImgId"/>
 				<script type="text/javascript">
 				<!--
@@ -40,7 +40,7 @@
 			</td>
 			<th><fmt:message key="schedule.type" /></th>
 			<td>
-				<vc:select name="scheduleFilterType" valueObjects="${types}" selected="${scheduleFilterType}"
+				<vc:select name="scheduleFilterType" valueObjects="${types}" selected="${fn:escapeXml(scheduleFilterType)}"
 				valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName"
 				tabindex="4">
 					<vc:select-option value="">--- <fmt:message key="schedule.allTypes" /> ---</vc:select-option>
@@ -51,7 +51,7 @@
 			<td colspan="2"></td>
 			<th><fmt:message key="schedule.state" /></th>
 			<td>
-				<vc:select name="scheduleFilterState" valueObjects="${scheduleStates}" selected="${scheduleFilterState}"
+				<vc:select name="scheduleFilterState" valueObjects="${scheduleStates}" selected="${fn:escapeXml(scheduleFilterState)}"
 				valueProperty="value" labelProperty="label" orderBy="label"
 				tabindex="5">
 					<vc:select-option value="">--- <fmt:message key="schedule.allStates" /> ---</vc:select-option>
@@ -81,13 +81,13 @@
 
 	<display:column titleKey="schedule.type" sortable="true" media="html">
 		<!-- this is hack for sorting -->
-		<span class="invisible">${schedule.type.code}</span>
-		<span title="${schedule.type.name}">${schedule.type.code}</span>
+		<span class="invisible">${fn:escapeXml(schedule.type.code)}</span>
+		<span title="${fn:escapeXml(schedule.type.name)}">${fn:escapeXml(schedule.type.code)}</span>
 	</display:column>
-	<display:column property="type.code" titleKey="schedule.type" sortable="true" media="csv excel xml pdf rtf"/>
+	<display:column property="type.code" titleKey="schedule.type" sortable="true" media="csv excel xml pdf rtf" escapeXml="true" />
 
 	<display:column titleKey="schedule.state" sortable="true">
-		<fmt:message key="schedule.state.${schedule.state}"/>
+		<fmt:message key="schedule.state.${fn:escapeXml(schedule.state)}"/>
 	</display:column>
 
 	<display:column property="createdOn" titleKey="schedule.createdOn" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />

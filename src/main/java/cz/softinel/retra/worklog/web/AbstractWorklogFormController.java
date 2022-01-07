@@ -200,6 +200,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 		if (issues != null && !issues.isEmpty()) {
 			for (JiraIssue ji : issues) {
 				ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic));
+				ji.setSummary(JiraHelper.getSafeJiraText(ji.getSummary()));
 			}
 		}
 		model.put("issues", issues);

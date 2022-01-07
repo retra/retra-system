@@ -2,7 +2,7 @@
 
 <%@ include file="../Includes.jsp"%>
 
-<c:set var="requestURI" value="ScheduleList.do?fkprm=true&scheduleFilterEmployee=${schedule.employee.pk}" />
+<c:set var="requestURI" value="ScheduleList.do?fkprm=true&scheduleFilterEmployee=${fn:escapeXml(schedule.employee.pk)}" />
 
 <form action="${requestURI}" method="post" >
 	<table class="formTable">
@@ -28,7 +28,7 @@
 		</tr>
 		<tr>
 			<th><fmt:message key="schedule.comment" /></th>
-			<td>${schedule.comment}</td>
+			<td>${fn:escapeXml(schedule.comment)}</td>
 		</tr>
 		<tr>
 			<th><fmt:message key="schedule.createdOn" /></th>
