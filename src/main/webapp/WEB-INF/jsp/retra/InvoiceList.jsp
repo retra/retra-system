@@ -30,7 +30,7 @@
 					<vc:select-option value="-1">--- <fmt:message key="invoice.allEmployees" /> ---</vc:select-option>
 				</vc:select> 
 			</td>
-			<td rowspan="5" class="buttons">
+			<td rowspan="6" class="buttons">
 				<input type="submit" name="filter" class="button" value="<fmt:message key="button.filter"/>" tabindex="6"/>
 			</td>
 		</tr>
@@ -63,6 +63,36 @@
 			</td>
 		</tr>
 		<tr>
+			<th><fmt:message key="entity.invoice.startDateFrom" /></th>
+			<td>
+				<input type="text" name="invoiceFilterStartDateFrom" value="${fn:escapeXml(invoiceFilterStartDateFrom)}" tabindex="1" id="invoiceFilterStartDateFromId"/><%--
+			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterStartDateFromImgId"/>
+				<script type="text/javascript">
+				<!--
+					showMiraCalendarForDate('invoiceFilterStartDateFromId','invoiceFilterStartDateFromImgId');
+				// -->
+				</script>
+			</td>
+			<th><fmt:message key="entity.invoice.code" /></th>
+			<td>
+				<input type="text" name="invoiceFilterCode" value="${fn:escapeXml(invoiceFilterCode)}" maxlength="30"/>
+			</td>
+		</tr>
+		<tr>
+			<th><fmt:message key="entity.invoice.startDateTo" /></th>
+			<td>
+				<input type="text" name="invoiceFilterStartDateTo" value="${fn:escapeXml(invoiceFilterStartDateTo)}" tabindex="1" id="invoiceFilterStartDateToId"/><%--
+			--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceFilterStartDateToImgId"/>
+				<script type="text/javascript">
+				<!--
+					showMiraCalendarForDate('invoiceFilterStartDateToId','invoiceFilterStartDateToImgId');
+				// -->
+				</script>
+			</td>
+			<th></th>
+			<td></td>
+		</tr>
+		<tr>
 			<th><fmt:message key="entity.invoice.finishDateFrom" /></th>
 			<td>
 				<input type="text" name="invoiceFilterFinishDateFrom" value="${fn:escapeXml(invoiceFilterFinishDateFrom)}" tabindex="1" id="invoiceFilterFinishDateFromId"/><%--
@@ -73,10 +103,8 @@
 				// -->
 				</script>
 			</td>
-			<th><fmt:message key="entity.invoice.code" /></th>
-			<td>
-				<input type="text" name="invoiceFilterCode" value="${fn:escapeXml(invoiceFilterCode)}" maxlength="30"/>
-			</td>
+			<th></th>
+			<td></td>
 		</tr>
 		<tr>
 			<th><fmt:message key="entity.invoice.finishDateTo" /></th>
@@ -108,6 +136,7 @@
 	
 	<!-- data columns -->
 	<display:column property="orderDate" titleKey="entity.invoice.orderDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator"/>
+	<display:column property="startDate" titleKey="entity.invoice.startDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
 	<display:column property="finishDate" titleKey="entity.invoice.finishDate" sortable="true" decorator="cz.softinel.retra.core.utils.decorator.DateDecorator" />
 
 	<display:column property="code" titleKey="entity.invoice.code" sortable="true" maxLength="10" escapeXml="true" /> 

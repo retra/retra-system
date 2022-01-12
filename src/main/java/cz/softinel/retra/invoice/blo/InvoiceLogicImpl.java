@@ -133,7 +133,7 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date finishDate,
+	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date startDate, Date finishDate,
 			Long[] employeePks) {
 		List<Invoice> invoices = new ArrayList<Invoice>();
 		if (employeePks == null || employeePks.length <= 0 || !isCodeGenerated()) {
@@ -150,6 +150,7 @@ public class InvoiceLogicImpl extends AbstractLogicBean implements InvoiceLogic 
 				if (employee != null) {
 					Invoice invoice = new Invoice();
 					invoice.setOrderDate(orderDate);
+					invoice.setStartDate(startDate);
 					invoice.setFinishDate(finishDate);
 					invoice.setName(name);
 					String genCode = invoiceSeqLogic.getNextCodeForSequenceIgnoreStep(sequencePk);

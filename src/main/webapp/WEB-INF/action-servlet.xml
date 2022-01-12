@@ -117,7 +117,7 @@
 		<property name="successView" value="/Dashboard.screen" />
 	</bean>
 
-	<!-- dashboard -->
+	<!-- newsboard -->
 	<bean name="/Newsboard.do" parent="SystemController">
 		<property name="method" value="showNewsboard" />
 		<property name="successView" value="/Newsboard.screen" />
@@ -129,10 +129,22 @@
 		<property name="successView" value="/About.screen" />
 	</bean>
 
+	<!-- settings dashboard -->
+	<bean name="/SettingsDashboard.do" parent="SystemController">
+		<property name="method" value="showSettingsDashboard" />
+		<property name="successView" value="/SettingsDashboard.screen" />
+	</bean>
+
 	<!-- set show history data -->
 	<bean name="/SetShowHistoryData.do" parent="SystemController">
 		<property name="method" value="setShowHistoryData" />
 		<property name="successView" value="redirect:Newsboard.do?fkprm=true" />
+	</bean>
+
+	<!-- dashboard -->
+	<bean name="/ReloadLoggedEmployee.do" parent="SystemController">
+		<property name="method" value="reloadLoggedEmployee" />
+		<property name="successView" value="/SettingsDashboard.screen" />
 	</bean>
 
 	<!-- =============== -->

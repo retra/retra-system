@@ -308,6 +308,11 @@ a {
 	visibility: hidden;
 }
 
+#reloadMyProjectsDiv {
+	display: none;
+	visibility: hidden;
+}
+
 #aboutDiv {
 	display: none;
 	visibility: hidden;

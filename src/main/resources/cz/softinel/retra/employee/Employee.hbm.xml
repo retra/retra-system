@@ -44,21 +44,4 @@
 		 -->
 	</query>
 
-	<query name="Employee.findAllForGenerateFetch">
-		<![CDATA[
-			select employee
-			from Employee as employee
-				left join fetch employee.user user
-				left join fetch employee.icompany icompany
-				left join fetch user.contactInfo contactInfo
-			where
-				employee.igenerate is not null
-				and employee.igenerate = true	
-			order by employee.icompany.code, employee.user.contactInfo.lastName, employee.user.contactInfo.firstName asc
-		]]>
-		<!-- 
-				order by employee.user.contactInfo.firstName, employee.user.contactInfo.lastName asc
-		 -->
-	</query>
-
 </hibernate-mapping>

@@ -1,5 +1,6 @@
 package cz.softinel.retra.employee.blo;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Propagation;
@@ -46,8 +47,8 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 		return employeeDao.findAll(onlyActive, onlyWorkLogging);
 	}
 
-	public List<Employee> getAllEmployeesForGeneratingInvoice() {
-		return employeeDao.findAllForGenerate();
+	public List<Employee> getAllEmployeesForGeneratingInvoice(final Date startDate, final Date finishDate) {
+		return employeeJdbcDao.findAllForGenerate(startDate, finishDate);
 	}
 
 	/**

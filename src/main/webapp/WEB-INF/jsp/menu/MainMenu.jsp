@@ -17,6 +17,6 @@
 </div>
 
 <div id="menuHelpDiv">
-	<a href="EmployeeChangePassword.do?fkprm=true"><fmt:message key="menu.settings" /></a> |
+	<a href="SettingsDashboard.do?fkprm=true"><fmt:message key="menu.settings" /></a> |
 	<a href="HelpPrint.do?fkprm=true"><fmt:message key="menu.help" /></a>
 </div>

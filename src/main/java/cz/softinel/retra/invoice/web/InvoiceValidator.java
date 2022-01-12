@@ -35,6 +35,9 @@ public abstract class InvoiceValidator implements Validator {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "orderDate", "invoice.error.require.orderDate");
 		CommonValidator.validateDate("orderDate", errors, "invoice.error.bad.format.orderDate", null);
 
+		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "invoice.error.require.startDate");
+		CommonValidator.validateDate("startDate", errors, "invoice.error.bad.format.startDate", null);
+
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "finishDate", "invoice.error.require.finishDate");
 		CommonValidator.validateDate("finishDate", errors, "invoice.error.bad.format.finishDate", null);
 
@@ -66,11 +69,14 @@ public abstract class InvoiceValidator implements Validator {
 	private void validateFinishGreaterThanOrder(Errors errors) {
 		Date order = null;
 		Date finish = null;
+		Date start = null;
 		try {
 			String orders = (String) errors.getFieldValue("orderDate");
+			String starts = (String) errors.getFieldValue("startDate");
 			String finishs = (String) errors.getFieldValue("finishDate");
 
 			order = DateConvertor.convertToDateFromDateString(orders);
+			start = DateConvertor.convertToDateFromDateString(starts);
 			finish = DateConvertor.convertToDateFromDateString(finishs);
 		} catch (ConvertException e) {
 			// couldn't compare return
@@ -79,6 +85,14 @@ public abstract class InvoiceValidator implements Validator {
 
 		if (order.getTime() >= finish.getTime()) {
 			errors.reject("invoiceForm.finish.greater.order");
+		}
+
+		if (order.getTime() > start.getTime()) {
+			errors.reject("invoiceForm.start.greater.order");
+		}
+
+		if (start.getTime() > finish.getTime()) {
+			errors.reject("invoiceForm.finish.greater.start");
 		}
 	}
 

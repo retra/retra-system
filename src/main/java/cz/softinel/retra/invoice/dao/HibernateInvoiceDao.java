@@ -137,6 +137,8 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		Long employeePk = FilterHelper.getFieldAsLong(InvoiceFilter.INVOICE_FILTER_EMPLOYEE, filter);
 		Date orderDateFrom = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_ORDER_DATE_FROM, filter);
 		Date orderDateTo = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_ORDER_DATE_TO, filter);
+		Date startDateFrom = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_START_DATE_FROM, filter);
+		Date startDateTo = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_START_DATE_TO, filter);
 		Date finishDateFrom = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_FINISH_DATE_FROM, filter);
 		Date finishDateTo = FilterHelper.getFieldAsDate(InvoiceFilter.INVOICE_FILTER_FINISH_DATE_TO, filter);
 		Integer state = FilterHelper.getFieldAsInteger(InvoiceFilter.INVOICE_FILTER_STATE, filter);
@@ -163,6 +165,12 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		if (orderDateTo != null) {
 			sb.append(" and invoice.orderDate <= :orderDateTo ");
 		}
+		if (startDateFrom != null) {
+			sb.append(" and invoice.startDate >= :startDateFrom ");
+		}
+		if (startDateTo != null) {
+			sb.append(" and invoice.startDate <= :startDateTo ");
+		}
 		if (finishDateFrom != null) {
 			sb.append(" and invoice.finishDate >= :finishDateFrom ");
 		}
@@ -179,6 +187,7 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		sb.append(" order by ");
 		sb.append(" invoice.code desc,");
 		sb.append(" invoice.orderDate,");
+		sb.append(" invoice.startDate,");
 		sb.append(" invoice.finishDate,");
 		sb.append(" invoice.name ");
 
@@ -192,6 +201,12 @@ public class HibernateInvoiceDao extends AbstractHibernateDao implements Invoice
 		}
 		if (orderDateTo != null) {
 			query.setTimestamp("orderDateTo", orderDateTo);
+		}
+		if (startDateFrom != null) {
+			query.setTimestamp("startDateFrom", startDateFrom);
+		}
+		if (startDateTo != null) {
+			query.setTimestamp("startDateTo", startDateTo);
 		}
 		if (finishDateFrom != null) {
 			query.setTimestamp("finishDateFrom", finishDateFrom);

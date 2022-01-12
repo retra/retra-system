@@ -50,6 +50,7 @@
 		<td>
 			<div class="component dashboardComponentHalf">
 				<h2><fmt:message key="menu.settings" /></h2>
+				<p><a href="SettingsDashboard.do?fkprm=true"><fmt:message key="menu.settingsDashboard" /></a></p>
 				<p><a href="EmployeeChangePassword.do?fkprm=true"><fmt:message key="menu.settingsChangePassword" /></a></p>
 				<p><a href="EmployeeChangeContactInfo.do?fkprm=true"><fmt:message key="menu.settingsChangeContactInfo" /></a></p>
 				<p><a href="ChangeVisualConfiguration.do?fkprm=true"><fmt:message key="menu.settingsVisualConfiguration" /></a></p>

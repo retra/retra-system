@@ -51,6 +51,23 @@
 			</spring:bind>
 		</tr>
 		<tr>
+			<spring:bind path="invoiceForm.startDate">
+				<th><fmt:message key="entity.invoice.startDate" /></th>
+				<td>
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" id="invoiceStartDateId"/><%--
+				--%><img src="${imgRoot}/calendarIco.gif" alt="<fmt:message key='calendar.label' />" title="<fmt:message key='calendar.label' />" align="top" id="invoiceStartDateImgId"/>
+					<script type="text/javascript">
+					<!--
+						showMiraCalendarForDate('invoiceStartDateId','invoiceStartDateImgId');
+					// -->
+					</script>
+					<c:forEach items="${status.errorMessages}">
+						<span class="error"><fmt:message key="error.sign" /></span>
+					</c:forEach>
+				</td>
+			</spring:bind>
+		</tr>
+		<tr>
 			<spring:bind path="invoiceForm.finishDate">
 				<th><fmt:message key="entity.invoice.finishDate" /></th>
 				<td>

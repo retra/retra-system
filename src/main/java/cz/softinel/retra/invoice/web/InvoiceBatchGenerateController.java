@@ -101,9 +101,11 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 				Long pk = LongConvertor.getLongFromString(form.getSequence());
 				InvoiceSeq selectedInvoiceSeq = invoiceSeqLogic.get(pk);
 				request.setAttribute("selectedInvoiceSeq", selectedInvoiceSeq);
-
+				Date startDate = DateConvertor.convertToDateFromDateString(form.getStartDate());
+				Date finishDate = DateConvertor.convertToDateFromDateString(form.getFinishDate());
+				
 				// prepare employees to confirm
-				List<Employee> employees = employeeLogic.getAllEmployeesForGeneratingInvoice();
+				List<Employee> employees = employeeLogic.getAllEmployeesForGeneratingInvoice(startDate, finishDate);
 				request.setAttribute("employeesForBatchGenerate", employees);
 			}
 		} else if (page == 1) {
@@ -150,6 +152,9 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "orderDate", "invoice.error.require.orderDate");
 			CommonValidator.validateDate("orderDate", errors, "invoice.error.bad.format.orderDate", null);
 
+			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "startDate", "invoice.error.require.startDate");
+			CommonValidator.validateDate("startDate", errors, "invoice.error.bad.format.startDate", null);
+
 			ValidationUtils.rejectIfEmptyOrWhitespace(errors, "finishDate", "invoice.error.require.finishDate");
 			CommonValidator.validateDate("finishDate", errors, "invoice.error.bad.format.finishDate", null);
 
@@ -182,11 +187,12 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 		Long invoiceSeqPk = LongConvertor.getLongFromString(form.getSequence());
 		String name = form.getName();
 		Date orderDate = DateConvertor.getDateFromDateString(form.getOrderDate());
+		Date startDate = DateConvertor.getDateFromDateString(form.getStartDate());
 		Date finishDate = DateConvertor.getDateFromDateString(form.getFinishDate());
 		Long[] employeePks = form.getConfirmedItems();
 
 		// store to DB
-		List<Invoice> generatedInvoices = invoiceLogic.batchCreate(invoiceSeqPk, name, orderDate, finishDate,
+		List<Invoice> generatedInvoices = invoiceLogic.batchCreate(invoiceSeqPk, name, orderDate, startDate, finishDate,
 				employeePks);
 
 		// HACK: to display a warn message without making a controller superclass
@@ -212,11 +218,14 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 	private void validateFinishGreaterThanOrder(Errors errors) {
 		Date order = null;
 		Date finish = null;
+		Date start = null;
 		try {
 			String orders = (String) errors.getFieldValue("orderDate");
+			String starts = (String) errors.getFieldValue("startDate");
 			String finishs = (String) errors.getFieldValue("finishDate");
 
 			order = DateConvertor.convertToDateFromDateString(orders);
+			start = DateConvertor.convertToDateFromDateString(starts);
 			finish = DateConvertor.convertToDateFromDateString(finishs);
 		} catch (ConvertException e) {
 			// couldn't compare return
@@ -225,6 +234,14 @@ public class InvoiceBatchGenerateController extends WizardFormController {
 
 		if (order.getTime() >= finish.getTime()) {
 			errors.reject("invoiceForm.finish.greater.order");
+		}
+
+		if (order.getTime() > start.getTime()) {
+			errors.reject("invoiceForm.start.greater.order");
+		}
+
+		if (start.getTime() > finish.getTime()) {
+			errors.reject("invoiceForm.finish.greater.start");
 		}
 	}
 

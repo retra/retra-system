@@ -6,6 +6,7 @@
  */
 package cz.softinel.retra.employee.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import cz.softinel.retra.employee.Employee;
@@ -28,7 +29,7 @@ public interface EmployeeDao {
 
 	public List<Employee> findAll(final boolean onlyActive, final boolean onlyWorkLogging);
 
-	public List<Employee> findAllForGenerate();
+	public List<Employee> findAllForGenerate(final Date startDate, final Date finishDate);
 
 	public void load(Employee employee);
 

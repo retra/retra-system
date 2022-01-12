@@ -87,11 +87,12 @@ public interface InvoiceLogic {
 	 * @param sequencePk
 	 * @param name
 	 * @param orderDate
+	 * @param startDate
 	 * @param finishDate
 	 * @param employeePks
 	 * @return
 	 */
-	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date finishDate, Long[] employeePks);
+	public List<Invoice> batchCreate(Long sequencePk, String name, Date orderDate, Date startDate, Date finishDate, Long[] employeePks);
 
 	/**
 	 * Get invoice according to given pk.

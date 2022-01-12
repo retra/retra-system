@@ -2,6 +2,8 @@
 
 <%@ include file="../Includes.jsp"%> 
 
+<a href="SettingsDashboard.do?fkprm=true"><fmt:message key="menu.settingsDashboard" /></a>
+|
 <a href="EmployeeChangePassword.do?fkprm=true"><fmt:message key="menu.settingsChangePassword" /></a> 
 |
 <a href="EmployeeChangeContactInfo.do?fkprm=true"><fmt:message key="menu.settingsChangeContactInfo" /></a>

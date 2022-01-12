@@ -73,6 +73,9 @@
 	<div id="currentUserDiv">
 		<fmt:message key="currentUser.label" />: ${securityContext.loggedUser.contactInfo.displayName}
 	</div>
+	<div id="reloadMyProjectsDiv">
+		<a href="ReloadLoggedEmployee.do?fkprm=true"><img src="${imgRoot}/reload.png" alt='<fmt:message key="settings.reloadMyProjects" />' title='<fmt:message key="settings.reloadMyProjects" />' style="vertical-align: middle;" width="16" height="16" /></a>
+	</div>
 	
 	<img id="miraLogoInHeader" src="${imgRoot}/retra-logo-small.png" alt="<fmt:message key="header.title"/>" title="<fmt:message key="header.title"/>" />
 

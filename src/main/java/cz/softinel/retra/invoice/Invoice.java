@@ -16,6 +16,7 @@ public class Invoice implements StateEntity {
 	private Long pk;
 
 	private Date orderDate;
+	private Date startDate;
 	private Date finishDate;
 
 	private String code;
@@ -42,6 +43,14 @@ public class Invoice implements StateEntity {
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
 	public Date getFinishDate() {

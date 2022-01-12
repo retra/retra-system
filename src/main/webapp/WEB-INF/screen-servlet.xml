@@ -112,6 +112,16 @@
 		</property>
 	</bean>
 
+	<!-- settings dashboard screen -->
+	<bean name="/SettingsDashboard.screen" parent="internalScreen">
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.settingsDashboard.name" />
+			  <entry key="body" value="/WEB-INF/jsp/system/SettingsDashboard.jsp"/>
+			</map>
+		</property>
+	</bean>
+
 	
 	<bean name="/ChangeVisualConfiguration.screen" parent="internalScreen">
 		<property name="subMenu" value="/WEB-INF/jsp/menu/SettingsSubMenu.jsp" />

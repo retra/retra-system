@@ -46,9 +46,12 @@ public class InvoiceHelper {
 		Date orderDate = DateConvertor.getDateFromDateString(form.getOrderDate());
 		entity.setOrderDate(orderDate);
 
+		Date startDate = DateConvertor.getDateFromDateString(form.getStartDate());
+		entity.setStartDate(startDate);
+		
 		Date finishDate = DateConvertor.getDateFromDateString(form.getFinishDate());
 		entity.setFinishDate(finishDate);
-
+		
 		entity.setName(form.getName());
 
 		if (!isCodeGenerated) {
@@ -62,6 +65,9 @@ public class InvoiceHelper {
 
 		String orderDate = DateConvertor.convertToDateStringFromDate(entity.getOrderDate());
 		form.setOrderDate(orderDate);
+
+		String startDate = DateConvertor.convertToDateStringFromDate(entity.getStartDate());
+		form.setStartDate(startDate);
 
 		String finishDate = DateConvertor.convertToDateStringFromDate(entity.getFinishDate());
 		form.setFinishDate(finishDate);

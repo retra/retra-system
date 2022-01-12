@@ -15,6 +15,10 @@
 			<td><fmt:formatDate pattern="${TypeFormats.DATE_FORMAT}" value="${invoice.orderDate}" /></td>
 		</tr>
 		<tr>
+			<th><fmt:message key="entity.invoice.startDate" /></th>
+			<td><fmt:formatDate pattern="${TypeFormats.DATE_FORMAT}" value="${invoice.startDate}" /></td>
+		</tr>
+		<tr>
 			<th><fmt:message key="entity.invoice.finishDate" /></th>
 			<td><fmt:formatDate pattern="${TypeFormats.DATE_FORMAT}" value="${invoice.finishDate}" /></td>
 		</tr>

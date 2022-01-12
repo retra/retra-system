@@ -6,6 +6,7 @@
  */
 package cz.softinel.retra.employee.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -74,9 +75,8 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Employee> findAllForGenerate() {
-		return (List<Employee>) getHibernateTemplate().findByNamedQuery("Employee.findAllForGenerateFetch");
+	public List<Employee> findAllForGenerate(final Date startDate, final Date finishDate) {
+		throw new IllegalStateException("Not supported...");
 	}
 
 	/**

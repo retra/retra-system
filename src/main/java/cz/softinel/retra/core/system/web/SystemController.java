@@ -75,6 +75,10 @@ public class SystemController extends DispatchController {
 		return createModelAndView(model, getSuccessView());
 	}
 
+	public ModelAndView showSettingsDashboard(Model model, RequestContext requestContext) {
+		return createModelAndView(model, getSuccessView());
+	}
+
 	public ModelAndView showLogin(Model model, RequestContext requestContext) {
 		return createModelAndView(model, getSuccessView());
 	}
@@ -154,6 +158,21 @@ public class SystemController extends DispatchController {
 		return createModelAndView(getSuccessView());
 	}
 
+	/**
+	 * Logout user from application.
+	 * 
+	 * @param model
+	 * @param requestContext
+	 * @return
+	 */
+	public ModelAndView reloadLoggedEmployee(Model model, RequestContext requestContext) {
+		//reload employee
+		getSecurityLogic().reloadLoggedEmployee();
+		requestContext.addInfo(new Message("succesfully.reloaded.employee"));
+
+		return createModelAndView(getSuccessView());
+	}
+	
 	public ModelAndView setShowHistoryData(Model model, RequestContext requestContext) {
 		String showHistoryDataStr = requestContext.getParameter(MiraController.PARAM_NAME_SHOW_HISTORY_DATA);
 		String redirectUrl = requestContext.getParameter(MiraController.PARAM_NAME_AFTER_SET_ACTION);

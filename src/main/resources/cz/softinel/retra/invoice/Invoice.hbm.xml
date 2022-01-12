@@ -11,6 +11,7 @@
 		</id>
 		
 		<property name="orderDate" not-null="true" column="mir15orderdate" />
+		<property name="startDate" not-null="true" column="mir15startdate" />
 		<property name="finishDate" not-null="true" column="mir15finishdate" />
 		<property name="code" not-null="true" column="mir15code" />
 		<property name="name" not-null="true" column="mir15name" />

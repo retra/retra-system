@@ -1,5 +1,6 @@
 package cz.softinel.retra.employee.blo;
 
+import java.util.Date;
 import java.util.List;
 
 import cz.softinel.retra.employee.Employee;
@@ -29,7 +30,7 @@ public interface EmployeeLogic {
 	 * 
 	 * @return
 	 */
-	List<Employee> getAllEmployeesForGeneratingInvoice();
+	List<Employee> getAllEmployeesForGeneratingInvoice(final Date startDate, final Date finishDate);
 
 	/**
 	 * Load emlpoyee instance fields

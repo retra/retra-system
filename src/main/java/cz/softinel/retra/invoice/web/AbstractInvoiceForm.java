@@ -3,6 +3,7 @@ package cz.softinel.retra.invoice.web;
 public class AbstractInvoiceForm {
 
 	private String orderDate;
+	private String startDate;
 	private String finishDate;
 
 	private String name;
@@ -16,6 +17,14 @@ public class AbstractInvoiceForm {
 
 	public void setOrderDate(String orderDate) {
 		this.orderDate = orderDate;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
 	}
 
 	public String getFinishDate() {
@@ -52,7 +61,7 @@ public class AbstractInvoiceForm {
 
 	@Override
 	public String toString() {
-		return "(AbstractInvoiceForm [orderDate=" + orderDate + ", finishDate=" + finishDate + ", name=" + name
+		return "(AbstractInvoiceForm [orderDate=" + orderDate + ", startDate=" + startDate +", finishDate=" + finishDate + ", name=" + name
 				+ ", code=" + code + ", sequence=" + sequence + ")";
 	}
 	

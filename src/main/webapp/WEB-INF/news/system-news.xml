@@ -4,10 +4,12 @@
 	<item date="xx.yy.2022"
 		  title="Build 2.11.0"
 		  body="Fix of these issues:&lt;br />
-		  &lt;a href='https://jira/browse/RETRA-55' target='_blank'>RETRA-55&lt;/a> - Retra logovani - zlepsit, prechod na log4j2.&lt;br />
-		  &lt;a href='https://jira/browse/RETRA-56' target='_blank'>RETRA-56&lt;/a> - Retra je nachylna na XSS.&lt;br />
-		  &lt;a href='https://jira/browse/RETRA-41' target='_blank'>RETRA-41&lt;/a> - Specialni znaky v nazvu projektu.&lt;br />
-		  &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-48&lt;/a> - Chyba při renderování textu worklogu.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-55' target='_blank'>RETRA-55&lt;/a> - Retra logovani - zlepsit, prechod na log4j2.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-56' target='_blank'>RETRA-56&lt;/a> - Retra je nachylna na XSS.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-41' target='_blank'>RETRA-41&lt;/a> - Specialni znaky v nazvu projektu.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-48&lt;/a> - Chyba při renderování textu worklogu.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-23&lt;/a> - Prirazeni do projektu jinym uzivatelem a nezobrazeni v seznamu projektu pro Worklog.&lt;br />
+		  - Dilbert joke loader fixed&lt;br />
 		  "
 		  author="Retra Team"
 	/>

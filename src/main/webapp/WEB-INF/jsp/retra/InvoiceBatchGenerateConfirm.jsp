@@ -14,6 +14,10 @@
 		<td>${fn:escapeXml(form.orderDate)}</td>
 	</tr>
 	<tr>
+		<th><fmt:message key="entity.invoice.startDate" /></th>
+		<td>${fn:escapeXml(form.startDate)}	</td>
+	</tr>
+	<tr>
 		<th><fmt:message key="entity.invoice.finishDate" /></th>
 		<td>${fn:escapeXml(form.finishDate)}	</td>
 	</tr>

@@ -10,6 +10,8 @@ public class InvoiceFilter extends EntityFilter {
 	public static final String INVOICE_FILTER_EMPLOYEE = "invoiceFilterEmployee";
 	public static final String INVOICE_FILTER_ORDER_DATE_FROM = "invoiceFilterOrderDateFrom";
 	public static final String INVOICE_FILTER_ORDER_DATE_TO = "invoiceFilterOrderDateTo";
+	public static final String INVOICE_FILTER_START_DATE_FROM = "invoiceFilterStartDateFrom";
+	public static final String INVOICE_FILTER_START_DATE_TO = "invoiceFilterStartDateTo";
 	public static final String INVOICE_FILTER_FINISH_DATE_FROM = "invoiceFilterFinishDateFrom";
 	public static final String INVOICE_FILTER_FINISH_DATE_TO = "invoiceFilterFinishDateTo";
 	public static final String INVOICE_FILTER_CODE = "invoiceFilterCode";
@@ -21,6 +23,8 @@ public class InvoiceFilter extends EntityFilter {
 		fieldNames.add(INVOICE_FILTER_EMPLOYEE);
 		fieldNames.add(INVOICE_FILTER_ORDER_DATE_FROM);
 		fieldNames.add(INVOICE_FILTER_ORDER_DATE_TO);
+		fieldNames.add(INVOICE_FILTER_START_DATE_FROM);
+		fieldNames.add(INVOICE_FILTER_START_DATE_TO);
 		fieldNames.add(INVOICE_FILTER_FINISH_DATE_FROM);
 		fieldNames.add(INVOICE_FILTER_FINISH_DATE_TO);
 		fieldNames.add(INVOICE_FILTER_CODE);
