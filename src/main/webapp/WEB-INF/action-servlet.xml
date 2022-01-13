@@ -723,6 +723,12 @@
 		<property name="method" value="helpImportWorklog" />
 		<property name="successView" value="/WorklogImportHelp.screen" />
 	</bean>
+
+	<!-- worklog import help -->
+	<bean name="/HelpWorklogImportFull.do" parent="HelpController">
+		<property name="method" value="helpImportWorklog" />
+		<property name="successView" value="/HelpWorklogImportFull.screen" />
+	</bean>
 	
 	<!-- copy schedule help -->
 	<bean name="/HelpCopySchedule.do" parent="HelpController">

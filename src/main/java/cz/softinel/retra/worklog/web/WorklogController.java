@@ -3,13 +3,18 @@ package cz.softinel.retra.worklog.web;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.activity.blo.ActivityLogic;
 import cz.softinel.retra.component.blo.ComponentLogic;
+import cz.softinel.retra.core.utils.convertor.DateConvertor;
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.core.utils.helper.DateHelper;
 import cz.softinel.retra.core.utils.helper.HolidaysHelper;
@@ -44,7 +49,9 @@ import cz.softinel.uaf.util.grouping.GroupingMap;
  * @author Radek Pinc, Petr Sígl
  */
 public class WorklogController extends DispatchController {
-
+	
+	private Logger logger = LoggerFactory.getLogger(WorklogController.class);
+	
 	private WorklogLogic worklogLogic;
 	private EmployeeLogic employeeLogic;
 	private ProjectLogic projectLogic;
@@ -384,16 +391,81 @@ public class WorklogController extends DispatchController {
 		String fromStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_FROM, filter);
 		String toStr = FilterHelper.getFieldAsString(WorklogFilter.WORKLOG_FILTER_TO, filter);
 
+		Date from = null;
 		if (fromStr == null) {
-			Date from = DateHelper.getDayBeforeDateStartOfDay(new Date());
+			from = DateHelper.getDayBeforeDateStartOfDay(new Date());
 			FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_FROM, from, true, filter);
+		} else {
+			try {
+				from = DateConvertor.convertToDateFromDateString(fromStr);
+			} catch (Exception e) {
+				//fake date min
+				Calendar cal = Calendar.getInstance();
+				cal.set(1970,1,1);
+				from = cal.getTime();
+				logger.info("Project overview 0-HRS employees loader - used fake date for FROM: {}", from);
+			}
 		}
+		
+		Date to = null;
 		if (toStr == null) {
-			Date to = DateHelper.getDayAfterDateEndOfDay(new Date());
+			to = DateHelper.getDayAfterDateEndOfDay(new Date());
 			FilterHelper.setField(WorklogFilter.WORKLOG_FILTER_TO, to, true, filter);
-		}
+		} else {
+			try {
+				to = DateConvertor.convertToDateFromDateString(toStr);
+			} catch (Exception e) {
+				//fake date max
+				Calendar cal = Calendar.getInstance();
+				//:-D
+				cal.set(2127,3,3);
+				to = cal.getTime();
+				logger.info("Project overview 0-HRS employees loader - used fake date for TO: {}", to);
+			}
 
-		List<Worklog> worklogs = worklogLogic.findByFilter(filter);
+		}
+		
+		List<Worklog> worklogs = worklogLogic.findByFilter(filter, false);
+		Set<Long> employeesInWorklogItems = new HashSet<>();
+		if (worklogs != null && !worklogs.isEmpty()) {
+			for (Worklog worklog : worklogs) {
+				employeesInWorklogItems.add(worklog.getEmployee().getPk());
+			}
+		}
+		List<Employee> activeEmployees = employeeLogic.getAllActiveEmployeesWithWorklogIdInInterval(from, to);
+		if (activeEmployees != null && !activeEmployees.isEmpty()) {
+	        for (Employee emp : activeEmployees) {
+	        	if (!employeesInWorklogItems.contains(emp.getPk())) {
+	        		//create fake Worklog and add it into list
+	        		Worklog fakeWorklog = new Worklog();
+/*
+	        		private Employee employee;
+	        		private Activity activity;
+	        		private Project project;
+	        		private Component component;
+	        		private Invoice invoice;
+*/
+	        		fakeWorklog.setWorkFrom(to);
+	        		fakeWorklog.setWorkTo(to);
+	        		fakeWorklog.setDescription("Fake worklog for employees with 0 hours.");
+	        		fakeWorklog.setDescriptionGui("Fake worklog for employees with 0 hours.");
+	        		fakeWorklog.setEmployee(emp);
+	        		Activity activity = new Activity();
+	        		activity.setPk(-1L);
+	        		activity.setCode("0-HRS");
+	        		activity.setName("Fake activity for employees with 0 hours.");
+	        		fakeWorklog.setActivity(activity);
+	        		Project project = new Project();
+	        		project.setPk(-1L);
+	        		project.setCode("0-HRS");
+	        		project.setName("Fake project for employees with 0 hours.");
+	        		fakeWorklog.setProject(project);
+	        		if (worklogs != null) {
+	        			worklogs.add(fakeWorklog);
+	        		}
+	        	}
+	        }
+		}
 		GroupingMap grouppedWorklog = GroupingHelper.group(worklogs, "hours", new String[] { "project", "activity" },
 				new String[] { null, null });
 
@@ -411,11 +483,11 @@ public class WorklogController extends DispatchController {
 		model.set("worklogs", worklogs);
 
 		model.set("worklogByEmployee", groupped.getProjection(0));
-		model.set("worklogByAcrivity", groupped.getProjection(1));
+		model.set("worklogByActivity", groupped.getProjection(1));
 		model.set("worklogByProject", groupped.getProjection(2));
 
 		model.set("worklogGroupped", worklogGroupped);
-		model.set("worklogGrouppedAcrivity", worklogGroupped.getProjection(1));
+		model.set("worklogGrouppedActivity", worklogGroupped.getProjection(1));
 
 		return createModelAndView(model, getSuccessView());
 	}

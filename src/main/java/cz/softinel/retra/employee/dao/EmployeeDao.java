@@ -30,7 +30,9 @@ public interface EmployeeDao {
 	public List<Employee> findAll(final boolean onlyActive, final boolean onlyWorkLogging);
 
 	public List<Employee> findAllForGenerate(final Date startDate, final Date finishDate);
-
+	
+	public List<Employee> findAllActiveEmployeesWithWorklogIdInInterval(final Date startDate, final Date finishDate);
+	
 	public void load(Employee employee);
 
 	public void loadAndLoadLazy(Employee employee);

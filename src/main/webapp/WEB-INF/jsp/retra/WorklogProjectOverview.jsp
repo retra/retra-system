@@ -103,13 +103,13 @@
 
 	<div class="tabbertab">
 		<h2>Activity</h2>
-		<display:table id="worklogByAcrivityId" name="worklogByAcrivity.list" requestURI="${requestURI}" export="true">
+		<display:table id="worklogByActivityId" name="worklogByActivity.list" requestURI="${requestURI}" export="true">
 			<display:column property="key" titleKey="worklog.activity" escapeXml="true" />
 			<display:column property="value.sum" titleKey="worklog.hours" format="{0,number,#,##0.00}" />
 			<display:footer media="html">
 				<tr>
 					<th><fmt:message key="worklog.total" /></th>
-					<th><fmt:formatNumber value="${worklogByAcrivity.summary.sum}" type="number" maxFractionDigits="2" minFractionDigits="2" /></th>
+					<th><fmt:formatNumber value="${worklogByActivity.summary.sum}" type="number" maxFractionDigits="2" minFractionDigits="2" /></th>
 				</tr>
 			</display:footer>
 		</display:table>
@@ -135,7 +135,7 @@
 		<thead>
 			<tr>
 				<th>&nbsp;</th>
-				<c:forEach items="${worklogGrouppedAcrivity.list}" var="activity">
+				<c:forEach items="${worklogGrouppedActivity.list}" var="activity">
 					<th>${fn:escapeXml(activity.key)}</th>
 				</c:forEach>
 				<th>Total</th>
@@ -144,7 +144,7 @@
 			<c:forEach items="${worklogByEmployee.list}" var="employee">
 				<tr class="odd">
 					<th>${fn:escapeXml(employee.key)}</th>
-					<c:forEach items="${worklogGrouppedAcrivity.list}" var="activity">
+					<c:forEach items="${worklogGrouppedActivity.list}" var="activity">
 						<td style='text-align:right;'>
 							<fmt:formatNumber value="${worklogGroupped.map[employee.key][activity.key][false].sum}" maxFractionDigits="2" minFractionDigits="2" />
 						</td>
@@ -154,7 +154,7 @@
 			</c:forEach>
 			<tr class="tableBottom">
 				<th><fmt:message key="worklog.total"/></th>
-				<c:forEach items="${worklogGrouppedAcrivity.list}" var="activity">
+				<c:forEach items="${worklogGrouppedActivity.list}" var="activity">
 					<th style='text-align:right;'><fmt:formatNumber value="${activity.value.sum}" maxFractionDigits="2" minFractionDigits="2" /></th>
 				</c:forEach>
 				<th style='text-align:right;'><fmt:formatNumber value="${worklogByEmployee.summary.sum}" maxFractionDigits="2" minFractionDigits="2" /></th>

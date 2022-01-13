@@ -72,7 +72,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		List<Worklog> result = new ArrayList<Worklog>();
 		if (hasAdminWorklogPermission()) {
 			result = worklogDao.selectAll();
-			updateDescriptionGui(result);
+			updateDescriptionGui(result, true);
 		}
 		return result;
 	}
@@ -87,7 +87,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		if (hasAdminWorklogPermission() || isGivenEmpLoggedEmployee(pk)) {
 
 			result = worklogDao.selectForEmployee(pk);
-			updateDescriptionGui(result);
+			updateDescriptionGui(result, true);
 
 		}
 		return result;
@@ -100,7 +100,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		if (invoice != null) {
 			if (hasAdminWorklogPermission() || isGivenEmpLoggedEmployee(invoice.getEmployee().getPk())) {
 				result = worklogDao.selectForInvoice(pk);
-				updateDescriptionGui(result);
+				updateDescriptionGui(result, true);
 			}
 		}
 
@@ -162,7 +162,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 
 		if (isJiraEnabled()) {
 			jiraLogic.addJiraWorklog(worklog);
-			updateDescriptionGui(result);
+			updateDescriptionGui(result, true);
 		}
 
 		return result;
@@ -208,7 +208,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	public Worklog get(Long pk) {
 		Worklog worklog = worklogDao.get(pk);
 		if (hasAdminWorklogPermission() || hasOwnWorklogPermission(worklog)) {
-			updateDescriptionGui(worklog);
+			updateDescriptionGui(worklog, true);
 			return worklog;
 		}
 		throw new NoPermissionException();
@@ -220,7 +220,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 			if (worklog.getEmployee() == null) {
 				loadAndLoadLazyImpl(worklog);
 			}
-			updateDescriptionGui(worklog);
+			updateDescriptionGui(worklog, true);
 			return;
 		}
 		throw new NoPermissionException();
@@ -264,7 +264,7 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 
 		if (isJiraEnabled() && updateJira) {
 			jiraLogic.updateJiraWorklog(worklogInDB, worklog);
-			updateDescriptionGui(worklog);
+			updateDescriptionGui(worklog, true);
 		}
 
 		worklogDao.merge(worklog);
@@ -278,10 +278,17 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Worklog> findByFilter(Filter filter) {
 		List<Worklog> result = worklogDao.selectByFilter(filter);
-		updateDescriptionGui(result);
+		updateDescriptionGui(result, true);
 		return result;
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Worklog> findByFilter(Filter filter, boolean resolveJiraLink) {
+		List<Worklog> result = worklogDao.selectByFilter(filter);
+		updateDescriptionGui(result, resolveJiraLink);
+		return result;
+	}
+	
 	/**
 	 * @see cz.softinel.retra.worklog.blo.WorklogLogic#findWorklogOverviewByFilter(cz.softinel.uaf.filter.Filter,
 	 *      cz.softinel.uaf.messages.Messages)
@@ -413,22 +420,27 @@ public class WorklogLogicImpl extends AbstractLogicBean implements WorklogLogic 
 		return jiraLogic.isJiraEnabled();
 	}
 
-	private void updateDescriptionGui(List<Worklog> worklogs) {
+	private void updateDescriptionGui(List<Worklog> worklogs, boolean resolveJiraLink) {
 		if (isJiraEnabled() && worklogs != null && !worklogs.isEmpty()) {
 			for (Worklog worklog : worklogs) {
-				updateDescriptionGuiImpl(worklog);
+				updateDescriptionGuiImpl(worklog, resolveJiraLink);
 			}
 		}
 	}
 
-	private void updateDescriptionGui(Worklog worklog) {
+	private void updateDescriptionGui(Worklog worklog, boolean resolveJiraLink) {
 		if (isJiraEnabled() && worklog != null) {
-			updateDescriptionGuiImpl(worklog);
+			updateDescriptionGuiImpl(worklog, resolveJiraLink);
 		}
 	}
 
-	private void updateDescriptionGuiImpl(Worklog worklog) {
-		worklog.setDescriptionGui(JiraHelper.getLinkableText(StringEscapeUtils.escapeHtml(worklog.getDescription()), jiraLogic));
+	private void updateDescriptionGuiImpl(Worklog worklog, boolean resolveJiraLink) {
+		String escapedDescription = StringEscapeUtils.escapeHtml(worklog.getDescription());
+		if (resolveJiraLink) {
+			worklog.setDescriptionGui(JiraHelper.getLinkableText(escapedDescription, jiraLogic));
+		} else {
+			worklog.setDescriptionGui(escapedDescription);
+		}
 	}
 
 	private boolean isGivenEmpLoggedEmployee(Long givenPk) {

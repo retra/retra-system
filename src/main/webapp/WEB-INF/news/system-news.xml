@@ -1,14 +1,16 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
-	<item date="xx.yy.2022"
+	<item date="13.1.2022"
 		  title="Build 2.11.0"
 		  body="Fix of these issues:&lt;br />
-		  - &lt;a href='https://jira/browse/RETRA-55' target='_blank'>RETRA-55&lt;/a> - Retra logovani - zlepsit, prechod na log4j2.&lt;br />
-		  - &lt;a href='https://jira/browse/RETRA-56' target='_blank'>RETRA-56&lt;/a> - Retra je nachylna na XSS.&lt;br />
-		  - &lt;a href='https://jira/browse/RETRA-41' target='_blank'>RETRA-41&lt;/a> - Specialni znaky v nazvu projektu.&lt;br />
-		  - &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-48&lt;/a> - Chyba při renderování textu worklogu.&lt;br />
-		  - &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-23&lt;/a> - Prirazeni do projektu jinym uzivatelem a nezobrazeni v seznamu projektu pro Worklog.&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-55' target='_blank'>RETRA-55&lt;/a> - Retra logovani - zlepsit, prechod na log4j2&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-56' target='_blank'>RETRA-56&lt;/a> - Retra je nachylna na XSS&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-41' target='_blank'>RETRA-41&lt;/a> - Specialni znaky v nazvu projektu&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-48' target='_blank'>RETRA-48&lt;/a> - Chyba při renderování textu worklogu&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-23' target='_blank'>RETRA-23&lt;/a> - Prirazeni do projektu jinym uzivatelem a nezobrazeni v seznamu projektu pro Worklog&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-53' target='_blank'>RETRA-53&lt;/a> - Generovani invoice (batch) - nenabizet lidi, kteri odesli&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-54' target='_blank'>RETRA-54&lt;/a> - Project overview - i lide s 0 odpracovanymi hodinami&lt;br />
 		  - Dilbert joke loader fixed&lt;br />
 		  "
 		  author="Retra Team"
@@ -16,13 +18,15 @@
 
 	<item date="27.6.2019"
 		  title="Build 2.10.0"
-		  body="Fix &lt;a href='https://jira/browse/RETRA-44' target='_blank'>RETRA-44&lt;/a> - Rozsireni exportu Timesheetu a Invoice o sloupec username."
+		  body="Fix of this issue:&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-44' target='_blank'>RETRA-44&lt;/a> - Rozsireni exportu Timesheetu a Invoice o sloupec username."
 		  author="Retra Team"
 	/>
 
 	<item date="4.4.2019"
 		  title="Build 2.9.0"
-		  body="- Fix &lt;a href='https://jira/browse/RETRA-42' target='_blank'>RETRA-42&lt;/a> - Nefunguje logování výkazu v projektu S1&lt;br />
+		  body="- Fix of these issues:&lt;br />
+		  - &lt;a href='https://jira/browse/RETRA-42' target='_blank'>RETRA-42&lt;/a> - Nefunguje logování výkazu v projektu S1&lt;br />
 		  - Improved logging worklog records to Jira.&lt;br />
 		  - Added support for set &quot;retra.config.location&quot; by context init parameter."
 		  author="Retra Team"

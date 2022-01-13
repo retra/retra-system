@@ -79,6 +79,10 @@ public class HibernateEmployeeDao extends AbstractHibernateDao implements Employ
 		throw new IllegalStateException("Not supported...");
 	}
 
+	public List<Employee> findAllActiveEmployeesWithWorklogIdInInterval(final Date startDate, final Date finishDate) {
+		throw new IllegalStateException("Not supported...");
+	}
+	
 	/**
 	 * @see cz.softinel.retra.employee.dao.EmployeeDao#load(cz.softinel.retra.employee.Employee)
 	 */

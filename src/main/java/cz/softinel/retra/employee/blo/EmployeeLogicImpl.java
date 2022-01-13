@@ -47,10 +47,16 @@ public class EmployeeLogicImpl extends AbstractLogicBean implements EmployeeLogi
 		return employeeDao.findAll(onlyActive, onlyWorkLogging);
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)	
 	public List<Employee> getAllEmployeesForGeneratingInvoice(final Date startDate, final Date finishDate) {
 		return employeeJdbcDao.findAllForGenerate(startDate, finishDate);
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Employee> getAllActiveEmployeesWithWorklogIdInInterval(Date startDate, Date finishDate) {
+		return employeeJdbcDao.findAllActiveEmployeesWithWorklogIdInInterval(startDate, finishDate);
+	}
+	
 	/**
 	 * @see cz.softinel.retra.employee.blo.EmployeeLogic#getAllEmployeesNotFull(boolean,
 	 *      boolean)

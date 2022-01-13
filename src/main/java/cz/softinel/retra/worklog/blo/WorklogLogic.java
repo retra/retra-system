@@ -47,6 +47,15 @@ public interface WorklogLogic {
 	public List<Worklog> findByFilter(Filter filter);
 
 	/**
+	 * Find worklogs according to given filter parameters
+	 * 
+	 * @param filter
+	 * @param resolveJiraLink
+	 * @return
+	 */
+	public List<Worklog> findByFilter(Filter filter, boolean resolveJiraLink);
+
+	/**
 	 * Creates worklog
 	 * 
 	 * @param worklog

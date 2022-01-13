@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.icompany.Icompany;
 import cz.softinel.sis.contactinfo.ContactInfo;
+import cz.softinel.sis.login.Login;
 import cz.softinel.sis.user.User;
 
 public class EmployeeRowMapper implements RowMapper {
@@ -19,6 +20,9 @@ public class EmployeeRowMapper implements RowMapper {
 		User user = new User();
 		user.setPk(rs.getLong("sis10pk"));
 		employee.setUser(user);
+		Login login = new Login();
+		login.setLdapLogin(rs.getString("sis11ldaplogin"));
+		user.setLogin(login);
 		ContactInfo contactInfo = new ContactInfo();
 		contactInfo.setFirstName(rs.getString("sis12firstName"));
 		contactInfo.setLastName(rs.getString("sis12lastName"));

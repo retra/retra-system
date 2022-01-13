@@ -690,4 +690,14 @@
 		</property>
 	</bean>
 
+	<bean name="/HelpWorklogImportFull.screen" parent="internalScreen">
+		<property name="subMenu" value="/WEB-INF/jsp/menu/HelpSubMenu.jsp" />
+		<property name="parameters">
+			<map>
+				<entry key="title" value="screen.worklogImportHelp.name"/>
+				<entry key="body" value="/WEB-INF/jsp/system/HelpWorklogImport.jsp"/>
+			</map>
+		</property>
+	</bean>
+
 </beans>

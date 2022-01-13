@@ -33,6 +33,13 @@ public interface EmployeeLogic {
 	List<Employee> getAllEmployeesForGeneratingInvoice(final Date startDate, final Date finishDate);
 
 	/**
+	 * Returns all active employees id in given interval.
+	 * 
+	 * @return
+	 */
+	List<Employee> getAllActiveEmployeesWithWorklogIdInInterval(final Date startDate, final Date finishDate);
+	
+	/**
 	 * Load emlpoyee instance fields
 	 * 
 	 * @param employee

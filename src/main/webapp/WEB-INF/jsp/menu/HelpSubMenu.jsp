@@ -4,4 +4,4 @@
 
 <a href="HelpPrint.do?fkprm=true"><fmt:message key="menu.helpPrint" /></a> |
 <a href="HelpCopySchedule.do?fkprm=true"><fmt:message key="menu.helpCopySchedule" /></a> |
-<a href="HelpWorklogImport.do?fkprm=true"><fmt:message key="worklog.help.import" /></a>
+<a href="HelpWorklogImportFull.do?fkprm=true"><fmt:message key="worklog.help.import" /></a>

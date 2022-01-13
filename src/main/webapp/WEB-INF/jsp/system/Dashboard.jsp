@@ -61,7 +61,7 @@
 				<h2><fmt:message key="menu.help" /></h2>
 				<p><a href="HelpPrint.do?fkprm=true"><fmt:message key="menu.helpPrint" /></a></p>
 				<p><a href="HelpCopySchedule.do?fkprm=true"><fmt:message key="menu.helpCopySchedule" /></a></p>
-				<p><a href="HelpWorklogImport.do?fkprm=true"><fmt:message key="worklog.help.import" /></a></p>
+				<p><a href="HelpWorklogImportFull.do?fkprm=true"><fmt:message key="worklog.help.import" /></a></p>
 			</div>
 		</td>
 	</tr>
