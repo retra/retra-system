@@ -9,7 +9,7 @@
 <form action="${requestURI}" method="post" >
 
 			<spring:bind path="employeeForm.pk">
-				<input type="hidden" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+				<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 			</spring:bind>
 
 	<table class="formTable">
@@ -17,7 +17,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.firstName">
 				<th><fmt:message key="entity.contactInfo.firstName" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -28,7 +28,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.lastName">
 				<th><fmt:message key="entity.contactInfo.lastName" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -39,7 +39,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.email">
 				<th><fmt:message key="entity.contactInfo.email" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -50,7 +50,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.web">
 				<th><fmt:message key="entity.contactInfo.web" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -61,7 +61,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.phone1">
 				<th><fmt:message key="entity.contactInfo.phone1" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -72,7 +72,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.phone2">
 				<th><fmt:message key="entity.contactInfo.phone2" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -83,7 +83,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.fax">
 				<th><fmt:message key="entity.contactInfo.fax" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -94,7 +94,7 @@
 			<spring:bind path="employeeForm.user.contactInfo.jirauser">
 				<th><fmt:message key="entity.contactInfo.jirauser" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -105,8 +105,8 @@
 			<spring:bind path="employeeForm.user.login.name">
 				<th><fmt:message key="entity.login.name" /></th>
 				<td>
-					<input type="hidden" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
-					${fn:escapeXml(fn:escapeXml(status.value))}
+					<input type="hidden" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
+					${fn:escapeXml(status.value)}
 				</td>
 			</spring:bind>
 		</tr>
@@ -114,7 +114,7 @@
 			<spring:bind path="employeeForm.user.login.ldapLogin">
 				<th><fmt:message key="entity.login.ldapLogin" /></th>
 				<td>
-					<input type="text" name="${status.expression}" value="${fn:escapeXml(fn:escapeXml(status.value))}" />
+					<input type="text" name="${status.expression}" value="${fn:escapeXml(status.value)}" />
 					<c:forEach items="${status.errorMessages}">
 						<span class="error"><fmt:message key="error.sign" /></span>
 					</c:forEach>
@@ -125,7 +125,7 @@
 			<spring:bind path="employeeForm.icompany">
 				<th><fmt:message key="entity.employee.icompany" /></th>
 				<td>
-					<vc:select name="${status.expression}" valueObjects="${icompanies}" selected="${fn:escapeXml(fn:escapeXml(status.value))}" 
+					<vc:select name="${status.expression}" valueObjects="${icompanies}" selected="${fn:escapeXml(status.value)}" 
 					valueProperty="pk" labelProperty="codeAndName" orderBy="codeAndName">
 						<vc:select-option value=""><fmt:message key="employee.icompany.unassigned" /></vc:select-option>
 					</vc:select>
@@ -159,7 +159,7 @@
 	<spring:bind path="employeeForm.projects">
 	<select name="${status.expression}" multiple="multiple">
            <c:forEach items="${projects}" var="project">
-               <c:forEach items="${fn:escapeXml(status.value)}" var="currentProject">
+               <c:forEach items="${status.value}" var="currentProject">
                
                     <c:if test="${currentProject.pk == project.pk}">
                        <c:set var="selected" value="true"/>
