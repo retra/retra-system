@@ -1,6 +1,12 @@
 <!-- TODO: must be done better structure, keys to message properties etc.  -->
 
 <news>
+	<item date="18.1.2022"
+		  title="Build 2.11.1"
+		  body="Bugfixing of edit employee form and fix some typo."
+		  author="Retra Team"
+	/>
+
 	<item date="13.1.2022"
 		  title="Build 2.11.0"
 		  body="Fix of these issues:&lt;br />
