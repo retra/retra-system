@@ -1,17 +1,17 @@
 
 
 table.TimeSelectorTable {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	color: #ffffff;
 }
 
 td.TimeSelectorCell, th.TimeSelectorCell {
 	text-align: center; 
 	vertical-align: middle; 
-	background-color: #293f0c;
+	background-color: #3f270c;
 	width:40px;
 }
 
 td.TimeSelectorCell:hover {
-	background-color: #ffb81f;
+	background-color: #ffa43b;
 }

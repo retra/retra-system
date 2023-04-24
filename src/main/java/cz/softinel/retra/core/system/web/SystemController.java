@@ -395,6 +395,8 @@ public class SystemController extends DispatchController {
 		list.add(new Skin("skin03lr", "HB Green - low res."));
 		list.add(new Skin("skin03hr", "HB Green - hi res."));
 
+		list.add(new Skin("skin04", "Rusty Fox"));
+
 		return list;
 	}
 

@@ -73,7 +73,7 @@ th {
 input {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #004080;
+	border-color: #802b00;
 	background-color: #ffffff;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 8pt;
@@ -87,7 +87,7 @@ input {
 select,textarea {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #004080;
+	border-color: #802b00;
 	background-color: #ffffff;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 8pt;
@@ -105,7 +105,7 @@ h2,h3,h4,h5 {
 	background-color: #ffffff;
 	font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 	font-weight: bold;
-	color: #004080;
+	color: #802b00;
 	position: relative;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -162,7 +162,7 @@ table.listTable th {
 	padding-left: 4px;
 	padding-right: 4px;
 	color: #ffffff;
-	background-color: #293f0c;
+	background-color: #3f270c;
 	font-weight: bold;
 	height: 35px;
 }
@@ -172,15 +172,15 @@ table.groupTable th {
 	padding-bottom: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
-	color: #293f0c;
-	background-color: #dbe6c8;
+	color: #3f270c;
+	background-color: #e6d8c8;
 	font-weight: normal;
 }
 
 
 table.groupTable thead th {
 	color: #ffffff;
-	background-color: #293f0c;
+	background-color: #3f270c;
 	font-weight: bold;
 	height: 35px;
 }
@@ -190,7 +190,7 @@ table.groupTable tr.totalRow th, table.groupTable tr.totalRow td {
 	padding-bottom: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
-	color: #293f0c;
+	color: #3f270c;
 	font-weight: bold;
 }
 
@@ -204,7 +204,7 @@ table.groupTable tr.tableBottom th {
 	padding-left: 4px;
 	padding-right: 4px;
 	color: #ffffff;
-	background-color: #293f0c;
+	background-color: #3f270c;
 	font-weight: bold;
 	height: 35px;
 }
@@ -224,14 +224,14 @@ table.groupTable td {
 	border-width: 0px;
 	border-bottom-width: 0px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 }
 
 table.listTable caption, table.groupTable caption {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	padding: 4px;
 	margin: 0px auto;
 	margin-top: 2px;
@@ -241,14 +241,14 @@ table.listTable caption, table.groupTable caption {
 	padding-bottom: 2px;
 	padding-left: 0px;
 	padding-right: 0px;
-	color: #004080;
+	color: #802b00;
 	font-weight: bold;
 }
 
 table.formTable {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	margin-bottom: 4px;
 }
 table.formTable,
@@ -260,8 +260,8 @@ table.formTable th {
 	padding-bottom: 2px;
 	padding-left: 4px;
 	padding-right: 4px;
-	color: #004080;
-	background-color: #ebf6d8;
+	color: #802b00;
+	background-color: #f6e8d8;
 	font-weight: bold;
 	vertical-align: top;
 	width: 150px;
@@ -276,7 +276,7 @@ table.formTable td {
 }
 
 table.filterTable {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 0px;
 	width: 1098px;
 	margin: 0px auto;
@@ -287,7 +287,7 @@ table.filterTable th {
 	padding-bottom: 0px;
 	padding-left: 4px;
 	padding-right: 4px;
-	color: #004080;
+	color: #802b00;
 	font-weight: bold;
 	vertical-align: top;
 }
@@ -302,33 +302,33 @@ table.filterTable td {
 
 table.filterTable td.buttons {
 	text-align: center;
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	vertical-align: middle;
 }
 
 div.filter {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	width: 1100px;
 }
 
 div.printer {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	width: 1100px;
 	margin-top: 2px;
 	margin-bottom: 4px;
 }
 
 div.nextPrevious {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	width: 1100px;
 	margin-top: 4px;
 	margin-bottom: 2px;
@@ -337,7 +337,7 @@ div.nextPrevious {
 }
 
 a {
-	color: #004080;
+	color: #802b00;
 	text-decoration: none;
 }
 
@@ -357,20 +357,20 @@ th a:hover {
 }
 
 a:visited {
-	color: #004080;
+	color: #802b00;
 	text-decoration: none;
 }
 
 a:hover {
-	color: #004080;
+	color: #802b00;
 	text-decoration: underline;
 }
 
 a.button {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
-	background-color: #ffb81f;
+	border-color: #3f270c;
+	background-color: #ffa43b;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 8pt;
 	font-weight: normal;
@@ -391,8 +391,8 @@ a.button:hover {
 input.button {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
-	background-color: #ffb81f;
+	border-color: #3f270c;
+	background-color: #ffa43b;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 8pt;
 	font-weight: normal;
@@ -413,8 +413,8 @@ input.button {
 }
 
 #headerDiv {
-	background-color: #ebf6d8;
-	border-color: #293f0c;
+	background-color: #f6e8d8;
+	border-color: #3f270c;
 	border-style: solid;
 	border-width: 1px;
 	border-top-width: 1px;
@@ -430,14 +430,14 @@ input.button {
 
 #menuDiv {
 	background-color: #ffffff;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	border-style: solid;
 	border-width: 0px;
 	border-top-width: 0px;
 	font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 	font-size: 10pt;
 	font-weight: normal;
-	color: #004080;
+	color: #802b00;
 	position: relative;
 	height: 35px;
 	margin: 0px auto;
@@ -492,7 +492,7 @@ input.button {
 	background-repeat: no-repeat;
 	background-position: top left;
 	background-color: #ffffff;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	border-style: solid;
 	border-width: 0px;
 	position: relative;
@@ -512,7 +512,7 @@ input.button {
 	font-weight: normal;
 	top: 55px;
 	right: 0px;
-	color: #004080;
+	color: #802b00;
 	position: absolute;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -527,7 +527,7 @@ input.button {
 	font-weight: normal;
 	top: 15px;
 	right: 0px;
-	color: #004080;
+	color: #802b00;
 	position: absolute;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -542,7 +542,7 @@ input.button {
 	font-weight: normal;
 	top: 32px;
 	right: 0px;
-	color: #004080;
+	color: #802b00;
 	position: absolute;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -557,7 +557,7 @@ input.button {
 	font-weight: normal;
 	top: 5px;
 	left: 0px;
-	color: #004080;
+	color: #802b00;
 	position: absolute;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -597,7 +597,7 @@ input.button {
 	font-size: 8pt;
 	font-weight: normal;
 	top: 20px;
-	color: #004080;
+	color: #802b00;
 	position: relative;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -620,7 +620,7 @@ input.button {
 	font-weight: normal;
 	top: 45px;
 	left: 0px;
-	color: #004080;
+	color: #802b00;
 	position: absolute;
 	margin: 0px auto;
 	padding-top: 0px;
@@ -640,7 +640,7 @@ input.button {
 #showHistoryDataForm {
 }
 div.component h1,div.component h2 {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -648,7 +648,7 @@ div.component h1,div.component h2 {
 }
 
 table.component h1,table.component h2 {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	padding-top: 5px;
 	padding-left: 5px;
 	padding-right: 5px;
@@ -658,7 +658,7 @@ table.component h1,table.component h2 {
 .component {
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
 	font-size: 10pt;
 	font-weight: normal;
@@ -739,7 +739,7 @@ table.component h1,table.component h2 {
 
 .buttons {
 	text-align: center;
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 }
 
 .nowrap {
@@ -773,8 +773,8 @@ table.component h1,table.component h2 {
 div.errors {
 	border-style: solid;
 	border-width: 1px;
-	border-color: #293f0c;
-	background-color: #ffb81f;
+	border-color: #3f270c;
+	background-color: #ffa43b;
 	width: 1100px;
 	margin-bottom: 4px;
 	background-image: url('../img/error.gif');
@@ -787,8 +787,8 @@ div.errors {
 div.warnings {
 	border-style: solid;
 	border-width: 1px;
-	border-color: #293f0c;
-	background-color: #ffb81f;
+	border-color: #3f270c;
+	background-color: #ffa43b;
 	width: 1100px;
 	margin-bottom: 4px;
 	background-image: url('../img/warning.gif');
@@ -801,8 +801,8 @@ div.warnings {
 div.infos {
 	border-style: solid;
 	border-width: 1px;
-	border-color: #293f0c;
-	background-color: #ffb81f;
+	border-color: #3f270c;
+	background-color: #ffa43b;
 	width: 1098px;
 	margin-bottom: 4px;
 	background-image: url('../img/info.gif');
@@ -829,15 +829,15 @@ tr.even {
 }
 
 tr.odd {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 }
 
 tr.even:hover {
-	background-color: #ffb81f;
+	background-color: #ffa43b;
 }
 
 tr.odd:hover {
-	background-color: #ffb81f;
+	background-color: #ffa43b;
 }
 
 th.sorted a,th.sortable a {
@@ -856,20 +856,20 @@ th.sorted a,th.sortable a {
 }
 
 order1 {
-	background-color: #293f0c;
-	color:#ffb81f;
+	background-color: #3f270c;
+	color:#ffa43b;
 }
 
 .order2 {
-	background-color: #ffb81f;
-	color:#ffb81f;
+	background-color: #ffa43b;
+	color:#ffa43b;
 }
 
 div.exportlinks {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	padding: 4px;
 	margin: 0px auto;
 	margin-top: 2px;
@@ -920,10 +920,10 @@ span.rtf {
 }
 
 span.pagebanner {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	padding: 4px;
 	margin: 0px auto;
 	margin-top: 4px;
@@ -933,10 +933,10 @@ span.pagebanner {
 }
 
 span.pagelinks {
-	background-color: #ebf6d8;
+	background-color: #f6e8d8;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #293f0c;
+	border-color: #3f270c;
 	padding: 4px;
 	margin: 0px auto;
 	margin-bottom: 2px;
