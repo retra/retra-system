@@ -41,9 +41,9 @@ public class WorklogCreateController extends AbstractWorklogFormController {
 
 			Employee employee = getSecurityLogic().getLoggedEmployee();
 			worklog.setEmployee(employee);
-			if (worklog.hasAnyIssueTrackingWorklog()) {
-				worklog.getCurrentIssueTrackingWorklog().setEmployee(employee);
-			}
+//			if (worklog.hasAnyIssueTrackingWorklog()) {
+//				worklog.getCurrentIssueTrackingWorklog().setEmployee(employee);
+//			}
 
 			getWorklogLogic().create(worklog);
 

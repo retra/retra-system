@@ -39,7 +39,9 @@
         	    <value>cz/softinel/retra/worklog/WorklogViewOverview.hbm.xml</value>
 				<value>cz/softinel/retra/type/Type.hbm.xml</value>
 				<value>cz/softinel/retra/schedule/Schedule.hbm.xml</value>
+<!--
 				<value>cz/softinel/retra/jiraintegration/worklog/JiraWorklog.hbm.xml</value>
+-->
 	        </list>
     	</property>
 		<property name="hibernateProperties">

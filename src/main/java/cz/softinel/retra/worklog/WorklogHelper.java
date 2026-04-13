@@ -1,18 +1,14 @@
 package cz.softinel.retra.worklog;
 
-import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Set;
 
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.component.Component;
 import cz.softinel.retra.core.utils.convertor.DateConvertor;
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.invoice.Invoice;
-import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.worklog.web.WorklogForm;
-import cz.softinel.uaf.util.StringHelper;
 
 /**
  * This class contains all helper methods for worklog.
@@ -80,19 +76,19 @@ public class WorklogHelper {
 			invoice.setPk(invoicePk);
 		}
 
-		if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
-			JiraWorklog jiraWorklog = new JiraWorklog();
-
-			jiraWorklog.setCreated(entity.getWorkFrom());
-			jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-			jiraWorklog.setState(JiraWorklog.CREATED);
-			jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue()); // TODO
-																												// Zoli,
-																												// not
-																												// exact
-
-			entity.addIssueTrackingWorklog(jiraWorklog);
-		}
+//		if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
+//			JiraWorklog jiraWorklog = new JiraWorklog();
+//
+//			jiraWorklog.setCreated(entity.getWorkFrom());
+//			jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
+//			jiraWorklog.setState(JiraWorklog.CREATED);
+//			jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue()); // TODO
+//																												// Zoli,
+//																												// not
+//																												// exact
+//
+//			entity.addIssueTrackingWorklog(jiraWorklog);
+//		}
 	}
 
 	public static void formToEntityUpdate(WorklogForm form, Worklog entity) {
@@ -149,34 +145,34 @@ public class WorklogHelper {
 			invoice.setPk(invoicePk);
 		}
 
-		if (StringHelper.isEmpty(form.getIssueTrackingReference()) && entity.hasAnyIssueTrackingWorklog()) {
-			// The reference was set empty, the JiraWorklog must be deleted. A job deletes
-			// it, the worklog must be null.
-			JiraWorklog jiraWorklog = entity.getCurrentIssueTrackingWorklog();
-			jiraWorklog.setWorklog(null);
-		} else if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
-			Set<JiraWorklog> jiraWorklogs = entity.getIssueTrackingWorklogs();
-			JiraWorklog jiraWorklog = null;
-			if (jiraWorklogs.size() == 1) {
-				jiraWorklog = jiraWorklogs.iterator().next();
-				jiraWorklog.setCreated(entity.getWorkFrom());
-				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
-				if (jiraWorklog.getJiraIssue().equals(form.getIssueTrackingReference())) {
-					jiraWorklog.setState(JiraWorklog.UPDATED);
-				} else {
-					jiraWorklog.setState(JiraWorklog.ISSUE_UPDATED);
-				}
-				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-
-			} else if (jiraWorklogs.size() == 0) {
-				jiraWorklog = new JiraWorklog();
-				jiraWorklog.setCreated(entity.getWorkFrom());
-				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
-				jiraWorklog.setState(JiraWorklog.CREATED);
-				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
-				entity.addIssueTrackingWorklog(jiraWorklog);
-			}
-		}
+//		if (StringHelper.isEmpty(form.getIssueTrackingReference()) && entity.hasAnyIssueTrackingWorklog()) {
+//			// The reference was set empty, the JiraWorklog must be deleted. A job deletes
+//			// it, the worklog must be null.
+//			JiraWorklog jiraWorklog = entity.getCurrentIssueTrackingWorklog();
+//			jiraWorklog.setWorklog(null);
+//		} else if (entity.hasAnyIssueTrackingWorklog() || StringHelper.notEmpty(form.getIssueTrackingReference())) {
+//			Set<JiraWorklog> jiraWorklogs = entity.getIssueTrackingWorklogs();
+//			JiraWorklog jiraWorklog = null;
+//			if (jiraWorklogs.size() == 1) {
+//				jiraWorklog = jiraWorklogs.iterator().next();
+//				jiraWorklog.setCreated(entity.getWorkFrom());
+//				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
+//				if (jiraWorklog.getJiraIssue().equals(form.getIssueTrackingReference())) {
+//					jiraWorklog.setState(JiraWorklog.UPDATED);
+//				} else {
+//					jiraWorklog.setState(JiraWorklog.ISSUE_UPDATED);
+//				}
+//				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
+//
+//			} else if (jiraWorklogs.size() == 0) {
+//				jiraWorklog = new JiraWorklog();
+//				jiraWorklog.setCreated(entity.getWorkFrom());
+//				jiraWorklog.setJiraIssue(form.getIssueTrackingReference());
+//				jiraWorklog.setState(JiraWorklog.CREATED);
+//				jiraWorklog.setTimeSpentInSeconds(entity.getHours().multiply(new BigDecimal(3600)).longValue());
+//				entity.addIssueTrackingWorklog(jiraWorklog);
+//			}
+//		}
 	}
 
 	public static void entityToForm(Worklog entity, WorklogForm form) {
@@ -222,9 +218,9 @@ public class WorklogHelper {
 			form.setInvoice(invoicePk);
 		}
 
-		if (entity.hasAnyIssueTrackingWorklog()) {
-			form.setIssueTrackingReference(entity.getCurrentIssueTrackingWorklog().getJiraIssue());
-		}
+//		if (entity.hasAnyIssueTrackingWorklog()) {
+//			form.setIssueTrackingReference(entity.getCurrentIssueTrackingWorklog().getJiraIssue());
+//		}
 	}
 
 	public static Worklog getNoPermissionWorklog() {

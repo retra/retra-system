@@ -5,7 +5,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cz.softinel.retra.core.utils.convertor.LongConvertor;
 import cz.softinel.retra.employee.Employee;
-import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
 import cz.softinel.retra.worklog.Worklog;
 import cz.softinel.retra.worklog.WorklogHelper;
 import cz.softinel.uaf.messages.Message;
@@ -58,15 +57,15 @@ public class WorklogUpdateController extends AbstractWorklogFormController {
 			// get current employee
 			Employee employee = getSecurityLogic().getLoggedEmployee();
 			worklog.setEmployee(employee);
-			if (worklog.hasAnyIssueTrackingWorklog()) {
-				JiraWorklog jw = worklog.getCurrentIssueTrackingWorklog();
-				jw.setEmployee(employee);
-				if (jw.getPk() != null) {
-					getJiraWorklogLogic().update(jw);
-				} else {
-					getJiraWorklogLogic().create(jw);
-				}
-			}
+//			if (worklog.hasAnyIssueTrackingWorklog()) {
+//				JiraWorklog jw = worklog.getCurrentIssueTrackingWorklog();
+//				jw.setEmployee(employee);
+//				if (jw.getPk() != null) {
+//					getJiraWorklogLogic().update(jw);
+//				} else {
+//					getJiraWorklogLogic().create(jw);
+//				}
+//			}
 
 			getWorklogLogic().store(worklog);
 

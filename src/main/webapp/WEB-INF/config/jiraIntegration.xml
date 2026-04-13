@@ -58,7 +58,7 @@
 	
 	<!-- OLD -->
 		
-	<!-- The jobs, which are executed are in this class. -->
+	<!-- The jobs, which are executed are in this class. 
 	<bean id="jiraIntegrationJobs" class="cz.softinel.retra.jiraintegration.JiraIntegrationJobs">
 		<property name="jiraIntegrationAllowed" value="${jira.integration.enabled}"/>
 		<property name="jiraSoapClient" ref="jiraSoapClient" />
@@ -66,32 +66,32 @@
 	
 	<bean id="marshaller" class="cz.softinel.retra.jiraintegration.soap.JiraSoapClientMarshaller">
 		<constructor-arg value="${jira.soapservice.soapDateFormat}" />
-	</bean>
+	</bean>-->
 	
-	<!-- SOAP client for the jira integration jobs. Implements the Jira SOAP API. -->
+	<!-- SOAP client for the jira integration jobs. Implements the Jira SOAP API. 
 	<bean id="jiraSoapClient" class="cz.softinel.retra.jiraintegration.soap.JiraSoapClientImpl">
 		<constructor-arg value="${jira.soapservice.address}" />
 		<constructor-arg ref="marshaller" />
 		<property name="jiraMasterPassword" value="${jira.soapservice.masterpass}" />
 		<property name="jiraWorklogLogic" ref="jiraWorklogLogic"/>
 		<property name="useLdapLogin" value="${jira.integration.useLdapForJira}" />
-	</bean>
+	</bean>-->
 	
-	<!-- JiraWorklogAdder JobScheduler and JobClass -->
+	<!-- JiraWorklogAdder JobScheduler and JobClass 
 	<bean id="jiraJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
 	  <property name="targetObject" ref="jiraIntegrationJobs" />
 	  <property name="targetMethod" value="executeJobs" />
-	</bean>
+	</bean>-->
 	
-	<!-- Cron runner class for the job. -->
+	<!-- Cron runner class for the job.
 	<bean id="jiraWorklogAdderCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
         <property name="jobDetail" ref="jiraJob" />
         <property name="cronExpression" value="${jira.integration.cron}" /> 
-	</bean>
+	</bean> -->
 
 	<!-- OLD -->
 		
-	<!-- Cron scheduler factory. -->
+	<!-- Cron scheduler factory. 
 	<bean id="schedulerFactory" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
 		<property name="triggers">
 			<list>
@@ -99,7 +99,7 @@
 				<ref local="jiraIssuesRefreshCronTrigger"/>
 			</list>
 		</property>
-	</bean>
+	</bean>-->
 
 </beans>
 		

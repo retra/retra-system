@@ -13,7 +13,6 @@ import cz.softinel.retra.invoice.blo.InvoiceLogic;
 import cz.softinel.retra.jiraintegration.JiraHelper;
 import cz.softinel.retra.jiraintegration.JiraIssue;
 import cz.softinel.retra.jiraintegration.logic.JiraLogic;
-import cz.softinel.retra.jiraintegration.worklog.service.JiraWorklogLogic;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.blo.ProjectLogic;
 import cz.softinel.retra.spring.web.FormController;
@@ -30,7 +29,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 	private ActivityLogic activityLogic;
 	private ProjectLogic projectLogic;
 	private ComponentLogic componentLogic;
-	private JiraWorklogLogic jiraWorklogLogic;
+//	private JiraWorklogLogic jiraWorklogLogic;
 	private InvoiceLogic invoiceLogic;
 
 	private JiraLogic jiraLogic;
@@ -63,20 +62,20 @@ public abstract class AbstractWorklogFormController extends FormController {
 		this.jiraIntegrationEnabled = jiraIntegrationEnabled;
 	}
 
-	/**
-	 * @return
-	 */
-	public JiraWorklogLogic getJiraWorklogLogic() {
-		return jiraWorklogLogic;
-	}
-
-	/**
-	 * @param jiraWorklogLogic
-	 */
-	public void setJiraWorklogLogic(JiraWorklogLogic jiraWorklogLogic) {
-		this.jiraWorklogLogic = jiraWorklogLogic;
-	}
-
+//	/**
+//	 * @return
+//	 */
+//	public JiraWorklogLogic getJiraWorklogLogic() {
+//		return jiraWorklogLogic;
+//	}
+//
+//	/**
+//	 * @param jiraWorklogLogic
+//	 */
+//	public void setJiraWorklogLogic(JiraWorklogLogic jiraWorklogLogic) {
+//		this.jiraWorklogLogic = jiraWorklogLogic;
+//	}
+//
 	public JiraLogic getJiraLogic() {
 		return jiraLogic;
 	}

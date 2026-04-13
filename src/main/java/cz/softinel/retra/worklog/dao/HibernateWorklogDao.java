@@ -98,9 +98,9 @@ public class HibernateWorklogDao extends AbstractHibernateDao implements Worklog
 	public void loadAndLoadLazy(Worklog worklog) {
 		Session session = getSession();
 		session.load(worklog, worklog.getPk());
-		if (worklog.getIssueTrackingWorklogs() != null) {
-			worklog.getIssueTrackingWorklogs().size();
-		}
+//		if (worklog.getIssueTrackingWorklogs() != null) {
+//			worklog.getIssueTrackingWorklogs().size();
+//		}
 		releaseSession(session);
 	}
 

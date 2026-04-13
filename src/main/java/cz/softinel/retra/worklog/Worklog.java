@@ -3,15 +3,12 @@ package cz.softinel.retra.worklog;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.component.Component;
 import cz.softinel.retra.core.utils.helper.DateHelper;
 import cz.softinel.retra.employee.Employee;
 import cz.softinel.retra.invoice.Invoice;
-import cz.softinel.retra.jiraintegration.worklog.JiraWorklog;
 import cz.softinel.retra.project.Project;
 
 /**
@@ -38,7 +35,7 @@ public class Worklog {
 	private Component component;
 	private Invoice invoice;
 
-	private Set<JiraWorklog> issueTrackingWorklogs;
+//	private Set<JiraWorklog> issueTrackingWorklogs;
 
 	// constants
 	public static Long DUMMY_WORKLOG_PK = (long) -1;
@@ -187,49 +184,49 @@ public class Worklog {
 		this.workTo = workTo;
 	}
 
-	/**
-	 * @return the issueTrackingWorklogs
-	 */
-	public Set<JiraWorklog> getIssueTrackingWorklogs() {
-		return issueTrackingWorklogs;
-	}
-
-	/**
-	 * @param issueTrackingWorklogs the issueTrackingWorklogs to set
-	 */
-	public void setIssueTrackingWorklogs(Set<JiraWorklog> issueTrackingWorklogs) {
-		this.issueTrackingWorklogs = issueTrackingWorklogs;
-	}
-
-	/**
-	 * 
-	 * @param issueTrackingWorklog
-	 */
-	public void addIssueTrackingWorklog(JiraWorklog issueTrackingWorklog) {
-		if (issueTrackingWorklogs == null) {
-			issueTrackingWorklogs = new HashSet<JiraWorklog>();
-		}
-		issueTrackingWorklogs.add(issueTrackingWorklog);
-		issueTrackingWorklog.setWorklog(this);
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public boolean hasAnyIssueTrackingWorklog() {
-		return issueTrackingWorklogs != null && !issueTrackingWorklogs.isEmpty();
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public JiraWorklog getCurrentIssueTrackingWorklog() {
-		return hasAnyIssueTrackingWorklog()
-				? (JiraWorklog) issueTrackingWorklogs.toArray()[issueTrackingWorklogs.size() - 1]
-				: null;
-	}
+//	/**
+//	 * @return the issueTrackingWorklogs
+//	 */
+//	public Set<JiraWorklog> getIssueTrackingWorklogs() {
+//		return issueTrackingWorklogs;
+//	}
+//
+//	/**
+//	 * @param issueTrackingWorklogs the issueTrackingWorklogs to set
+//	 */
+//	public void setIssueTrackingWorklogs(Set<JiraWorklog> issueTrackingWorklogs) {
+//		this.issueTrackingWorklogs = issueTrackingWorklogs;
+//	}
+//
+//	/**
+//	 * 
+//	 * @param issueTrackingWorklog
+//	 */
+//	public void addIssueTrackingWorklog(JiraWorklog issueTrackingWorklog) {
+//		if (issueTrackingWorklogs == null) {
+//			issueTrackingWorklogs = new HashSet<JiraWorklog>();
+//		}
+//		issueTrackingWorklogs.add(issueTrackingWorklog);
+//		issueTrackingWorklog.setWorklog(this);
+//	}
+//
+//	/**
+//	 * 
+//	 * @return
+//	 */
+//	public boolean hasAnyIssueTrackingWorklog() {
+//		return issueTrackingWorklogs != null && !issueTrackingWorklogs.isEmpty();
+//	}
+//
+//	/**
+//	 * 
+//	 * @return
+//	 */
+//	public JiraWorklog getCurrentIssueTrackingWorklog() {
+//		return hasAnyIssueTrackingWorklog()
+//				? (JiraWorklog) issueTrackingWorklogs.toArray()[issueTrackingWorklogs.size() - 1]
+//				: null;
+//	}
 
 	/**
 	 * @return the invoice

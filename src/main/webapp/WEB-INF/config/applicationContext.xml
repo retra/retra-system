@@ -160,10 +160,10 @@
 		<property name="securityLogic" ref="securityLogic" />
 	</bean>
 	
-	<!-- implementation of the jiraWorklog logic -->
+	<!-- implementation of the jiraWorklog logic 
 	<bean id="jiraWorklogLogic" class="cz.softinel.retra.jiraintegration.worklog.service.JiraWorklogLogicImpl">
 		<property name="jiraWorklogDao" ref="jiraWorklogDao" />
-	</bean>
+	</bean>-->
 
 	<!-- implementation of the jira logic -->
 	<bean id="jiraLogic" class="cz.softinel.retra.jiraintegration.logic.JiraLogicImpl">

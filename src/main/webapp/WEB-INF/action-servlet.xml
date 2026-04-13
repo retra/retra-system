@@ -352,7 +352,9 @@
 		<property name="activityLogic" ref="activityLogic" />
 		<property name="projectLogic" ref="projectLogic" />
 		<property name="componentLogic" ref="componentLogic" />
+		<!--  
 		<property name="jiraWorklogLogic" ref="jiraWorklogLogic" />
+		-->
 		<property name="invoiceLogic" ref="invoiceLogic" />
 		<property name="jiraIntegrationEnabled" value="${jira.integration.enabled}" />
 		<property name="jiraLogic" ref="jiraLogic" />
