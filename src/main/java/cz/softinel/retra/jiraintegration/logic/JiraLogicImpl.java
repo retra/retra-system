@@ -6,39 +6,50 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import cz.hb.lib.jira.JiraService;
+import cz.hb.lib.jira.instance.JiraInstance;
+import cz.hb.lib.jira.model.JiraIssue;
 import cz.softinel.retra.jiraintegration.JiraConfig;
-import cz.softinel.retra.jiraintegration.JiraConnector;
 import cz.softinel.retra.jiraintegration.JiraHelper;
-import cz.softinel.retra.jiraintegration.JiraIssue;
 import cz.softinel.retra.worklog.Worklog;
+import cz.softinel.sis.user.User;
 
 public class JiraLogicImpl implements JiraLogic {
 
 	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	private JiraConfig jiraConfig;
-	private JiraConnector jiraConnector;
+	private JiraService jiraService;
+//	private JiraConnector jiraConnector;
 
 	public JiraConfig getJiraConfig() {
 		return jiraConfig;
 	}
-
 	public void setJiraConfig(JiraConfig jiraConfig) {
 		this.jiraConfig = jiraConfig;
 	}
-
-	public JiraConnector getJiraConnector() {
-		return jiraConnector;
+	
+	public JiraService getJiraService() {
+		return jiraService;
 	}
-
-	public void setJiraConnector(JiraConnector jiraConnector) {
-		this.jiraConnector = jiraConnector;
+	public void setJiraService(JiraService jiraService) {
+		this.jiraService = jiraService;
 	}
+	
+//	public JiraConnector getJiraConnector() {
+//		return jiraConnector;
+//	}
+//	public void setJiraConnector(JiraConnector jiraConnector) {
+//		this.jiraConnector = jiraConnector;
+//	}
 
-	public List<JiraIssue> findJiraIssuesForUser(String ldapLogin) {
+	/** {@inheritDoc}
+	 * @see cz.softinel.retra.jiraintegration.logic.JiraLogic#findJiraIssuesForUser(cz.softinel.sis.user.User) */
+	@Override
+	public List<JiraIssue> findJiraIssuesForUser(final User user) {
 		List<JiraIssue> result = null;
 		if (isJiraEnabled()) {
-			result = jiraConnector.findIssuesForWorklog(ldapLogin);
+			result = jiraService.findIssuesForWorklog(user.getLogin().getLdapLogin(), user.getContactInfo().getEmail());
 			// add issues to cache
 			if (jiraConfig.getJiraCache() != null && result != null && !result.isEmpty()) {
 				for (JiraIssue issue : result) {
@@ -75,7 +86,7 @@ public class JiraLogicImpl implements JiraLogic {
 				final String loginName = worklog.getEmployee().getUser().getLogin().getLdapLogin();
 				final String comment = worklog.getDescription();
 				final Long worklogPk = worklog.getPk();
-				if (!jiraConnector.addWorklog(issueKey, started, duration, loginName, comment, worklogPk)) {
+				if ( ! jiraService.addWorklog(issueKey, started, duration, loginName, comment, worklogPk)) {
 					logger.error("Couldn't log in JIRA.");
 				} else {
 					getJiraIssueFromConnector(issueKey);
@@ -99,7 +110,7 @@ public class JiraLogicImpl implements JiraLogic {
 				String loginName = oldWorklog.getEmployee().getUser().getLogin().getLdapLogin();
 				String comment = oldWorklog.getDescription();
 
-				id = jiraConnector.findWorklogId(issueKey, started, duration, loginName, comment);
+				id = jiraService.findWorklogId(issueKey, started, duration, loginName, comment);
 			}
 
 			// no existing jira worklog => create new
@@ -118,7 +129,7 @@ public class JiraLogicImpl implements JiraLogic {
 
 			if (!oldIssueKey.equals(newIssueKey)) {
 				// delete old
-				if (!jiraConnector.deleteWorklog(oldIssueKey, id)) {
+				if ( ! jiraService.deleteWorklog(oldIssueKey, id)) {
 					logger.error("Couldn't delete log in JIRA.");
 				}
 				// create new
@@ -135,7 +146,7 @@ public class JiraLogicImpl implements JiraLogic {
 				String loginName = newWorklog.getEmployee().getUser().getLogin().getLdapLogin();
 				String comment = newWorklog.getDescription();
 				final Long worklogPk = newWorklog.getPk();
-				if (!jiraConnector.updateWorklog(issueKey, started, duration, loginName, comment, id, worklogPk)) {
+				if ( ! jiraService.updateWorklog(issueKey, started, duration, loginName, comment, id, worklogPk)) {
 					logger.error("Couldn't log in JIRA.");
 				} else {
 					getJiraIssueFromConnector(issueKey);
@@ -158,12 +169,12 @@ public class JiraLogicImpl implements JiraLogic {
 				String loginName = oldWorklog.getEmployee().getUser().getLogin().getLdapLogin();
 				String comment = oldWorklog.getDescription();
 
-				id = jiraConnector.findWorklogId(issueKey, started, duration, loginName, comment);
+				id = jiraService.findWorklogId(issueKey, started, duration, loginName, comment);
 			}
 
 			if (id != null) {
 				// delete old
-				if (!jiraConnector.deleteWorklog(oldIssueKey, id)) {
+				if ( ! jiraService.deleteWorklog(oldIssueKey, id)) {
 					logger.error("Couldn't delete log in JIRA.");
 				}
 			}
@@ -179,8 +190,10 @@ public class JiraLogicImpl implements JiraLogic {
 	}
 
 	private JiraIssue getJiraIssueFromConnector(final String code) {
-		JiraIssue result = null;
-		result = jiraConnector.getJiraIssue(code);
+		JiraIssue result = jiraService.getIssue(JiraInstance.HB, code);
+		if (result == null) {
+			jiraService.getIssue(JiraInstance.KBC, code);
+		}
 		if (jiraConfig.getJiraCache() != null) {
 			jiraConfig.getJiraCache().addIssueToCache(result);
 		}

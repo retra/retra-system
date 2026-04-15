@@ -139,7 +139,7 @@
 				<c:if test="${!empty issues}" >
 				<div style="max-height:100px; overflow:auto;">
 					<c:forEach items="${issues}" var="issue" varStatus="count">
-						<a href="" title="Copy to description" onclick="return copyTextIntoTextArea('${issue.key}', 'descriptionId')">+&nbsp;${issue.key}</a> - ${issue.summary} ${issue.guiLink}<br />
+						<a href="" title="Copy to description" onclick="return copyTextIntoTextArea('${issue.key}', 'descriptionId')">+&nbsp;${issue.key}</a> - ${issue.summary} <a href="${issue.browseUrl}" title="${issue.key} - ${issue.summary}" target="_blank">(Show...)</a><br />
 					</c:forEach>
 				</div>
 				</c:if>

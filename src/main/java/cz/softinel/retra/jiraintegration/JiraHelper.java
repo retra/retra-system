@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
+import cz.hb.lib.jira.model.JiraIssue;
 import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 
 public abstract class JiraHelper {
@@ -44,8 +45,8 @@ public abstract class JiraHelper {
 
 		if (jiraLogic != null && jiraLogic.getJiraConfig() != null) {
 			StringBuilder urlsb = new StringBuilder("<a href=\"");
-			urlsb.append(jiraLogic.getJiraConfig().getBaseUrl());
-			urlsb.append(jiraLogic.getJiraConfig().getIssuePath());
+//			urlsb.append(jiraLogic.getJiraConfig().getBaseUrl());
+//			urlsb.append(jiraLogic.getJiraConfig().getIssuePath());
 			urlsb.append("%s\" title=\"%s\" target=\"_blank\">");
 			if (linkText != null) {
 				urlsb.append(linkText);
@@ -64,7 +65,7 @@ public abstract class JiraHelper {
 					if (issue != null) {
 						String summary = getSafeJiraText(issue.getSummary());
 						title = code + " - " + summary;
-						String replacement = String.format(url, code, title, code);
+						String replacement = String.format(url, jiraLogic.getJiraConfig().getIssueUrl(code), title, code);
 						result = result.replaceAll(code, replacement);
 					}
 				}

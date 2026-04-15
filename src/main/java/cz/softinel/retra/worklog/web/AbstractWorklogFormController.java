@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import cz.hb.lib.jira.model.JiraIssue;
 import cz.softinel.retra.activity.Activity;
 import cz.softinel.retra.activity.blo.ActivityLogic;
 import cz.softinel.retra.component.Component;
@@ -11,12 +12,13 @@ import cz.softinel.retra.component.blo.ComponentLogic;
 import cz.softinel.retra.invoice.Invoice;
 import cz.softinel.retra.invoice.blo.InvoiceLogic;
 import cz.softinel.retra.jiraintegration.JiraHelper;
-import cz.softinel.retra.jiraintegration.JiraIssue;
 import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 import cz.softinel.retra.project.Project;
 import cz.softinel.retra.project.blo.ProjectLogic;
 import cz.softinel.retra.spring.web.FormController;
 import cz.softinel.retra.worklog.blo.WorklogLogic;
+import cz.softinel.sis.user.User;
+import cz.softinel.uaf.spring.web.controller.Context;
 import cz.softinel.uaf.spring.web.controller.Model;
 import cz.softinel.uaf.spring.web.controller.RequestContext;
 
@@ -192,15 +194,27 @@ public abstract class AbstractWorklogFormController extends FormController {
 
 		model.put("projects", projects);
 	}
-
-	protected void prepareJiraIssues(Model model) {
-		String ldapLogin = getSecurityLogic().getLoggedUser().getLogin().getLdapLogin();
-		List<JiraIssue> issues = jiraLogic.findJiraIssuesForUser(ldapLogin);
-		if (issues != null && !issues.isEmpty()) {
-			for (JiraIssue ji : issues) {
-				ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic));
-				ji.setSummary(JiraHelper.getSafeJiraText(ji.getSummary()));
+	
+	private static final String USER_ISSUES = "USER_ISSUES";
+	private static final String USER_ISSUES_STAMP = "USER_ISSUES_STAMP";
+	
+	protected void prepareJiraIssues(Model model, Context sessionContext) {
+		List<JiraIssue> issues = null;
+		Long stamp = (Long) sessionContext.getAttribute(USER_ISSUES_STAMP);
+		if (stamp != null && (stamp + 1000 * 60 * 20) > System.currentTimeMillis()) {
+			issues = (List<JiraIssue>) sessionContext.getAttribute(USER_ISSUES);
+		}
+		if (issues == null) {
+			User user = getSecurityLogic().getLoggedUser();
+			issues = jiraLogic.findJiraIssuesForUser(user);
+			if (issues != null && !issues.isEmpty()) {
+				for (JiraIssue ji : issues) {
+					// ji.setGuiLink(JiraHelper.getLinkableText(ji.getKey(), "(Show...)", jiraLogic));
+					ji.getFieldsGeneric().setSummary(JiraHelper.getSafeJiraText(ji.getSummary()));
+				}
 			}
+			sessionContext.setAttribute(USER_ISSUES, issues);
+			sessionContext.setAttribute(USER_ISSUES_STAMP, System.currentTimeMillis());
 		}
 		model.put("issues", issues);
 	}

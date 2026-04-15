@@ -21,7 +21,7 @@ public class WorklogCreateController extends AbstractWorklogFormController {
 		prepareProjects(model, getShowHistoryData(requestContext));
 		prepareComponents(model, getShowHistoryData(requestContext));
 		prepareInvoicesForCreateOrEdit(model);
-		prepareJiraIssues(model);
+		prepareJiraIssues(model, requestContext.getSessionContext());
 		if (errors.getErrorCount() <= 0) {
 			prepareWorklogForm(worklogForm, requestContext);
 		}

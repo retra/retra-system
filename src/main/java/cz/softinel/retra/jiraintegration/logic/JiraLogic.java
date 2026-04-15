@@ -2,9 +2,10 @@ package cz.softinel.retra.jiraintegration.logic;
 
 import java.util.List;
 
+import cz.hb.lib.jira.model.JiraIssue;
 import cz.softinel.retra.jiraintegration.JiraConfig;
-import cz.softinel.retra.jiraintegration.JiraIssue;
 import cz.softinel.retra.worklog.Worklog;
+import cz.softinel.sis.user.User;
 
 public interface JiraLogic {
 
@@ -12,7 +13,7 @@ public interface JiraLogic {
 
 	public JiraConfig getJiraConfig();
 
-	public List<JiraIssue> findJiraIssuesForUser(String ldapLogin);
+	public List<JiraIssue> findJiraIssuesForUser(User user);
 
 	public JiraIssue getJiraIssue(String code);
 

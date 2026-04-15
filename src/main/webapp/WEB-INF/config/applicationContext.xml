@@ -168,7 +168,10 @@
 	<!-- implementation of the jira logic -->
 	<bean id="jiraLogic" class="cz.softinel.retra.jiraintegration.logic.JiraLogicImpl">
 		<property name="jiraConfig" ref="jiraConfig" />
+		<property name="jiraService" ref="jiraService" />
+<!--
 		<property name="jiraConnector" ref="jiraConector" />
+ -->
 	</bean>
 	
 	<!-- Settings for integration with Jira. -->

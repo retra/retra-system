@@ -4,6 +4,8 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 
+import cz.hb.lib.jira.model.JiraIssue;
+
 public class JiraCache {
 
 	private CacheManager manager;

@@ -27,18 +27,27 @@
 	
 	<bean id="jiraConfig" class="cz.softinel.retra.jiraintegration.JiraConfig">
 		<property name="enabled" value="${jira.new.int.enabled}"/>
+		<!--
 		<property name="user" value="${jira.new.user}"/>
 		<property name="password" value="${jira.new.password}"/>
 		<property name="baseUrl" value="${jira.new.base.url}"/>
 		<property name="issuePath" value="${jira.new.browse.issue.path}"/>
 		<property name="restPath" value="${jira.new.rest.path}"/>
+		-->
+		<property name="hbUrl" value="${jira.HB.url}/browse"/>
+		<property name="kbcUrl" value="${jira.KBC.url}/browse"/>
+		<property name="jiraProperties" value="${retra.config.location}retra.properties"/>
+		<property name="jiraService" ref="jiraService"/>
 		<property name="jiraCache" ref="jiraCache"/>
 	</bean>
-
+<!--
 	<bean id="jiraConector" class="cz.softinel.retra.jiraintegration.JiraConnector">
 		<property name="jiraConfig" ref="jiraConfig"/>
 	</bean>
-
+-->
+	<bean id="jiraService" class="cz.hb.lib.jira.JiraServiceImpl">
+	</bean>
+	
 	<bean id="jiraIssuesRefreshJob" class="cz.softinel.retra.jiraintegration.JiraIssuesRefreshJob">
 		<property name="jiraConfig" ref="jiraConfig"/>
 		<property name="worklogLogic" ref="worklogLogic"/>
