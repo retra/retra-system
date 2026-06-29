@@ -36,6 +36,7 @@
 		-->
 		<property name="hbUrl" value="${jira.HB.url}/browse"/>
 		<property name="kbcUrl" value="${jira.KBC.url}/browse"/>
+		<property name="jiraActive" value="${jira.active}"/>
 		<property name="jiraProperties" value="${retra.config.location}retra.properties"/>
 		<property name="jiraService" ref="jiraService"/>
 		<property name="jiraCache" ref="jiraCache"/>

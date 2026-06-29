@@ -1,5 +1,11 @@
 package cz.softinel.retra.jiraintegration;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.Resource;
 
@@ -20,12 +26,13 @@ public class JiraConfig implements InitializingBean {
 	
 	private String hbUrl;
 	private String kbcUrl;
+	private String jiraActive;
 	private Resource jiraProperties;
 	
-	public static final JiraInstance[] ACTIVE = Jahe.array(
-			JiraInstance.HB, JiraInstance.KBC
-	);
-	
+//	public static final JiraInstance[] ACTIVE = Jahe.array(
+//			JiraInstance.HB, JiraInstance.KBC
+//	);
+//	
 	private JiraService jiraService;
 	private JiraCache jiraCache;
 	
@@ -34,7 +41,14 @@ public class JiraConfig implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		final TextConfig config = TextConfigHelper.load(jiraProperties.getFile());
-		jiraService.setupConfig(config, ACTIVE);
+		final Set<String> activeKeys = new HashSet<>(Arrays.asList(jiraActive.split(",")));
+		final List<JiraInstance> active = new ArrayList<>();
+		for (final JiraInstance jiraInstance : JiraInstance.ALL) {
+			if (activeKeys.contains(jiraInstance.getCode())) {
+				active.add(jiraInstance);
+			}
+		}
+		jiraService.setupConfig(config, active.toArray(new JiraInstance[active.size()]));
 		jiraService.getInstances(true);
 	}
 	
@@ -70,6 +84,13 @@ public class JiraConfig implements InitializingBean {
 	}
 	public void setKbcUrl(String kbcUrl) {
 		this.kbcUrl = kbcUrl;
+	}
+	
+	public String getJiraActive() {
+		return jiraActive;
+	}
+	public void setJiraActive(String jiraActive) {
+		this.jiraActive = jiraActive;
 	}
 	
 	public Resource getJiraProperties() {

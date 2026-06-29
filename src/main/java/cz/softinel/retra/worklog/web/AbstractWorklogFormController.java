@@ -201,7 +201,7 @@ public abstract class AbstractWorklogFormController extends FormController {
 	protected void prepareJiraIssues(Model model, Context sessionContext) {
 		List<JiraIssue> issues = null;
 		Long stamp = (Long) sessionContext.getAttribute(USER_ISSUES_STAMP);
-		if (stamp != null && (stamp + 1000 * 60 * 20) > System.currentTimeMillis()) {
+		if (stamp != null && (stamp + 1000 * 60 * 30) > System.currentTimeMillis()) {
 			issues = (List<JiraIssue>) sessionContext.getAttribute(USER_ISSUES);
 		}
 		if (issues == null) {
