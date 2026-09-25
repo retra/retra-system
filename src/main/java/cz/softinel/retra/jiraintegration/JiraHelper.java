@@ -6,12 +6,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.hb.lib.jira.model.JiraIssue;
 import cz.softinel.retra.jiraintegration.logic.JiraLogic;
 
 public abstract class JiraHelper {
 
+	private static Logger log = LoggerFactory.getLogger(JiraHelper.class);
+	
 	public static final String JIRA_ISSUE_CODE_REGEXP = "[A-Z][A-Z0-9]{0,9}\\-[1-9]{1}[0-9]{0,9}";
 	public static final String SW_CODE_PREFIX = "SW-";
 
@@ -59,15 +63,19 @@ public abstract class JiraHelper {
 			List<String> issues = findIssueCodesInText(text);
 			if (issues != null && !issues.isEmpty()) {
 				result = text;
-				for (String code : issues) {
-					JiraIssue issue = jiraLogic.getJiraIssue(code);
-					String title = code;
-					if (issue != null) {
-						String summary = getSafeJiraText(issue.getSummary());
-						title = code + " - " + summary;
-						String replacement = String.format(url, jiraLogic.getJiraConfig().getIssueUrl(code), title, code);
-						result = result.replaceAll(code, replacement);
+				try {
+					for (final String code : issues) {
+						final JiraIssue issue = jiraLogic.getJiraIssue(code);
+						String title = code;
+						if (issue != null) {
+							final String summary = getSafeJiraText(issue.getSummary());
+							title = code + " - " + summary;
+							final String replacement = String.format(url, jiraLogic.getJiraConfig().getIssueUrl(code), title, code);
+							result = result.replaceAll(code, replacement);
+						}
 					}
+				} catch (final Exception e) {
+					log.error("JIRA integration BROKEN: " + e.getMessage(), e);
 				}
 			} else {
 				result = text;
