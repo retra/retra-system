@@ -1,12 +1,17 @@
 # HBR-5: Přihlášení přes Keycloak (OIDC) v app-retra
 
-## 1. Cíl
+## 1. Cíl a omezení
 
-Přidat do aplikace app-retra možnost přihlášení přes **Keycloak pomocí OIDC (Authorization Code flow)**, a to bez zásahu do současného legacy stacku (Spring 2.5 XML konfigurace, `MultiActionController`, Hibernate 3, Servlet 2.4 na Tomcatu, Java 11). Klasické přihlášení formulářem (heslo v DB / LDAP) zůstává zachováno jako fallback.
+Přidat do aplikace app-retra možnost přihlášení přes **Keycloak pomocí OIDC (Authorization Code flow + PKCE)**, bez zásahu do současného legacy stacku (Spring 2.5 XML konfigurace, `MultiActionController`, Hibernate 3, Servlet 2.4 na Tomcatu, Java 11). Klasické přihlášení formulářem (heslo v DB / LDAP) zůstává zachováno jako fallback.
 
 **Mapování uživatelů (jednoduché, podle zadání):** `preferred_username` z Keycloaku odpovídá hodnotě sloupce `sis11login.sis11ldaplogin` (existující pole `Login.ldapLogin`). Žádná změna DB schématu není potřeba.
 
-Inspirace: projekt **app-reman**, kde je totéž již implementováno přes knihovnu `cz.hb.lib:lib-oauth` (viz kapitola 3).
+**Rozhodnutí a omezení (odsouhlaseno):**
+
+- Knihovna `lib-oauth` a její závislosti (`cz.hb.lib` / `cz.cmhb.lib` mimo již používané `lib-jira`, Nimbus SDK) se v app-retra **nepoužijí**. Místo toho vznikne **zjednodušená jednoúčelová náhrada přímo v projektu** (viz kapitola 3) — pouze JDK 11 (`java.net.http.HttpClient`) + Jackson 1.9.2, který je už v aplikaci přes `jersey-json`. **Žádná nová závislost v `pom.xml`.**
+- In-memory úložiště login transakcí je v pořádku — aplikace běží pouze na jednom node.
+- **Client secret přímo v `retra.properties`** je dostatečné a v souladu se současným řešením (soubor je per-environment, mimo gitu).
+- **Keycloak slouží pouze pro ověření identity.** Role a oprávnění zůstávají řízena v Retře (stejně jako u LDAP) — z tokenu se bere pouze identita uživatele.
 
 ---
 
@@ -48,115 +53,84 @@ Inspirace: projekt **app-reman**, kde je totéž již implementováno přes knih
 
 ---
 
-## 3. Rozhodnutí: knihovna `lib-oauth` (stejně jako v app-reman)
+## 3. Jednoúčelová náhrada za lib-oauth (v projektu, bez nových závislostí)
 
-- Oficiální Keycloak Java adaptery (vč. servlet-filter adapteru) byly **odstraněny v Keycloaku 25** — pro tento stack už nejsou použitelné. Spring Security by znamenal migraci celé aplikace (konflikt se Spring 2.5).
-- V **app-reman** je přihlášení přes Keycloak již hotové přes knihovnu **`cz.hb.lib:lib-oauth:1.002.0`** (používá Nimbus `oauth2-oidc-sdk`):
-  - `UserLoginPageInit` — vytvoří login transakci a přesměruje na Keycloak;
-  - `UserLoginCallbackPageInit` — zpracuje callback, uloží přihlášení do session;
-  - konfigurace v `app-reman/web/conf/reman-config.txt` (klíče `oauth.*`, `vault.keycloak.client.*`);
-  - bean `OAuthService` (`OAuthServiceImpl`) v `RemanAppConfig`.
+Místo `cz.hb.lib:lib-oauth` vznikne malá vlastní implementace OIDC Authorization Code flow v balíčku **`cz.softinel.retra.security.keycloak`**:
 
-### 3.1 API knihovny `cz.hb.lib.oauth.OAuthService`
+| Třída | Účel |
+|---|---|
+| `KeycloakConfig` | POJO naplněné přes Spring XML z `${retra.keycloak.*}` placeholderů: `enabled`, `realmUrl`, `clientId`, `clientSecret`, `scopes`, `loginLimitMinutes`. Odvozuje endpointy: `{realmUrl}/protocol/openid-connect/{auth,token,userinfo,logout}`. |
+| `KeycloakLoginTx` | jedna login transakce: `id`, `state`, `codeVerifier`, `callbackUrl`, `created`, `expires`. |
+| `KeycloakLoginStorage` | in-memory `Map<String, KeycloakLoginTx>` s expirací a úklidem při přístupu (jednoduché, single-node — viz omezení). Bean `keycloakLoginStorage`. |
+| `KeycloakLoginResult` | výsledek callbacku: `ok`, `username` (= `preferred_username`), `email`, `name`, `sub`, nebo `errorStep`/`errorCode`/`errorMessage` (`STATE`, `AUTH`, `TOKEN`, `UINFO`, `USER`). |
+| `KeycloakOidcService` | jádro: `createLoginTx(callbackUrl)`, `buildAuthorizationRequest(tx)` → `URI`, `handleAuthorizationResponse(tx, responseUri)` → `KeycloakLoginResult`. |
 
-```java
-OAuthConfig       getConfig(String clientName);                    // null když oauth.login.active=false
-OAuthLoginTx      createLoginTx(OAuthConfig config, String callbackUrl); // callbackUrl může obsahovat "{loginTx.id}"
-URI               getAuthorizationRequest(OAuthLoginTxCore tx);    // URL Keycloak auth endpointu (state, scope, redirect_uri)
-OAuthResponse     handleAuthorizationResponse(OAuthLoginTxCore tx, String responseUri); // ověří state, vymění code za token, zavolá userinfo
-```
+### 3.1 Implementační detaily `KeycloakOidcService`
 
-- `OAuthResponse.isOk()` / `getError()` (`step` = ERR_STATE/ERR_AUTH/ERR_TOKEN/ERR_UINFO, `code`, `message`).
-- `OAuthResponse.getUser()` → `OAuthResponseUser`: **`getLogin()` = `preferred_username`** z userinfo, `getId()` = `sub`, `getEmail()`, `getName()`.
-- `OAuthLoginStorage` — in-memory úložiště transakcí s expirací (`putRecord`/`getRecord`).
-- `OAuthServiceImpl` má `@Autowired` pole `oAuthProperties` (`PropertyProvider`) a `configVault` (`ConfigVault`); setter jen `setOAuthProperties`.
+- **HTTP:** `java.net.http.HttpClient` (JDK 11, žádná nová závislost) s connect/read timeoutem.
+- **JSON:** Jackson 1.9.2 `org.codehaus.jackson.map.ObjectMapper` — už je v aplikaci přes přímou závislost `com.sun.jersey:jersey-json` (v WARu `jackson-mapper-asl-1.9.2.jar`).
+- **PKCE:** `code_verifier` = 64 znaků z `SecureRandom` (base64url), `code_challenge` = base64url(SHA-256(verifier)), `code_challenge_method=S256`.
+- **Authorization request:** `{authEndpoint}?response_type=code&client_id=...&redirect_uri=<callback s dosazeným id tx>&scope=...&state=...&code_challenge=...&code_challenge_method=S256`. V callback URL se placeholder `{loginTxId}` nahradí za id transakce.
+- **Token exchange:** POST `application/x-www-form-urlencoded` na token endpoint: `grant_type=authorization_code`, `code`, `redirect_uri`, `code_verifier`, autentizace klienta přes hlavičku `Authorization: Basic base64(clientId:clientSecret)`.
+- **Identity:** GET userinfo s hlavičkou `Bearer <access_token>` → `preferred_username`, `email`, `name`, `sub`. Doplňkově dekódovat payload `id_token` (plain base64url + Jackson) a zkontrolovat `iss`, `aud`, `exp` — ověření podpisu se vědomě přeskočí, protože tokeny přicházejí přímo z token endpointu přes TLS (v souladu s OIDC Core pro tento flow); identita se pak ještě potvrzuje přímým voláním userinfo přes TLS.
+- **Chyby:** `error` parametr v callbacku, neplatný `state`, ne-200 odpověď token/userinfo endpointu → `KeycloakLoginResult` s odpovídajícím `errorStep`.
 
-### 3.2 Konfigurační klíče knihovny (z `reman-config.txt` a bytecode knihovny)
+### 3.2 Konfigurační klíče (`retra.properties`)
+
+Styl konzistentní se zbytkem `retra.properties` (prefix `retra.`), secret přímo zde (dle rozhodnutí výše):
 
 ```properties
-oauth.login.active = true            # master switch; getConfig() vrací null když false
-oauth.login.scopes = openid profile email
-oauth.login.limitMinutes = 5         # platnost login transakce (1..20)
-
-oauth.realm.<realm-id> = https://keycloak.example.com/realms/<realm>   # URL realmu
-
-oauth.client.retra = <keycloak-client-id>        # clientName "retra" -> clientId
-oauth.client.retra.realm = <realm-id>            # odkaz na realm výše
-
-# client secret pro token endpoint — čte se přes ConfigVault pod klíčem
-# "keycloak.client.<clientId>", v praxi přes property (viz app-reman):
-vault.keycloak.client.<keycloak-client-id>.name = <keycloak-client-id>
-vault.keycloak.client.<keycloak-client-id>.secret = <client-secret>
+## Keycloak (OIDC) login — viz doc/spec/HBR-5.md
+retra.keycloak.enabled=true
+retra.keycloak.realmUrl=https://keycloak.example.com/realms/HB
+retra.keycloak.clientId=APP_Retra
+retra.keycloak.clientSecret=<client-secret>
+retra.keycloak.scopes=openid profile email
+retra.keycloak.loginLimitMinutes=5
 ```
 
-### 3.3 Závislosti
-
-`lib-oauth:1.002.0` táhne transitivně `cz.cmhb.lib:lib-config`, `cz.cmhb.lib:lib-util`, `cz.hb.lib:lib-auth`, `com.nimbusds:oauth2-oidc-sdk` (+ `nimbus-jose-jwt`, `content-type`, `lang-tag`) — vše kompatibilní s Java 11. Skupina `cz.hb.lib` se v `app-retra/pom.xml` už používá (`lib-jira`).
+V `src/main/resources/defaultconf/retra.properties` výchozí hodnoty (`enabled=false`, prázdný `realmUrl`/`clientId`/`clientSecret`, `scopes=openid`, `loginLimitMinutes=5`) — všechny klíče musí existovat, aby placeholdery šly resolvovat. Deployment-specific hodnoty do `etc/conf/retra.properties`.
 
 ---
 
 ## 4. Implementační plán
 
-### Krok 1 — `pom.xml`: přidat závislost
+### Krok 1 — `pom.xml`
 
-```xml
-<lib-oauth.version>1.002.0</lib-oauth.version>
-...
-<dependency>
-    <groupId>cz.hb.lib</groupId>
-    <artifactId>lib-oauth</artifactId>
-    <version>${lib-oauth.version}</version>
-</dependency>
-```
+**Beze změny** — `java.net.http.HttpClient` je součástí JDK 11, Jackson 1.9.2 už je v aplikaci přes `jersey-json`. Žádná nová závislost.
 
 ### Krok 2 — konfigurace `retra.properties`
 
-Do `src/main/resources/defaultconf/retra.properties` (výchozí hodnoty, `oauth.login.active=false`) a do deployment-specific `etc/conf/retra.properties` blok podle kapitoly 3.2, např.:
+Přidat blok `retra.keycloak.*` podle kapitoly 3.2 do `defaultconf/retra.properties` (vypnuto) a `etc/conf/retra.properties` (zapnuto, reálné hodnoty vč. secretu).
 
-```properties
-## Keycloak (OIDC) login — viz doc/spec/HBR-5.md
-oauth.login.active=true
-oauth.login.scopes=openid profile email
-oauth.login.limitMinutes=5
-oauth.realm.hb-entra-ldap=https://keycloak.example.com/realms/HB
-oauth.client.retra=APP_Retra
-oauth.client.retra.realm=hb-entra-ldap
-vault.keycloak.client.APP_Retra.name=APP_Retra
-vault.keycloak.client.APP_Retra.secret=<client-secret>
-```
+### Krok 3 — nové třídy v `cz.softinel.retra.security.keycloak`
 
-### Krok 3 — Spring beany (`WEB-INF/config/securityContext.xml`)
+`KeycloakConfig`, `KeycloakLoginTx`, `KeycloakLoginStorage`, `KeycloakLoginResult`, `KeycloakOidcService` podle kapitoly 3.
 
-Knihovna používá `@Autowired` na privátních polích, proto je potřeba zapnout annotation-config a definovat beany:
+### Krok 4 — Spring beany (`WEB-INF/config/securityContext.xml`)
+
+`PropertyPlaceholderConfigurer` už načítá `${retra.config.location}retra.properties`, takže stačí klasické XML wiring (žádné `@Autowired`, žádné nové knihovny):
 
 ```xml
-<beans xmlns="..." xmlns:context="http://www.springframework.org/schema/context" ...>
-    <context:annotation-config/>
+<bean id="keycloakConfig" class="cz.softinel.retra.security.keycloak.KeycloakConfig">
+    <property name="enabled" value="${retra.keycloak.enabled}"/>
+    <property name="realmUrl" value="${retra.keycloak.realmUrl}"/>
+    <property name="clientId" value="${retra.keycloak.clientId}"/>
+    <property name="clientSecret" value="${retra.keycloak.clientSecret}"/>
+    <property name="scopes" value="${retra.keycloak.scopes}"/>
+    <property name="loginLimitMinutes" value="${retra.keycloak.loginLimitMinutes}"/>
+</bean>
 
-    <!-- properties pro lib-oauth (čte přímo retra.properties) -->
-    <bean id="oAuthProperties" class="cz.cmhb.lib.config.DynamicProperties">
-        <constructor-arg value="${retra.config.location}retra.properties"/>
-    </bean>
-    <bean id="vaultConfigProperties" class="cz.cmhb.lib.config.DynamicProperties">
-        <constructor-arg value="${retra.config.location}retra.properties"/>
-    </bean>
-    <!-- property-based varianta ConfigVault (secret z vault.keycloak.client.*.secret) -->
-    <bean id="configVault" class="cz.cmhb.lib.config.vault.ConfigVaultImpl"/>
-    <bean id="vaultSecretGetter" class="cz.softinel.retra.security.oauth.RetraVaultSecretGetter"/>
+<bean id="keycloakLoginStorage" class="cz.softinel.retra.security.keycloak.KeycloakLoginStorage">
+    <property name="config" ref="keycloakConfig"/>
+</bean>
 
-    <bean id="oAuthService" class="cz.hb.lib.oauth.OAuthServiceImpl">
-        <property name="oAuthProperties" ref="oAuthProperties"/>
-        <!-- configVault se doinjektuje přes @Autowired -->
-    </bean>
-
-    <bean id="oAuthLoginStorage" class="cz.hb.lib.oauth.OAuthLoginStorage"/>
-    ...
-</beans>
+<bean id="keycloakOidcService" class="cz.softinel.retra.security.keycloak.KeycloakOidcService">
+    <property name="config" ref="keycloakConfig"/>
+</bean>
 ```
 
-`RetraVaultSecretGetter` — malá třída implementující `cz.cmhb.lib.config.vault.VaultSecretGetter` (vrací `null` / hází `UnsupportedOperationException`; použije se jen property fallback `vault.keycloak.client.<id>.secret` z `retra.properties`).
-
-### Krok 4 — `LoginLogic`: přihlášení podle `ldapLogin` bez hesla
+### Krok 5 — `LoginLogic`: přihlášení podle `ldapLogin` bez hesla
 
 Nová metoda v `cz.softinel.sis.login.blo.LoginLogic` + `LoginLogicImpl` (obdobně jako existující `checkLogin`):
 
@@ -175,54 +149,41 @@ public Login checkLoginByLdapLogin(String ldapLogin) {
 }
 ```
 
-### Krok 5 — úložiště login transakcí
-
-`cz.softinel.retra.security.oauth.RetraOAuthStorage` — tenký wrapper nad beanem `OAuthLoginStorage` (stejně jako `RemanOAuthStorage` v app-reman):
-
-```java
-public class RetraOAuthStorage {
-    private static OAuthLoginStorage storage; // nebo instanční přes Spring
-    public static void put(OAuthLoginTx tx) { storage.putRecord(tx); }
-    public static OAuthLoginTx get(String loginTxId) { return storage.getRecord(loginTxId); }
-}
-```
-
 ### Krok 6 — nový kontroler `KeycloakController`
 
-`cz.softinel.retra.core.system.web.KeycloakController extends DispatchController` (dostane `securityLogic` z parent `DispatchController`). Metody s podpisem `(HttpServletRequest, HttpServletResponse)` — `CommonDispatchController` nejprve hledá `(Model, RequestContext)`, když nenajde, spadne na `MultiActionController`, který tento podpis podporuje:
+`cz.softinel.retra.core.system.web.KeycloakController extends DispatchController` (dostane `securityLogic` z parent `DispatchController`; `oAuthService`/`loginLogic` analogicky jako `keycloakOidcService`/`loginLogic`). Metody s podpisem `(HttpServletRequest, HttpServletResponse)` — `CommonDispatchController` nejprve hledá `(Model, RequestContext)`, když nenajde, spadne na `MultiActionController`, který tento podpis podporuje:
 
 ```java
 public ModelAndView keycloakLogin(HttpServletRequest request, HttpServletResponse response) {
-    OAuthConfig config = oAuthService.getConfig("retra");      // clientName
-    if (config == null) {
-        return new ModelAndView("redirect:Login.do?fkprm=true"); // Keycloak vypnutý
+    if (!keycloakConfig.isEnabled()) {
+        return new ModelAndView("redirect:Login.do?fkprm=true");
     }
-    // callback URL s placeholder — knihovna dosadí {loginTx.id}
+    // callback URL s placeholder — service dosadí {loginTxId}
     StringBuffer url = request.getRequestURL();
     String base = url.substring(0, url.indexOf(request.getServletPath()));
-    String callbackUrl = base + "/KeycloakCallback.do?loginTxId={loginTx.id}";
-    OAuthLoginTx tx = oAuthService.createLoginTx(config, callbackUrl);
-    RetraOAuthStorage.put(tx);
+    String callbackUrl = base + "/KeycloakCallback.do?loginTxId={loginTxId}";
+    KeycloakLoginTx tx = keycloakOidcService.createLoginTx(callbackUrl);
+    keycloakLoginStorage.put(tx);
     // zapamatovat originalUrl pro redirect po přihlášení
     String originalUrl = request.getParameter("originalUrl");
     if (originalUrl != null) {
         request.getSession().setAttribute("keycloakOriginalUrl", originalUrl);
     }
-    URI authRequest = oAuthService.getAuthorizationRequest(tx);
+    URI authRequest = keycloakOidcService.buildAuthorizationRequest(tx);
     return new ModelAndView("redirect:" + authRequest.toString());
 }
 
 public ModelAndView keycloakCallback(HttpServletRequest request, HttpServletResponse response) {
     String loginTxId = request.getParameter("loginTxId");
-    OAuthLoginTx tx = RetraOAuthStorage.get(loginTxId);
+    KeycloakLoginTx tx = keycloakLoginStorage.get(loginTxId);
     if (tx == null) {
         return new ModelAndView("redirect:Login.do?fkprm=true&keycloakError=tx");
     }
     String qs = request.getQueryString();
     String responseUri = request.getRequestURL() + (qs != null ? "?" + qs : "");
-    OAuthResponse resp = oAuthService.handleAuthorizationResponse(tx, responseUri);
-    if (resp.isOk()) {
-        String username = resp.getUser().getLogin();            // preferred_username z Keycloaku
+    KeycloakLoginResult result = keycloakOidcService.handleAuthorizationResponse(tx, responseUri);
+    if (result.isOk()) {
+        String username = result.getUsername();                 // preferred_username z Keycloaku
         Login login = loginLogic.checkLoginByLdapLogin(username); // mapování na sis11ldaplogin
         if (login != null) {
             // session fixation — regenerovat session a přenést security context
@@ -241,20 +202,19 @@ public ModelAndView keycloakCallback(HttpServletRequest request, HttpServletResp
         }
         return new ModelAndView("redirect:Login.do?fkprm=true&keycloakError=unknownUser");
     }
-    OAuthResponseError err = resp.getError();
-    log.warn("Keycloak callback error: {} / {} - {}", err.getStep(), err.getCode(), err.getMessage());
-    return new ModelAndView("redirect:Login.do?fkprm=true&keycloakError=" + err.getStep());
+    log.warn("Keycloak callback error: {} / {} - {}", result.getErrorStep(), result.getErrorCode(), result.getErrorMessage());
+    return new ModelAndView("redirect:Login.do?fkprm=true&keycloakError=" + result.getErrorStep());
 }
 ```
-
-Kontroler potřebuje property `oAuthService` a `loginLogic` — přidat jako setter property v XML (stejně jako ostatní kontrolery).
 
 ### Krok 7 — registrace URL v `action-servlet.xml`
 
 ```xml
 <bean id="KeycloakController" class="cz.softinel.retra.core.system.web.KeycloakController"
       abstract="true" parent="DispatchController">
-    <property name="oAuthService" ref="oAuthService"/>
+    <property name="keycloakConfig" ref="keycloakConfig"/>
+    <property name="keycloakOidcService" ref="keycloakOidcService"/>
+    <property name="keycloakLoginStorage" ref="keycloakLoginStorage"/>
     <property name="loginLogic" ref="loginLogic"/>
 </bean>
 
@@ -277,7 +237,7 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 
 ### Krok 9 — tlačítko na přihlašovací stránce
 
-- `SystemController.showLogin()`: `model.put("keycloakEnabled", oAuthService.getConfig("retra") != null);` (potřebuje property `oAuthService` na abstract `SystemController` beanu).
+- `SystemController.showLogin()`: `model.put("keycloakEnabled", keycloakConfig.isEnabled());` (property `keycloakConfig` na abstract beanu `SystemController`).
 - `Login.jsp` — pod formulář:
 
 ```jsp
@@ -295,9 +255,9 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 
 - Nové klíče do `WEB-INF/resources/messages.properties`, `messages_cs.properties`, `messages_en.properties` (`button.login.keycloak`, `error.login.keycloak`).
 
-### Krok 10 — odhlášení (volitelně, fáze 2)
+### Krok 10 — odhlášení z Keycloaku (volitelně, fáze 2)
 
-`doLogout` může přesměrovat na Keycloak `end_session_endpoint` (`{realmUrl}/protocol/openid-connect/logout?id_token_hint=...&post_logout_redirect_uri=<app>/Login.do`). ID token není aktuálně nikam ukládán — vyžadovalo by uložení do session při callbacku. Doporučeno ponechat zatím jen lokální logout.
+`doLogout` může přesměrovat na `{realmUrl}/protocol/openid-connect/logout?id_token_hint=...&post_logout_redirect_uri=<app>/Login.do`. Vyžaduje uložení `id_token` do session při callbacku. Zatím ponechat jen lokální logout.
 
 ---
 
@@ -307,7 +267,7 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
    - typ **confidential**, **Standard flow** (authorization code);
    - *Valid redirect URIs*: `https://<host>/retra/KeycloakCallback.do*` (přesně odpovídající callbacku);
    - *Web origins*: `https://<host>`;
-   - client secret odpovídá `vault.keycloak.client.APP_Retra.secret`.
+   - client secret odpovídá `retra.keycloak.clientSecret`.
 2. Scope `openid profile email` — `preferred_username` je ve userinfo automaticky.
 3. **Uživatelé v Keycloaku musí mít `username` rovný hodnotě `sis11ldaplogin`** příslušného řádku v `sis11login` (sloupec je unique). Uživatelé bez párového účtu v Retře se nepřihlásí (chyba `unknownUser` → `Login.do`).
 4. V produkci jen HTTPS redirect URI.
@@ -316,30 +276,32 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 
 ## 6. Bezpečnostní poznámky
 
-- `state` a expirace transakce (limitMinutes) řeší knihovna; callback bez platné tx → chyba.
-- Token exchange a userinfo probíhají server-to-server přes HTTPS s client secretem (Nimbus SDK, `ClientSecretBasic`).
+- `state` + PKCE (S256) + expirace transakce (`loginLimitMinutes`) — řeší vlastní `KeycloakOidcService`/`KeycloakLoginStorage`; callback bez platné tx → chyba.
+- Token exchange i userinfo probíhají server-to-server přes HTTPS; klient se autentizuje `ClientSecretBasic`. Podpis `id_token` se vědomě neověřuje (token přišel přímo z token endpointu přes TLS), identita se potvrzuje přímým voláním userinfo; volitelně kontrola `iss`/`aud`/`exp` z payloadu. JWKS validace podpisu možná jako budoucí hardening.
 - Session fixation: při úspěšném callbacku session invalidovat a znovu vytvořit, `securityContext` přenést (viz krok 6).
 - `originalUrl` redirect — používá se jen hodnota, kterou do `Login.do` vložil `SecurityWebFilter` (url-encoded); nekontroluje se proti open redirect, protože pochází z interního forwardingu, ne od uživatele.
 - Produkce za reverse proxy: callback URL se skládá z `request.getRequestURL()` — při terminaci TLS na proxy zajistit `X-Forwarded-*` (Tomcat `RemoteIpValve`/`ProxyValve`), jinak Keycloak dostane špatné redirect URI.
+- Keycloak slouží jen jako identity provider — žádná práva/role se z něj nepřebírají; oprávnění řeší Retra (`RoleHelper.prepareUserPermissions`).
 
 ---
 
 ## 7. Testovací scénáře
 
-1. `oauth.login.active=false` → `Login.jsp` nezobrazí tlačítko Keycloak, `/KeycloakLogin.do` redirectuje na `Login.do`; formulářový login funguje beze změny.
-2. Zapnutý Keycloak, platný uživatel (`preferred_username` = `ldapLogin`): klik na tlačítko → Keycloak → callback → přihlášen, redirect na `Newsboard.do`; role/oprávnění načtena (worklog viditelný).
-3. Deep link: ne přihlášený uživatel otevře `/WorklogOverview.do` → forward na `Login.do` s `originalUrl` → Keycloak login → redirect zpět na původní URL.
+1. `retra.keycloak.enabled=false` → `Login.jsp` nezobrazí tlačítko Keycloak, `/KeycloakLogin.do` redirectuje na `Login.do`; formulářový login funguje beze změny.
+2. Zapnutý Keycloak, platný uživatel (`preferred_username` = `ldapLogin`): klik na tlačítko → Keycloak → callback → přihlášen, redirect na `Newsboard.do`; role/oprávnění načtena z Retry (worklog viditelný).
+3. Deep link: nepřihlášený uživatel otevře `/WorklogOverview.do` → forward na `Login.do` s `originalUrl` → Keycloak login → redirect zpět na původní URL.
 4. Neznámý uživatel v Keycloaku (bez `sis11login` řádku): chyba, redirect na `Login.do?keycloakError=unknownUser`.
-5. Neplatný `state` / expirovaná transakce (přes 5 min): `keycloakError=ERR_STATE` / `tx`.
+5. Neplatný `state` / expirovaná transakce (přes `loginLimitMinutes`): `keycloakError=STATE` / `tx`.
 6. Blokovaný uživatel v Retře (`sis11state != ACTIVE`): jako neznámý uživatel.
-7. Logout → `Login.do`; formulářový login stále funkční (fallback).
+7. Chyba na token/userinfo endpointu (např. špatný secret): `keycloakError=TOKEN`/`UINFO`, nothing přihlásí.
+8. Logout → `Login.do`; formulářový login stále funkční (fallback).
 
 ---
 
 ## 8. Rizika a otevřené body
 
-- `OAuthLoginStorage` je in-memory — při více uzlech za LB by transakce nebyly sdílené (zatím single-node, OK; případně řešit později).
-- Verze `lib-oauth` vázaná na to, co používá app-reman (1.002.0); případný upgrade řešit společně.
-- `@Autowired` na polích knihovny vyžaduje `<context:annotation-config/>` v XML kontextu — přidáno v kroku 3.
-- Secret v `retra.properties` (soubor je per-environment a mimo gitu — viz `.gitignore`); varianta přes CyberArk vault jako v app-reman možná později.
-- Keycloak role se nepromítají do retra rolí — oprávnění zůstávají řízena v Retře (stejně jako u LDAP).
+- `KeycloakLoginStorage` je in-memory — OK, aplikace běží na jednom node (dle rozhodnutí); při budoucím clusteru nutno řešit (sdílená session/Redis).
+- Žádné nové závislosti: HTTP přes JDK 11 `java.net.http.HttpClient`, JSON přes Jackson 1.9.2 z `jersey-json`. Verze Javy 11 je v `pom.xml` garantovaná.
+- Secret v `retra.properties` (per-environment soubor mimo git) — v souladu se současným řešením; případně později přes externí konfiguraci jako u app-reman (vault).
+- Endpointy se odvozují z `retra.keycloak.realmUrl` podle konvence Keycloaku (`/protocol/openid-connect/...`); discovery dokument se nepoužívá (jednoúčelové řešení).
+- Keycloak role se nepromítají do retra rolí — oprávnění zůstávají řízena v Retře.
