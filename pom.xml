@@ -21,11 +21,19 @@
 		<maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
 		<maven-war-plugin.version>3.5.1</maven-war-plugin.version>
 		
+		<lombok.version>1.18.48</lombok.version>
+		
 		<lib-jira.version>1.000.0-SNAPSHOT</lib-jira.version>
 		
 	</properties>
 	
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		
 		<dependency>
 			<groupId>cz.hb.lib</groupId>
