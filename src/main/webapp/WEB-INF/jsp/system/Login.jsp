@@ -23,8 +23,9 @@
 	</form>
 	<c:if test="${keycloakEnabled}">
 		<p>
-			<a class="button" href="KeycloakLogin.do?fkprm=true&originalUrl=${originalUrl}">
-				<fmt:message key="button.login.keycloak"/>
+			<a class="button buttonKeycloak" href="KeycloakLogin.do?fkprm=true&originalUrl=${originalUrl}">
+				<img src="${commonImgRoot}/keycloak.png" alt="" class="keycloakIcon" width="24" height="24" />
+				${fn:escapeXml(keycloakButtonLabel)}
 			</a>
 		</p>
 		<c:if test="${param.keycloakError != null}">

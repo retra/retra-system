@@ -89,6 +89,8 @@ public class SystemController extends DispatchController {
 	public ModelAndView showLogin(Model model, RequestContext requestContext) {
 		// show the Keycloak login button only when enabled (viz doc/spec/HBR-5.md)
 		model.put("keycloakEnabled", keycloakConfig != null && keycloakConfig.isEnabled());
+		// button label comes from retra.properties (retra.keycloak.loginButtonLabel), not from messages resources
+		model.put("keycloakButtonLabel", keycloakConfig != null ? keycloakConfig.getLoginButtonLabel() : null);
 		return createModelAndView(model, getSuccessView());
 	}
 

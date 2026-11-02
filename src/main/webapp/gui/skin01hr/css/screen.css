@@ -327,6 +327,22 @@ a.button {
 	margin-right: 4px;
 }
 
+a.button.buttonKeycloak {
+	display: inline-block;
+	font-size: 11pt;
+	font-weight: bold;
+	padding-left: 12px;
+	padding-right: 12px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+a.button.buttonKeycloak img.keycloakIcon {
+	vertical-align: middle;
+	margin-right: 8px;
+	border: none;
+}
+
 a.button:hover {
 	color: #000000;
 	text-decoration: none;

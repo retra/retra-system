@@ -59,7 +59,7 @@ Místo `cz.hb.lib:lib-oauth` vznikne malá vlastní implementace OIDC Authorizat
 
 | Třída | Účel |
 |---|---|
-| `KeycloakConfig` | POJO naplněné přes Spring XML z `${retra.keycloak.*}` placeholderů: `enabled`, `realmUrl`, `clientId`, `clientSecret`, `scopes`, `loginLimitMinutes`. Odvozuje endpointy: `{realmUrl}/protocol/openid-connect/{auth,token,userinfo,logout}`. |
+| `KeycloakConfig` | POJO naplněné přes Spring XML z `${retra.keycloak.*}` placeholderů: `enabled`, `realmUrl`, `clientId`, `clientSecret`, `scopes`, `loginLimitMinutes`, `loginButtonLabel` (text tlačítka na přihlašovací stránce — z konfigurace, nikoli z `messages*.properties`). Odvozuje endpointy: `{realmUrl}/protocol/openid-connect/{auth,token,userinfo,logout}`. |
 | `KeycloakLoginTx` | jedna login transakce: `id`, `state`, `codeVerifier`, `callbackUrl`, `created`, `expires`. |
 | `KeycloakLoginStorage` | in-memory `Map<String, KeycloakLoginTx>` s expirací a úklidem při přístupu (jednoduché, single-node — viz omezení). Bean `keycloakLoginStorage`. |
 | `KeycloakLoginResult` | výsledek callbacku: `ok`, `username` (= `preferred_username`), `email`, `name`, `sub`, nebo `errorStep`/`errorCode`/`errorMessage` (`STATE`, `AUTH`, `TOKEN`, `UINFO`, `USER`). |
@@ -87,9 +87,12 @@ retra.keycloak.clientId=APP_Retra
 retra.keycloak.clientSecret=<client-secret>
 retra.keycloak.scopes=openid profile email
 retra.keycloak.loginLimitMinutes=5
+retra.keycloak.loginButtonLabel=Keycloak SSO
 ```
 
-V `src/main/resources/defaultconf/retra.properties` výchozí hodnoty (`enabled=false`, prázdný `realmUrl`/`clientId`/`clientSecret`, `scopes=openid`, `loginLimitMinutes=5`) — všechny klíče musí existovat, aby placeholdery šly resolvovat. Deployment-specific hodnoty do `etc/conf/retra.properties`.
+`retra.keycloak.loginButtonLabel` je **plain text tlačítka** na přihlašovací stránce — cíleně mimo `messages*.properties` (nelokalizuje se), takže ho může každý deployment nastavit přímo v `retra.properties`.
+
+V `src/main/resources/defaultconf/retra.properties` výchozí hodnoty (`enabled=false`, prázdný `realmUrl`/`clientId`/`clientSecret`, `scopes=openid`, `loginLimitMinutes=5`, `loginButtonLabel=Keycloak SSO`) — všechny klíče musí existovat, aby placeholdery šly resolvovat. Deployment-specific hodnoty do `etc/conf/retra.properties`.
 
 ---
 
@@ -119,6 +122,7 @@ Přidat blok `retra.keycloak.*` podle kapitoly 3.2 do `defaultconf/retra.propert
     <property name="clientSecret" value="${retra.keycloak.clientSecret}"/>
     <property name="scopes" value="${retra.keycloak.scopes}"/>
     <property name="loginLimitMinutes" value="${retra.keycloak.loginLimitMinutes}"/>
+    <property name="loginButtonLabel" value="${retra.keycloak.loginButtonLabel}"/>
 </bean>
 
 <bean id="keycloakLoginStorage" class="cz.softinel.retra.security.keycloak.KeycloakLoginStorage">
@@ -237,14 +241,15 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 
 ### Krok 9 — tlačítko na přihlašovací stránce
 
-- `SystemController.showLogin()`: `model.put("keycloakEnabled", keycloakConfig.isEnabled());` (property `keycloakConfig` na abstract beanu `SystemController`).
-- `Login.jsp` — pod formulář:
+- `SystemController.showLogin()`: `model.put("keycloakEnabled", keycloakConfig.isEnabled());` a `model.put("keycloakButtonLabel", keycloakConfig.getLoginButtonLabel());` (property `keycloakConfig` na abstract beanu `SystemController`).
+- `Login.jsp` — pod formulář (text tlačítka z konfigurace `retra.keycloak.loginButtonLabel`, nikoli z `messages*.properties`):
 
 ```jsp
 <c:if test="${keycloakEnabled}">
     <p>
-        <a class="button" href="KeycloakLogin.do?fkprm=true&originalUrl=${originalUrl}">
-            <fmt:message key="button.login.keycloak"/>
+        <a class="button buttonKeycloak" href="KeycloakLogin.do?fkprm=true&originalUrl=${originalUrl}">
+            <img src="${commonImgRoot}/keycloak.png" alt="" class="keycloakIcon" width="24" height="24" />
+            ${fn:escapeXml(keycloakButtonLabel)}
         </a>
     </p>
     <c:if test="${param.keycloakError != null}">
@@ -253,7 +258,7 @@ unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 </c:if>
 ```
 
-- Nové klíče do `WEB-INF/resources/messages.properties`, `messages_cs.properties`, `messages_en.properties` (`button.login.keycloak`, `error.login.keycloak`).
+- Nový klíč pouze `error.login.keycloak` do `WEB-INF/resources/messages.properties`, `messages_cs.properties`, `messages_en.properties` (chybová hláška zůstává lokalizovaná; text tlačítka `button.login.keycloak` z resources odstraněn, bere se z `retra.properties`).
 
 ### Krok 10 — odhlášení z Keycloaku (volitelně, fáze 2)
 

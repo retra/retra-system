@@ -63,6 +63,7 @@
 		<property name="clientSecret" value="${retra.keycloak.clientSecret}"/>
 		<property name="scopes" value="${retra.keycloak.scopes}"/>
 		<property name="loginLimitMinutes" value="${retra.keycloak.loginLimitMinutes}"/>
+		<property name="loginButtonLabel" value="${retra.keycloak.loginButtonLabel}"/>
 	</bean>
 
 	<bean id="keycloakLoginStorage" class="cz.softinel.retra.security.keycloak.KeycloakLoginStorage">

@@ -19,6 +19,7 @@ public class KeycloakConfig {
 	private String clientSecret;
 	private String scopes;
 	private int loginLimitMinutes;
+	private String loginButtonLabel;
 
 	// Derived endpoints ...
 
@@ -86,6 +87,14 @@ public class KeycloakConfig {
 
 	public void setLoginLimitMinutes(int loginLimitMinutes) {
 		this.loginLimitMinutes = loginLimitMinutes;
+	}
+
+	public String getLoginButtonLabel() {
+		return loginButtonLabel;
+	}
+
+	public void setLoginButtonLabel(String loginButtonLabel) {
+		this.loginButtonLabel = loginButtonLabel;
 	}
 
 }
