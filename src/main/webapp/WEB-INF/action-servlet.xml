@@ -78,6 +78,7 @@
 		<property name="jokeGenerator" ref="miraJokeGenerator" />
 		<property name="systemNewsFactory" ref="systemNewsFactory" />
 		<property name="activityLogic" ref="activityLogic" />
+		<property name="keycloakConfig" ref="keycloakConfig" />
 	</bean>
 
 	<!-- show error -->
@@ -110,6 +111,25 @@
 		<property name="method" value="doLogout" />
 		<property name="successView" value="redirect:Login.do?fkprm=true" />
 	</bean>	
+
+	<!-- Keycloak (OIDC) login controller - viz doc/spec/HBR-5.md -->
+	<bean id="KeycloakController" class="cz.softinel.retra.core.system.web.KeycloakController"
+		abstract="true" parent="DispatchController">
+		<property name="keycloakConfig" ref="keycloakConfig" />
+		<property name="keycloakOidcService" ref="keycloakOidcService" />
+		<property name="keycloakLoginStorage" ref="keycloakLoginStorage" />
+		<property name="loginLogic" ref="loginLogic" />
+	</bean>
+
+	<!-- start Keycloak login (redirect to Keycloak) -->
+	<bean name="/KeycloakLogin.do" parent="KeycloakController">
+		<property name="method" value="keycloakLogin" />
+	</bean>
+
+	<!-- callback from Keycloak -->
+	<bean name="/KeycloakCallback.do" parent="KeycloakController">
+		<property name="method" value="keycloakCallback" />
+	</bean>
 
 	<!-- dashboard -->
 	<bean name="/Dashboard.do" parent="SystemController">

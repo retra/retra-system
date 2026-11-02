@@ -21,4 +21,14 @@
 			<input type="submit" name="submit" class="button" value="<fmt:message key="button.login"/>" />
 		</p>
 	</form>
+	<c:if test="${keycloakEnabled}">
+		<p>
+			<a class="button" href="KeycloakLogin.do?fkprm=true&originalUrl=${originalUrl}">
+				<fmt:message key="button.login.keycloak"/>
+			</a>
+		</p>
+		<c:if test="${param.keycloakError != null}">
+			<p class="error"><fmt:message key="error.login.keycloak"/></p>
+		</c:if>
+	</c:if>
 </div>

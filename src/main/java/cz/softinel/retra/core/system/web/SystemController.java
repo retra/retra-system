@@ -24,6 +24,7 @@ import cz.softinel.retra.activity.blo.ActivityLogic;
 import cz.softinel.retra.core.joke.blo.JokeGenerator;
 import cz.softinel.retra.core.utils.helper.BooleanHelper;
 import cz.softinel.retra.project.Project;
+import cz.softinel.retra.security.keycloak.KeycloakConfig;
 import cz.softinel.retra.spring.web.DispatchController;
 import cz.softinel.retra.spring.web.MiraController;
 import cz.softinel.retra.vc.VisualConfigurationForm;
@@ -48,10 +49,16 @@ public class SystemController extends DispatchController {
 
 	private ActivityLogic activityLogic;
 
+	private KeycloakConfig keycloakConfig;
+
 	// Configuration methods ...
 
 	public void setCookieHelper(AbstractCookieHelper cookieHelper) {
 		this.cookieHelper = cookieHelper;
+	}
+
+	public void setKeycloakConfig(KeycloakConfig keycloakConfig) {
+		this.keycloakConfig = keycloakConfig;
 	}
 
 	public ActivityLogic getActivityLogic() {
@@ -80,6 +87,8 @@ public class SystemController extends DispatchController {
 	}
 
 	public ModelAndView showLogin(Model model, RequestContext requestContext) {
+		// show the Keycloak login button only when enabled (viz doc/spec/HBR-5.md)
+		model.put("keycloakEnabled", keycloakConfig != null && keycloakConfig.isEnabled());
 		return createModelAndView(model, getSuccessView());
 	}
 

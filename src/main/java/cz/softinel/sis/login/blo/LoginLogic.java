@@ -25,6 +25,17 @@ public interface LoginLogic {
 
 	public Login checkLogin(String permanentPassword);
 
+	/**
+	 * Returns the active Login with the given LDAP login name (without password
+	 * verification - the identity was already verified by an external identity
+	 * provider, e.g. Keycloak, see doc/spec/HBR-5.md). Returns null when no such
+	 * active login exists.
+	 * 
+	 * @param ldapLogin value of the sis11ldaplogin column
+	 * @return Login or null
+	 */
+	public Login checkLoginByLdapLogin(String ldapLogin);
+
 	public void logout(Login login);
 
 	public void changePassword(Login login, String oldPassword, String newPassword);

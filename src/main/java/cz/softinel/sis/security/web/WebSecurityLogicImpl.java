@@ -62,6 +62,10 @@ public abstract class WebSecurityLogicImpl extends SecurityLogicImpl implements 
 		unsecuredPages.put(contextPath + "/Login.do", "");
 		unsecuredPages.put(contextPath + "/LoginAction.do", "");
 		unsecuredPages.put(contextPath + "/Logout.do", "");
+		// Keycloak (OIDC) login - must be reachable without login, otherwise the
+		// SecurityWebFilter would loop the request back to Login.do (viz doc/spec/HBR-5.md)
+		unsecuredPages.put(contextPath + "/KeycloakLogin.do", "");
+		unsecuredPages.put(contextPath + "/KeycloakCallback.do", "");
 	}
 
 	public void doneContext(HttpServletRequest request) {

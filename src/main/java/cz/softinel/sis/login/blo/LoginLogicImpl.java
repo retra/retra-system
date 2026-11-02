@@ -114,6 +114,24 @@ public class LoginLogicImpl extends AbstractLogicBean implements LoginLogic {
 		return login;
 	}
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Login checkLoginByLdapLogin(String ldapLogin) {
+		if (!StringUtils.hasLength(ldapLogin)) {
+			return null;
+		}
+
+		Login login = loginDao.getByLdapLogin(ldapLogin);
+
+		if (login == null || !login.isActive()) {
+			return null;
+		}
+
+		// prepare roles and permissions (must be here because of lazy loading)
+		RoleHelper.prepareUserPermissions(login.getUser());
+
+		return login;
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public Login create(Login login) {
 		validateForCreate(login);
